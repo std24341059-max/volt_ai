@@ -1,0 +1,679 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>المهندس الذكي | VoltAI</title>
+    <!-- مكتبة تحويل التقارير إلى PDF -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+    <style>
+        :root {
+            --bg-color: #0f172a;
+            --card-bg: #1e293b;
+            --accent-color: #3b82f6;
+            --accent-hover: #2563eb;
+            --text-color: #f8fafc;
+            --text-muted: #94a3b8;
+            --border-color: #334155;
+            --success-color: #10b981;
+            --warning-color: #f59e0b;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+            line-height: 1.6;
+        }
+
+        header {
+            background-color: var(--card-bg);
+            border-bottom: 1px solid var(--border-color);
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: var(--accent-color);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        main {
+            flex: 1;
+            max-width: 1000px;
+            width: 100%;
+            margin: 0 auto;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 24px;
+        }
+
+        .card, .feature-card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 24px;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+        }
+
+        h2, h3, h4 {
+            color: var(--accent-color);
+            margin-bottom: 16px;
+            font-size: 1.3rem;
+            border-bottom: 2px solid var(--border-color);
+            padding-bottom: 8px;
+        }
+
+        h4 {
+            border-bottom: none;
+            font-size: 1.1rem;
+            color: #38bdf8;
+            margin-top: 8px;
+        }
+
+        p {
+            color: var(--text-muted);
+            margin-bottom: 12px;
+        }
+
+        ul {
+            margin-right: 20px;
+            margin-bottom: 12px;
+            color: var(--text-color);
+        }
+
+        ul li {
+            margin-bottom: 6px;
+        }
+
+        .form-group {
+            margin-bottom: 16px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 6px;
+            color: var(--text-muted);
+            font-size: 0.95rem;
+        }
+
+        input, select, textarea {
+            width: 100%;
+            padding: 10px 14px;
+            background-color: #0f172a;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            color: var(--text-color);
+            font-size: 1rem;
+            outline: none;
+            margin-bottom: 12px;
+        }
+
+        input:focus, select:focus, textarea:focus {
+            border-color: var(--accent-color);
+        }
+
+        .grid-2 {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+        }
+
+        @media (max-width: 600px) {
+            .grid-2 { grid-template-columns: 1fr; }
+        }
+
+        button {
+            background-color: var(--accent-color);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: bold;
+            font-size: 0.95rem;
+            transition: background 0.2s;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        button:hover { background-color: var(--accent-hover); }
+        .btn-success { background-color: var(--success-color); }
+        .btn-secondary { background-color: #475569; }
+        .btn-warning { background-color: var(--warning-color); color: #0f172a; }
+
+        .output-box, .result-box {
+            background-color: #090d16;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 16px;
+            margin-top: 16px;
+            position: relative;
+        }
+
+        pre {
+            white-space: pre-wrap;
+            font-family: monospace;
+            color: #38bdf8;
+            direction: ltr;
+            text-align: left;
+        }
+
+        .code-actions {
+            display: flex;
+            gap: 10px;
+            margin-top: 12px;
+            flex-wrap: wrap;
+        }
+
+        footer {
+            background-color: var(--card-bg);
+            border-top: 1px solid var(--border-color);
+            text-align: center;
+            padding: 16px;
+            color: var(--text-muted);
+            font-size: 0.9rem;
+            margin-top: auto;
+        }
+
+        footer a {
+            color: var(--accent-color);
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        footer a:hover { text-decoration: underline; }
+
+        .history-list {
+            list-style: none;
+            max-height: 150px;
+            overflow-y: auto;
+        }
+
+        .history-item {
+            padding: 8px;
+            border-bottom: 1px solid var(--border-color);
+            font-size: 0.85rem;
+            color: var(--text-muted);
+        }
+
+        .pdf-header {
+            display: none;
+            border-bottom: 2px solid var(--accent-color);
+            padding-bottom: 10px;
+            margin-bottom: 20px;
+        }
+
+        .pdf-footer {
+            display: none;
+            border-top: 1px solid var(--border-color);
+            padding-top: 10px;
+            margin-top: 20px;
+            text-align: center;
+            font-size: 0.8rem;
+            color: var(--text-muted);
+        }
+
+        #installBanner {
+            display: none;
+            background: linear-gradient(90deg, #1e3a8a, #0284c7);
+            color: white;
+            padding: 12px 20px;
+            border-radius: 8px;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 12px;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="logo">⚡ VoltAI | المهندس الذكي</div>
+    </header>
+
+    <main>
+
+        <!-- بنر تثبيت التطبيق PWA -->
+        <div id="installBanner">
+            <span>📱 احصل على تطبيق VoltAI على هاتفك للعمل بدون إنترنت!</span>
+            <button class="btn-warning" id="installBtn">تثبيت التطبيق 📲</button>
+        </div>
+
+        <!-- سجل العمليات (History) -->
+        <section class="card">
+            <h2>📜 سجل العمليات الأخير (History)</h2>
+            <ul id="historyList" class="history-list">
+                <li class="history-item">لا يوجد سجل عمليات حالياً.</li>
+            </ul>
+        </section>
+
+        <!-- 1. مصمم لوحات ATS الذكي -->
+        <div class="feature-card ATS-estimator">
+            <h3>⚡ مصمم لوحات ATS الذكي وتقدير الكلفة</h3>
+            <p>أدخل تفاصيل الأحمال لتوليد مخطط الربط والقطع المطلوبة</p>
+            <select id="ats-capacity">
+                <option value="20">منزلي بسيط (20 أمبير)</option>
+                <option value="40">منزلي متوسط (40 أمبير)</option>
+                <option value="100">صناعي / بناية (100 أمبير)</option>
+            </select>
+            <button onclick="generateATSPlan()">توليد المخطط والقطع</button>
+            <div id="ats-result" class="result-box" style="display:none;"></div>
+        </div>
+
+        <!-- 2. حاسبة مقطع الكابلات وهبوط الجهد -->
+        <section class="card">
+            <h2>📐 حاسبة مقطع الكابلات وهبوط الجهد (Voltage Drop)</h2>
+            <div class="grid-2">
+                <div class="form-group">
+                    <label>التيار (Ampere):</label>
+                    <input type="number" id="cableCurrent" placeholder="مثال: 50">
+                </div>
+                <div class="form-group">
+                    <label>طول الكابل (متر):</label>
+                    <input type="number" id="cableLength" placeholder="مثال: 100">
+                </div>
+            </div>
+            <div class="grid-2">
+                <div class="form-group">
+                    <label>مادة الكابل:</label>
+                    <select id="cableMaterial">
+                        <option value="copper">نحاس (Copper)</option>
+                        <option value="aluminum">ألمنيوم (Aluminum)</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>مقطع الكابل المفترض (mm²):</label>
+                    <input type="number" id="cableSize" placeholder="مثال: 16">
+                </div>
+            </div>
+            <button onclick="calculateCable()">حساب هبوط الجهد والتوصية</button>
+            <div id="cableResult" class="output-box" style="display:none;"></div>
+        </section>
+
+        <!-- 3. حاسبة تصحيح معامل القدرة (PFC) -->
+        <section class="card">
+            <h2>⚡ حاسبة تصحيح معامل القدرة (Power Factor Correction)</h2>
+            <div class="grid-2">
+                <div class="form-group">
+                    <label>القدرة الفعالة (kW):</label>
+                    <input type="number" id="pfcPower" placeholder="مثال: 100">
+                </div>
+                <div class="form-group">
+                    <label>معامل القدرة الحالي (Current PF):</label>
+                    <input type="number" id="pfcCurrent" step="0.01" placeholder="مثال: 0.75">
+                </div>
+            </div>
+            <div class="form-group">
+                <label>معامل القدرة المستهدف (Target PF):</label>
+                <input type="number" id="pfcTarget" step="0.01" value="0.95" placeholder="مثال: 0.95">
+            </div>
+            <button onclick="calculatePFC()">حساب قدرة البنك والمكثفات (kVAr)</button>
+            <div id="pfcResult" class="output-box" style="display:none;"></div>
+        </section>
+
+        <!-- 4. حاسبة المحركات الحثية (Induction Motors) -->
+        <section class="card">
+            <h2>⚙️ حاسبة المحركات الحثية (Induction Motors)</h2>
+            <div class="grid-2">
+                <div class="form-group">
+                    <label>قدرة المحرك (حصان HP أو كيلوواط kW):</label>
+                    <input type="number" id="motorPower" placeholder="مثال: 15">
+                </div>
+                <div class="form-group">
+                    <label>الوحدة:</label>
+                    <select id="motorUnit">
+                        <option value="hp">حصان (HP)</option>
+                        <option value="kw">كيلوواط (kW)</option>
+                    </select>
+                </div>
+            </div>
+            <button onclick="calculateMotor()">حساب تيار التشغيل وضبط الحماية</button>
+            <div id="motorResult" class="output-box" style="display:none;"></div>
+        </section>
+
+        <!-- 5. قسم الذكاء الاصطناعي والمخططات -->
+        <section class="card">
+            <h2>🤖 مساعد الذكاء الاصطناعي للـ PLC والكلاسيك كونترول</h2>
+            <div class="form-group">
+                <label>اختر الخدمة المطلوبة:</label>
+                <select id="aiServiceType">
+                    <option value="plc">توليد أكواد PLC (Siemens SCL/AWL)</option>
+                    <option value="classic">تحليل مخططات الكلاسيك كونترول واكتشاف الأخطاء</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label>إرفاق مخطط أو صورة (اختياري):</label>
+                <input type="file" id="diagramUpload" accept="image/*">
+            </div>
+            <div class="form-group">
+                <label>الوصف أو الطلب التفصيلي:</label>
+                <textarea id="aiPrompt" rows="3" placeholder="اكتب التفاصيل هنا..."></textarea>
+            </div>
+            <button onclick="generateAIResponse()">توليد التحليل / الكود</button>
+
+            <!-- التصدير كـ PDF -->
+            <div id="reportContainer" style="display:none; margin-top:16px;">
+                <div id="pdfContent" class="output-box">
+                    <div class="pdf-header" id="pdfHeader">
+                        <h3>⚡ تقرير المهندس الذكي (VoltAI)</h3>
+                        <p>تقرير استشارة وتحليل مخصص</p>
+                    </div>
+                    
+                    <div id="aiOutputContent"></div>
+
+                    <div class="pdf-footer" id="pdfFooter">
+                        تم استخراج هذا التقرير بواسطة منصة VoltAI | جميع الحقوق محفوظة © 2026 تطوير المهندس منتظر عون
+                    </div>
+                </div>
+
+                <div class="code-actions">
+                    <button class="btn-success" onclick="copyCode()">📋 نسخ النص/الكود</button>
+                    <button class="btn-secondary" onclick="downloadCodeFile()">💾 تحميل كملف (.scl)</button>
+                    <button onclick="downloadPDF()">📄 تحميل التقرير كـ PDF</button>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- شريط الحقوق Footer -->
+    <footer>
+        جميع الحقوق محفوظة © 2026 | تطوير <a href="https://github.com/std24341059-max" target="_blank" rel="noopener noreferrer">المهندس منتظر عون</a>
+    </footer>
+
+    <script>
+        // --- 0. PWA & Offline Support ---
+        let deferredPrompt;
+        window.addEventListener('beforeinstallprompt', (e) => {
+            e.preventDefault();
+            deferredPrompt = e;
+            const banner = document.getElementById('installBanner');
+            if(banner) banner.style.display = 'flex';
+        });
+
+        document.getElementById('installBtn')?.addEventListener('click', () => {
+            if (deferredPrompt) {
+                deferredPrompt.prompt();
+                deferredPrompt.userChoice.then(() => {
+                    deferredPrompt = null;
+                    document.getElementById('installBanner').style.display = 'none';
+                });
+            }
+        });
+
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                const swCode = `
+                    const CACHE_NAME = 'volt-ai-v3';
+                    const urlsToCache = ['./', './index.html'];
+                    self.addEventListener('install', e => e.waitUntil(caches.open(CACHE_NAME).then(c => c.addAll(urlsToCache))));
+                    self.addEventListener('fetch', e => e.respondWith(caches.match(e.request).then(r => r || fetch(e.request))));
+                `;
+                const blob = new Blob([swCode], { type: 'application/javascript' });
+                navigator.serviceWorker.register(URL.createObjectURL(blob))
+                    .then(() => console.log('الأوفلاين مفعل!'))
+                    .catch(err => console.log('خطأ أوفلاين:', err));
+            });
+        }
+
+        // --- 1. History ---
+        function saveToHistory(action) {
+            let history = JSON.parse(localStorage.getItem('voltAiHistory')) || [];
+            const time = new Date().toLocaleTimeString('ar-EG', { hour: '2-digit', minute: '2-digit' });
+            history.unshift(`[${time}] ${action}`);
+            if (history.length > 5) history.pop();
+            localStorage.setItem('voltAiHistory', JSON.stringify(history));
+            renderHistory();
+        }
+
+        function renderHistory() {
+            const history = JSON.parse(localStorage.getItem('voltAiHistory')) || [];
+            const listEl = document.getElementById('historyList');
+            if (!listEl) return;
+            if (history.length === 0) {
+                listEl.innerHTML = '<li class="history-item">لا يوجد سجل عمليات حالياً.</li>';
+                return;
+            }
+            listEl.innerHTML = history.map(item => `<li class="history-item">${item}</li>`).join('');
+        }
+
+        // --- 2. ATS Estimator ---
+        function generateATSPlan() {
+            const capacity = document.getElementById('ats-capacity').value;
+            const resContainer = document.getElementById('ats-result');
+            let resultHTML = "";
+            
+            if(capacity == "20") {
+                resultHTML = `
+                    <h4>📦 المكونات المقترحة (حسب السوق المحلي):</h4>
+                    <ul>
+                        <li><strong>الكونتاكتورات:</strong> عدد 2 سعة 25 أمبير.</li>
+                        <li><strong>الريليهات:</strong> عدد 2 مع القاعدة (Finder).</li>
+                        <li><strong>التيمرات (Timers):</strong> عدد 1 لتأخير خط المولد.</li>
+                        <li><strong>حماية الفازات:</strong> قطعة واحدة (Phase Failure).</li>
+                        <li><strong>الأسلاك:</strong> 4 ملم².</li>
+                    </ul>
+                    <p style="color:#38bdf8;">💡 <strong>نصيحة المهندس الذكي:</strong> تأكد من عمل Electrical Interlock بين الكونتاكتورات.</p>
+                `;
+            } else if(capacity == "40") {
+                resultHTML = `
+                    <h4>📦 المكونات المقترحة (40 أمبير):</h4>
+                    <ul>
+                        <li><strong>الكونتاكتورات:</strong> عدد 2 سعة 50 أمبير.</li>
+                        <li><strong>الانترلوك:</strong> ميكانيكي + كهربائي.</li>
+                        <li><strong>القواطع:</strong> MCB 2P 40A.</li>
+                        <li><strong>الأسلاك:</strong> 10 ملم².</li>
+                    </ul>
+                `;
+            } else {
+                resultHTML = `
+                    <h4>📦 المكونات المقترحة (100 أمبير):</h4>
+                    <ul>
+                        <li><strong>القواطع الموتورايز:</strong> 2× MCCB Motorized 125A.</li>
+                        <li><strong>وحدة التحكم:</strong> ATS Controller برمجة ذكية.</li>
+                        <li><strong>البارات:</strong> بارات نحاسية 35 ملم².</li>
+                    </ul>
+                `;
+            }
+            
+            resContainer.style.display = 'block';
+            resContainer.innerHTML = resultHTML;
+            saveToHistory(`توليد خطة ATS بسعة ${capacity} أمبير`);
+        }
+
+        // --- 3. Cable & Voltage Drop ---
+        function calculateCable() {
+            const I = parseFloat(document.getElementById('cableCurrent').value);
+            const L = parseFloat(document.getElementById('cableLength').value);
+            const mat = document.getElementById('cableMaterial').value;
+            const S = parseFloat(document.getElementById('cableSize').value);
+
+            if (!I || !L || !S) { alert('يرجى ملء جميع الحقول'); return; }
+
+            const rho = (mat === 'copper') ? 0.018 : 0.028;
+            const voltageDrop = (2 * L * I * rho) / S;
+            const percentageDrop = (voltageDrop / 380) * 100;
+
+            const resDiv = document.getElementById('cableResult');
+            resDiv.style.display = 'block';
+            resDiv.innerHTML = `
+                <strong>نتائج الحساب:</strong><br>
+                - هبوط الجهد المتوقع: <strong>${voltageDrop.toFixed(2)} فولت</strong><br>
+                - نسبة هبوط الجهد: <strong>${percentageDrop.toFixed(2)}%</strong><br>
+                - التقييم: <span style="color: ${percentageDrop <= 4 ? '#10b981' : '#ef4444'};">
+                    ${percentageDrop <= 4 ? 'مقبول هندسياً (أقل من 4%)' : 'غير مقبول! يرجى زيادة مقطع الكابل'}
+                </span>
+            `;
+
+            saveToHistory(`حساب كابل: ${I} أمبير، طول ${L}m`);
+        }
+
+        // --- 4. Power Factor Correction (PFC) ---
+        function calculatePFC() {
+            const P = parseFloat(document.getElementById('pfcPower').value);
+            const pf1 = parseFloat(document.getElementById('pfcCurrent').value);
+            const pf2 = parseFloat(document.getElementById('pfcTarget').value);
+
+            if (!P || !pf1 || !pf2 || pf1 >= pf2) {
+                alert('يرجى إدخال قيم صالحة (يجب أن يكون معامل القدرة الحالي أقل من المستهدف)');
+                return;
+            }
+
+            const tan1 = Math.tan(Math.acos(pf1));
+            const tan2 = Math.tan(Math.acos(pf2));
+            const Qc = P * (tan1 - tan2);
+
+            const resDiv = document.getElementById('pfcResult');
+            resDiv.style.display = 'block';
+            resDiv.innerHTML = `
+                <strong>نتائج تصحيح معامل القدرة:</strong><br>
+                - سعة بنك المكثفات المطلوبة: <strong>${Qc.toFixed(2)} kVAr</strong><br>
+                - التوصية: يفضل تقسيم البنك إلى مراحل (Steps) متساوية مثل (4 مراحل × ${(Qc/4).toFixed(1)} kVAr) مع منظم APFC Controller.
+            `;
+
+            saveToHistory(`حساب معامل القدرة قدرة ${P}kW من ${pf1} إلى ${pf2}`);
+        }
+
+        // --- 5. Induction Motor Calculator ---
+        function calculateMotor() {
+            const val = parseFloat(document.getElementById('motorPower').value);
+            const unit = document.getElementById('motorUnit').value;
+
+            if (!val) { alert('يرجى إدخال قدرة المحرك'); return; }
+
+            const kW = (unit === 'hp') ? val * 0.746 : val;
+            const FLC = (kW * 1000) / (1.732 * 380 * 0.85 * 0.88);
+            const overload = FLC * 1.15;
+            let startMethod = "Direct Online (DOL)";
+
+            if (kW > 11 && kW <= 45) startMethod = "Star-Delta (مجمعة ستار دلتا)";
+            else if (kW > 45) startMethod = "VFD (مغير سرعة) أو Soft Starter";
+
+            const resDiv = document.getElementById('motorResult');
+            resDiv.style.display = 'block';
+            resDiv.innerHTML = `
+                <strong>نتائج حسابات المحرك:</strong><br>
+                - تيار الحمل الكامل (FLC): <strong>${FLC.toFixed(1)} أمبير</strong><br>
+                - ضبط الإوفرلود (Overload Setting): <strong>${overload.toFixed(1)} أمبير</strong><br>
+                - طريقة البدء الموصى بها: <strong>${startMethod}</strong>
+            `;
+
+            saveToHistory(`حساب محرك ${val} ${unit}`);
+        }
+
+        // --- 6. AI & PDF ---
+        function generateAIResponse() {
+            const type = document.getElementById('aiServiceType').value;
+            const container = document.getElementById('reportContainer');
+            const output = document.getElementById('aiOutputContent');
+
+            container.style.display = 'block';
+
+            if (type === 'plc') {
+                output.innerHTML = `
+                    <p><strong>كود Siemens SCL المُولد:</strong></p>
+                    <pre id="codeBlock">
+// VoltAI Generated PLC Code
+FUNCTION_BLOCK "Control_Motor"
+VAR_INPUT
+    Start : Bool;
+    Stop : Bool;
+END_VAR
+VAR_OUTPUT
+    Motor : Bool;
+END_VAR
+
+BEGIN
+    IF #Start AND NOT #Stop THEN
+        #Motor := TRUE;
+    ELSIF #Stop THEN
+        #Motor := FALSE;
+    END_IF;
+END_FUNCTION_BLOCK
+                    </pre>
+                `;
+                saveToHistory('توليد كود PLC');
+            } else {
+                output.innerHTML = `
+                    <p><strong>تقرير تحليل مخطط الكلاسيك كونترول:</strong></p>
+                    <p>- حالة الدائرة: تم التحليل بنجاح.</p>
+                    <p>- الأخطاء المكتشفة: عدم وجود تداخل كهربائي (Electrical Interlock) بين كونتاكتور الأنعكاس.</p>
+                    <p>- التوصية: إضافة نقطة NC من C1 أمام ملف C2 لضمان السلامة.</p>
+                `;
+                saveToHistory('تحليل مخطط كلاسيك كونترول');
+            }
+        }
+
+        function copyCode() {
+            const code = document.getElementById('aiOutputContent').innerText;
+            if (navigator.clipboard && window.isSecureContext) {
+                navigator.clipboard.writeText(code).then(() => alert('تم نسخ النص/الكود بنجاح!'));
+            } else {
+                const textArea = document.createElement("textarea");
+                textArea.value = code;
+                document.body.appendChild(textArea);
+                textArea.select();
+                document.execCommand('copy');
+                document.body.removeChild(textArea);
+                alert('تم نسخ النص/الكود بنجاح!');
+            }
+        }
+
+        function downloadCodeFile() {
+            const code = document.getElementById('aiOutputContent').innerText;
+            const blob = new Blob([code], { type: 'text/plain;charset=utf-8' });
+            const a = document.createElement('a');
+            a.href = URL.createObjectURL(blob);
+            a.download = 'VoltAI_GeneratedCode.scl';
+            a.click();
+        }
+
+        function downloadPDF() {
+            if (typeof html2pdf === 'undefined') {
+                alert('تنبيه: تحويل PDF يحتاج اتصال بالإنترنت لتحميل المكتبة.');
+                return;
+            }
+            const element = document.getElementById('pdfContent');
+            const pdfHeader = document.getElementById('pdfHeader');
+            const pdfFooter = document.getElementById('pdfFooter');
+
+            pdfHeader.style.display = 'block';
+            pdfFooter.style.display = 'block';
+
+            const opt = {
+                margin:       10,
+                filename:     'VoltAI_Report.pdf',
+                image:        { type: 'jpeg', quality: 0.98 },
+                html2canvas:  { scale: 2 },
+                jsPDF:        { unit: 'mm', format: 'a4', orientation: 'portrait' }
+            };
+
+            html2pdf().set(opt).from(element).save().then(() => {
+                pdfHeader.style.display = 'none';
+                pdfFooter.style.display = 'none';
+            });
+        }
+
+        window.onload = renderHistory;
+    </script>
+</body>
+</html>
