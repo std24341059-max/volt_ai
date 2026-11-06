@@ -48,6 +48,23 @@
             --shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.08);
         }
 
+        /* Outdoor High Contrast Theme */
+        :root[data-theme="contrast"] {
+            --bg-color: #000000;
+            --card-bg: #000000;
+            --card-border: #ffff00;
+            --accent-color: #ffff00;
+            --accent-hover: #e6e600;
+            --text-main: #ffffff;
+            --text-muted: #ffff00;
+            --input-bg: #1a1a00;
+            --nav-bg: #000000;
+            --success-color: #00ff00;
+            --warning-color: #ffaa00;
+            --danger-color: #ff0055;
+            --shadow: none;
+        }
+
         * {
             box-sizing: border-box;
             margin: 0;
@@ -103,7 +120,7 @@
         .header-actions {
             display: flex;
             align-items: center;
-            gap: 12px;
+            gap: 8px;
         }
 
         .icon-btn {
@@ -119,6 +136,7 @@
             cursor: pointer;
             font-size: 1.1rem;
             transition: all 0.2s;
+            text-decoration: none;
         }
 
         .icon-btn:active { transform: scale(0.95); }
@@ -179,6 +197,10 @@
             background: var(--accent-color);
             color: #ffffff;
             box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
+        }
+        :root[data-theme="contrast"] .tab-btn.active {
+            color: #000000;
+            font-weight: 900;
         }
 
         /* --- Main Content Layout --- */
@@ -302,6 +324,7 @@
             gap: 8px;
             transition: background 0.2s, transform 0.1s;
         }
+        :root[data-theme="contrast"] .btn-primary { color: #000; }
         .btn-primary:active { transform: scale(0.98); }
         .btn-success { background: var(--success-color); }
         .btn-secondary { background: var(--input-bg); border: 1px solid var(--card-border); color: var(--text-main); }
@@ -349,6 +372,28 @@
             border-radius: 8px;
             margin-top: 8px;
             overflow-x: auto;
+        }
+
+        /* Color Code Grid */
+        .color-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+            gap: 10px;
+            margin-top: 12px;
+        }
+        .color-card {
+            border: 1px solid var(--card-border);
+            border-radius: 8px;
+            padding: 8px;
+            text-align: center;
+            font-size: 0.8rem;
+            background: var(--input-bg);
+        }
+        .color-swatch {
+            height: 24px;
+            border-radius: 4px;
+            margin-bottom: 6px;
+            border: 1px solid rgba(255,255,255,0.2);
         }
 
         /* --- Auth Modal --- */
@@ -413,6 +458,17 @@
             border-top: 1px solid var(--card-border);
             margin-top: auto;
         }
+
+        .checklist-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 8px 0;
+            border-bottom: 1px solid var(--card-border);
+        }
+        .checklist-item input[type="checkbox"] {
+            width: 20px; height: 20px;
+        }
     </style>
 </head>
 <body>
@@ -428,7 +484,14 @@
             <div class="logo-text">VoltAI Pro | <span class="logo-accent">المهندس</span></div>
         </div>
         <div class="header-actions">
-            <button class="icon-btn" onclick="toggleTheme()" title="تغيير المظهر">🌙</button>
+            <!-- Telegram Direct Support Button -->
+            <a href="https://t.me/mzr_iq" target="_blank" class="icon-btn" title="تواصل وتغذية راجعة مع المطور على تلجرام">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#0088cc" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M21.5 2L2 11.5l7 3 3 7 3.5-4.5 5.5 4z"></path>
+                    <path d="M9 14.5L21.5 2"></path>
+                </svg>
+            </a>
+            <button class="icon-btn" onclick="toggleTheme()" title="تغيير المظهر / وضع الشمس">🌙</button>
             <button class="icon-btn" onclick="openAuthModal()" title="الحساب الشخصي والتقارير">👤</button>
         </div>
     </header>
@@ -440,7 +503,8 @@
         <button class="tab-btn" onclick="switchTab('solar')">☀️ الطاقة الشمسية</button>
         <button class="tab-btn" onclick="switchTab('power')">⚡ الحسابات الكهربائية</button>
         <button class="tab-btn" onclick="switchTab('trouble')">🛠️ تشخيص الأعطال</button>
-        <button class="tab-btn" onclick="switchTab('library')">📚 المرجع والرموز</button>
+        <button class="tab-btn" onclick="switchTab('commissioning')">📋 استلام الموقع (Checklist)</button>
+        <button class="tab-btn" onclick="switchTab('library')">📚 المرجع والألوان</button>
         <button class="tab-btn" onclick="switchTab('profile')">👤 بطاقة المهندس</button>
     </div>
 
@@ -596,6 +660,27 @@
                 <button id="pdfAtsBtn" class="btn-primary btn-success" style="display:none; margin-top:10px;" onclick="exportCustomPDF('تسعير ولوحة ATS', document.getElementById('atsResult').innerHTML)">📄 تصدير كشوفات اللوحة PDF</button>
             </div>
 
+            <!-- BUSBAR SIZING CALCULATOR -->
+            <div class="card">
+                <div class="card-title">⚡ حاسبة مقاطع الشينار النحاسي والألمنيوم (Busbar Sizing)</div>
+                <div class="grid-2">
+                    <div class="form-group">
+                        <label>تيار اللوحة الأقصى (Ampere):</label>
+                        <input type="number" id="busbarAmp" placeholder="مثال: 800">
+                    </div>
+                    <div class="form-group">
+                        <label>معدن الشينار:</label>
+                        <select id="busbarMat"><option value="cu">نحاس (Copper)</option><option value="al">ألمنيوم (Aluminum)</option></select>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>نوع التهوية والتبريد داخل اللوحة:</label>
+                    <select id="busbarCooling"><option value="natural">تهوية طبيعية (Natural Air)</option><option value="forced">تبريد قسري بمراوح (Forced Air)</option></select>
+                </div>
+                <button class="btn-primary" onclick="calculateBusbar()">حساب الأبعاد وعدد الشينارات 🧮</button>
+                <div id="busbarResult" class="result-box" style="display:none;"></div>
+            </div>
+
             <div class="card">
                 <div class="card-title">📐 حاسبة مقطع الكابلات وهبوط الجهد (Voltage Drop)</div>
                 <div class="grid-2">
@@ -620,6 +705,23 @@
                 </div>
                 <button class="btn-primary" onclick="calculateCable()">حساب نسبة هبوط الجهد</button>
                 <div id="cableResult" class="result-box" style="display:none;"></div>
+            </div>
+
+            <!-- PROTECTIVE DEVICE COORDINATION -->
+            <div class="card">
+                <div class="card-title">🛡️ أداة تنسيق الحمايات والقواطع (Breaker Coordination)</div>
+                <div class="grid-2">
+                    <div class="form-group">
+                        <label>سعة القاطع الرئيسي (Main MCCB):</label>
+                        <input type="number" id="mainMcbb" placeholder="مثال: 250">
+                    </div>
+                    <div class="form-group">
+                        <label>سعة أكبر قاطع فرعي (Sub MCB):</label>
+                        <input type="number" id="subMcb" placeholder="مثال: 40">
+                    </div>
+                </div>
+                <button class="btn-primary btn-secondary" onclick="calculateSelectivity()">فحص التوافق والتنسيق ⚖️</button>
+                <div id="selectivityResult" class="result-box" style="display:none;"></div>
             </div>
 
             <div class="card">
@@ -663,8 +765,43 @@
             </div>
         </div>
 
-        <!-- TAB 5: Library & Error Codes -->
+        <!-- TAB 5: Commissioning & Checklist -->
+        <div id="commissioning" class="tab-content">
+            <div class="card">
+                <div class="card-title">📋 قائمة الفحص واستلام الموقع (Testing & Commissioning Checklist)</div>
+                <p style="font-size:0.85rem; color:var(--text-muted); margin-bottom:12px;">حدد النقاط المفحوصة لتوليد شهادة استلام موقعي رسمية معتمدة.</p>
+
+                <div class="checklist-item"><input type="checkbox" id="chk1"> <label for="chk1" style="margin:0;">فحص مقاومة العزل للمحركات والكابلات (Megger Insulation Test)</label></div>
+                <div class="checklist-item"><input type="checkbox" id="chk2"> <label for="chk2" style="margin:0;">فحص شد التوصيلات والبراغي (Torque Wrench Check)</label></div>
+                <div class="checklist-item"><input type="checkbox" id="chk3"> <label for="chk3" style="margin:0;">فحص اتزان الفازات وتسلسل التتابع (Phase Equilibrium & Sequence)</label></div>
+                <div class="checklist-item"><input type="checkbox" id="chk4"> <label for="chk4" style="margin:0;">اختبار عمل الانترلوك الكهربائي والميكانيكي (Interlock Operation)</label></div>
+                <div class="checklist-item"><input type="checkbox" id="chk5"> <label for="chk5" style="margin:0;">اختبار منظومة التأريض وقراءات الجهد للأرضي (Earthing & Bonding)</label></div>
+                
+                <div class="form-group" style="margin-top:14px;">
+                    <label>ملاحظات الاستلام والاختبار الميداني:</label>
+                    <textarea id="commNotes" rows="2" placeholder="تم الفحص بنجاح واللوحة جاهزة للتشغيل الفعلي..."></textarea>
+                </div>
+
+                <button class="btn-primary btn-success" onclick="exportCommissioningPDF()">📄 تصدير شهادة استلام موقعي رسمية PDF</button>
+            </div>
+        </div>
+
+        <!-- TAB 6: Library & Color Codes -->
         <div id="library" class="tab-content">
+            <!-- FIBER & WIRE COLOR CODES MAPPER -->
+            <div class="card">
+                <div class="card-title">🎨 دليل ألوان الكابلات والألياف الضوئية (Fiber Optics & Wire Colors)</div>
+                <div class="form-group">
+                    <label>اختر نوع الكابل:</label>
+                    <select id="colorStandardSelect" onchange="renderColorCodes()">
+                        <option value="fiber12">ألياف ضوئية - Fiber Optics (12 Color Standard TIA/EIA-598)</option>
+                        <option value="control_iec">أسلاك التحكم والتوزيع (IEC Standard Europe/Arab World)</option>
+                        <option value="control_nec">أسلاك التحكم والتوزيع (NEC Standard US)</option>
+                    </select>
+                </div>
+                <div id="colorCodesContainer" class="color-grid"></div>
+            </div>
+
             <div class="card">
                 <div class="card-title">📚 مكتبة أكواد الأعطال للانفرترات (VFD Error Codes)</div>
                 <div class="grid-2">
@@ -700,7 +837,7 @@
             </div>
         </div>
 
-        <!-- TAB 6: Profile -->
+        <!-- TAB 7: Profile -->
         <div id="profile" class="tab-content">
             <div class="card" style="text-align:center;">
                 <div class="card-title" style="justify-content:center;">🪪 بطاقة عمل المهندس الرقمية</div>
@@ -711,6 +848,17 @@
                 <p id="cardEngPhone" style="font-size:0.8rem; color:var(--text-muted); margin-top:2px;"></p>
                 <div id="qrcode" style="display:flex; justify-content:center; margin:16px 0;"></div>
                 <button class="btn-primary btn-secondary" onclick="openAuthModal()" style="margin-top:12px;">تعديل الملف والهوية البصرية ✏️</button>
+            </div>
+
+            <!-- BACKUP & RESTORE DATA -->
+            <div class="card">
+                <div class="card-title">💾 إدارة النسخ الاحتياطي والبيانات (Data Management)</div>
+                <p style="font-size:0.85rem; color:var(--text-muted); margin-bottom:12px;">احفظ سجلاتك وبروفايلك في ملف واحد أو استرجع البيانات على جهاز جديد.</p>
+                <div class="grid-2">
+                    <button class="btn-primary" onclick="exportBackupData()">تصدير نسخة احتياطية 📥</button>
+                    <button class="btn-primary btn-secondary" onclick="document.getElementById('importFileInput').click()">استرجاع نسخة 📤</button>
+                    <input type="file" id="importFileInput" style="display:none;" accept=".json" onchange="importBackupData(event)">
+                </div>
             </div>
 
             <div class="card">
@@ -762,13 +910,13 @@
         <h3 id="pdfReportTitle" style="color:#0f172a; margin-bottom:14px; border-bottom:1px solid #e2e8f0; padding-bottom:6px;"></h3>
         <div id="pdfReportBody"></div>
         <div style="margin-top:30px; border-top:1px solid #e2e8f0; padding-top:10px; font-size:0.75rem; color:#94a3b8; text-align:center;">
-            تم توليد هذا التقرير رسمياً بواسطة منصة VoltAI Pro | جميع الحقوق محفوظة © 2026
+            تم توليد هذا التقرير رسمياً بواسطة منصة VoltAI Pro | للتواصل مع المطور على تلجرام: @mzr_iq
         </div>
     </div>
 
     <!-- Footer -->
     <footer>
-        جميع الحقوق محفوظة © 2026 | تطوير <a href="https://github.com/std24341059-max" target="_blank" style="color:var(--accent-color); text-decoration:none; font-weight:bold;">المهندس منتظر عون</a>
+        جميع الحقوق محفوظة © 2026 | تطوير <a href="https://github.com/std24341059-max" target="_blank" style="color:var(--accent-color); text-decoration:none; font-weight:bold;">المهندس منتظر عون</a> | <a href="https://t.me/mzr_iq" target="_blank" style="color:#0088cc; text-decoration:none;">تواصل تلجرام ✈️</a>
     </footer>
 
     <!-- Logic Script -->
@@ -948,10 +1096,172 @@
             }
         }
 
+        // BUSBAR CALCULATOR LOGIC
+        function calculateBusbar() {
+            const amp = parseFloat(document.getElementById('busbarAmp').value);
+            const mat = document.getElementById('busbarMat').value;
+            const cooling = document.getElementById('busbarCooling').value;
+            const res = document.getElementById('busbarResult');
+
+            if (!amp) { alert('يرجى إدخال تيار اللوحة الأقصى'); return; }
+
+            const currentDensity = (mat === 'cu') ? (cooling === 'forced' ? 1.8 : 1.5) : (cooling === 'forced' ? 1.2 : 0.9); // Amp per mm2
+            const reqArea = amp / currentDensity;
+
+            let recBusbar = "";
+            if (reqArea <= 150) recBusbar = "1x (20x5 mm)";
+            else if (reqArea <= 300) recBusbar = "1x (30x10 mm)";
+            else if (reqArea <= 600) recBusbar = "2x (40x10 mm) مزدوج";
+            else if (reqArea <= 1000) recBusbar = "2x (60x10 mm) مزدوج";
+            else recBusbar = "3x (80x10 mm) ثلاثي";
+
+            res.style.display = 'block';
+            res.innerHTML = `
+                <strong>نتائج حسابات قضبان التوصيل (Busbar):</strong><br>
+                - المساحة الكلية المطلوبة للمقطع: <strong>${Math.ceil(reqArea)} mm²</strong><br>
+                - القياس والتوزيع الموصى به: <strong style="color:var(--accent-color);">${recBusbar}</strong> لكل فاز.<br>
+                - كثافة التيار المعتمدة: ${currentDensity} أمبير/ملم².
+            `;
+            saveHistory(`حساب شينار نحاسي لسعة ${amp}A`);
+        }
+
+        // SELECTIVITY & COORDINATION LOGIC
+        function calculateSelectivity() {
+            const main = parseFloat(document.getElementById('mainMcbb').value);
+            const sub = parseFloat(document.getElementById('subMcb').value);
+            const res = document.getElementById('selectivityResult');
+
+            if (!main || !sub) { alert('يرجى إدخال قيم القواطع'); return; }
+
+            const ratio = main / sub;
+            res.style.display = 'block';
+
+            if (ratio >= 1.6) {
+                res.innerHTML = `<span style="color:var(--success-color);">✅ التناسق ممتاز (Selectivity OK):</span> نسبة التفاوت (${ratio.toFixed(1)}:1) تضمن فصل القاطع الفرعي فقط عند الشورت دون إطفاء القاطع الرئيسي.`;
+            } else {
+                res.innerHTML = `<span style="color:var(--danger-color);">❌ تحذير تداخل (Cascade Risk):</span> نسبة التفاوت (${ratio.toFixed(1)}:1) قليلة جداً. يفضل رفع القاطع الرئيسي إلى ${Math.ceil(sub * 1.6)}A لمنع الإطفاء العشوائي للبناية.`;
+            }
+            saveHistory('فحص تنسيق القواطع والحمايات');
+        }
+
+        // COMMISSIONING CHECKLIST & PDF
+        function exportCommissioningPDF() {
+            const chk1 = document.getElementById('chk1').checked ? "✅ تم الفحص" : "❌ لم يتم";
+            const chk2 = document.getElementById('chk2').checked ? "✅ تم الفحص" : "❌ لم يتم";
+            const chk3 = document.getElementById('chk3').checked ? "✅ تم الفحص" : "❌ لم يتم";
+            const chk4 = document.getElementById('chk4').checked ? "✅ تم الفحص" : "❌ لم يتم";
+            const chk5 = document.getElementById('chk5').checked ? "✅ تم الفحص" : "❌ لم يتم";
+            const notes = document.getElementById('commNotes').value || "تمت الفحوصات الميدانية بنجاح.";
+
+            const html = `
+                <h3>📋 شهادة استلام وفحص موقعي رسمية (Site Commissioning Certificate)</h3>
+                <table class="bom-table" style="margin-top:14px;">
+                    <tr><th>بند الفحص الميداني</th><th>حالة الجاهزية</th></tr>
+                    <tr><td>فحص العزل ميجر (Megger Test)</td><td>${chk1}</td></tr>
+                    <tr><td>شد التوصيلات (Torque Check)</td><td>${chk2}</td></tr>
+                    <tr><td>اتزان وتتابع الفازات (Phase Equilibrium)</td><td>${chk3}</td></tr>
+                    <tr><td>اختبار الانترلوك الميكانيكي والكهربائي</td><td>${chk4}</td></tr>
+                    <tr><td>فحص التأريض والربط (Earthing Check)</td><td>${chk5}</td></tr>
+                </table>
+                <p style="margin-top:14px;"><strong>ملاحظات المهندس الفاحص:</strong> ${notes}</p>
+            `;
+            exportCustomPDF('شهادة استلام موقعي معتمدة', html);
+            saveHistory('تصدير شهادة استلام موقعي PDF');
+        }
+
+        // COLOR CODES MAPPER DATA & RENDER
+        const colorData = {
+            fiber12: [
+                { id: 1, name: "Blue (أزرق)", code: "#0000FF" },
+                { id: 2, name: "Orange (برتقالي)", code: "#FFA500" },
+                { id: 3, name: "Green (أخضر)", code: "#008000" },
+                { id: 4, name: "Brown (بني)", code: "#8B4513" },
+                { id: 5, name: "Slate (رمادي)", code: "#708090" },
+                { id: 6, name: "White (أبيض)", code: "#FFFFFF" },
+                { id: 7, name: "Red (أحمر)", code: "#FF0000" },
+                { id: 8, name: "Black (أسود)", code: "#000000" },
+                { id: 9, name: "Yellow (أصفر)", code: "#FFFF00" },
+                { id: 10, name: "Violet (بنفسجي)", code: "#8A2BE2" },
+                { id: 11, name: "Rose (وردي)", code: "#FFC0CB" },
+                { id: 12, name: "Aqua (سماوي)", code: "#00FFFF" }
+            ],
+            control_iec: [
+                { id: "L1", name: "Phase 1 - Brown (بني)", code: "#8B4513" },
+                { id: "L2", name: "Phase 2 - Black (أسود)", code: "#000000" },
+                { id: "L3", name: "Phase 3 - Grey (رمادي)", code: "#708090" },
+                { id: "N", name: "Neutral - Blue (أزرق)", code: "#0000FF" },
+                { id: "PE", name: "Earth - Yellow/Green (أصفر/أخضر)", code: "#9acd32" }
+            ],
+            control_nec: [
+                { id: "L1", name: "Phase 1 - Black (أسود)", code: "#000000" },
+                { id: "L2", name: "Phase 2 - Red (أحمر)", code: "#FF0000" },
+                { id: "L3", name: "Phase 3 - Blue (أزرق)", code: "#0000FF" },
+                { id: "N", name: "Neutral - White (أبيض)", code: "#FFFFFF" }
+            ]
+        };
+
+        function renderColorCodes() {
+            const type = document.getElementById('colorStandardSelect').value;
+            const items = colorData[type] || colorData['fiber12'];
+            const container = document.getElementById('colorCodesContainer');
+            container.innerHTML = items.map(item => `
+                <div class="color-card">
+                    <div class="color-swatch" style="background-color:${item.code};"></div>
+                    <strong>${item.id}</strong><br>${item.name}
+                </div>
+            `).join('');
+        }
+
+        // BACKUP AND RESTORE
+        function exportBackupData() {
+            const data = {
+                name: localStorage.getItem('voltAiEngName'),
+                title: localStorage.getItem('voltAiEngTitle'),
+                company: localStorage.getItem('voltAiEngCompany'),
+                phone: localStorage.getItem('voltAiEngPhone'),
+                logo: localStorage.getItem('voltAiEngLogo'),
+                history: localStorage.getItem('voltAiHist')
+            };
+            const jsonStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(data));
+            const downloadAnchor = document.createElement('a');
+            downloadAnchor.setAttribute("href", jsonStr);
+            downloadAnchor.setAttribute("download", `VoltAI_Backup_${new Date().toISOString().slice(0,10)}.json`);
+            document.body.appendChild(downloadAnchor);
+            downloadAnchor.click();
+            downloadAnchor.remove();
+        }
+
+        function importBackupData(event) {
+            const file = event.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    try {
+                        const data = JSON.parse(e.target.result);
+                        if (data.name) localStorage.setItem('voltAiEngName', data.name);
+                        if (data.title) localStorage.setItem('voltAiEngTitle', data.title);
+                        if (data.company) localStorage.setItem('voltAiEngCompany', data.company);
+                        if (data.phone) localStorage.setItem('voltAiEngPhone', data.phone);
+                        if (data.logo) localStorage.setItem('voltAiEngLogo', data.logo);
+                        if (data.history) localStorage.setItem('voltAiHist', data.history);
+                        alert('تم استرجاع البيانات بنجاح! جاري تحديث الصفحة...');
+                        location.reload();
+                    } catch(err) {
+                        alert('ملف النسخة الاحتياطية غير صالح.');
+                    }
+                };
+                reader.readAsText(file);
+            }
+        }
+
         // Navigation & Theme
         function toggleTheme() {
             const currentTheme = document.documentElement.getAttribute('data-theme');
-            const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+            let newTheme = 'dark';
+            if (currentTheme === 'dark') newTheme = 'light';
+            else if (currentTheme === 'light') newTheme = 'contrast';
+            else newTheme = 'dark';
+
             document.documentElement.setAttribute('data-theme', newTheme);
             localStorage.setItem('voltAiTheme', newTheme);
         }
@@ -1154,6 +1464,8 @@
         // Init
         window.onload = function() {
             checkAIStatus();
+            renderColorCodes();
+
             const savedTheme = localStorage.getItem('voltAiTheme') || 'dark';
             document.documentElement.setAttribute('data-theme', savedTheme);
 
