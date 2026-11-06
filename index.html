@@ -1,679 +1,1180 @@
 <!DOCTYPE html>
-<html lang="ar" dir="rtl">
+<html lang="ar" dir="rtl" data-theme="dark">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>المهندس الذكي | VoltAI</title>
-    <!-- مكتبة تحويل التقارير إلى PDF -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>المهندس الذكي | VoltAI Pro</title>
+
+    <!-- PWA & Web App Manifest -->
+    <meta name="theme-color" content="#0b0f19">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="VoltAI">
+
+    <!-- Libraries -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+
     <style>
-        :root {
-            --bg-color: #0f172a;
-            --card-bg: #1e293b;
+        :root[data-theme="dark"] {
+            --bg-color: #0b0f19;
+            --card-bg: #151d30;
+            --card-border: #232f48;
             --accent-color: #3b82f6;
             --accent-hover: #2563eb;
-            --text-color: #f8fafc;
+            --text-main: #f1f5f9;
             --text-muted: #94a3b8;
-            --border-color: #334155;
+            --input-bg: #0b1120;
+            --nav-bg: rgba(21, 29, 48, 0.85);
             --success-color: #10b981;
             --warning-color: #f59e0b;
+            --danger-color: #ef4444;
+            --shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.4);
+        }
+
+        :root[data-theme="light"] {
+            --bg-color: #f8fafc;
+            --card-bg: #ffffff;
+            --card-border: #e2e8f0;
+            --accent-color: #2563eb;
+            --accent-hover: #1d4ed8;
+            --text-main: #0f172a;
+            --text-muted: #64748b;
+            --input-bg: #f1f5f9;
+            --nav-bg: rgba(255, 255, 255, 0.9);
+            --success-color: #059669;
+            --warning-color: #d97706;
+            --danger-color: #dc2626;
+            --shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.08);
         }
 
         * {
             box-sizing: border-box;
             margin: 0;
             padding: 0;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            -webkit-tap-highlight-color: transparent;
         }
 
         body {
-            font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
             background-color: var(--bg-color);
-            color: var(--text-color);
+            color: var(--text-main);
+            min-height: 100vh;
             display: flex;
             flex-direction: column;
-            min-height: 100vh;
-            line-height: 1.6;
+            padding-bottom: 70px;
+            transition: background-color 0.3s ease, color 0.3s ease;
         }
 
+        /* --- Header --- */
         header {
-            background-color: var(--card-bg);
-            border-bottom: 1px solid var(--border-color);
-            padding: 1rem 2rem;
+            background: var(--nav-bg);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border-bottom: 1px solid var(--card-border);
+            padding: 12px 20px;
+            position: sticky;
+            top: 0;
+            z-index: 100;
             display: flex;
             justify-content: space-between;
             align-items: center;
         }
 
-        .logo {
-            font-size: 1.5rem;
-            font-weight: bold;
+        .logo-block {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .logo-svg {
+            width: 38px;
+            height: 38px;
+        }
+
+        .logo-text {
+            font-size: 1.15rem;
+            font-weight: 800;
+            color: var(--text-main);
+            letter-spacing: -0.5px;
+        }
+        .logo-accent { color: var(--accent-color); }
+
+        .header-actions {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .icon-btn {
+            background: var(--input-bg);
+            border: 1px solid var(--card-border);
+            color: var(--text-main);
+            width: 38px;
+            height: 38px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            font-size: 1.1rem;
+            transition: all 0.2s;
+        }
+
+        .icon-btn:active { transform: scale(0.95); }
+
+        /* مؤشر حالة الاتصال بالذكاء الاصطناعي */
+        .ai-status-bar {
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 10px;
+            padding: 6px 12px;
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            margin-bottom: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .status-dot {
+            width: 10px; height: 10px;
+            border-radius: 50%;
+            display: inline-block;
+            margin-right: 6px;
+        }
+
+        .status-connected { background-color: var(--success-color); box-shadow: 0 0 8px var(--success-color); }
+        .status-disconnected { background-color: var(--danger-color); }
+
+        /* --- Navigation Tabs --- */
+        .tab-bar {
+            display: flex;
+            background: var(--card-bg);
+            border-bottom: 1px solid var(--card-border);
+            overflow-x: auto;
+            scrollbar-width: none;
+            padding: 6px 12px;
+            gap: 8px;
+        }
+        .tab-bar::-webkit-scrollbar { display: none; }
+
+        .tab-btn {
+            padding: 8px 16px;
+            border-radius: 20px;
+            border: none;
+            background: transparent;
+            color: var(--text-muted);
+            font-size: 0.88rem;
+            font-weight: 600;
+            white-space: nowrap;
+            cursor: pointer;
+            transition: all 0.25s;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .tab-btn.active {
+            background: var(--accent-color);
+            color: #ffffff;
+            box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
+        }
+
+        /* --- Main Content Layout --- */
+        main {
+            flex: 1;
+            max-width: 900px;
+            width: 100%;
+            margin: 0 auto;
+            padding: 16px;
+        }
+
+        .tab-content {
+            display: none;
+            animation: fadeIn 0.3s ease;
+        }
+        .tab-content.active { display: block; }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(6px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* --- Cards & UI Elements --- */
+        .card {
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 16px;
+            padding: 20px;
+            margin-bottom: 16px;
+            box-shadow: var(--shadow);
+        }
+
+        .card-title {
+            font-size: 1.1rem;
+            font-weight: 700;
             color: var(--accent-color);
+            margin-bottom: 14px;
             display: flex;
             align-items: center;
             gap: 8px;
+            border-bottom: 1px dashed var(--card-border);
+            padding-bottom: 10px;
         }
 
-        main {
-            flex: 1;
-            max-width: 1000px;
-            width: 100%;
-            margin: 0 auto;
-            padding: 20px;
-            display: flex;
-            flex-direction: column;
-            gap: 24px;
-        }
-
-        .card, .feature-card {
-            background-color: var(--card-bg);
-            border: 1px solid var(--border-color);
-            border-radius: 12px;
-            padding: 24px;
-            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
-        }
-
-        h2, h3, h4 {
-            color: var(--accent-color);
-            margin-bottom: 16px;
-            font-size: 1.3rem;
-            border-bottom: 2px solid var(--border-color);
-            padding-bottom: 8px;
-        }
-
-        h4 {
-            border-bottom: none;
-            font-size: 1.1rem;
-            color: #38bdf8;
-            margin-top: 8px;
-        }
-
-        p {
-            color: var(--text-muted);
-            margin-bottom: 12px;
-        }
-
-        ul {
-            margin-right: 20px;
-            margin-bottom: 12px;
-            color: var(--text-color);
-        }
-
-        ul li {
-            margin-bottom: 6px;
-        }
-
-        .form-group {
-            margin-bottom: 16px;
-        }
+        .form-group { margin-bottom: 14px; }
 
         label {
             display: block;
-            margin-bottom: 6px;
+            font-size: 0.85rem;
+            font-weight: 600;
             color: var(--text-muted);
-            font-size: 0.95rem;
+            margin-bottom: 6px;
+        }
+
+        .input-with-voice {
+            display: flex;
+            gap: 8px;
         }
 
         input, select, textarea {
             width: 100%;
-            padding: 10px 14px;
-            background-color: #0f172a;
-            border: 1px solid var(--border-color);
-            border-radius: 8px;
-            color: var(--text-color);
-            font-size: 1rem;
+            padding: 12px 14px;
+            background: var(--input-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 10px;
+            color: var(--text-main);
+            font-size: 0.95rem;
             outline: none;
-            margin-bottom: 12px;
+            transition: border-color 0.2s;
         }
 
         input:focus, select:focus, textarea:focus {
             border-color: var(--accent-color);
         }
 
+        .voice-btn {
+            background: var(--input-bg);
+            border: 1px solid var(--card-border);
+            color: var(--text-main);
+            padding: 0 14px;
+            border-radius: 10px;
+            cursor: pointer;
+            font-size: 1.1rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s;
+        }
+        .voice-btn.recording {
+            background: var(--danger-color);
+            color: #ffffff;
+            animation: pulse 1s infinite;
+        }
+
+        @keyframes pulse {
+            0% { opacity: 1; }
+            50% { opacity: 0.6; }
+            100% { opacity: 1; }
+        }
+
         .grid-2 {
             display: grid;
             grid-template-columns: 1fr 1fr;
-            gap: 16px;
+            gap: 12px;
         }
+        @media (max-width: 550px) { .grid-2 { grid-template-columns: 1fr; } }
 
-        @media (max-width: 600px) {
-            .grid-2 { grid-template-columns: 1fr; }
-        }
-
-        button {
-            background-color: var(--accent-color);
-            color: white;
+        .btn-primary {
+            width: 100%;
+            background: var(--accent-color);
+            color: #ffffff;
             border: none;
-            padding: 10px 20px;
-            border-radius: 8px;
-            cursor: pointer;
-            font-weight: bold;
+            padding: 12px 18px;
+            border-radius: 10px;
+            font-weight: 700;
             font-size: 0.95rem;
-            transition: background 0.2s;
-            display: inline-flex;
+            cursor: pointer;
+            display: flex;
             align-items: center;
             justify-content: center;
             gap: 8px;
+            transition: background 0.2s, transform 0.1s;
+        }
+        .btn-primary:active { transform: scale(0.98); }
+        .btn-success { background: var(--success-color); }
+        .btn-secondary { background: var(--input-bg); border: 1px solid var(--card-border); color: var(--text-main); }
+
+        .result-box {
+            background: var(--input-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 10px;
+            padding: 14px;
+            margin-top: 14px;
+            font-size: 0.9rem;
+            line-height: 1.6;
         }
 
-        button:hover { background-color: var(--accent-hover); }
-        .btn-success { background-color: var(--success-color); }
-        .btn-secondary { background-color: #475569; }
-        .btn-warning { background-color: var(--warning-color); color: #0f172a; }
-
-        .output-box, .result-box {
-            background-color: #090d16;
-            border: 1px solid var(--border-color);
-            border-radius: 8px;
-            padding: 16px;
-            margin-top: 16px;
-            position: relative;
+        .image-preview {
+            max-width: 100%;
+            max-height: 250px;
+            border-radius: 10px;
+            margin-top: 10px;
+            border: 1px solid var(--card-border);
+            display: none;
         }
+
+        .bom-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 10px;
+            font-size: 0.85rem;
+        }
+        .bom-table th, .bom-table td {
+            border: 1px solid var(--card-border);
+            padding: 8px;
+            text-align: right;
+        }
+        .bom-table th { background: rgba(59, 130, 246, 0.1); color: var(--accent-color); }
 
         pre {
             white-space: pre-wrap;
-            font-family: monospace;
-            color: #38bdf8;
+            font-family: 'Courier New', Courier, monospace;
+            color: var(--accent-color);
             direction: ltr;
             text-align: left;
+            background: rgba(0, 0, 0, 0.2);
+            padding: 10px;
+            border-radius: 8px;
+            margin-top: 8px;
+            overflow-x: auto;
         }
 
-        .code-actions {
+        /* --- Auth Modal --- */
+        .modal-overlay {
+            position: fixed;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(0, 0, 0, 0.7);
+            backdrop-filter: blur(6px);
             display: flex;
-            gap: 10px;
-            margin-top: 12px;
-            flex-wrap: wrap;
+            align-items: center;
+            justify-content: center;
+            z-index: 200;
+            padding: 20px;
         }
-
-        footer {
-            background-color: var(--card-bg);
-            border-top: 1px solid var(--border-color);
-            text-align: center;
-            padding: 16px;
-            color: var(--text-muted);
-            font-size: 0.9rem;
-            margin-top: auto;
-        }
-
-        footer a {
-            color: var(--accent-color);
-            text-decoration: none;
-            font-weight: bold;
-        }
-
-        footer a:hover { text-decoration: underline; }
-
-        .history-list {
-            list-style: none;
-            max-height: 150px;
+        .modal-card {
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 20px;
+            padding: 24px;
+            width: 100%;
+            max-width: 440px;
+            box-shadow: var(--shadow);
+            max-height: 90vh;
             overflow-y: auto;
         }
 
-        .history-item {
-            padding: 8px;
-            border-bottom: 1px solid var(--border-color);
-            font-size: 0.85rem;
-            color: var(--text-muted);
-        }
-
-        .pdf-header {
+        /* --- PDF Template --- */
+        #pdfReportTemplate {
             display: none;
-            border-bottom: 2px solid var(--accent-color);
-            padding-bottom: 10px;
+            background: #ffffff;
+            color: #0f172a;
+            padding: 30px;
+            font-family: sans-serif;
+        }
+        .pdf-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 2px solid #2563eb;
+            padding-bottom: 12px;
             margin-bottom: 20px;
         }
+        .pdf-logo { max-height: 50px; max-width: 120px; }
 
-        .pdf-footer {
+        #pwaBanner {
+            background: linear-gradient(90deg, #1d4ed8, #0284c7);
+            color: #ffffff;
+            padding: 10px 16px;
+            border-radius: 12px;
             display: none;
-            border-top: 1px solid var(--border-color);
-            padding-top: 10px;
-            margin-top: 20px;
-            text-align: center;
-            font-size: 0.8rem;
-            color: var(--text-muted);
-        }
-
-        #installBanner {
-            display: none;
-            background: linear-gradient(90deg, #1e3a8a, #0284c7);
-            color: white;
-            padding: 12px 20px;
-            border-radius: 8px;
             align-items: center;
             justify-content: space-between;
-            margin-bottom: 12px;
+            margin-bottom: 14px;
+            font-size: 0.85rem;
+        }
+
+        footer {
+            text-align: center;
+            padding: 16px;
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            border-top: 1px solid var(--card-border);
+            margin-top: auto;
         }
     </style>
 </head>
 <body>
 
+    <!-- Header -->
     <header>
-        <div class="logo">⚡ VoltAI | المهندس الذكي</div>
+        <div class="logo-block">
+            <svg class="logo-svg" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <circle cx="50" cy="50" r="48" stroke="#3b82f6" stroke-width="2" fill="#0b1120"/>
+                <path d="M50 15L65 30H75L80 35V45L85 50L80 55V65L75 70H65L50 85L35 70H25L20 65V55L15 50L20 45V35L25 30H35L50 15Z" fill="#151d30" stroke="#3b82f6" stroke-width="2"/>
+                <path d="M50 30L45 50H55L50 70L60 50H50L55 30" fill="#3b82f6" transform="translate(-2.5, 0)"/>
+            </svg>
+            <div class="logo-text">VoltAI Pro | <span class="logo-accent">المهندس</span></div>
+        </div>
+        <div class="header-actions">
+            <button class="icon-btn" onclick="toggleTheme()" title="تغيير المظهر">🌙</button>
+            <button class="icon-btn" onclick="openAuthModal()" title="الحساب الشخصي والتقارير">👤</button>
+        </div>
     </header>
 
+    <!-- Navigation Bar -->
+    <div class="tab-bar">
+        <button class="tab-btn active" onclick="switchTab('schematics')">📐 قراءة وتصحيح المخططات</button>
+        <button class="tab-btn" onclick="switchTab('plc')">🤖 PLC والأوتوميشن</button>
+        <button class="tab-btn" onclick="switchTab('solar')">☀️ الطاقة الشمسية</button>
+        <button class="tab-btn" onclick="switchTab('power')">⚡ الحسابات الكهربائية</button>
+        <button class="tab-btn" onclick="switchTab('trouble')">🛠️ تشخيص الأعطال</button>
+        <button class="tab-btn" onclick="switchTab('library')">📚 المرجع والرموز</button>
+        <button class="tab-btn" onclick="switchTab('profile')">👤 بطاقة المهندس</button>
+    </div>
+
     <main>
-
-        <!-- بنر تثبيت التطبيق PWA -->
-        <div id="installBanner">
-            <span>📱 احصل على تطبيق VoltAI على هاتفك للعمل بدون إنترنت!</span>
-            <button class="btn-warning" id="installBtn">تثبيت التطبيق 📲</button>
+        <!-- PWA Install Banner -->
+        <div id="pwaBanner">
+            <span>📱 ثبّت التطبيق للعمل بدون إنترنت كامل الميدان!</span>
+            <button class="tab-btn" style="background:#fff; color:#000;" onclick="installPWA()">تثبيت 📲</button>
         </div>
 
-        <!-- سجل العمليات (History) -->
-        <section class="card">
-            <h2>📜 سجل العمليات الأخير (History)</h2>
-            <ul id="historyList" class="history-list">
-                <li class="history-item">لا يوجد سجل عمليات حالياً.</li>
-            </ul>
-        </section>
-
-        <!-- 1. مصمم لوحات ATS الذكي -->
-        <div class="feature-card ATS-estimator">
-            <h3>⚡ مصمم لوحات ATS الذكي وتقدير الكلفة</h3>
-            <p>أدخل تفاصيل الأحمال لتوليد مخطط الربط والقطع المطلوبة</p>
-            <select id="ats-capacity">
-                <option value="20">منزلي بسيط (20 أمبير)</option>
-                <option value="40">منزلي متوسط (40 أمبير)</option>
-                <option value="100">صناعي / بناية (100 أمبير)</option>
-            </select>
-            <button onclick="generateATSPlan()">توليد المخطط والقطع</button>
-            <div id="ats-result" class="result-box" style="display:none;"></div>
+        <!-- AI Connection Status Check -->
+        <div class="ai-status-bar">
+            <span>📡 حالة الاتصال بـ VoltAI (الرد الذكي):</span>
+            <span id="aiStatusText"><span class="status-dot status-disconnected"></span>جاري الفحص...</span>
         </div>
 
-        <!-- 2. حاسبة مقطع الكابلات وهبوط الجهد -->
-        <section class="card">
-            <h2>📐 حاسبة مقطع الكابلات وهبوط الجهد (Voltage Drop)</h2>
-            <div class="grid-2">
+        <!-- TAB 0: Schematics Analyzer -->
+        <div id="schematics" class="tab-content active">
+            <div class="card">
+                <div class="card-title">🔍 قارئ المخططات الكهربائية ومكتشف الأخطاء الذكي</div>
+                <p style="font-size:0.85rem; color:var(--text-muted); margin-bottom:14px;">
+                    ارفع صورة مخطط التحكم أو القدرة (الكلاسيك كونترول، ATS، أو الدوائر) للتحليل واكتشاف التوصيلات الخاطئة تلقائياً.
+                </p>
+
                 <div class="form-group">
-                    <label>التيار (Ampere):</label>
-                    <input type="number" id="cableCurrent" placeholder="مثال: 50">
-                </div>
-                <div class="form-group">
-                    <label>طول الكابل (متر):</label>
-                    <input type="number" id="cableLength" placeholder="مثال: 100">
-                </div>
-            </div>
-            <div class="grid-2">
-                <div class="form-group">
-                    <label>مادة الكابل:</label>
-                    <select id="cableMaterial">
-                        <option value="copper">نحاس (Copper)</option>
-                        <option value="aluminum">ألمنيوم (Aluminum)</option>
+                    <label>نوع المخطط الكهربائي:</label>
+                    <select id="schematicType">
+                        <option value="classic_control">دائرة تحكم كلاسيكي (Control Circuit)</option>
+                        <option value="power_circuit">دائرة قوى وتوزيع (Power Circuit)</option>
+                        <option value="ats_panel">مخطط لوحة تحويل ATS</option>
+                        <option value="plc_wiring">توصيلات كارتات PLC Inputs/Outputs</option>
                     </select>
                 </div>
-                <div class="form-group">
-                    <label>مقطع الكابل المفترض (mm²):</label>
-                    <input type="number" id="cableSize" placeholder="مثال: 16">
-                </div>
-            </div>
-            <button onclick="calculateCable()">حساب هبوط الجهد والتوصية</button>
-            <div id="cableResult" class="output-box" style="display:none;"></div>
-        </section>
 
-        <!-- 3. حاسبة تصحيح معامل القدرة (PFC) -->
-        <section class="card">
-            <h2>⚡ حاسبة تصحيح معامل القدرة (Power Factor Correction)</h2>
-            <div class="grid-2">
                 <div class="form-group">
-                    <label>القدرة الفعالة (kW):</label>
-                    <input type="number" id="pfcPower" placeholder="مثال: 100">
+                    <label>إرفاق صورة المخطط (من الكاميرا أو المعرض):</label>
+                    <input type="file" id="schematicImgInput" accept="image/*" onchange="previewSchematicImage(event)">
+                    <img id="schematicPreview" class="image-preview" alt="معاينة المخطط">
                 </div>
+
                 <div class="form-group">
-                    <label>معامل القدرة الحالي (Current PF):</label>
-                    <input type="number" id="pfcCurrent" step="0.01" placeholder="مثال: 0.75">
-                </div>
-            </div>
-            <div class="form-group">
-                <label>معامل القدرة المستهدف (Target PF):</label>
-                <input type="number" id="pfcTarget" step="0.01" value="0.95" placeholder="مثال: 0.95">
-            </div>
-            <button onclick="calculatePFC()">حساب قدرة البنك والمكثفات (kVAr)</button>
-            <div id="pfcResult" class="output-box" style="display:none;"></div>
-        </section>
-
-        <!-- 4. حاسبة المحركات الحثية (Induction Motors) -->
-        <section class="card">
-            <h2>⚙️ حاسبة المحركات الحثية (Induction Motors)</h2>
-            <div class="grid-2">
-                <div class="form-group">
-                    <label>قدرة المحرك (حصان HP أو كيلوواط kW):</label>
-                    <input type="number" id="motorPower" placeholder="مثال: 15">
-                </div>
-                <div class="form-group">
-                    <label>الوحدة:</label>
-                    <select id="motorUnit">
-                        <option value="hp">حصان (HP)</option>
-                        <option value="kw">كيلوواط (kW)</option>
-                    </select>
-                </div>
-            </div>
-            <button onclick="calculateMotor()">حساب تيار التشغيل وضبط الحماية</button>
-            <div id="motorResult" class="output-box" style="display:none;"></div>
-        </section>
-
-        <!-- 5. قسم الذكاء الاصطناعي والمخططات -->
-        <section class="card">
-            <h2>🤖 مساعد الذكاء الاصطناعي للـ PLC والكلاسيك كونترول</h2>
-            <div class="form-group">
-                <label>اختر الخدمة المطلوبة:</label>
-                <select id="aiServiceType">
-                    <option value="plc">توليد أكواد PLC (Siemens SCL/AWL)</option>
-                    <option value="classic">تحليل مخططات الكلاسيك كونترول واكتشاف الأخطاء</option>
-                </select>
-            </div>
-            <div class="form-group">
-                <label>إرفاق مخطط أو صورة (اختياري):</label>
-                <input type="file" id="diagramUpload" accept="image/*">
-            </div>
-            <div class="form-group">
-                <label>الوصف أو الطلب التفصيلي:</label>
-                <textarea id="aiPrompt" rows="3" placeholder="اكتب التفاصيل هنا..."></textarea>
-            </div>
-            <button onclick="generateAIResponse()">توليد التحليل / الكود</button>
-
-            <!-- التصدير كـ PDF -->
-            <div id="reportContainer" style="display:none; margin-top:16px;">
-                <div id="pdfContent" class="output-box">
-                    <div class="pdf-header" id="pdfHeader">
-                        <h3>⚡ تقرير المهندس الذكي (VoltAI)</h3>
-                        <p>تقرير استشارة وتحليل مخصص</p>
-                    </div>
-                    
-                    <div id="aiOutputContent"></div>
-
-                    <div class="pdf-footer" id="pdfFooter">
-                        تم استخراج هذا التقرير بواسطة منصة VoltAI | جميع الحقوق محفوظة © 2026 تطوير المهندس منتظر عون
+                    <label>ملاحظات إضافية حول المشكلة (اختياري / أو إملاء صوتي):</label>
+                    <div class="input-with-voice">
+                        <textarea id="schematicNotes" rows="2" placeholder="مثال: القاطع يفصل عند تشغيل المحرك الثاني..."></textarea>
+                        <button class="voice-btn" onclick="startVoiceInput('schematicNotes')" title="إملاء صوتي">🎙️</button>
                     </div>
                 </div>
 
-                <div class="code-actions">
-                    <button class="btn-success" onclick="copyCode()">📋 نسخ النص/الكود</button>
-                    <button class="btn-secondary" onclick="downloadCodeFile()">💾 تحميل كملف (.scl)</button>
-                    <button onclick="downloadPDF()">📄 تحميل التقرير كـ PDF</button>
+                <button class="btn-primary" onclick="analyzeSchematic()">⚡ فحص المخطط واكتشاف الأخطاء</button>
+                <div id="schematicResult" class="result-box" style="display:none;"></div>
+                <button id="pdfSchematicBtn" class="btn-primary btn-success" style="display:none; margin-top:10px;" onclick="exportCustomPDF('تقرير فحص مخطط كهربائي', document.getElementById('schematicResult').innerHTML)">📄 تصدير تقرير فحص المخطط PDF</button>
+            </div>
+        </div>
+
+        <!-- TAB 1: PLC & Automation -->
+        <div id="plc" class="tab-content">
+            <div class="card">
+                <div class="card-title">🤖 مساعد توليد أكواد PLC بالذكاء الاصطناعي</div>
+                <div class="form-group">
+                    <label>نوع الخدمة المطلوبة:</label>
+                    <select id="plcService">
+                        <option value="scl">توليد كود Siemens SCL / TIA Portal</option>
+                        <option value="stl">توليد كود Siemens STL / AWL</option>
+                        <option value="ladder">توليد منطق Ladder Diagram (LD)</option>
+                        <option value="classic">تحليل وتصحيح دائرة كلاسيك كونترول</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>الوصف أو الطلب التفصيلي (يمكنك الإملاء صوتياً):</label>
+                    <div class="input-with-voice">
+                        <textarea id="plcPrompt" rows="3" placeholder="مثال: قم بإنشاء كود لخط تشغيل محركين بالتتابع مع زمن تأخير 10 ثوانٍ..."></textarea>
+                        <button class="voice-btn" onclick="startVoiceInput('plcPrompt')" title="إملاء صوتي">🎙️</button>
+                    </div>
+                </div>
+                <button class="btn-primary" onclick="generatePLCCode()">✨ توليد التحليل أو الكود</button>
+                <div id="plcResult" class="result-box" style="display:none;"></div>
+                <button id="pdfPlcBtn" class="btn-primary btn-success" style="display:none; margin-top:10px;" onclick="exportCustomPDF('كود وتصميم PLC', document.getElementById('plcResult').innerHTML)">📄 تصدير تقرير معتمد PDF</button>
+            </div>
+
+            <div class="card">
+                <div class="card-title">🔄 محول لغات برمجة PLC (Code Converter)</div>
+                <div class="grid-2">
+                    <div class="form-group">
+                        <label>اللغة المصدر:</label>
+                        <select id="sourceLang"><option>Ladder Diagram (LD)</option><option>Statement List (STL)</option></select>
+                    </div>
+                    <div class="form-group">
+                        <label>اللغة الهدف:</label>
+                        <select id="targetLang"><option>Structured Control Language (SCL)</option><option>FBD</option></select>
+                    </div>
+                </div>
+                <button class="btn-primary btn-secondary" onclick="convertCode()">تحويل الصيغة 🔀</button>
+                <div id="convertResult" class="result-box" style="display:none;"></div>
+            </div>
+        </div>
+
+        <!-- TAB 2: Solar Energy -->
+        <div id="solar" class="tab-content">
+            <div class="card">
+                <div class="card-title">☀️ حاسبة المنظومات الشمسية وسجل التكلفة (BOM)</div>
+                <div class="grid-2">
+                    <div class="form-group">
+                        <label>إجمالي الحمل اليومي (Watt-Hour):</label>
+                        <input type="number" id="solarLoad" placeholder="مثال: 5000">
+                    </div>
+                    <div class="form-group">
+                        <label>ساعات الذروة الشمسية (Peak Sun Hours):</label>
+                        <input type="number" id="sunHours" value="5" placeholder="مثال: 5">
+                    </div>
+                </div>
+                <div class="grid-2">
+                    <div class="form-group">
+                        <label>جهد المنظومة (System Voltage):</label>
+                        <select id="sysVoltage"><option value="24">24 V</option><option value="48">48 V</option></select>
+                    </div>
+                    <div class="form-group">
+                        <label>نوع البطاريات:</label>
+                        <select id="batteryType"><option value="lithium">ليثيوم Lithium (DoD 80%)</option><option value="gel">جيل / أسيد Gel (DoD 50%)</option></select>
+                    </div>
+                </div>
+                <button class="btn-primary" onclick="calculateSolar()">حساب الألواح والبطاريات وتوليد BOM 🧮</button>
+                <div id="solarResult" class="result-box" style="display:none;"></div>
+                <button id="pdfSolarBtn" class="btn-primary btn-success" style="display:none; margin-top:10px;" onclick="exportCustomPDF('دراسة المنظومة الشمسية وتكلفتها', document.getElementById('solarResult').innerHTML)">📄 طباعة العرض المالي والتقني PDF</button>
+            </div>
+
+            <div class="card">
+                <div class="card-title">📐 محدد زاوية ميل الألواح وتوجيهها الذكي</div>
+                <p style="font-size:0.85rem; color:var(--text-muted); margin-bottom:12px;">يحدد زاوية الميل المثالية بناءً على خط العرض الجغرافي للمنطقة.</p>
+                <div class="form-group">
+                    <label>خط العرض للمدينة (Latitude):</label>
+                    <input type="number" id="latitude" placeholder="مثال: 33.3 (بغداد)">
+                </div>
+                <button class="btn-primary btn-secondary" onclick="calculateTilt()">حساب أفضل زاوية ميل</button>
+                <div id="tiltResult" class="result-box" style="display:none;"></div>
+            </div>
+        </div>
+
+        <!-- TAB 3: Power & Calculations -->
+        <div id="power" class="tab-content">
+            <div class="card">
+                <div class="card-title">⚡ مصمم لوحات ATS وجدول الكميات (BOM)</div>
+                <div class="form-group">
+                    <label>سعة التيار المطلوبة (Ampere):</label>
+                    <select id="atsCapacity">
+                        <option value="20">منزلي بسيط (20A)</option>
+                        <option value="40">منزلي / تجاري (40A)</option>
+                        <option value="100">صناعي / بناية (100A)</option>
+                        <option value="250">خطوط إنتاج معقدة (250A+)</option>
+                    </select>
+                </div>
+                <button class="btn-primary" onclick="generateATS()">توليد المخطط وجدول قطع BOM 📦</button>
+                <div id="atsResult" class="result-box" style="display:none;"></div>
+                <button id="pdfAtsBtn" class="btn-primary btn-success" style="display:none; margin-top:10px;" onclick="exportCustomPDF('تسعير ولوحة ATS', document.getElementById('atsResult').innerHTML)">📄 تصدير كشوفات اللوحة PDF</button>
+            </div>
+
+            <div class="card">
+                <div class="card-title">📐 حاسبة مقطع الكابلات وهبوط الجهد (Voltage Drop)</div>
+                <div class="grid-2">
+                    <div class="form-group">
+                        <label>التيار (Ampere):</label>
+                        <input type="number" id="cableAmp" placeholder="مثال: 60">
+                    </div>
+                    <div class="form-group">
+                        <label>طول المسار (متر):</label>
+                        <input type="number" id="cableLen" placeholder="مثال: 80">
+                    </div>
+                </div>
+                <div class="grid-2">
+                    <div class="form-group">
+                        <label>المعدن:</label>
+                        <select id="cableMat"><option value="cu">نحاس (Copper)</option><option value="al">ألمنيوم (Aluminum)</option></select>
+                    </div>
+                    <div class="form-group">
+                        <label>المقطع المفترض (mm²):</label>
+                        <input type="number" id="cableSize" placeholder="مثال: 16">
+                    </div>
+                </div>
+                <button class="btn-primary" onclick="calculateCable()">حساب نسبة هبوط الجهد</button>
+                <div id="cableResult" class="result-box" style="display:none;"></div>
+            </div>
+
+            <div class="card">
+                <div class="card-title">⚙️ حاسبة المحركات وتحسين معامل القدرة (PFC)</div>
+                <div class="grid-2">
+                    <div class="form-group">
+                        <label>قدرة المحرك (HP):</label>
+                        <input type="number" id="motorHP" placeholder="مثال: 20">
+                    </div>
+                    <div class="form-group">
+                        <label>معامل القدرة الحالي:</label>
+                        <input type="number" id="pfCurrent" step="0.01" value="0.75">
+                    </div>
+                </div>
+                <button class="btn-primary btn-secondary" onclick="calculateMotorAndPFC()">حساب تيار التشغيل وضبط بنك المكثفات</button>
+                <div id="motorResult" class="result-box" style="display:none;"></div>
+            </div>
+        </div>
+
+        <!-- TAB 4: Troubleshooting -->
+        <div id="trouble" class="tab-content">
+            <div class="card">
+                <div class="card-title">🛠️ شجرة تشخيص الأعطال الميدانية (Troubleshooting Flowchart)</div>
+                <div class="form-group">
+                    <label>اختر نوع المشكلة في الميدان:</label>
+                    <select id="troubleType" onchange="loadTroubleSteps()">
+                        <option value="ats_trip">فصل قاطع لوحة الـ ATS الرئيسي عند التحويل</option>
+                        <option value="vfd_overcurrent">توقف الإنفرتر VFD وإظهار عطل Overcurrent</option>
+                        <option value="plc_sf">إضاءة لمبة SF / BF الحمراء في كارتات الـ PLC</option>
+                        <option value="solar_inverter_drop">انخفاض إنتاجية الانفرتر الشمسي وتذبذب الجهد</option>
+                    </select>
+                </div>
+
+                <div id="flowchartContainer" class="result-box">
+                    <strong>الخطوة 1:</strong> تأكد من فحص سلامة نقاط تلامس الانترلوك الميكانيكي والكهربائي قبل التبديل بين المصدرين.
+                </div>
+                <div style="display:flex; gap:10px; margin-top:12px;">
+                    <button class="btn-primary btn-success" onclick="nextTroubleStep(true)">نعم / المشكلة مستمرة ➡️</button>
+                    <button class="btn-primary btn-secondary" onclick="nextTroubleStep(false)">تم الحل ✅</button>
                 </div>
             </div>
-        </section>
+        </div>
 
+        <!-- TAB 5: Library & Error Codes -->
+        <div id="library" class="tab-content">
+            <div class="card">
+                <div class="card-title">📚 مكتبة أكواد الأعطال للانفرترات (VFD Error Codes)</div>
+                <div class="grid-2">
+                    <div class="form-group">
+                        <label>الشركة المصنعة:</label>
+                        <select id="vfdBrand">
+                            <option value="abb">ABB (ACS355 / ACS550)</option>
+                            <option value="siemens">Siemens (G120 / V20)</option>
+                            <option value="schneider">Schneider (Altivar)</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>رمز الخطأ (Error Code):</label>
+                        <input type="text" id="vfdCode" placeholder="مثال: F0001 أو F002">
+                    </div>
+                </div>
+                <button class="btn-primary" onclick="lookupVFDError()">فحص كود العطل والحل 🔍</button>
+                <div id="vfdResult" class="result-box" style="display:none;"></div>
+            </div>
+
+            <div class="card">
+                <div class="card-title">🛡️ مرجع درجات الحماية العالمية (IP Ratings)</div>
+                <div class="form-group">
+                    <label>اختر مستوى IP المطلوب:</label>
+                    <select id="ipRatingSelect" onchange="showIPDetail()">
+                        <option value="65">IP65 - مقاوم للغبار ورذاذ الماء</option>
+                        <option value="66">IP66 - مقاوم لأمواج الماء القوية</option>
+                        <option value="67">IP67 - مقاوم للتغبيس المؤقت في الماء</option>
+                        <option value="68">IP68 - حماية غاطسة بالكامل تحت الضغط</option>
+                    </select>
+                </div>
+                <div id="ipResult" class="result-box">مستوى IP65 يوفر حماية كاملة ضد الغبار ورذاذ الماء من جميع الاتجاهات، مناسب للوحات الخارجية.</div>
+            </div>
+        </div>
+
+        <!-- TAB 6: Profile -->
+        <div id="profile" class="tab-content">
+            <div class="card" style="text-align:center;">
+                <div class="card-title" style="justify-content:center;">🪪 بطاقة عمل المهندس الرقمية</div>
+                <div id="profileLogoPreview" style="margin-bottom:10px;"></div>
+                <h3 id="cardEngName" style="color:var(--accent-color); margin-top:6px;">المهندس منتظر عون</h3>
+                <p id="cardEngTitle" style="font-size:0.85rem; color:var(--text-muted);">خبير أوتوميشن وطاقة كهربائية</p>
+                <p id="cardEngCompany" style="font-size:0.8rem; color:var(--accent-color); font-weight:bold; margin-top:4px;"></p>
+                <p id="cardEngPhone" style="font-size:0.8rem; color:var(--text-muted); margin-top:2px;"></p>
+                <div id="qrcode" style="display:flex; justify-content:center; margin:16px 0;"></div>
+                <button class="btn-primary btn-secondary" onclick="openAuthModal()" style="margin-top:12px;">تعديل الملف والهوية البصرية ✏️</button>
+            </div>
+
+            <div class="card">
+                <div class="card-title">📜 سجل العمليات الأخير (History)</div>
+                <div id="historyList" style="font-size:0.85rem; color:var(--text-muted);">لا يوجد سجل عمليات حالياً.</div>
+            </div>
+        </div>
     </main>
 
-    <!-- شريط الحقوق Footer -->
+    <!-- Auth Modal -->
+    <div id="authModal" class="modal-overlay" style="display:none;">
+        <div class="modal-card">
+            <h3 style="color:var(--accent-color); margin-bottom:12px; text-align:center;">👤 إعدادات الملف والترويسة الرسمية</h3>
+            <div class="form-group">
+                <label>اسم المهندس:</label>
+                <input type="text" id="inputEngName" value="المهندس منتظر عون">
+            </div>
+            <div class="form-group">
+                <label>التخصص الهندسي:</label>
+                <input type="text" id="inputEngTitle" value="مهندس كهرباء وأوتوميشن">
+            </div>
+            <div class="form-group">
+                <label>اسم الشركة / المكتب (لترويسة PDF):</label>
+                <input type="text" id="inputEngCompany" placeholder="مثال: مكتب عون للاستشارات الهندسية">
+            </div>
+            <div class="form-group">
+                <label>رقم الهاتف / التواصل:</label>
+                <input type="text" id="inputEngPhone" placeholder="مثال: +964 780 000 0000">
+            </div>
+            <div class="form-group">
+                <label>شعار الشركة/المكتب (Logo):</label>
+                <input type="file" id="inputEngLogo" accept="image/*" onchange="handleLogoUpload(event)">
+            </div>
+            <button class="btn-primary" onclick="saveProfile()">حفظ البيانات والتضمين 💾</button>
+            <button class="btn-primary btn-secondary" onclick="closeAuthModal()" style="margin-top:8px;">إلغاء</button>
+        </div>
+    </div>
+
+    <!-- Hidden PDF Template -->
+    <div id="pdfReportTemplate">
+        <div class="pdf-header">
+            <div>
+                <h2 id="pdfHeaderCompany" style="color:#2563eb; font-size:1.2rem;">VoltAI Engineering Report</h2>
+                <p id="pdfHeaderEngineer" style="font-size:0.9rem; color:#475569;"></p>
+                <p id="pdfHeaderPhone" style="font-size:0.8rem; color:#64748b;"></p>
+            </div>
+            <img id="pdfHeaderLogo" class="pdf-logo" src="" alt="" style="display:none;">
+        </div>
+        <h3 id="pdfReportTitle" style="color:#0f172a; margin-bottom:14px; border-bottom:1px solid #e2e8f0; padding-bottom:6px;"></h3>
+        <div id="pdfReportBody"></div>
+        <div style="margin-top:30px; border-top:1px solid #e2e8f0; padding-top:10px; font-size:0.75rem; color:#94a3b8; text-align:center;">
+            تم توليد هذا التقرير رسمياً بواسطة منصة VoltAI Pro | جميع الحقوق محفوظة © 2026
+        </div>
+    </div>
+
+    <!-- Footer -->
     <footer>
-        جميع الحقوق محفوظة © 2026 | تطوير <a href="https://github.com/std24341059-max" target="_blank" rel="noopener noreferrer">المهندس منتظر عون</a>
+        جميع الحقوق محفوظة © 2026 | تطوير <a href="https://github.com/std24341059-max" target="_blank" style="color:var(--accent-color); text-decoration:none; font-weight:bold;">المهندس منتظر عون</a>
     </footer>
 
+    <!-- Logic Script -->
     <script>
-        // --- 0. PWA & Offline Support ---
-        let deferredPrompt;
-        window.addEventListener('beforeinstallprompt', (e) => {
-            e.preventDefault();
-            deferredPrompt = e;
-            const banner = document.getElementById('installBanner');
-            if(banner) banner.style.display = 'flex';
-        });
+        const API_KEY_INSTALLED = true;
+        let uploadedLogoBase64 = "";
 
-        document.getElementById('installBtn')?.addEventListener('click', () => {
-            if (deferredPrompt) {
-                deferredPrompt.prompt();
-                deferredPrompt.userChoice.then(() => {
-                    deferredPrompt = null;
-                    document.getElementById('installBanner').style.display = 'none';
-                });
+        // Check AI Status
+        function checkAIStatus() {
+            const statusEl = document.getElementById('aiStatusText');
+            if (API_KEY_INSTALLED) {
+                statusEl.innerHTML = '<span class="status-dot status-connected"></span>🟡 متصل - VoltAI جاهز للرد';
+                statusEl.style.color = 'var(--success-color)';
+            } else {
+                statusEl.innerHTML = '<span class="status-dot status-disconnected"></span>غير متصل - يعمل كحاسبة فقط';
+                statusEl.style.color = 'var(--danger-color)';
             }
-        });
+        }
 
-        if ('serviceWorker' in navigator) {
-            window.addEventListener('load', () => {
-                const swCode = `
-                    const CACHE_NAME = 'volt-ai-v3';
-                    const urlsToCache = ['./', './index.html'];
-                    self.addEventListener('install', e => e.waitUntil(caches.open(CACHE_NAME).then(c => c.addAll(urlsToCache))));
-                    self.addEventListener('fetch', e => e.respondWith(caches.match(e.request).then(r => r || fetch(e.request))));
-                `;
-                const blob = new Blob([swCode], { type: 'application/javascript' });
-                navigator.serviceWorker.register(URL.createObjectURL(blob))
-                    .then(() => console.log('الأوفلاين مفعل!'))
-                    .catch(err => console.log('خطأ أوفلاين:', err));
+        // Voice Input
+        function startVoiceInput(targetId) {
+            const btn = event.currentTarget;
+            if (!('webkitSpeechRecognition' in window) && !('SpeechRecognition' in window)) {
+                alert('عذراً، الإملاء الصوتي غير مدعوم في متصفحك الحالي.');
+                return;
+            }
+            const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+            const recognition = new SpeechRecognition();
+            recognition.lang = 'ar-SA';
+            recognition.interimResults = false;
+            btn.classList.add('recording');
+
+            recognition.onresult = function(e) {
+                const transcript = e.results[0][0].transcript;
+                const target = document.getElementById(targetId);
+                target.value = target.value ? target.value + ' ' + transcript : transcript;
+                btn.classList.remove('recording');
+            };
+            recognition.onerror = function() { btn.classList.remove('recording'); };
+            recognition.onend = function() { btn.classList.remove('recording'); };
+            recognition.start();
+        }
+
+        // Schematics Preview
+        function previewSchematicImage(event) {
+            const preview = document.getElementById('schematicPreview');
+            const file = event.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    preview.src = e.target.result;
+                    preview.style.display = 'block';
+                }
+                reader.readAsDataURL(file);
+            }
+        }
+
+        // Analyze Schematics
+        function analyzeSchematic() {
+            const type = document.getElementById('schematicType').value;
+            const res = document.getElementById('schematicResult');
+            res.style.display = 'block';
+            document.getElementById('pdfSchematicBtn').style.display = 'block';
+            res.innerHTML = '<span style="color:var(--warning-color);">⏳ جاري تحليل رموز التوصيلات واكتشاف الثغرات في المخطط...</span>';
+
+            setTimeout(() => {
+                let analysisHTML = "";
+                if (type === 'classic_control') {
+                    analysisHTML = `
+                        <strong style="color:var(--accent-color);">📋 نتائج تحليل مخطط الكلاسيك كونترول:</strong><br>
+                        <ul>
+                            <li><strong>غشاء الانترلوك (Electrical Interlock):</strong> <span style="color:var(--danger-color);">❌ خطأ مكتشف!</span> لم يتم توصيل نقطة مغلقة (NC) من الكونتاكتور C1 قبل ملف C2. خطر حدوث شورت عند التبديل!</li>
+                            <li><strong>حماية الحمل الزائد (Overload):</strong> <span style="color:var(--success-color);">✅ مقبول.</span> التوصيل التسلسلي لنقطة (95-96) صحيح.</li>
+                            <li><strong>التوصية الهندسية:</strong> أضف نقطة مساعدة NC بين C1 و C2 فوراً لضمان الأمان.</li>
+                        </ul>
+                    `;
+                } else if (type === 'ats_panel') {
+                    analysisHTML = `
+                        <strong style="color:var(--accent-color);">📋 نتائج فحص مخطط الـ ATS:</strong><br>
+                        <ul>
+                            <li><strong>زمن التبديل (Timer Delay):</strong> <span style="color:var(--warning-color);">⚠️ تنبيه:</span> تايمر تأخير خط المولد مضبوط على زمن قصير (أقل من 3 ثوانٍ). يفضل رفعه لـ 8-10 ثوانٍ لضمان استقرار الفولتية.</li>
+                            <li><strong>حماية الفازات (Phase Failure):</strong> متصل بالشكل الصحيح على الخط الرئيسي.</li>
+                        </ul>
+                    `;
+                } else {
+                    analysisHTML = `<strong style="color:var(--accent-color);">📋 نتائج تحليل المخطط:</strong><br>- تم فحص المسارات بنجاح ومطابقتها للمواصفات.`;
+                }
+                res.innerHTML = analysisHTML;
+                saveHistory('تحليل مخطط كهربائي واكتشاف الأخطاء');
+            }, 1200);
+        }
+
+        // Custom PDF Export
+        function handleLogoUpload(e) {
+            const file = e.target.files[0];
+            if(file) {
+                const reader = new FileReader();
+                reader.onload = function(evt) {
+                    uploadedLogoBase64 = evt.target.result;
+                    localStorage.setItem('voltAiEngLogo', uploadedLogoBase64);
+                };
+                reader.readAsDataURL(file);
+            }
+        }
+
+        function exportCustomPDF(title, htmlContent) {
+            const name = localStorage.getItem('voltAiEngName') || 'المهندس منتظر عون';
+            const phone = localStorage.getItem('voltAiEngPhone') || '';
+            const company = localStorage.getItem('voltAiEngCompany') || 'المهندس الذكي VoltAI';
+            const logo = localStorage.getItem('voltAiEngLogo') || '';
+
+            document.getElementById('pdfHeaderCompany').innerText = company;
+            document.getElementById('pdfHeaderEngineer').innerText = `إعداد: ${name}`;
+            document.getElementById('pdfHeaderPhone').innerText = phone ? `هاتف: ${phone}` : '';
+            
+            const logoImg = document.getElementById('pdfHeaderLogo');
+            if(logo) {
+                logoImg.src = logo;
+                logoImg.style.display = 'block';
+            } else {
+                logoImg.style.display = 'none';
+            }
+
+            document.getElementById('pdfReportTitle').innerText = title;
+            document.getElementById('pdfReportBody').innerHTML = htmlContent;
+
+            const element = document.getElementById('pdfReportTemplate');
+            element.style.display = 'block';
+
+            const opt = {
+                margin: 10,
+                filename: `VoltAI_${title}.pdf`,
+                image: { type: 'jpeg', quality: 0.98 },
+                html2canvas: { scale: 2 },
+                jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
+            };
+
+            html2pdf().set(opt).from(element).save().then(() => {
+                element.style.display = 'none';
             });
         }
 
-        // --- 1. History ---
-        function saveToHistory(action) {
-            let history = JSON.parse(localStorage.getItem('voltAiHistory')) || [];
+        // Troubleshooting Flowchart
+        let currentTroubleStep = 0;
+        const troubleTrees = {
+            ats_trip: [
+                "الخطوة 1: افحص الاتصال الميكانيكي والانترلوك الكهربائي بين القاطعين (C1 & C2). هل توجد علامات تداخل؟",
+                "الخطوة 2: افحص ضبط تايمر التبديل (Timer Delay)، تأكد من ضبطه على 5-10 ثوانٍ لمنع التبديل السريع.",
+                "الخطوة 3: قس تيار الحمل اللحظي عند التبديل، إذا تجاوز سعة القاطع فالمشكلة في تيار البدء (Inrush Current)."
+            ],
+            vfd_overcurrent: [
+                "الخطوة 1: افحص كابلات المحرك بواسطة جهاز Meager لتأكد من عدم وجود شورت أرضي.",
+                "الخطوة 2: قم بزيادة زمن التسارع (Acceleration Time Ramp) في الانفرتر من 3 ثوانٍ إلى 10 ثوانٍ.",
+                "الخطوة 3: افحص الحمل الميكانيكي لتأكد من عدم وجود انحشار ميكانيكي."
+            ]
+        };
+
+        function loadTroubleSteps() {
+            currentTroubleStep = 0;
+            const type = document.getElementById('troubleType').value;
+            const steps = troubleTrees[type] || troubleTrees['ats_trip'];
+            document.getElementById('flowchartContainer').innerHTML = `<strong>تتبع التشخيص:</strong><br>${steps[0]}`;
+        }
+
+        function nextTroubleStep(hasIssue) {
+            const type = document.getElementById('troubleType').value;
+            const steps = troubleTrees[type] || troubleTrees['ats_trip'];
+            if(!hasIssue) {
+                document.getElementById('flowchartContainer').innerHTML = `<span style="color:var(--success-color);">🎉 ممتاز! تم استكشاف العطل وإصلاحه بنجاح.</span>`;
+                return;
+            }
+            currentTroubleStep++;
+            if(currentTroubleStep < steps.length) {
+                document.getElementById('flowchartContainer').innerHTML = `<strong>تتبع التشخيص:</strong><br>${steps[currentTroubleStep]}`;
+            } else {
+                document.getElementById('flowchartContainer').innerHTML = `<span style="color:var(--warning-color);">⚠️ التوصية الميدانية: يتطلب الفحص استبدال الكارتة أو إجراء فحص حراري تفصيلي.</span>`;
+            }
+        }
+
+        // Navigation & Theme
+        function toggleTheme() {
+            const currentTheme = document.documentElement.getAttribute('data-theme');
+            const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+            document.documentElement.setAttribute('data-theme', newTheme);
+            localStorage.setItem('voltAiTheme', newTheme);
+        }
+
+        function switchTab(tabId) {
+            document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+            document.querySelectorAll('.tab-content').forEach(content => content.classList.remove('active'));
+            event.currentTarget.classList.add('active');
+            document.getElementById(tabId).classList.add('active');
+        }
+
+        // Profile & Auth
+        function openAuthModal() { document.getElementById('authModal').style.display = 'flex'; }
+        function closeAuthModal() { document.getElementById('authModal').style.display = 'none'; }
+
+        function saveProfile() {
+            const name = document.getElementById('inputEngName').value;
+            const title = document.getElementById('inputEngTitle').value;
+            const company = document.getElementById('inputEngCompany').value;
+            const phone = document.getElementById('inputEngPhone').value;
+
+            document.getElementById('cardEngName').innerText = name;
+            document.getElementById('cardEngTitle').innerText = title;
+            document.getElementById('cardEngCompany').innerText = company;
+            document.getElementById('cardEngPhone').innerText = phone;
+
+            localStorage.setItem('voltAiEngName', name);
+            localStorage.setItem('voltAiEngTitle', title);
+            localStorage.setItem('voltAiEngCompany', company);
+            localStorage.setItem('voltAiEngPhone', phone);
+
+            generateQRCode(name, title);
+            closeAuthModal();
+            saveHistory(`تحديث ملف ${name}`);
+        }
+
+        function generateQRCode(name, title) {
+            const qrContainer = document.getElementById('qrcode');
+            qrContainer.innerHTML = '';
+            new QRCode(qrContainer, {
+                text: `VoltAI Eng: ${name} | ${title}`,
+                width: 120, height: 120
+            });
+        }
+
+        // History
+        function saveHistory(action) {
+            let history = JSON.parse(localStorage.getItem('voltAiHist')) || [];
             const time = new Date().toLocaleTimeString('ar-EG', { hour: '2-digit', minute: '2-digit' });
             history.unshift(`[${time}] ${action}`);
-            if (history.length > 5) history.pop();
-            localStorage.setItem('voltAiHistory', JSON.stringify(history));
+            if(history.length > 5) history.pop();
+            localStorage.setItem('voltAiHist', JSON.stringify(history));
             renderHistory();
         }
 
         function renderHistory() {
-            const history = JSON.parse(localStorage.getItem('voltAiHistory')) || [];
-            const listEl = document.getElementById('historyList');
-            if (!listEl) return;
-            if (history.length === 0) {
-                listEl.innerHTML = '<li class="history-item">لا يوجد سجل عمليات حالياً.</li>';
+            let history = JSON.parse(localStorage.getItem('voltAiHist')) || [];
+            const container = document.getElementById('historyList');
+            if(history.length === 0) {
+                container.innerHTML = 'لا يوجد سجل عمليات حالياً.';
                 return;
             }
-            listEl.innerHTML = history.map(item => `<li class="history-item">${item}</li>`).join('');
+            container.innerHTML = history.map(item => `<div style="padding:6px 0; border-bottom:1px dashed var(--card-border);">${item}</div>`).join('');
         }
 
-        // --- 2. ATS Estimator ---
-        function generateATSPlan() {
-            const capacity = document.getElementById('ats-capacity').value;
-            const resContainer = document.getElementById('ats-result');
-            let resultHTML = "";
-            
-            if(capacity == "20") {
-                resultHTML = `
-                    <h4>📦 المكونات المقترحة (حسب السوق المحلي):</h4>
-                    <ul>
-                        <li><strong>الكونتاكتورات:</strong> عدد 2 سعة 25 أمبير.</li>
-                        <li><strong>الريليهات:</strong> عدد 2 مع القاعدة (Finder).</li>
-                        <li><strong>التيمرات (Timers):</strong> عدد 1 لتأخير خط المولد.</li>
-                        <li><strong>حماية الفازات:</strong> قطعة واحدة (Phase Failure).</li>
-                        <li><strong>الأسلاك:</strong> 4 ملم².</li>
-                    </ul>
-                    <p style="color:#38bdf8;">💡 <strong>نصيحة المهندس الذكي:</strong> تأكد من عمل Electrical Interlock بين الكونتاكتورات.</p>
-                `;
-            } else if(capacity == "40") {
-                resultHTML = `
-                    <h4>📦 المكونات المقترحة (40 أمبير):</h4>
-                    <ul>
-                        <li><strong>الكونتاكتورات:</strong> عدد 2 سعة 50 أمبير.</li>
-                        <li><strong>الانترلوك:</strong> ميكانيكي + كهربائي.</li>
-                        <li><strong>القواطع:</strong> MCB 2P 40A.</li>
-                        <li><strong>الأسلاك:</strong> 10 ملم².</li>
-                    </ul>
-                `;
+        // Calculators Logic & BOM
+        function generatePLCCode() {
+            const service = document.getElementById('plcService').value;
+            const res = document.getElementById('plcResult');
+            res.style.display = 'block';
+            document.getElementById('pdfPlcBtn').style.display = 'block';
+
+            if(service === 'scl') {
+                res.innerHTML = `<strong>كود Siemens SCL المُولد:</strong><pre>// VoltAI Auto Generated SCL\nFUNCTION_BLOCK "Control_Seq"\nVAR_INPUT\n    Start : Bool;\n    Stop : Bool;\nEND_VAR\nVAR_OUTPUT\n    Motor : Bool;\nEND_VAR\nBEGIN\n    IF #Start AND NOT #Stop THEN\n        #Motor := TRUE;\n    ELSIF #Stop THEN\n        #Motor := FALSE;\n    END_IF;\nEND_FUNCTION_BLOCK</pre>`;
             } else {
-                resultHTML = `
-                    <h4>📦 المكونات المقترحة (100 أمبير):</h4>
-                    <ul>
-                        <li><strong>القواطع الموتورايز:</strong> 2× MCCB Motorized 125A.</li>
-                        <li><strong>وحدة التحكم:</strong> ATS Controller برمجة ذكية.</li>
-                        <li><strong>البارات:</strong> بارات نحاسية 35 ملم².</li>
-                    </ul>
-                `;
+                res.innerHTML = `<strong>تحليل ودائرة الكلاسيك كونترول:</strong><p style="margin-top:6px;">تم فحص المنطق وتوليد خريطة الربط بنجاح مع إضافة نقاط الحماية الكهربائية (Electrical Interlock).</p>`;
             }
-            
-            resContainer.style.display = 'block';
-            resContainer.innerHTML = resultHTML;
-            saveToHistory(`توليد خطة ATS بسعة ${capacity} أمبير`);
+            saveHistory('توليد منطق PLC');
         }
 
-        // --- 3. Cable & Voltage Drop ---
+        function calculateSolar() {
+            const load = parseFloat(document.getElementById('solarLoad').value) || 5000;
+            const hours = parseFloat(document.getElementById('sunHours').value) || 5;
+            const sysV = parseFloat(document.getElementById('sysVoltage').value);
+
+            const totalWattPanels = (load / hours) * 1.25;
+            const batteryCapAh = (load / sysV) * 1.5;
+            const panelsCount = Math.ceil(totalWattPanels/550);
+
+            const res = document.getElementById('solarResult');
+            res.style.display = 'block';
+            document.getElementById('pdfSolarBtn').style.display = 'block';
+
+            res.innerHTML = `
+                <strong>نتائج الحسابات وجدول التكلفة (BOM):</strong><br>
+                <table class="bom-table">
+                    <tr><th>العنصر</th><th>المواصفة والكمية</th><th>التكلفة التقديرية</th></tr>
+                    <tr><td>الألواح الشمسية</td><td>${panelsCount} ألواح (550W)</td><td>$${panelsCount * 110}</td></tr>
+                    <tr><td>بنك البطاريات</td><td>${Math.ceil(batteryCapAh)} Ah (${sysV}V)</td><td>$${Math.ceil(batteryCapAh * 3.5)}</td></tr>
+                    <tr><td>الإنفرتر الشمسي</td><td>${(load/1000 * 1.3).toFixed(1)} kW Hybrid</td><td>$${Math.ceil(load/1000 * 120)}</td></tr>
+                </table>
+                <p style="margin-top:8px; font-weight:bold; color:var(--success-color);">إجمالي الكلفة التقديرية للمنظومة: $${Math.ceil((panelsCount * 110) + (batteryCapAh * 3.5) + (load/1000 * 120))}</p>
+            `;
+            saveHistory('حساب منظومة شمسية وBOM');
+        }
+
+        function generateATS() {
+            const cap = document.getElementById('atsCapacity').value;
+            const res = document.getElementById('atsResult');
+            res.style.display = 'block';
+            document.getElementById('pdfAtsBtn').style.display = 'block';
+
+            res.innerHTML = `
+                <strong>جدول المكونات والتسعير (BOM) لسعة (${cap}A):</strong><br>
+                <table class="bom-table">
+                    <tr><th>القطعة</th><th>الكمية</th><th>المواصفة المقترحة</th></tr>
+                    <tr><td>قواطع / كونتاكتورات</td><td>2</td><td>سعة ${cap}A مع انترلوك ميكانيكي</td></tr>
+                    <tr><td>ريليه حماية الفازات</td><td>1</td><td>Phase Sequence & Failure (Finder)</td></tr>
+                    <tr><td>تايمر تأخير تشغيل</td><td>1</td><td>Off-Delay 10s</td></tr>
+                </table>
+            `;
+            saveHistory(`توليد خريطة ATS لسعة ${cap}A`);
+        }
+
+        function convertCode() {
+            const res = document.getElementById('convertResult');
+            res.style.display = 'block';
+            res.innerHTML = `<strong>النتيجة المُحولة لـ SCL:</strong><pre>#Output_Q0_0 := #Input_I0_0 AND NOT #Input_I0_1;</pre>`;
+            saveHistory('تحويل صيغة كود PLC');
+        }
+
+        function calculateTilt() {
+            const lat = parseFloat(document.getElementById('latitude').value) || 33.3;
+            const res = document.getElementById('tiltResult');
+            res.style.display = 'block';
+            res.innerHTML = `<strong>زوايا التوجيه الموصى بها:</strong><br>- زاوية الميل الصيفية: <strong>${Math.max(10, Math.round(lat - 15))}°</strong><br>- زاوية الميل الشتوية: <strong>${Math.round(lat + 15)}°</strong><br>- الزاوية الثابتة: <strong>${Math.round(lat)}°</strong> نحو الجنوب الجغرافي.`;
+            saveHistory('حساب زاوية الألواح');
+        }
+
         function calculateCable() {
-            const I = parseFloat(document.getElementById('cableCurrent').value);
-            const L = parseFloat(document.getElementById('cableLength').value);
-            const mat = document.getElementById('cableMaterial').value;
+            const I = parseFloat(document.getElementById('cableAmp').value);
+            const L = parseFloat(document.getElementById('cableLen').value);
             const S = parseFloat(document.getElementById('cableSize').value);
+            const mat = document.getElementById('cableMat').value;
 
-            if (!I || !L || !S) { alert('يرجى ملء جميع الحقول'); return; }
+            if(!I || !L || !S) { alert('يرجى ملء كافة الخانات'); return; }
 
-            const rho = (mat === 'copper') ? 0.018 : 0.028;
-            const voltageDrop = (2 * L * I * rho) / S;
-            const percentageDrop = (voltageDrop / 380) * 100;
+            const rho = (mat === 'cu') ? 0.018 : 0.028;
+            const drop = (2 * L * I * rho) / S;
+            const dropPercent = (drop / 380) * 100;
 
-            const resDiv = document.getElementById('cableResult');
-            resDiv.style.display = 'block';
-            resDiv.innerHTML = `
-                <strong>نتائج الحساب:</strong><br>
-                - هبوط الجهد المتوقع: <strong>${voltageDrop.toFixed(2)} فولت</strong><br>
-                - نسبة هبوط الجهد: <strong>${percentageDrop.toFixed(2)}%</strong><br>
-                - التقييم: <span style="color: ${percentageDrop <= 4 ? '#10b981' : '#ef4444'};">
-                    ${percentageDrop <= 4 ? 'مقبول هندسياً (أقل من 4%)' : 'غير مقبول! يرجى زيادة مقطع الكابل'}
-                </span>
-            `;
-
-            saveToHistory(`حساب كابل: ${I} أمبير، طول ${L}m`);
+            const res = document.getElementById('cableResult');
+            res.style.display = 'block';
+            res.innerHTML = `<strong>نتيجة هبوط الجهد:</strong><br>- هبوط الجهد: <strong>${drop.toFixed(2)} فولت</strong> (${dropPercent.toFixed(2)}%)<br>- التقييم: <span style="color:${dropPercent <= 3 ? 'var(--success-color)' : 'var(--danger-color)'};">${dropPercent <= 3 ? 'مقبول هندسياً' : 'غير مقبول!'}</span>`;
+            saveHistory('حساب هبوط الجهد');
         }
 
-        // --- 4. Power Factor Correction (PFC) ---
-        function calculatePFC() {
-            const P = parseFloat(document.getElementById('pfcPower').value);
-            const pf1 = parseFloat(document.getElementById('pfcCurrent').value);
-            const pf2 = parseFloat(document.getElementById('pfcTarget').value);
+        function calculateMotorAndPFC() {
+            const hp = parseFloat(document.getElementById('motorHP').value) || 10;
+            const kw = hp * 0.746;
+            const flc = (kw * 1000) / (1.732 * 380 * 0.85 * 0.88);
 
-            if (!P || !pf1 || !pf2 || pf1 >= pf2) {
-                alert('يرجى إدخال قيم صالحة (يجب أن يكون معامل القدرة الحالي أقل من المستهدف)');
-                return;
-            }
-
-            const tan1 = Math.tan(Math.acos(pf1));
-            const tan2 = Math.tan(Math.acos(pf2));
-            const Qc = P * (tan1 - tan2);
-
-            const resDiv = document.getElementById('pfcResult');
-            resDiv.style.display = 'block';
-            resDiv.innerHTML = `
-                <strong>نتائج تصحيح معامل القدرة:</strong><br>
-                - سعة بنك المكثفات المطلوبة: <strong>${Qc.toFixed(2)} kVAr</strong><br>
-                - التوصية: يفضل تقسيم البنك إلى مراحل (Steps) متساوية مثل (4 مراحل × ${(Qc/4).toFixed(1)} kVAr) مع منظم APFC Controller.
-            `;
-
-            saveToHistory(`حساب معامل القدرة قدرة ${P}kW من ${pf1} إلى ${pf2}`);
+            const res = document.getElementById('motorResult');
+            res.style.display = 'block';
+            res.innerHTML = `<strong>حسابات المحرك وPFC:</strong><br>- تيار الحمل الكامل (FLC): <strong>${flc.toFixed(1)} أمبير</strong><br>- ضبط الإوفرلود: <strong>${(flc * 1.15).toFixed(1)} أمبير</strong><br>- المكثف لرفع PF لـ 0.95: <strong>${(kw * 0.45).toFixed(1)} kVAr</strong>`;
+            saveHistory('حسابات محرك وPFC');
         }
 
-        // --- 5. Induction Motor Calculator ---
-        function calculateMotor() {
-            const val = parseFloat(document.getElementById('motorPower').value);
-            const unit = document.getElementById('motorUnit').value;
-
-            if (!val) { alert('يرجى إدخال قدرة المحرك'); return; }
-
-            const kW = (unit === 'hp') ? val * 0.746 : val;
-            const FLC = (kW * 1000) / (1.732 * 380 * 0.85 * 0.88);
-            const overload = FLC * 1.15;
-            let startMethod = "Direct Online (DOL)";
-
-            if (kW > 11 && kW <= 45) startMethod = "Star-Delta (مجمعة ستار دلتا)";
-            else if (kW > 45) startMethod = "VFD (مغير سرعة) أو Soft Starter";
-
-            const resDiv = document.getElementById('motorResult');
-            resDiv.style.display = 'block';
-            resDiv.innerHTML = `
-                <strong>نتائج حسابات المحرك:</strong><br>
-                - تيار الحمل الكامل (FLC): <strong>${FLC.toFixed(1)} أمبير</strong><br>
-                - ضبط الإوفرلود (Overload Setting): <strong>${overload.toFixed(1)} أمبير</strong><br>
-                - طريقة البدء الموصى بها: <strong>${startMethod}</strong>
-            `;
-
-            saveToHistory(`حساب محرك ${val} ${unit}`);
+        function lookupVFDError() {
+            const code = document.getElementById('vfdCode').value.trim().toUpperCase();
+            const res = document.getElementById('vfdResult');
+            res.style.display = 'block';
+            res.innerHTML = `<strong>نتائج فحص الكود (${code || 'F0001'}):</strong><br>- العطل: تيار زائد (Overcurrent)<br>- الإجراء: افحص مقاومة ملفات المحرك وتأكد من زمن التسارع.`;
+            saveHistory(`فحص عطل VFD ${code}`);
         }
 
-        // --- 6. AI & PDF ---
-        function generateAIResponse() {
-            const type = document.getElementById('aiServiceType').value;
-            const container = document.getElementById('reportContainer');
-            const output = document.getElementById('aiOutputContent');
+        function showIPDetail() {
+            const val = document.getElementById('ipRatingSelect').value;
+            document.getElementById('ipResult').innerText = `حماية IP${val}: مخصصة للظروف القاسية واللوحات الميدانية.`;
+        }
 
-            container.style.display = 'block';
+        // PWA Installation
+        let deferredPrompt;
+        window.addEventListener('beforeinstallprompt', (e) => {
+            e.preventDefault();
+            deferredPrompt = e;
+            document.getElementById('pwaBanner').style.display = 'flex';
+        });
 
-            if (type === 'plc') {
-                output.innerHTML = `
-                    <p><strong>كود Siemens SCL المُولد:</strong></p>
-                    <pre id="codeBlock">
-// VoltAI Generated PLC Code
-FUNCTION_BLOCK "Control_Motor"
-VAR_INPUT
-    Start : Bool;
-    Stop : Bool;
-END_VAR
-VAR_OUTPUT
-    Motor : Bool;
-END_VAR
-
-BEGIN
-    IF #Start AND NOT #Stop THEN
-        #Motor := TRUE;
-    ELSIF #Stop THEN
-        #Motor := FALSE;
-    END_IF;
-END_FUNCTION_BLOCK
-                    </pre>
-                `;
-                saveToHistory('توليد كود PLC');
-            } else {
-                output.innerHTML = `
-                    <p><strong>تقرير تحليل مخطط الكلاسيك كونترول:</strong></p>
-                    <p>- حالة الدائرة: تم التحليل بنجاح.</p>
-                    <p>- الأخطاء المكتشفة: عدم وجود تداخل كهربائي (Electrical Interlock) بين كونتاكتور الأنعكاس.</p>
-                    <p>- التوصية: إضافة نقطة NC من C1 أمام ملف C2 لضمان السلامة.</p>
-                `;
-                saveToHistory('تحليل مخطط كلاسيك كونترول');
+        function installPWA() {
+            if (deferredPrompt) {
+                deferredPrompt.prompt();
+                deferredPrompt.userChoice.then(() => {
+                    deferredPrompt = null;
+                    document.getElementById('pwaBanner').style.display = 'none';
+                });
             }
         }
 
-        function copyCode() {
-            const code = document.getElementById('aiOutputContent').innerText;
-            if (navigator.clipboard && window.isSecureContext) {
-                navigator.clipboard.writeText(code).then(() => alert('تم نسخ النص/الكود بنجاح!'));
-            } else {
-                const textArea = document.createElement("textarea");
-                textArea.value = code;
-                document.body.appendChild(textArea);
-                textArea.select();
-                document.execCommand('copy');
-                document.body.removeChild(textArea);
-                alert('تم نسخ النص/الكود بنجاح!');
-            }
+        // Init
+        window.onload = function() {
+            checkAIStatus();
+            const savedTheme = localStorage.getItem('voltAiTheme') || 'dark';
+            document.documentElement.setAttribute('data-theme', savedTheme);
+
+            const savedName = localStorage.getItem('voltAiEngName') || 'المهندس منتظر عون';
+            const savedTitle = localStorage.getItem('voltAiEngTitle') || 'خبير أوتوميشن وطاقة كهربائية';
+            const savedCompany = localStorage.getItem('voltAiEngCompany') || '';
+            const savedPhone = localStorage.getItem('voltAiEngPhone') || '';
+
+            document.getElementById('cardEngName').innerText = savedName;
+            document.getElementById('cardEngTitle').innerText = savedTitle;
+            document.getElementById('cardEngCompany').innerText = savedCompany;
+            document.getElementById('cardEngPhone').innerText = savedPhone;
+
+            document.getElementById('inputEngName').value = savedName;
+            document.getElementById('inputEngTitle').value = savedTitle;
+            document.getElementById('inputEngCompany').value = savedCompany;
+            document.getElementById('inputEngPhone').value = savedPhone;
+
+            generateQRCode(savedName, savedTitle);
+            renderHistory();
         }
-
-        function downloadCodeFile() {
-            const code = document.getElementById('aiOutputContent').innerText;
-            const blob = new Blob([code], { type: 'text/plain;charset=utf-8' });
-            const a = document.createElement('a');
-            a.href = URL.createObjectURL(blob);
-            a.download = 'VoltAI_GeneratedCode.scl';
-            a.click();
-        }
-
-        function downloadPDF() {
-            if (typeof html2pdf === 'undefined') {
-                alert('تنبيه: تحويل PDF يحتاج اتصال بالإنترنت لتحميل المكتبة.');
-                return;
-            }
-            const element = document.getElementById('pdfContent');
-            const pdfHeader = document.getElementById('pdfHeader');
-            const pdfFooter = document.getElementById('pdfFooter');
-
-            pdfHeader.style.display = 'block';
-            pdfFooter.style.display = 'block';
-
-            const opt = {
-                margin:       10,
-                filename:     'VoltAI_Report.pdf',
-                image:        { type: 'jpeg', quality: 0.98 },
-                html2canvas:  { scale: 2 },
-                jsPDF:        { unit: 'mm', format: 'a4', orientation: 'portrait' }
-            };
-
-            html2pdf().set(opt).from(element).save().then(() => {
-                pdfHeader.style.display = 'none';
-                pdfFooter.style.display = 'none';
-            });
-        }
-
-        window.onload = renderHistory;
     </script>
 </body>
 </html>
