@@ -640,7 +640,7 @@
             </div>
         </div>
 
-        <!-- NEW FEATURE: REALITY SIMULATOR STUDIO (قسم استوديو المحاكاة الصناعية Reality Hub) -->
+        <!-- FEATURE: REALITY SIMULATOR STUDIO (قسم استوديو المحاكاة الصناعية Reality Hub) -->
         <div id="simulator_studio" class="tab-content">
             <div class="card">
                 <div class="card-title">
@@ -1077,29 +1077,103 @@
            NEW FEATURE: REALITY HUB INDUSTRIAL SIMULATOR ENGINE & LOGIC
            ------------------------------------------------------------- */
         let currentSimCategory = 'classic_sim';
+        let compCount = 0;
 
         const SIM_CATEGORIES = {
             classic_sim: [
-                { id: 'mccb', label: '➕ قاطع MCCB 3-Pole', img: 'https://cdn-icons-png.flaticon.com/512/2558/2558062.png' },
-                { id: 'contactor', label: '➕ كونتاكتور الرئيسي', img: 'https://cdn-icons-png.flaticon.com/512/3655/3655584.png' },
-                { id: 'overload', label: '➕ أوفرلود حراري (Thermal OL)', img: 'https://cdn-icons-png.flaticon.com/512/2558/2558062.png' },
-                { id: 'motor', label: '➕ محرك 3-Phase induction', img: 'https://cdn-icons-png.flaticon.com/512/1995/1995470.png' }
+                { id: 'mccb', label: '➕ قاطع MCCB 3-Pole' },
+                { id: 'contactor', label: '➕ كونتاكتور الرئيسي' },
+                { id: 'overload', label: '➕ أوفرلود حراري (Thermal OL)' },
+                { id: 'motor', label: '➕ محرك 3-Phase induction' }
             ],
             plc_sim: [
-                { id: 'plc_cpu', label: '➕ وحدة PLC Siemens S7-1200', img: 'https://cdn-icons-png.flaticon.com/512/3655/3655584.png' },
-                { id: 'sensor', label: '➕ حساس قُرب (Proximity Sensor)', img: 'https://cdn-icons-png.flaticon.com/512/2558/2558062.png' },
-                { id: 'relay_module', label: '➕ وحدة مرحلات Relay Board', img: 'https://cdn-icons-png.flaticon.com/512/3655/3655584.png' }
+                { id: 'plc_cpu', label: '➕ وحدة PLC Siemens S7-1200' },
+                { id: 'sensor', label: '➕ حساس قُرب (Proximity Sensor)' },
+                { id: 'relay_module', label: '➕ وحدة مرحلات Relay Board' }
             ],
             vfd_sim: [
-                { id: 'vfd_unit', label: '➕ مغير سرعة VFD (ABB/Siemens)', img: 'https://cdn-icons-png.flaticon.com/512/3655/3655584.png' },
-                { id: 'potentiometer', label: '➕ مقاومة متغيرة (Speed Pot)', img: 'https://cdn-icons-png.flaticon.com/512/2558/2558062.png' }
+                { id: 'vfd_unit', label: '➕ مغير سرعة VFD (ABB/Siemens)' },
+                { id: 'potentiometer', label: '➕ مقاومة متغيرة (Speed Pot)' }
             ],
             breaker_sim: [
-                { id: 'acb_breaker', label: '➕ قاطع هوائي رئيسي ACB', img: 'https://cdn-icons-png.flaticon.com/512/2558/2558062.png' },
-                { id: 'phase_failure', label: '➕ ريليه حماية الفازات Phase Failure', img: 'https://cdn-icons-png.flaticon.com/512/3655/3655584.png' },
-                { id: 'earth_leakage', label: '➕ قاطع العطل الأرضي GFCI', img: 'https://cdn-icons-png.flaticon.com/512/2558/2558062.png' }
+                { id: 'acb_breaker', label: '➕ قاطع هوائي رئيسي ACB' },
+                { id: 'phase_failure', label: '➕ ريليه حماية الفازات Phase Failure' },
+                { id: 'earth_leakage', label: '➕ قاطع العطل الأرضي GFCI' }
             ]
         };
+
+        // دالة توليد الأشكال الهندسية المتجهة المتخصصة بدقة (Pure SVG Generators)
+        function getComponentSVG(id) {
+            switch (id) {
+                case 'overload':
+                    return `
+                        <svg viewBox="0 0 80 80" width="65" height="65">
+                            <rect x="10" y="10" width="60" height="60" rx="8" fill="#1e293b" stroke="#f59e0b" stroke-width="2.5"/>
+                            <circle cx="40" cy="32" r="12" fill="#0f172a" stroke="#f59e0b" stroke-width="2"/>
+                            <line x1="40" y1="20" x2="40" y2="44" stroke="#ef4444" stroke-width="2.5"/>
+                            <rect x="20" y="52" width="16" height="8" rx="2" fill="#ef4444"/>
+                            <rect x="44" y="52" width="16" height="8" rx="2" fill="#3b82f6"/>
+                        </svg>`;
+                case 'contactor':
+                    return `
+                        <svg viewBox="0 0 80 80" width="65" height="65">
+                            <rect x="12" y="8" width="56" height="64" rx="6" fill="#111827" stroke="#3b82f6" stroke-width="2.5"/>
+                            <rect x="30" y="24" width="20" height="18" rx="3" fill="#f59e0b"/>
+                            <circle cx="22" cy="16" r="3.5" fill="#ef4444"/>
+                            <circle cx="40" cy="16" r="3.5" fill="#ef4444"/>
+                            <circle cx="58" cy="16" r="3.5" fill="#ef4444"/>
+                            <circle cx="22" cy="64" r="3.5" fill="#10b981"/>
+                            <circle cx="40" cy="64" r="3.5" fill="#10b981"/>
+                            <circle cx="58" cy="64" r="3.5" fill="#10b981"/>
+                        </svg>`;
+                case 'plc_cpu':
+                    return `
+                        <svg viewBox="0 0 80 80" width="65" height="65">
+                            <rect x="8" y="10" width="64" height="60" rx="5" fill="#0f172a" stroke="#10b981" stroke-width="2.5"/>
+                            <rect x="14" y="16" width="52" height="12" fill="#1e293b"/>
+                            <text x="40" y="25" fill="#10b981" font-size="8" text-anchor="middle" font-weight="bold">SIEMENS S7-1200</text>
+                            <circle cx="20" cy="40" r="2.5" fill="#10b981"/>
+                            <circle cx="28" cy="40" r="2.5" fill="#10b981"/>
+                            <circle cx="36" cy="40" r="2.5" fill="#ef4444"/>
+                            <rect x="14" y="50" width="52" height="14" rx="2" fill="#1e293b"/>
+                        </svg>`;
+                case 'motor':
+                    return `
+                        <svg viewBox="0 0 80 80" width="65" height="65">
+                            <rect x="10" y="22" width="48" height="42" rx="4" fill="#1e293b" stroke="#3b82f6" stroke-width="2"/>
+                            <line x1="18" y1="22" x2="18" y2="64" stroke="#334155" stroke-width="2"/>
+                            <line x1="26" y1="22" x2="26" y2="64" stroke="#334155" stroke-width="2"/>
+                            <line x1="34" y1="22" x2="34" y2="64" stroke="#334155" stroke-width="2"/>
+                            <line x1="42" y1="22" x2="42" y2="64" stroke="#334155" stroke-width="2"/>
+                            <rect x="58" y="38" width="14" height="10" rx="2" fill="#94a3b8"/>
+                            <rect x="20" y="10" width="24" height="14" rx="3" fill="#f59e0b"/>
+                        </svg>`;
+                case 'mccb':
+                case 'acb_breaker':
+                case 'earth_leakage':
+                    return `
+                        <svg viewBox="0 0 80 80" width="65" height="65">
+                            <rect x="14" y="8" width="52" height="64" rx="6" fill="#1e293b" stroke="#ef4444" stroke-width="2.5"/>
+                            <rect x="32" y="24" width="16" height="30" rx="3" fill="#0f172a"/>
+                            <rect x="35" y="27" width="10" height="12" rx="2" fill="#ef4444"/>
+                            <text x="40" y="64" fill="#ffffff" font-size="7" text-anchor="middle" font-weight="bold">MCCB 100A</text>
+                        </svg>`;
+                case 'vfd_unit':
+                    return `
+                        <svg viewBox="0 0 80 80" width="65" height="65">
+                            <rect x="12" y="8" width="56" height="64" rx="6" fill="#0f172a" stroke="#8b5cf6" stroke-width="2.5"/>
+                            <rect x="18" y="16" width="44" height="20" rx="3" fill="#1e293b"/>
+                            <text x="40" y="30" fill="#8b5cf6" font-size="10" text-anchor="middle" font-weight="bold">50.0 Hz</text>
+                            <circle cx="40" cy="52" r="10" fill="#1e293b" stroke="#8b5cf6" stroke-width="2"/>
+                        </svg>`;
+                default:
+                    return `
+                        <svg viewBox="0 0 80 80" width="65" height="65">
+                            <rect x="10" y="10" width="60" height="60" rx="8" fill="#1e293b" stroke="#3b82f6" stroke-width="2"/>
+                            <circle cx="40" cy="40" r="16" fill="#3b82f6"/>
+                        </svg>`;
+            }
+        }
 
         function switchSimCategory(catKey, btn) {
             currentSimCategory = catKey;
@@ -1131,21 +1205,36 @@
             const placeholder = document.getElementById('realCanvasPlaceholder');
             if (placeholder) placeholder.style.display = 'none';
 
+            const boardWidth = board.clientWidth || 300;
+            const itemsPerRow = Math.max(1, Math.floor(boardWidth / 140));
+            const row = Math.floor(compCount / itemsPerRow);
+            const col = compCount % itemsPerRow;
+
+            const startX = 20 + (col * 135);
+            const startY = 20 + (row * 155);
+
+            compCount++;
+
             const compWrapper = document.createElement('div');
             compWrapper.className = 'real-component';
             compWrapper.style.position = 'absolute';
-            compWrapper.style.top = '60px';
-            compWrapper.style.left = '40px';
+            compWrapper.style.top = `${startY}px`;
+            compWrapper.style.left = `${startX}px`;
             compWrapper.style.cursor = 'grab';
+            compWrapper.style.touchAction = 'none';
+            compWrapper.style.userSelect = 'none';
+            compWrapper.style.webkitUserSelect = 'none';
+
+            const svgGraphic = getComponentSVG(item.id);
 
             compWrapper.innerHTML = `
-                <div style="position:relative; background:rgba(17,24,39,0.9); border:1px solid var(--accent-color); padding:10px; border-radius:12px; text-align:center; box-shadow:0 8px 20px rgba(0,0,0,0.4);">
-                    <div style="position:absolute; top:4px; right:6px; width:8px; height:8px; background:#10b981; border-radius:50%; box-shadow:0 0 8px #10b981;"></div>
-                    <span style="font-size:0.75rem; color:#fff; font-weight:bold; display:block; margin-bottom:6px;">${item.label.replace('➕ ', '')}</span>
-                    <img src="${item.img}" style="width:85px; height:85px; object-fit:contain;">
-                    <div style="margin-top:6px; display:flex; justify-content:space-between; gap:4px;">
-                        <span style="font-size:0.65rem; background:#ef4444; color:#fff; padding:2px 6px; border-radius:4px;">L1/L2/L3</span>
-                        <span style="font-size:0.65rem; background:#10b981; color:#fff; padding:2px 6px; border-radius:4px;">T1/T2/T3</span>
+                <div style="position:relative; background:rgba(15, 23, 42, 0.95); border:1px solid var(--accent-color); padding:10px 12px; border-radius:14px; text-align:center; min-width:125px; box-shadow:0 8px 24px rgba(0,0,0,0.6);">
+                    <div style="position:absolute; top:6px; right:8px; width:7px; height:7px; background:#10b981; border-radius:50%; box-shadow:0 0 6px #10b981;"></div>
+                    <span style="font-size:0.75rem; color:#fff; font-weight:bold; display:block; margin-bottom:6px; white-space:nowrap;">${item.label.replace('➕ ', '')}</span>
+                    <div style="display:flex; justify-content:center; margin:4px 0;">${svgGraphic}</div>
+                    <div style="margin-top:8px; display:flex; justify-content:space-between; gap:4px;">
+                        <span style="font-size:0.65rem; background:#ef4444; color:#fff; padding:2px 6px; border-radius:4px; font-weight:bold;">L1/L2/L3</span>
+                        <span style="font-size:0.65rem; background:#10b981; color:#fff; padding:2px 6px; border-radius:4px; font-weight:bold;">T1/T2/T3</span>
                     </div>
                 </div>
             `;
@@ -1155,32 +1244,55 @@
         }
 
         function makeElementDraggable(elmnt) {
-            let pos1 = 0, pos2 = 0, pos3 = 0, pos4 = 0;
-            elmnt.onmousedown = dragMouseDown;
+            let startX = 0, startY = 0;
+            let initialLeft = 0, initialTop = 0;
 
-            function dragMouseDown(e) {
-                e = e || window.event;
-                e.preventDefault();
-                pos3 = e.clientX;
-                pos4 = e.clientY;
-                document.onmouseup = closeDragElement;
-                document.onmousemove = elementDrag;
+            elmnt.addEventListener('mousedown', dragStart, { passive: false });
+            elmnt.addEventListener('touchstart', dragStart, { passive: false });
+
+            function dragStart(e) {
+                if (e.cancelable) e.preventDefault();
+                const point = e.touches ? e.touches[0] : e;
+                
+                startX = point.clientX;
+                startY = point.clientY;
+                initialLeft = elmnt.offsetLeft;
+                initialTop = elmnt.offsetTop;
+
+                elmnt.style.zIndex = 1000;
+
+                if (e.touches) {
+                    document.addEventListener('touchmove', elementDrag, { passive: false });
+                    document.addEventListener('touchend', closeDragElement, { passive: false });
+                } else {
+                    document.addEventListener('mousemove', elementDrag);
+                    document.addEventListener('mouseup', closeDragElement);
+                }
             }
 
             function elementDrag(e) {
-                e = e || window.event;
-                e.preventDefault();
-                pos1 = pos3 - e.clientX;
-                pos2 = pos4 - e.clientY;
-                pos3 = e.clientX;
-                pos4 = e.clientY;
-                elmnt.style.top = (elmnt.offsetTop - pos2) + "px";
-                elmnt.style.left = (elmnt.offsetLeft - pos1) + "px";
+                if (e.cancelable) e.preventDefault();
+                const point = e.touches ? e.touches[0] : e;
+                const dx = point.clientX - startX;
+                const dy = point.clientY - startY;
+
+                const board = document.getElementById('realSimBoard');
+                const maxLeft = (board.clientWidth || 300) - elmnt.offsetWidth;
+                const maxTop = (board.clientHeight || 400) - elmnt.offsetHeight;
+
+                let newLeft = Math.max(0, Math.min(initialLeft + dx, maxLeft));
+                let newTop = Math.max(0, Math.min(initialTop + dy, maxTop));
+
+                elmnt.style.left = `${newLeft}px`;
+                elmnt.style.top = `${newTop}px`;
             }
 
             function closeDragElement() {
-                document.onmouseup = null;
-                document.onmousemove = null;
+                elmnt.style.zIndex = 10;
+                document.removeEventListener('mousemove', elementDrag);
+                document.removeEventListener('mouseup', closeDragElement);
+                document.removeEventListener('touchmove', elementDrag);
+                document.removeEventListener('touchend', closeDragElement);
             }
         }
 
@@ -1209,6 +1321,7 @@
         }
 
         function clearSimBoard() {
+            compCount = 0;
             const board = document.getElementById('realSimBoard');
             board.innerHTML = `
                 <p id="realCanvasPlaceholder" style="text-align:center; margin-top:190px; color:var(--text-muted); font-size:0.85rem;">
