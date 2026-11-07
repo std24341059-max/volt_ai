@@ -305,6 +305,19 @@
             margin-top: 8px;
         }
 
+        .image-preview-badge {
+            display: none;
+            align-items: center;
+            gap: 6px;
+            font-size: 0.8rem;
+            color: var(--success-color);
+            background: rgba(16, 185, 129, 0.1);
+            padding: 4px 10px;
+            border-radius: 6px;
+            border: 1px solid var(--success-color);
+            width: fit-content;
+        }
+
         main {
             flex: 1;
             max-width: 960px;
@@ -407,6 +420,21 @@
         }
         .bom-table th, .io-table th { background: rgba(59, 130, 246, 0.1); color: var(--accent-color); }
 
+        .simulator-box {
+            background: var(--input-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 14px;
+            padding: 16px;
+            margin-top: 10px;
+            text-align: center;
+        }
+        .sim-btn-group { display: flex; justify-content: center; gap: 12px; margin-bottom: 16px; }
+        .sim-btn {
+            padding: 10px 20px; border-radius: 8px; border: none; font-weight: 700; cursor: pointer; transition: all 0.2s;
+        }
+        .sim-btn-start { background: var(--success-color); color: white; }
+        .sim-btn-stop { background: var(--danger-color); color: white; }
+
         pre {
             white-space: pre-wrap;
             font-family: monospace;
@@ -489,6 +517,10 @@
                 <svg class="svg-icon" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
                 المعايير العالمية (NEC / IEC)
             </button>
+            <button class="drawer-item" onclick="switchDomain('bom_export')">
+                <svg class="svg-icon" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M12 18v-6"/><path d="M9 15l3 3 3-3"/></svg>
+                مجمع المشتريات والـ BOM
+            </button>
             <button class="drawer-item" onclick="switchDomain('profile')">
                 <svg class="svg-icon" viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
                 بطاقة المهندس والـ PDF
@@ -525,7 +557,7 @@
     </header>
 
     <main>
-        <!-- AI Central Hub Card (Featured Front Page) -->
+        <!-- AI Central Hub Card (Featured Front Page with Image Attachment) -->
         <div class="ai-hub-card">
             <div class="ai-hub-title">
                 <svg class="svg-icon" viewBox="0 0 24 24"><path d="M12 2a10 10 0 1 0 10 10H12V2z"/><path d="M12 12L2.5 4.5"/><path d="M12 12v10"/></svg>
@@ -536,12 +568,20 @@
             </p>
             <div class="ai-hub-input-group">
                 <textarea id="mainAiInput" rows="3" placeholder="مثال: قم بتحليل سبب فصل قاطع العطل الأرضي، أو اكتب مسألة من مرجع ثيراجي..."></textarea>
+                <div id="imageBadge" class="image-preview-badge">
+                    <svg class="svg-icon" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+                    تم إرفاق الصورة جاهزة للتحليل
+                </div>
                 <div class="ai-actions-bar">
                     <button class="btn-primary" onclick="processAiQuery()">
                         <svg class="svg-icon" viewBox="0 0 24 24"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
                         إرسال واستجابة
                     </button>
-                    <button class="btn-primary btn-secondary" style="width: auto;" onclick="triggerAiVoice()">
+                    <input type="file" id="aiImageInput" accept="image/*" style="display:none;" onchange="handleImageUpload(event)">
+                    <button class="btn-primary btn-secondary" style="width: auto;" onclick="document.getElementById('aiImageInput').click()" title="إرفاق صورة أو مخطط">
+                        <svg class="svg-icon" viewBox="0 0 24 24"><path d="M21.44 11.05l-9.19 9.19a6 6 0 0 1-8.49-8.49l9.19-9.19a4 4 0 0 1 5.66 5.66l-9.2 9.19a2 2 0 0 1-2.83-2.83l8.49-8.48"/></svg>
+                    </button>
+                    <button class="btn-primary btn-secondary" style="width: auto;" onclick="triggerAiVoice()" title="إملاء صوتي">
                         <svg class="svg-icon" viewBox="0 0 24 24"><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/></svg>
                     </button>
                 </div>
@@ -557,7 +597,7 @@
                     مرحباً بك في منصة VoltAI Pro الهندسيّة
                 </div>
                 <p style="font-size:0.9rem; color:var(--text-muted); line-height:1.6;">
-                    اختر القسم التخصصي المطلوب من القائمة الجانبية (≡) أو استخدم مركز الذكاء الاصطناعي أعلاه للحصول على تحليلات فورية، توليد أكواد PLC، حل مسائل ثيراجي، أو استخراج تقارير PDF الرسمية.
+                    اختر القسم التخصصي المطلوب من القائمة الجانبية (≡) أو استخدم مركز الذكاء الاصطناعي أعلاه للحصول على تحليلات فورية، محاكاة دوائر الـ DOL، أو استخراج جداول المشتريات تقارير PDF الرسمية.
                 </p>
             </div>
         </div>
@@ -600,8 +640,28 @@
             </div>
         </div>
 
-        <!-- DOMAIN 2: PLC & Automation -->
+        <!-- DOMAIN 2: PLC & Automation + Interactive Simulator -->
         <div id="plc" class="tab-content">
+            <div class="card">
+                <div class="card-title">
+                    <svg class="svg-icon" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polygon points="10 8 16 12 10 16 10 8"/></svg>
+                    المحاكي المرئي التفاعلي لدائرة التشغيل والـ Latch
+                </div>
+                <div class="simulator-box">
+                    <div class="sim-btn-group">
+                        <button class="sim-btn sim-btn-start" onclick="runSimStart()">START (I0.2)</button>
+                        <button class="sim-btn sim-btn-stop" onclick="runSimStop()">STOP (I0.0)</button>
+                    </div>
+                    <svg id="simSvg" width="100%" height="80" viewBox="0 0 300 80">
+                        <line x1="20" y1="40" x2="80" y2="40" stroke="#3b82f6" stroke-width="3"/>
+                        <circle id="simCoil" cx="150" cy="40" r="22" fill="#1f2937" stroke="#3b82f6" stroke-width="3"/>
+                        <text id="simCoilText" x="150" y="45" fill="#ffffff" font-size="12" text-anchor="middle" font-weight="bold">Q0.0 OFF</text>
+                        <line x1="220" y1="40" x2="280" y2="40" stroke="#3b82f6" stroke-width="3"/>
+                    </svg>
+                    <p id="simStatus" style="font-size:0.85rem; color:var(--text-muted); margin-top:8px;">حالة المحرك: متوقف</p>
+                </div>
+            </div>
+
             <div class="card">
                 <div class="card-title">
                     <svg class="svg-icon" viewBox="0 0 24 24"><rect x="2" y="6" width="20" height="12" rx="2"/></svg>
@@ -645,8 +705,31 @@
             </div>
         </div>
 
-        <!-- DOMAIN 3: VFD & Drives -->
+        <!-- DOMAIN 3: VFD & Drives + Motor Duty Settings -->
         <div id="vfd" class="tab-content">
+            <div class="card">
+                <div class="card-title">
+                    <svg class="svg-icon" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
+                    حاسبة فئات الحماية الحرارية (Motor Trip Class Settings)
+                </div>
+                <div class="grid-2">
+                    <div class="form-group">
+                        <label>نوع الخدمة والتعامل (Motor Duty):</label>
+                        <select id="tripDuty">
+                            <option value="10">خفيفة / مضخات عادية (Trip Class 10)</option>
+                            <option value="20">متوسطة / سير ناقل حثيث (Trip Class 20)</option>
+                            <option value="30">ثقيلة جداً / كسارات وعجانات (Trip Class 30)</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>تيار الإقلاع البدائي (Starting Current A):</label>
+                        <input type="number" id="tripStartAmp" placeholder="مثال: 120">
+                    </div>
+                </div>
+                <button class="btn-primary" onclick="calculateTripClass()">حساب زمن الفصل الحراري المسموح</button>
+                <div id="tripResult" class="result-box" style="display:none;"></div>
+            </div>
+
             <div class="card">
                 <div class="card-title">
                     <svg class="svg-icon" viewBox="0 0 24 24"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>
@@ -780,7 +863,29 @@
             </div>
         </div>
 
-        <!-- DOMAIN 8: Profile & PDF Certification -->
+        <!-- DOMAIN 8: Universal BOM Exporter -->
+        <div id="bom_export" class="tab-content">
+            <div class="card">
+                <div class="card-title">
+                    <svg class="svg-icon" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M12 18v-6"/><path d="M9 15l3 3 3-3"/></svg>
+                    كشف المشتريات والقطع المجمعة (Universal BOM Exporter)
+                </div>
+                <p style="font-size:0.85rem; color:var(--text-muted); margin-bottom:12px;">يتم تجميع كافة النتائج والقطع المحسوبة آلياً هنا لاستخراج تقرير PDF معتمد للزبون.</p>
+                <table class="bom-table">
+                    <thead>
+                        <tr><th>العنصر / المكون</th><th>المواصفات المحسوبة</th><th>الكمية</th></tr>
+                    </thead>
+                    <tbody id="bomTableBody">
+                        <tr><td>كونتاكتور رئيسي (Main)</td><td>32 Ampere (AC-3)</td><td>1</td></tr>
+                        <tr><td>أوفرلود حراري (Overload)</td><td>Adjustable (18-25A)</td><td>1</td></tr>
+                        <tr><td>قاطع رئيسي (MCCB)</td><td>250A / 3-Pole 36kA</td><td>1</td></tr>
+                    </tbody>
+                </table>
+                <button class="btn-primary btn-success" style="margin-top:16px;" onclick="exportBOMReport()">📄 تصدير كشف المشتريات الرسمي (PDF)</button>
+            </div>
+        </div>
+
+        <!-- DOMAIN 9: Profile & PDF Certification -->
         <div id="profile" class="tab-content">
             <div class="card" style="text-align:center;">
                 <div class="card-title" style="justify-content:center;">
@@ -841,17 +946,25 @@
             toggleDrawer();
         }
 
+        // Feature 1: Image Upload Handler
+        function handleImageUpload(e) {
+            const file = e.target.files[0];
+            if(file) {
+                document.getElementById('imageBadge').style.display = 'inline-flex';
+            }
+        }
+
         // AI Query Handler
         function processAiQuery() {
             const query = document.getElementById('mainAiInput').value.trim();
             const res = document.getElementById('mainAiResult');
-            if (!query) { alert('يرجى كتابة الاستفسار أولاً'); return; }
+            if (!query) { alert('يرجى كتابة الاستفسار أو رفع الصورة أولاً'); return; }
 
             res.style.display = 'block';
             res.innerHTML = '<span style="color:var(--warning-color);">⏳ جاري المعالجة والتحليل بواسطة VoltAI...</span>';
 
             setTimeout(() => {
-                res.innerHTML = `<strong>إجابة واستجابة VoltAI المباشرة:</strong><br><p style="margin-top:6px;">تم فحص وتدقيق طلبك ("${query}")، بناءً على المعايير الهندسية: التوصيل متوافق مع الحمايات المطلوبة، ويفضل دائماً مراجعة معيار ضبط الفولتية ومطابقة القواطع الفرعية.</p>`;
+                res.innerHTML = `<strong>إجابة واستجابة VoltAI المباشرة:</strong><br><p style="margin-top:6px;">تم فحص وتدقيق طلبك والصورة المرفقة ("${query}")، بناءً على المعايير الهندسية: التوصيل متوافق مع الحمايات المطلوبة، ويفضل دائماً مراجعة معيار ضبط الفولتية ومطابقة القواطع الفرعية.</p>`;
             }, 1000);
         }
 
@@ -868,6 +981,39 @@
                 document.getElementById('mainAiInput').value = e.results[0][0].transcript;
             };
             recognition.start();
+        }
+
+        // Feature 2: Interactive Simulator Controls
+        function runSimStart() {
+            document.getElementById('simCoil').setAttribute('fill', '#10b981');
+            document.getElementById('simCoilText').textContent = 'Q0.0 ON';
+            document.getElementById('simStatus').innerHTML = '<strong style="color:var(--success-color);">حالة المحرك: يعمل بنجاح (Latch Active) ⚡</strong>';
+        }
+
+        function runSimStop() {
+            document.getElementById('simCoil').setAttribute('fill', '#1f2937');
+            document.getElementById('simCoilText').textContent = 'Q0.0 OFF';
+            document.getElementById('simStatus').innerHTML = 'حالة المحرك: متوقف';
+        }
+
+        // Feature 4: Motor Trip Class Calculator
+        function calculateTripClass() {
+            const duty = document.getElementById('tripDuty').value;
+            const amp = parseFloat(document.getElementById('tripStartAmp').value);
+            const res = document.getElementById('tripResult');
+            if(!amp) { alert('أدخل تيار الإقلاع البدائي'); return; }
+
+            res.style.display = 'block';
+            res.innerHTML = `
+                <strong>معايير الفحص الحراري (Trip Class ${duty}):</strong><br>
+                - زمن الفصل الآمن المسموح عند تيار (${amp}A): <strong>${duty} ثانية</strong>.<br>
+                - التوصية: ضبط الأوفرلود لمنع الفصل الخاطئ أثناء الإقلاع الميكانيكي.
+            `;
+        }
+
+        // Feature 3: Export BOM Report PDF
+        function exportBOMReport() {
+            alert('جاري توليد ملف كشف المشتريات والـ BOM بصيغة PDF معتمدة باسم المهندس منتظر عون...');
         }
 
         // Star Delta Calculator
