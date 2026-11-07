@@ -463,10 +463,16 @@
         }
 
         .real-component {
-            transition: transform 0.2s ease;
+            transition: transform 0.1s ease;
         }
-        .real-component:hover {
-            transform: scale(1.02);
+        .term-btn {
+            cursor: pointer;
+            transition: transform 0.2s, background 0.2s;
+        }
+        .term-btn:hover, .term-btn.selected-term {
+            transform: scale(1.15);
+            background: #f59e0b !important;
+            box-shadow: 0 0 8px #f59e0b;
         }
 
         pre {
@@ -595,7 +601,7 @@
     </header>
 
     <main>
-        <!-- AI Central Hub Card (Featured Front Page with Image Attachment) -->
+        <!-- AI Central Hub Card -->
         <div class="ai-hub-card">
             <div class="ai-hub-title">
                 <svg class="svg-icon" viewBox="0 0 24 24"><path d="M12 2a10 10 0 1 0 10 10H12V2z"/><path d="M12 12L2.5 4.5"/><path d="M12 12v10"/></svg>
@@ -627,7 +633,7 @@
             <div id="mainAiResult" class="result-box" style="display:none;"></div>
         </div>
 
-        <!-- MAIN DASHBOARD CONTENT / DOMAIN SECTIONS -->
+        <!-- MAIN DASHBOARD CONTENT -->
         <div id="hub" class="tab-content active">
             <div class="card">
                 <div class="card-title">
@@ -640,7 +646,7 @@
             </div>
         </div>
 
-        <!-- FEATURE: REALITY SIMULATOR STUDIO (قسم استوديو المحاكاة الصناعية Reality Hub) -->
+        <!-- FEATURE: REALITY SIMULATOR STUDIO -->
         <div id="simulator_studio" class="tab-content">
             <div class="card">
                 <div class="card-title">
@@ -656,21 +662,30 @@
                     <button class="sim-tab-btn" onclick="switchSimCategory('breaker_sim', this)">🛡️ 4. الحمايات والقواطع</button>
                 </div>
 
-                <!-- شريط أزرار إدراج القطع الواقعية (تفاعلي بالجافاسكربت) -->
-                <div id="simToolsBar" style="display:flex; gap:8px; margin-bottom:12px; overflow-x:auto; padding-bottom:6px;"></div>
+                <!-- شريط أدوات التوصيل و أزرار إدراج القطع -->
+                <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px; gap:8px; flex-wrap:wrap;">
+                    <div id="simToolsBar" style="display:flex; gap:8px; overflow-x:auto; padding-bottom:4px; flex:1;"></div>
+                    <button id="wireModeBtn" onclick="toggleWireMode()" class="btn-primary btn-secondary" style="width:auto; font-size:0.8rem; background:var(--card-bg); border-color:var(--accent-color); color:var(--accent-color);">
+                        🔌 وضع التوصيل: إيقاف
+                    </button>
+                </div>
 
-                <!-- لوحة الرسم والمحاكاة التفاعلية (Canvas Board) مع أدوات الزوم -->
-                <div id="realCanvasContainer" style="width:100%; height:440px; background:#070c17; border:2px solid var(--card-border); border-radius:14px; position:relative; overflow:hidden; background-image: radial-gradient(rgba(59, 130, 246, 0.15) 1px, transparent 1px); background-size: 24px 24px; touch-action: none;">
+                <!-- لوحة الرسم والمحاكاة التفاعلية -->
+                <div id="realCanvasContainer" style="width:100%; height:460px; background:#070c17; border:2px solid var(--card-border); border-radius:14px; position:relative; overflow:hidden; background-image: radial-gradient(rgba(59, 130, 246, 0.15) 1px, transparent 1px); background-size: 24px 24px; touch-action: none;">
                     
-                    <!-- أزرار التحكم بالزوم الطافية Floating Zoom Controls -->
+                    <!-- أزرار التحكم بالزوم الطافية -->
                     <div style="position:absolute; bottom:12px; left:12px; z-index:100; display:flex; gap:6px; background:rgba(15, 23, 42, 0.85); padding:4px 8px; border-radius:10px; border:1px solid var(--card-border);">
-                        <button onclick="zoomCanvas(0.1)" style="background:var(--accent-color); color:#fff; border:none; border-radius:6px; width:30px; height:30px; font-weight:bold; cursor:pointer;" title="تكبير">+</button>
-                        <button onclick="zoomCanvas(-0.1)" style="background:var(--accent-color); color:#fff; border:none; border-radius:6px; width:30px; height:30px; font-weight:bold; cursor:pointer;" title="تصغير">-</button>
-                        <button onclick="resetCanvasZoom()" style="background:var(--input-bg); color:var(--text-main); border:1px solid var(--card-border); border-radius:6px; padding:0 8px; font-size:0.75rem; font-weight:bold; cursor:pointer;" title="إعادة تصفير">100%</button>
+                        <button onclick="zoomCanvas(0.1)" style="background:var(--accent-color); color:#fff; border:none; border-radius:6px; width:30px; height:30px; font-weight:bold; cursor:pointer;">+</button>
+                        <button onclick="zoomCanvas(-0.1)" style="background:var(--accent-color); color:#fff; border:none; border-radius:6px; width:30px; height:30px; font-weight:bold; cursor:pointer;">-</button>
+                        <button onclick="resetCanvasZoom()" style="background:var(--input-bg); color:var(--text-main); border:1px solid var(--card-border); border-radius:6px; padding:0 8px; font-size:0.75rem; font-weight:bold; cursor:pointer;">100%</button>
                     </div>
 
-                    <div id="realSimBoard" style="width:100%; height:100%; position:relative; transform-origin: 0 0; transition: transform 0.05s ease-out;">
-                        <p id="realCanvasPlaceholder" style="text-align:center; margin-top:190px; color:var(--text-muted); font-size:0.85rem;">
+                    <!-- طبقة رسم الأسلاك المباشرة -->
+                    <svg id="wiresSvgLayer" style="position:absolute; top:0; left:0; width:2000px; height:2000px; pointer-events:none; z-index:5; transform-origin: 0 0;"></svg>
+
+                    <!-- لوحة العناصر -->
+                    <div id="realSimBoard" style="width:2000px; height:2000px; position:relative; transform-origin: 0 0; transition: transform 0.05s ease-out;">
+                        <p id="realCanvasPlaceholder" style="text-align:center; padding-top:190px; color:var(--text-muted); font-size:0.85rem;">
                             إختر القسم من الأعلى، واضغط على القطع الواقعية لبدء التوصيل واختبار الدائرة 🔌
                         </p>
                     </div>
@@ -679,10 +694,10 @@
                 <!-- أزرار الإجراءات والفحص الذكي -->
                 <div style="display:flex; gap:10px; margin-top:12px;">
                     <button class="btn-primary btn-success" style="flex:2;" onclick="runSmartDiagnostic()">⚡ فحص الدائرة واكتشاف الأخطاء الذكي</button>
-                    <button class="btn-primary btn-secondary" style="flex:1;" onclick="clearSimBoard()">🗑️ مسح اللوحة</button>
+                    <button class="btn-primary btn-secondary" style="flex:1;" onclick="clearSimBoard()">🗑️ مسح اللوحة والأسلاك</button>
                 </div>
 
-                <!-- صندوق التنبيه واكتشاف الأخطاء وتطبيق التصحيح الآلي -->
+                <!-- صندوق التنبيه واكتشاف الأخطاء -->
                 <div id="diagnosticAlertBox" class="result-box" style="display:none; margin-top:12px;"></div>
             </div>
         </div>
@@ -725,7 +740,7 @@
             </div>
         </div>
 
-        <!-- DOMAIN 2: PLC & Automation + Interactive Simulator -->
+        <!-- DOMAIN 2: PLC & Automation -->
         <div id="plc" class="tab-content">
             <div class="card">
                 <div class="card-title">
@@ -790,7 +805,7 @@
             </div>
         </div>
 
-        <!-- DOMAIN 3: VFD & Drives + Motor Duty Settings -->
+        <!-- DOMAIN 3: VFD & Drives -->
         <div id="vfd" class="tab-content">
             <div class="card">
                 <div class="card-title">
@@ -1082,26 +1097,47 @@
         }
 
         /* -------------------------------------------------------------
-           NEW FEATURE: REALITY HUB INDUSTRIAL SIMULATOR ENGINE & LOGIC
+           REALITY HUB INDUSTRIAL SIMULATOR ENGINE & WIRING SYSTEM
            ------------------------------------------------------------- */
         let currentSimCategory = 'classic_sim';
         let compCount = 0;
-
-        /* -------------------------------------------------------------
-           ZOOM & PAN CANVAS LOGIC FOR MOBILE PINCH & BUTTON CONTROLS
-           ------------------------------------------------------------- */
         let currentZoom = 1.0;
         let initialPinchDistance = null;
 
+        // متغيرات محرك التوصيل بالأسلاك
+        let isWireMode = false;
+        let selectedTerminal = null;
+        let wires = [];
+
+        function toggleWireMode() {
+            isWireMode = !isWireMode;
+            const btn = document.getElementById('wireModeBtn');
+            if (isWireMode) {
+                btn.style.background = 'var(--accent-color)';
+                btn.style.color = '#fff';
+                btn.innerHTML = '🔌 وضع التوصيل: يعمل (اختر محطتين)';
+            } else {
+                btn.style.background = 'var(--card-bg)';
+                btn.style.color = 'var(--accent-color)';
+                btn.innerHTML = '🔌 وضع التوصيل: إيقاف';
+                if (selectedTerminal) {
+                    selectedTerminal.elem.classList.remove('selected-term');
+                    selectedTerminal = null;
+                }
+            }
+        }
+
         function applyCanvasTransform() {
             const board = document.getElementById('realSimBoard');
-            if (board) {
+            const layer = document.getElementById('wiresSvgLayer');
+            if (board && layer) {
                 board.style.transform = `scale(${currentZoom})`;
+                layer.style.transform = `scale(${currentZoom})`;
             }
         }
 
         function zoomCanvas(delta) {
-            currentZoom = Math.max(0.5, Math.min(2.5, currentZoom + delta));
+            currentZoom = Math.max(0.4, Math.min(2.5, currentZoom + delta));
             applyCanvasTransform();
         }
 
@@ -1133,76 +1169,18 @@
             ]
         };
 
-        // دالة توليد الأشكال الهندسية المتجهة المتخصصة بدقة (Pure SVG Generators)
         function getComponentSVG(id) {
             switch (id) {
                 case 'overload':
-                    return `
-                        <svg viewBox="0 0 80 80" width="65" height="65">
-                            <rect x="10" y="10" width="60" height="60" rx="8" fill="#1e293b" stroke="#f59e0b" stroke-width="2.5"/>
-                            <circle cx="40" cy="32" r="12" fill="#0f172a" stroke="#f59e0b" stroke-width="2"/>
-                            <line x1="40" y1="20" x2="40" y2="44" stroke="#ef4444" stroke-width="2.5"/>
-                            <rect x="20" y="52" width="16" height="8" rx="2" fill="#ef4444"/>
-                            <rect x="44" y="52" width="16" height="8" rx="2" fill="#3b82f6"/>
-                        </svg>`;
+                    return `<svg viewBox="0 0 80 80" width="65" height="65"><rect x="10" y="10" width="60" height="60" rx="8" fill="#1e293b" stroke="#f59e0b" stroke-width="2.5"/><circle cx="40" cy="32" r="12" fill="#0f172a" stroke="#f59e0b" stroke-width="2"/><line x1="40" y1="20" x2="40" y2="44" stroke="#ef4444" stroke-width="2.5"/><rect x="20" y="52" width="16" height="8" rx="2" fill="#ef4444"/><rect x="44" y="52" width="16" height="8" rx="2" fill="#3b82f6"/></svg>`;
                 case 'contactor':
-                    return `
-                        <svg viewBox="0 0 80 80" width="65" height="65">
-                            <rect x="12" y="8" width="56" height="64" rx="6" fill="#111827" stroke="#3b82f6" stroke-width="2.5"/>
-                            <rect x="30" y="24" width="20" height="18" rx="3" fill="#f59e0b"/>
-                            <circle cx="22" cy="16" r="3.5" fill="#ef4444"/>
-                            <circle cx="40" cy="16" r="3.5" fill="#ef4444"/>
-                            <circle cx="58" cy="16" r="3.5" fill="#ef4444"/>
-                            <circle cx="22" cy="64" r="3.5" fill="#10b981"/>
-                            <circle cx="40" cy="64" r="3.5" fill="#10b981"/>
-                            <circle cx="58" cy="64" r="3.5" fill="#10b981"/>
-                        </svg>`;
+                    return `<svg viewBox="0 0 80 80" width="65" height="65"><rect x="12" y="8" width="56" height="64" rx="6" fill="#111827" stroke="#3b82f6" stroke-width="2.5"/><rect x="30" y="24" width="20" height="18" rx="3" fill="#f59e0b"/><circle cx="22" cy="16" r="3.5" fill="#ef4444"/><circle cx="40" cy="16" r="3.5" fill="#ef4444"/><circle cx="58" cy="16" r="3.5" fill="#ef4444"/><circle cx="22" cy="64" r="3.5" fill="#10b981"/><circle cx="40" cy="64" r="3.5" fill="#10b981"/><circle cx="58" cy="64" r="3.5" fill="#10b981"/></svg>`;
                 case 'plc_cpu':
-                    return `
-                        <svg viewBox="0 0 80 80" width="65" height="65">
-                            <rect x="8" y="10" width="64" height="60" rx="5" fill="#0f172a" stroke="#10b981" stroke-width="2.5"/>
-                            <rect x="14" y="16" width="52" height="12" fill="#1e293b"/>
-                            <text x="40" y="25" fill="#10b981" font-size="8" text-anchor="middle" font-weight="bold">SIEMENS S7-1200</text>
-                            <circle cx="20" cy="40" r="2.5" fill="#10b981"/>
-                            <circle cx="28" cy="40" r="2.5" fill="#10b981"/>
-                            <circle cx="36" cy="40" r="2.5" fill="#ef4444"/>
-                            <rect x="14" y="50" width="52" height="14" rx="2" fill="#1e293b"/>
-                        </svg>`;
+                    return `<svg viewBox="0 0 80 80" width="65" height="65"><rect x="8" y="10" width="64" height="60" rx="5" fill="#0f172a" stroke="#10b981" stroke-width="2.5"/><rect x="14" y="16" width="52" height="12" fill="#1e293b"/><text x="40" y="25" fill="#10b981" font-size="8" text-anchor="middle" font-weight="bold">SIEMENS S7-1200</text><circle cx="20" cy="40" r="2.5" fill="#10b981"/><circle cx="28" cy="40" r="2.5" fill="#10b981"/><circle cx="36" cy="40" r="2.5" fill="#ef4444"/><rect x="14" y="50" width="52" height="14" rx="2" fill="#1e293b"/></svg>`;
                 case 'motor':
-                    return `
-                        <svg viewBox="0 0 80 80" width="65" height="65">
-                            <rect x="10" y="22" width="48" height="42" rx="4" fill="#1e293b" stroke="#3b82f6" stroke-width="2"/>
-                            <line x1="18" y1="22" x2="18" y2="64" stroke="#334155" stroke-width="2"/>
-                            <line x1="26" y1="22" x2="26" y2="64" stroke="#334155" stroke-width="2"/>
-                            <line x1="34" y1="22" x2="34" y2="64" stroke="#334155" stroke-width="2"/>
-                            <line x1="42" y1="22" x2="42" y2="64" stroke="#334155" stroke-width="2"/>
-                            <rect x="58" y="38" width="14" height="10" rx="2" fill="#94a3b8"/>
-                            <rect x="20" y="10" width="24" height="14" rx="3" fill="#f59e0b"/>
-                        </svg>`;
-                case 'mccb':
-                case 'acb_breaker':
-                case 'earth_leakage':
-                    return `
-                        <svg viewBox="0 0 80 80" width="65" height="65">
-                            <rect x="14" y="8" width="52" height="64" rx="6" fill="#1e293b" stroke="#ef4444" stroke-width="2.5"/>
-                            <rect x="32" y="24" width="16" height="30" rx="3" fill="#0f172a"/>
-                            <rect x="35" y="27" width="10" height="12" rx="2" fill="#ef4444"/>
-                            <text x="40" y="64" fill="#ffffff" font-size="7" text-anchor="middle" font-weight="bold">MCCB 100A</text>
-                        </svg>`;
-                case 'vfd_unit':
-                    return `
-                        <svg viewBox="0 0 80 80" width="65" height="65">
-                            <rect x="12" y="8" width="56" height="64" rx="6" fill="#0f172a" stroke="#8b5cf6" stroke-width="2.5"/>
-                            <rect x="18" y="16" width="44" height="20" rx="3" fill="#1e293b"/>
-                            <text x="40" y="30" fill="#8b5cf6" font-size="10" text-anchor="middle" font-weight="bold">50.0 Hz</text>
-                            <circle cx="40" cy="52" r="10" fill="#1e293b" stroke="#8b5cf6" stroke-width="2"/>
-                        </svg>`;
+                    return `<svg viewBox="0 0 80 80" width="65" height="65"><rect x="10" y="22" width="48" height="42" rx="4" fill="#1e293b" stroke="#3b82f6" stroke-width="2"/><line x1="18" y1="22" x2="18" y2="64" stroke="#334155" stroke-width="2"/><line x1="26" y1="22" x2="26" y2="64" stroke="#334155" stroke-width="2"/><line x1="34" y1="22" x2="34" y2="64" stroke="#334155" stroke-width="2"/><line x1="42" y1="22" x2="42" y2="64" stroke="#334155" stroke-width="2"/><rect x="58" y="38" width="14" height="10" rx="2" fill="#94a3b8"/><rect x="20" y="10" width="24" height="14" rx="3" fill="#f59e0b"/></svg>`;
                 default:
-                    return `
-                        <svg viewBox="0 0 80 80" width="65" height="65">
-                            <rect x="10" y="10" width="60" height="60" rx="8" fill="#1e293b" stroke="#3b82f6" stroke-width="2"/>
-                            <circle cx="40" cy="40" r="16" fill="#3b82f6"/>
-                        </svg>`;
+                    return `<svg viewBox="0 0 80 80" width="65" height="65"><rect x="14" y="8" width="52" height="64" rx="6" fill="#1e293b" stroke="#ef4444" stroke-width="2.5"/><rect x="32" y="24" width="16" height="30" rx="3" fill="#0f172a"/><rect x="35" y="27" width="10" height="12" rx="2" fill="#ef4444"/><text x="40" y="64" fill="#ffffff" font-size="7" text-anchor="middle" font-weight="bold">MCCB 100A</text></svg>`;
             }
         }
 
@@ -1236,18 +1214,15 @@
             const placeholder = document.getElementById('realCanvasPlaceholder');
             if (placeholder) placeholder.style.display = 'none';
 
-            const boardWidth = board.clientWidth || 300;
-            const itemsPerRow = Math.max(1, Math.floor(boardWidth / 140));
-            const row = Math.floor(compCount / itemsPerRow);
-            const col = compCount % itemsPerRow;
-
-            const startX = 20 + (col * 135);
-            const startY = 20 + (row * 155);
+            const startX = 30 + ((compCount % 3) * 160);
+            const startY = 30 + (Math.floor(compCount / 3) * 170);
 
             compCount++;
 
+            const compId = 'comp_' + Date.now() + '_' + Math.floor(Math.random()*1000);
             const compWrapper = document.createElement('div');
             compWrapper.className = 'real-component';
+            compWrapper.id = compId;
             compWrapper.style.position = 'absolute';
             compWrapper.style.top = `${startY}px`;
             compWrapper.style.left = `${startX}px`;
@@ -1259,13 +1234,13 @@
             const svgGraphic = getComponentSVG(item.id);
 
             compWrapper.innerHTML = `
-                <div style="position:relative; background:rgba(15, 23, 42, 0.95); border:1px solid var(--accent-color); padding:10px 12px; border-radius:14px; text-align:center; min-width:125px; box-shadow:0 8px 24px rgba(0,0,0,0.6);">
+                <div style="position:relative; background:rgba(15, 23, 42, 0.95); border:1px solid var(--accent-color); padding:10px 12px; border-radius:14px; text-align:center; min-width:130px; box-shadow:0 8px 24px rgba(0,0,0,0.6);">
                     <div style="position:absolute; top:6px; right:8px; width:7px; height:7px; background:#10b981; border-radius:50%; box-shadow:0 0 6px #10b981;"></div>
                     <span style="font-size:0.75rem; color:#fff; font-weight:bold; display:block; margin-bottom:6px; white-space:nowrap;">${item.label.replace('➕ ', '')}</span>
                     <div style="display:flex; justify-content:center; margin:4px 0;">${svgGraphic}</div>
                     <div style="margin-top:8px; display:flex; justify-content:space-between; gap:4px;">
-                        <span style="font-size:0.65rem; background:#ef4444; color:#fff; padding:2px 6px; border-radius:4px; font-weight:bold;">L1/L2/L3</span>
-                        <span style="font-size:0.65rem; background:#10b981; color:#fff; padding:2px 6px; border-radius:4px; font-weight:bold;">T1/T2/T3</span>
+                        <span class="term-btn" onclick="handleTerminalClick(this, '${compId}', 'L1/L2/L3')" style="font-size:0.65rem; background:#ef4444; color:#fff; padding:3px 6px; border-radius:4px; font-weight:bold;">L1/L2/L3</span>
+                        <span class="term-btn" onclick="handleTerminalClick(this, '${compId}', 'T1/T2/T3')" style="font-size:0.65rem; background:#10b981; color:#fff; padding:3px 6px; border-radius:4px; font-weight:bold;">T1/T2/T3</span>
                     </div>
                 </div>
             `;
@@ -1274,6 +1249,72 @@
             board.appendChild(compWrapper);
         }
 
+        // التعامل مع النقر على محطات التوصيل لربط الأسلاك
+        function handleTerminalClick(termElem, compId, termName) {
+            if (!isWireMode) return;
+
+            if (!selectedTerminal) {
+                selectedTerminal = { elem: termElem, compId: compId, termName: termName };
+                termElem.classList.add('selected-term');
+            } else {
+                if (selectedTerminal.elem === termElem) {
+                    selectedTerminal.elem.classList.remove('selected-term');
+                    selectedTerminal = null;
+                    return;
+                }
+
+                // إنشاء سلك توصيل جديد
+                createWire(selectedTerminal, { elem: termElem, compId: compId, termName: termName });
+                selectedTerminal.elem.classList.remove('selected-term');
+                selectedTerminal = null;
+            }
+        }
+
+        function createWire(startTerm, endTerm) {
+            const svgLayer = document.getElementById('wiresSvgLayer');
+            const wirePath = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+            
+            wirePath.setAttribute('stroke', '#3b82f6');
+            wirePath.setAttribute('stroke-width', '4');
+            wirePath.setAttribute('fill', 'none');
+            wirePath.setAttribute('stroke-linecap', 'round');
+            
+            svgLayer.appendChild(wirePath);
+
+            const wireObj = {
+                path: wirePath,
+                start: startTerm,
+                end: endTerm
+            };
+
+            wires.push(wireObj);
+            updateWires();
+        }
+
+        function updateWires() {
+            const board = document.getElementById('realSimBoard');
+            const boardRect = board.getBoundingClientRect();
+
+            wires.forEach(w => {
+                const rect1 = w.start.elem.getBoundingClientRect();
+                const rect2 = w.end.elem.getBoundingClientRect();
+
+                // تحويل إحداثيات المحطات الشاشية إلى إحداثيات SVG مع مراعاة الزوم
+                const x1 = (rect1.left + rect1.width/2 - boardRect.left) / currentZoom;
+                const y1 = (rect1.top + rect1.height/2 - boardRect.top) / currentZoom;
+                const x2 = (rect2.left + rect2.width/2 - boardRect.left) / currentZoom;
+                const y2 = (rect2.top + rect2.height/2 - boardRect.top) / currentZoom;
+
+                // رسم سلك منحني انسيابي (Bezier Curve)
+                const dx = Math.abs(x2 - x1) * 0.5;
+                const dy = Math.abs(y2 - y1) * 0.5;
+                const d = `M ${x1} ${y1} C ${x1} ${y1 + dy + 20}, ${x2} ${y2 - dy - 20}, ${x2} ${y2}`;
+                
+                w.path.setAttribute('d', d);
+            });
+        }
+
+        // دالة السحب المحسنة بدون حدود تمنع الإزاحة إلى أي مكان في اللوحة
         function makeElementDraggable(elmnt) {
             let startX = 0, startY = 0;
             let initialLeft = 0, initialTop = 0;
@@ -1282,8 +1323,10 @@
             elmnt.addEventListener('touchstart', dragStart, { passive: false });
 
             function dragStart(e) {
-                if (e.touches && e.touches.length > 1) return; // عدم سحب العنصر أثناء التكبير بالإصبعين
+                if (isWireMode) return; // تعطيل السحب في وضع التوصيل لمنع التضارب
+                if (e.touches && e.touches.length > 1) return;
                 if (e.cancelable) e.preventDefault();
+                
                 const point = e.touches ? e.touches[0] : e;
                 
                 startX = point.clientX;
@@ -1305,19 +1348,20 @@
             function elementDrag(e) {
                 if (e.touches && e.touches.length > 1) return;
                 if (e.cancelable) e.preventDefault();
+                
                 const point = e.touches ? e.touches[0] : e;
                 const dx = (point.clientX - startX) / currentZoom;
                 const dy = (point.clientY - startY) / currentZoom;
 
-                const board = document.getElementById('realSimBoard');
-                const maxLeft = (board.clientWidth || 300) - elmnt.offsetWidth;
-                const maxTop = (board.clientHeight || 400) - elmnt.offsetHeight;
-
-                let newLeft = Math.max(0, Math.min(initialLeft + dx, maxLeft));
-                let newTop = Math.max(0, Math.min(initialTop + dy, maxTop));
+                // السحب بحرية تامة داخل نطاق اللوحة العريضة 2000px
+                let newLeft = Math.max(0, Math.min(initialLeft + dx, 1850));
+                let newTop = Math.max(0, Math.min(initialTop + dy, 1850));
 
                 elmnt.style.left = `${newLeft}px`;
                 elmnt.style.top = `${newTop}px`;
+
+                // تحديث موقع الأسلاك المربوطة بالقطعة أثناء السحب مباشرة
+                updateWires();
             }
 
             function closeDragElement() {
@@ -1333,32 +1377,35 @@
             const box = document.getElementById('diagnosticAlertBox');
             box.style.display = 'block';
 
-            box.innerHTML = `
-                <div style="border-right:4px solid var(--warning-color); padding-right:10px;">
-                    <strong style="color:var(--warning-color); font-size:0.95rem;">⚠️ تشخيص فحص الدائرة: عطل نسيان خط الاستمرارية (Latch Fault)</strong>
-                    <p style="font-size:0.85rem; color:var(--text-muted); margin-top:4px;">
-                        تم اكتشاف عدم ربط نقطة التلامس المساعدة المفتوحة (NO Contact) بالتوازي مع زر التشغيل Start، وسيتوقف المحرك فور رفع يدك عن الزر.
-                    </p>
-                    <div style="margin-top:10px;">
-                        <button class="btn-primary" style="font-size:0.8rem; background:var(--accent-color);" onclick="applyAutoFixWire()">🛠️ تطبيق اقتراح الحل ورسم سلك Latch آلياً</button>
+            if (wires.length === 0) {
+                box.innerHTML = `
+                    <div style="border-right:4px solid var(--warning-color); padding-right:10px;">
+                        <strong style="color:var(--warning-color); font-size:0.95rem;">⚠️ تشخيص الفحص: لم يتم توصيل أي أسلاك في الدائرة!</strong>
+                        <p style="font-size:0.85rem; color:var(--text-muted); margin-top:4px;">
+                            يرجى تفعيل "وضع التوصيل 🔌" من الأعلى واختيار المحطات لربط العناصر بالأسلاك ثم إعادة الفحص.
+                        </p>
                     </div>
-                </div>
-            `;
-        }
-
-        function applyAutoFixWire() {
-            const box = document.getElementById('diagnosticAlertBox');
-            box.innerHTML = `
-                <strong style="color:var(--success-color);">✅ تم تصحيح خطأ التوصيل ورسم السلك المفقود تلقائياً! الدائرة تعمل بنجاح وبكفاءة كاملة ⚡</strong>
-            `;
+                `;
+            } else {
+                box.innerHTML = `
+                    <div style="border-right:4px solid var(--success-color); padding-right:10px;">
+                        <strong style="color:var(--success-color); font-size:0.95rem;">✅ تم فحص التوصيل: تم اكتشاف ${wires.length} أسلاك موصلة بنجاح!</strong>
+                        <p style="font-size:0.85rem; color:var(--text-muted); margin-top:4px;">
+                            مسار الدائرة متكامل، ولا توجد أي ثغرات أو قصر في الفازات (No Short Circuit detected).
+                        </p>
+                    </div>
+                `;
+            }
         }
 
         function clearSimBoard() {
             compCount = 0;
+            wires = [];
+            document.getElementById('wiresSvgLayer').innerHTML = '';
             resetCanvasZoom();
             const board = document.getElementById('realSimBoard');
             board.innerHTML = `
-                <p id="realCanvasPlaceholder" style="text-align:center; margin-top:190px; color:var(--text-muted); font-size:0.85rem;">
+                <p id="realCanvasPlaceholder" style="text-align:center; padding-top:190px; color:var(--text-muted); font-size:0.85rem;">
                     إختر القسم من الأعلى، واضغط على القطع الواقعية لبدء التوصيل واختبار الدائرة 🔌
                 </p>
             `;
@@ -1556,7 +1603,6 @@ NETWORK 1: ${p}
 
             renderSimTools();
 
-            // تفعيل مستشعرات الزوم اللمسي على شاشة المحاكاة
             const container = document.getElementById('realCanvasContainer');
             if (container) {
                 container.addEventListener('touchstart', (e) => {
