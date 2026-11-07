@@ -3,17 +3,15 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>المهندس الذكي | VoltAI Pro</title>
-
-    <!-- PWA & Web App Manifest -->
-    <meta name="theme-color" content="#0b0f19">
+    <title>VoltAI Pro | المهندس الذكي</title>
+    
+    <!-- PWA Requirements -->
+    <link rel="manifest" href="data:application/manifest+json,{%22name%22:%22VoltAI%20Pro%22,%22short_name%22:%22VoltAI%22,%22start_url%22:%22./%22,%22display%22:%22standalone%22,%22background_color%22:%22%23080c14%22,%22theme_color%22:%22%233b82f6%22,%22icons%22:[{%22src%22:%22https://cdn-icons-png.flaticon.com/512/3063/3063822.png%22,%22sizes%22:%22512x512%22,%22type%22:%22image/png%22}]}"/>
+    <meta name="theme-color" content="#080c14">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <meta name="apple-mobile-web-app-title" content="VoltAI">
 
-    <!-- External Libraries -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
 
     <style>
         :root[data-theme="dark"] {
@@ -21,16 +19,13 @@
             --card-bg: #111827;
             --card-border: #1f2937;
             --accent-color: #3b82f6;
-            --accent-hover: #2563eb;
             --accent-glow: rgba(59, 130, 246, 0.2);
             --text-main: #f9fafb;
             --text-muted: #9ca3af;
             --input-bg: #030712;
             --nav-bg: rgba(17, 24, 39, 0.85);
             --success-color: #10b981;
-            --warning-color: #f59e0b;
             --danger-color: #ef4444;
-            --shadow: 0 10px 30px -5px rgba(0, 0, 0, 0.5);
         }
 
         :root[data-theme="light"] {
@@ -38,400 +33,103 @@
             --card-bg: #ffffff;
             --card-border: #e5e7eb;
             --accent-color: #2563eb;
-            --accent-hover: #1d4ed8;
             --accent-glow: rgba(37, 99, 235, 0.15);
             --text-main: #111827;
             --text-muted: #4b5563;
             --input-bg: #f9fafb;
             --nav-bg: rgba(255, 255, 255, 0.9);
             --success-color: #059669;
-            --warning-color: #d97706;
             --danger-color: #dc2626;
-            --shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.08);
         }
 
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-            font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-            -webkit-tap-highlight-color: transparent;
-        }
-
-        body {
-            background-color: var(--bg-color);
-            color: var(--text-main);
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-            padding-bottom: 70px;
-            transition: background-color 0.3s ease, color 0.3s ease;
-        }
-
-        body.torch-active {
-            background-color: #ffffff !important;
-            color: #000000 !important;
-        }
-        body.torch-active * { display: none !important; }
-        body.torch-active #torchOverlay { display: flex !important; }
-
-        #torchOverlay {
-            display: none;
-            position: fixed;
-            top: 0; left: 0; right: 0; bottom: 0;
-            background: #ffffff;
-            z-index: 9999;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            color: #000;
-        }
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: system-ui, -apple-system, sans-serif; }
+        body { background: var(--bg-color); color: var(--text-main); min-height: 100vh; padding-bottom: 30px; }
 
         header {
-            background: var(--nav-bg);
-            backdrop-filter: blur(16px);
-            -webkit-backdrop-filter: blur(16px);
-            border-bottom: 1px solid var(--card-border);
-            padding: 12px 20px;
-            position: sticky;
-            top: 0;
-            z-index: 100;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
+            background: var(--nav-bg); backdrop-filter: blur(16px);
+            border-bottom: 1px solid var(--card-border); padding: 12px 20px;
+            position: sticky; top: 0; z-index: 100;
+            display: flex; justify-content: space-between; align-items: center;
         }
 
-        .logo-block {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .logo-svg { width: 36px; height: 36px; }
-
-        .logo-text {
-            font-size: 1.15rem;
-            font-weight: 800;
-            color: var(--text-main);
-            letter-spacing: -0.5px;
-        }
+        .logo-text { font-size: 1.15rem; font-weight: 800; color: var(--text-main); }
         .logo-accent { color: var(--accent-color); }
-
-        .header-actions {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-
+        .header-actions { display: flex; gap: 8px; }
         .icon-btn {
-            background: var(--input-bg);
-            border: 1px solid var(--card-border);
-            color: var(--text-main);
-            width: 38px;
-            height: 38px;
-            border-radius: 10px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            transition: all 0.2s ease;
-            text-decoration: none;
+            background: var(--input-bg); border: 1px solid var(--card-border);
+            color: var(--text-main); width: 38px; height: 38px; border-radius: 10px;
+            display: flex; align-items: center; justify-content: center; cursor: pointer; text-decoration: none;
         }
-
-        .icon-btn:hover {
-            border-color: var(--accent-color);
-            box-shadow: 0 0 10px var(--accent-glow);
-        }
-
-        .svg-icon {
-            width: 18px;
-            height: 18px;
-            fill: none;
-            stroke: currentColor;
-            stroke-width: 2;
-            stroke-linecap: round;
-            stroke-linejoin: round;
-        }
-
-        .ai-status-bar {
-            background: var(--card-bg);
-            border: 1px solid var(--card-border);
-            border-radius: 12px;
-            padding: 8px 14px;
-            font-size: 0.8rem;
-            color: var(--text-muted);
-            margin-bottom: 16px;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-        }
-
-        .status-dot {
-            width: 10px; height: 10px;
-            border-radius: 50%;
-            display: inline-block;
-            margin-right: 6px;
-        }
-        .status-connected { background-color: var(--success-color); box-shadow: 0 0 8px var(--success-color); }
 
         .tab-bar {
-            display: flex;
-            background: var(--card-bg);
-            border-bottom: 1px solid var(--card-border);
-            overflow-x: auto;
-            scrollbar-width: none;
-            padding: 8px 12px;
-            gap: 8px;
+            display: flex; background: var(--card-bg); border-bottom: 1px solid var(--card-border);
+            overflow-x: auto; scrollbar-width: none; padding: 8px 12px; gap: 8px;
         }
         .tab-bar::-webkit-scrollbar { display: none; }
 
         .tab-btn {
-            padding: 8px 14px;
-            border-radius: 12px;
-            border: 1px solid transparent;
-            background: transparent;
-            color: var(--text-muted);
-            font-size: 0.85rem;
-            font-weight: 600;
-            white-space: nowrap;
-            cursor: pointer;
-            transition: all 0.25s;
-            display: flex;
-            align-items: center;
-            gap: 8px;
+            padding: 8px 14px; border-radius: 10px; border: 1px solid transparent;
+            background: transparent; color: var(--text-muted); font-size: 0.85rem; font-weight: 600;
+            white-space: nowrap; cursor: pointer; display: flex; align-items: center; gap: 6px;
         }
+        .tab-btn.active { background: var(--accent-glow); border-color: var(--accent-color); color: var(--accent-color); }
 
-        .tab-btn.active {
-            background: var(--accent-glow);
-            border-color: var(--accent-color);
-            color: var(--accent-color);
-        }
-
-        main {
-            flex: 1;
-            max-width: 920px;
-            width: 100%;
-            margin: 0 auto;
-            padding: 16px;
-        }
-
-        .tab-content {
-            display: none;
-            animation: fadeIn 0.35s ease;
-        }
+        main { max-width: 900px; margin: 0 auto; padding: 16px; }
+        .tab-content { display: none; }
         .tab-content.active { display: block; }
 
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(8px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
         .card {
-            background: var(--card-bg);
-            border: 1px solid var(--card-border);
-            border-radius: 16px;
-            padding: 20px;
-            margin-bottom: 16px;
-            box-shadow: var(--shadow);
+            background: var(--card-bg); border: 1px solid var(--card-border);
+            border-radius: 14px; padding: 18px; margin-bottom: 16px;
         }
-
         .card-title {
-            font-size: 1.05rem;
-            font-weight: 700;
-            color: var(--accent-color);
-            margin-bottom: 16px;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            border-bottom: 1px dashed var(--card-border);
-            padding-bottom: 10px;
+            font-size: 1rem; font-weight: 700; color: var(--accent-color);
+            margin-bottom: 12px; border-bottom: 1px dashed var(--card-border); padding-bottom: 8px;
         }
 
-        .form-group { margin-bottom: 14px; }
-
-        label {
-            display: block;
-            font-size: 0.85rem;
-            font-weight: 600;
-            color: var(--text-muted);
-            margin-bottom: 6px;
-        }
-
+        .form-group { margin-bottom: 12px; }
+        label { display: block; font-size: 0.82rem; color: var(--text-muted); margin-bottom: 4px; }
         input, select, textarea {
-            width: 100%;
-            padding: 12px 14px;
-            background: var(--input-bg);
-            border: 1px solid var(--card-border);
-            border-radius: 10px;
-            color: var(--text-main);
-            font-size: 0.92rem;
-            outline: none;
-            transition: border-color 0.2s, box-shadow 0.2s;
+            width: 100%; padding: 10px; background: var(--input-bg);
+            border: 1px solid var(--card-border); border-radius: 8px; color: var(--text-main); outline: none;
         }
+        .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+        @media(max-width: 600px){ .grid-2 { grid-template-columns: 1fr; } }
 
-        input:focus, select:focus, textarea:focus {
-            border-color: var(--accent-color);
-            box-shadow: 0 0 8px var(--accent-glow);
+        button {
+            width: 100%; background: var(--accent-color); color: #fff; border: none;
+            padding: 10px; border-radius: 8px; font-weight: 700; cursor: pointer;
         }
-
-        .grid-2 {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 12px;
-        }
-        @media (max-width: 600px) { .grid-2 { grid-template-columns: 1fr; } }
-
-        .btn-primary {
-            width: 100%;
-            background: var(--accent-color);
-            color: #ffffff;
-            border: none;
-            padding: 12px 18px;
-            border-radius: 10px;
-            font-weight: 700;
-            font-size: 0.95rem;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
-            transition: all 0.2s ease;
-        }
-        .btn-success { background: var(--success-color); }
-        .btn-secondary { background: var(--input-bg); border: 1px solid var(--card-border); color: var(--text-main); }
-
         .result-box {
-            background: var(--input-bg);
-            border: 1px solid var(--card-border);
-            border-radius: 12px;
-            padding: 16px;
-            margin-top: 14px;
-            font-size: 0.9rem;
-            line-height: 1.6;
+            background: var(--input-bg); border: 1px solid var(--card-border);
+            border-radius: 8px; padding: 12px; margin-top: 12px; font-size: 0.88rem;
         }
-
-        pre {
-            white-space: pre-wrap;
-            font-family: 'Courier New', Courier, monospace;
-            color: var(--accent-color);
-            direction: ltr;
-            text-align: left;
-            background: rgba(0, 0, 0, 0.25);
-            padding: 12px;
-            border-radius: 8px;
-            margin-top: 8px;
-            overflow-x: auto;
-        }
-
-        .timeline {
-            position: relative;
-            padding-right: 20px;
-            border-right: 2px solid var(--card-border);
-            margin-top: 10px;
-        }
-        .timeline-item {
-            position: relative;
-            margin-bottom: 14px;
-            padding-right: 12px;
-        }
-        .timeline-item::before {
-            content: '';
-            position: absolute;
-            right: -26px;
-            top: 4px;
-            width: 10px; height: 10px;
-            border-radius: 50%;
-            background: var(--accent-color);
-            box-shadow: 0 0 8px var(--accent-glow);
-        }
-
-        .io-table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-top: 10px;
-            font-size: 0.85rem;
-        }
-        .io-table th, .io-table td {
-            border: 1px solid var(--card-border);
-            padding: 8px 12px;
-            text-align: right;
-        }
-        .io-table th { background: rgba(59, 130, 246, 0.1); color: var(--accent-color); }
-
-        footer {
-            text-align: center;
-            padding: 16px;
-            font-size: 0.8rem;
-            color: var(--text-muted);
-            border-top: 1px solid var(--card-border);
-            margin-top: auto;
-        }
+        pre { white-space: pre-wrap; font-family: monospace; color: #38bdf8; direction: ltr; text-align: left; }
+        .io-table { width: 100%; border-collapse: collapse; margin-top: 8px; font-size: 0.8rem; }
+        .io-table th, .io-table td { border: 1px solid var(--card-border); padding: 6px; text-align: right; }
     </style>
 </head>
 <body>
 
-    <div id="torchOverlay" onclick="toggleEmergencyTorch()">
-        <h2>🔦 وضع الكشاف الشديد للطوارئ</h2>
-        <p style="margin-top:10px;">انقر في أي مكان في الشاشة لإغلاق الكشاف</p>
-    </div>
-
     <header>
-        <div class="logo-block">
-            <svg class="logo-svg" viewBox="0 0 100 100" fill="none">
-                <circle cx="50" cy="50" r="48" stroke="#3b82f6" stroke-width="2" fill="#0b1120"/>
-                <path d="M50 15L65 30H75L80 35V45L85 50L80 55V65L75 70H65L50 85L35 70H25L20 65V55L15 50L20 45V35L25 30H35L50 15Z" fill="#151d30" stroke="#3b82f6" stroke-width="2"/>
-                <path d="M50 30L45 50H55L50 70L60 50H50L55 30" fill="#3b82f6" transform="translate(-2.5, 0)"/>
-            </svg>
-            <div class="logo-text">VoltAI Pro | <span class="logo-accent">المهندس</span></div>
-        </div>
+        <div class="logo-text">VoltAI Pro | <span class="logo-accent">المهندس</span></div>
         <div class="header-actions">
-            <button class="icon-btn" onclick="toggleEmergencyTorch()" title="كشاف طوارئ الشاشة">
-                <svg class="svg-icon" viewBox="0 0 24 24"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
-            </button>
-            <a href="https://t.me/mzr_iq" target="_blank" class="icon-btn" title="تواصل تلجرام">
-                <svg class="svg-icon" viewBox="0 0 24 24" stroke="#0088cc"><path d="M21.5 2L2 11.5l7 3 3 7 3.5-4.5 5.5 4z"/><path d="M9 14.5L21.5 2"/></svg>
-            </a>
-            <button class="icon-btn" onclick="toggleTheme()" title="تغيير المظهر">
-                <svg class="svg-icon" viewBox="0 0 24 24"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/></svg>
-            </button>
+            <a href="https://t.me/mzr_iq" target="_blank" class="icon-btn">✈️</a>
+            <button class="icon-btn" onclick="toggleTheme()">🌙</button>
         </div>
     </header>
 
     <div class="tab-bar">
-        <button class="tab-btn active" onclick="switchTab('ladder_sec')">
-            <svg class="svg-icon" viewBox="0 0 24 24"><rect x="4" y="4" width="16" height="16" rx="2"/></svg>
-            منطق Ladder Diagram
-        </button>
-        <button class="tab-btn" onclick="switchTab('stardelta_sec')">
-            <svg class="svg-icon" viewBox="0 0 24 24"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
-            ستار - دلتا
-        </button>
-        <button class="tab-btn" onclick="switchTab('sensor_sec')">
-            <svg class="svg-icon" viewBox="0 0 24 24"><circle cx="12" cy="12" r="5"/></svg>
-            محاكي الحساسات
-        </button>
-        <button class="tab-btn" onclick="switchTab('power_sec')">
-            <svg class="svg-icon" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/></svg>
-            حسابات القوى والأرضي
-        </button>
-        <button class="tab-btn" onclick="switchTab('plc_diag_sec')">
-            <svg class="svg-icon" viewBox="0 0 24 24"><path d="M14.7 6.3a1 1 0 000 1.4l1.6 1.6a1 1 0 001.4 0l3.77-3.77a6 6 0 01-7.94 7.94l-6.91 6.91a2.12 2.12 0 01-3-3l6.91-6.91a6 6 0 017.94-7.94l-3.76 3.76z"/></svg>
-            أعطال الـ PLC
-        </button>
-        <button class="tab-btn" onclick="switchTab('profile_sec')">
-            <svg class="svg-icon" viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
-            السجل والملف
-        </button>
+        <button class="tab-btn active" onclick="switchTab('t_ladder')">📄 منطق Ladder</button>
+        <button class="tab-btn" onclick="switchTab('t_stardelta')">⚙️ ستار - دلتا</button>
+        <button class="tab-btn" onclick="switchTab('t_sensor')">🎛️ محاكي الحساسات</button>
+        <button class="tab-btn" onclick="switchTab('t_power')">⚡ القوى والأرضي</button>
+        <button class="tab-btn" onclick="switchTab('t_plc_diag')">🚨 أعطال الـ PLC</button>
     </div>
 
     <main>
-        <div class="ai-status-bar">
-            <span>📡 حالة الاتصال بـ VoltAI (الرد الذكي):</span>
-            <span style="color:var(--success-color);"><span class="status-dot status-connected"></span>🟡 متصل - جاهز للرد</span>
-        </div>
-
-        <!-- 1. LADDER LOGIC GENERATOR -->
-        <div id="ladder_sec" class="tab-content active">
+        <!-- TAB 1: LADDER -->
+        <div id="t_ladder" class="tab-content active">
             <div class="card">
                 <div class="card-title">🤖 مولد مخططات وعناوين الـ Ladder Diagram</div>
                 <div class="form-group">
@@ -443,17 +141,17 @@
                 </div>
                 <div class="form-group">
                     <label>وصف دائرة التحكم المطلوبة:</label>
-                    <input type="text" id="ladderPrompt" placeholder="مثال: دائرة تشغيل وإيقاف محرك مع حماية أوفرلود وتأخير تايمر 5 ثوانٍ">
+                    <input type="text" id="ladderPrompt" placeholder="مثال: دائرة تشغيل وإيقاف محرك مع تايمر وحماية أوفرلود">
                 </div>
-                <button class="btn-primary" onclick="generateLadderDiagram()">توليد المخطط وتوزيع العناوين ⚡</button>
+                <button onclick="generateLadderDiagram()">توليد المخطط والعناوين ⚡</button>
                 <div id="ladderResult" class="result-box" style="display:none;"></div>
             </div>
         </div>
 
-        <!-- 2. STAR DELTA GENERATOR -->
-        <div id="stardelta_sec" class="tab-content">
+        <!-- TAB 2: STAR DELTA -->
+        <div id="t_stardelta" class="tab-content">
             <div class="card">
-                <div class="card-title">⚙️ مصمم ومولد دوائر ستار - دلتا (Star-Delta Starter)</div>
+                <div class="card-title">⚙️ مصمم دائرة ستار - دلتا (Star-Delta Starter)</div>
                 <div class="grid-2">
                     <div class="form-group">
                         <label>قدرة المحرك:</label>
@@ -462,245 +160,172 @@
                     <div class="form-group">
                         <label>الوحدة:</label>
                         <select id="sdUnit">
-                            <option value="kw">كيلوواط (kW)</option>
-                            <option value="hp">حصان (HP)</option>
+                            <option value="kw">kW</option>
+                            <option value="hp">HP</option>
                         </select>
                     </div>
                 </div>
-                <button class="btn-primary" onclick="generateStarDelta()">حساب القطع وتوليد المخطط ⚡</button>
+                <button onclick="generateStarDelta()">حساب القطع والتوقيت ⚡</button>
                 <div id="sdResult" class="result-box" style="display:none;"></div>
             </div>
         </div>
 
-        <!-- 3. SENSOR SIMULATOR -->
-        <div id="sensor_sec" class="tab-content">
+        <!-- TAB 3: SENSORS -->
+        <div id="t_sensor" class="tab-content">
             <div class="card">
-                <div class="card-title">🎛️ محاكي ومولد إشارات الحساسات (4-20mA & 0-10V)</div>
+                <div class="card-title">🎛️ محاكي إشارات الحساسات (4-20mA & 0-10V)</div>
                 <div class="grid-2">
                     <div class="form-group">
-                        <label>نوع الإشارة التناظرية:</label>
+                        <label>نوع الإشارة:</label>
                         <select id="signalType">
-                            <option value="current">تيار قياسي (4 - 20 mA)</option>
-                            <option value="voltage">جهد قياسي (0 - 10 V)</option>
+                            <option value="current">4 - 20 mA</option>
+                            <option value="voltage">0 - 10 V</option>
                         </select>
                     </div>
                     <div class="form-group">
-                        <label>القيمة المقروءة حالياً:</label>
-                        <input type="number" id="signalValue" step="0.1" placeholder="مثال: 12 mA أو 5 V">
+                        <label>القيمة المقروءة:</label>
+                        <input type="number" id="signalValue" step="0.1" placeholder="مثال: 12 mA">
                     </div>
                 </div>
                 <div class="grid-2">
                     <div class="form-group">
-                        <label>الحد الأدنى للحساس (Min Range):</label>
-                        <input type="number" id="sensorMin" value="0" placeholder="مثال: 0 Bar">
+                        <label>الحد الأدنى (Min):</label>
+                        <input type="number" id="sensorMin" value="0">
                     </div>
                     <div class="form-group">
-                        <label>الحد الأقصى للحساس (Max Range):</label>
-                        <input type="number" id="sensorMax" value="10" placeholder="مثال: 10 Bar">
+                        <label>الحد الأقصى (Max):</label>
+                        <input type="number" id="sensorMax" value="10">
                     </div>
                 </div>
-                <button class="btn-primary" onclick="calculateSensorSignal()">حساب النسبة والقيمة الهندسية</button>
+                <button onclick="calculateSensorSignal()">حساب القيمة الهندسية</button>
                 <div id="signalResult" class="result-box" style="display:none;"></div>
             </div>
         </div>
 
-        <!-- 4. POWER & EARTHING -->
-        <div id="power_sec" class="tab-content">
+        <!-- TAB 4: POWER & EARTHING -->
+        <div id="t_power" class="tab-content">
             <div class="card">
-                <div class="card-title">⚡ حاسبة سعة المولدات ومقاومة أرضي الوقاية</div>
+                <div class="card-title">⚡ حاسبة سعة المولدات ومقاومة التأريض</div>
                 <div class="grid-2">
                     <div class="form-group">
-                        <label>إجمالي أحمال المبنى (kW):</label>
+                        <label>أحمال المبنى (kW):</label>
                         <input type="number" id="genLoadKw" placeholder="مثال: 80">
                     </div>
                     <div class="form-group">
-                        <label>أكبر محرك يعمل بالمبنى (HP):</label>
+                        <label>أكبر محرك بالمبنى (HP):</label>
                         <input type="number" id="genMaxMotor" placeholder="مثال: 25">
                     </div>
                 </div>
-                <button class="btn-primary" onclick="calculateGeneratorAndEarthing()">حساب سعة المولد والأرضي 🧮</button>
+                <button onclick="calculateGenAndEarthing()">حساب سعة المولد والأرضي</button>
                 <div id="genResult" class="result-box" style="display:none;"></div>
             </div>
         </div>
 
-        <!-- 5. PLC DIAGNOSTICS -->
-        <div id="plc_diag_sec" class="tab-content">
+        <!-- TAB 5: PLC DIAGNOSTICS -->
+        <div id="t_plc_diag" class="tab-content">
             <div class="card">
                 <div class="card-title">🚨 دليل تشخيص أعطال لمبات الـ PLC</div>
                 <div class="grid-2">
                     <div class="form-group">
                         <label>المصنع:</label>
-                        <select id="plcBrandSelect">
-                            <option value="siemens">Siemens (S7-1200 / S7-300)</option>
-                            <option value="schneider">Schneider (Modicon / M221)</option>
+                        <select id="plcBrand">
+                            <option value="siemens">Siemens S7</option>
+                            <option value="schneider">Schneider Modicon</option>
                         </select>
                     </div>
                     <div class="form-group">
                         <label>حالة اللمبة:</label>
-                        <select id="plcLedSelect">
-                            <option value="sf_red">لمبة SF حمراء ثابتة</option>
-                            <option value="bf_blink">لمبة BF حمراء ترمش</option>
-                            <option value="stop_yellow">لمبة STOP برتقالية ثابتة</option>
+                        <select id="plcLed">
+                            <option value="sf_red">SF حمراء ثابتة</option>
+                            <option value="bf_blink">BF حمراء ترمش</option>
                         </select>
                     </div>
                 </div>
-                <button class="btn-primary" onclick="diagnosePlcLed()">فحص السبب الميداني والحل 🔍</button>
+                <button onclick="diagnosePlc()">فحص السبب الميداني والحل 🔍</button>
                 <div id="plcLedResult" class="result-box" style="display:none;"></div>
-            </div>
-        </div>
-
-        <!-- 6. PROFILE & HISTORY -->
-        <div id="profile_sec" class="tab-content">
-            <div class="card">
-                <div class="card-title">📜 سجل العمليات الأخير (Operation History Timeline)</div>
-                <div id="historyList" class="timeline">لا يوجد سجل عمليات حالياً.</div>
             </div>
         </div>
     </main>
 
-    <footer>
-        جميع الحقوق محفوظة © 2026 | تطوير <a href="https://github.com/std24341059-max" target="_blank" style="color:var(--accent-color); font-weight:bold; text-decoration:none;">المهندس منتظر عون</a>
-    </footer>
-
     <script>
-        function toggleEmergencyTorch() { document.body.classList.toggle('torch-active'); }
-        function toggleTheme() {
-            const current = document.documentElement.getAttribute('data-theme');
-            document.documentElement.setAttribute('data-theme', current === 'dark' ? 'light' : 'dark');
-        }
-
-        function switchTab(tabId) {
-            document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
-            document.querySelectorAll('.tab-content').forEach(content => content.classList.remove('active'));
+        function switchTab(tId) {
+            document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+            document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
             event.currentTarget.classList.add('active');
-            document.getElementById(tabId).classList.add('active');
+            document.getElementById(tId).classList.add('active');
         }
 
-        function saveHistory(action) {
-            let history = JSON.parse(localStorage.getItem('voltAiHist')) || [];
-            const time = new Date().toLocaleTimeString('ar-EG', { hour: '2-digit', minute: '2-digit' });
-            history.unshift(`[${time}] ${action}`);
-            if(history.length > 8) history.pop();
-            localStorage.setItem('voltAiHist', JSON.stringify(history));
-            renderHistory();
-        }
-
-        function renderHistory() {
-            let history = JSON.parse(localStorage.getItem('voltAiHist')) || [];
-            const container = document.getElementById('historyList');
-            if(!container) return;
-            if(history.length === 0) { container.innerHTML = 'لا يوجد سجل عمليات حالياً.'; return; }
-            container.innerHTML = history.map(item => `
-                <div class="timeline-item">
-                    <strong style="color:var(--text-main); font-size:0.85rem;">${item}</strong>
-                </div>
-            `).join('');
+        function toggleTheme() {
+            const cur = document.documentElement.getAttribute('data-theme');
+            document.documentElement.setAttribute('data-theme', cur === 'dark' ? 'light' : 'dark');
         }
 
         function generateLadderDiagram() {
-            const prompt = document.getElementById('ladderPrompt').value || 'دائرة تشغيل وإيقاف محرك';
+            const p = document.getElementById('ladderPrompt').value || 'تشغيل محرك';
             const std = document.getElementById('ladderStandard').value;
-            const resDiv = document.getElementById('ladderResult');
-
-            const isSiemens = std === 'siemens';
-            const startAddr = isSiemens ? 'I0.0' : 'I:1/0';
-            const stopAddr = isSiemens ? 'I0.1' : 'I:1/1';
-            const olAddr = isSiemens ? 'I0.2' : 'I:1/2';
-            const outAddr = isSiemens ? 'Q0.0' : 'O:2/0';
-
-            resDiv.style.display = 'block';
-            resDiv.innerHTML = `
-                <strong>📋 جدول تخصيص العناوين (I/O Table):</strong>
+            const res = document.getElementById('ladderResult');
+            const isS = std === 'siemens';
+            
+            res.style.display = 'block';
+            res.innerHTML = `
+                <strong>جدول العناوين (I/O Table):</strong>
                 <table class="io-table">
-                    <tr><th>العنوان البرمجي</th><th>العنصر الميداني</th><th>الحالة</th></tr>
-                    <tr><td><strong>${stopAddr}</strong></td><td>زر إيقاف (Stop)</td><td>NC مغلق</td></tr>
-                    <tr><td><strong>${olAddr}</strong></td><td>حماية أوفرلود (Overload)</td><td>NC مغلق</td></tr>
-                    <tr><td><strong>${startAddr}</strong></td><td>زر تشغيل (Start)</td><td>NO مفتوح</td></tr>
-                    <tr><td><strong>${outAddr}</strong></td><td>ملف المحرك (Motor Coil)</td><td>Output</td></tr>
+                    <tr><th>العنوان</th><th>العنصر</th></tr>
+                    <tr><td>${isS?'I0.0':'I:1/0'}</td><td>زر إيقاف NC</td></tr>
+                    <tr><td>${isS?'I0.1':'I:1/1'}</td><td>زر تشغيل NO</td></tr>
+                    <tr><td>${isS?'Q0.0':'O:2/0'}</td><td>مخرج المحرك</td></tr>
                 </table>
-
-                <h4 style="margin-top:10px;">📐 مخطط الـ Ladder Diagram النصي:</h4>
-                <pre>
-NETWORK 1: ${prompt}
-   ${stopAddr}         ${olAddr}         ${startAddr}        ${outAddr}
----|/|---------|/|---------| |---------( )---
- (Stop NC)   (Overload NC) (Start NO)   (Motor)
-                               |
-                             ${outAddr}
-                            ---| |---
-                             (Latch)
-                </pre>
+                <h4 style="margin-top:8px;">مخطط Ladder:</h4>
+                <pre>---|/|-------| |-------( )---
+ (Stop)    (Start)   (Motor)</pre>
             `;
-            saveHistory(`توليد Ladder: ${prompt}`);
         }
 
         function generateStarDelta() {
             const p = parseFloat(document.getElementById('sdPower').value);
-            const unit = document.getElementById('sdUnit').value;
-            const resDiv = document.getElementById('sdResult');
-
-            if(!p) { alert('يرجى إدخال قدرة المحرك'); return; }
-
-            const kw = (unit === 'hp') ? p * 0.746 : p;
+            const u = document.getElementById('sdUnit').value;
+            const res = document.getElementById('sdResult');
+            if(!p) return;
+            const kw = u === 'hp' ? p * 0.746 : p;
             const flc = (kw * 1000) / (1.732 * 380 * 0.85 * 0.88);
-            
-            resDiv.style.display = 'block';
-            resDiv.innerHTML = `
-                <strong>حسابات دائرة ستار - دلتا (${p} ${unit}):</strong><br>
-                - تيار الحمل الكامل (FLC): <strong>${flc.toFixed(1)} أمبير</strong><br>
-                - كونتاكتور الرئيسي والداخلية (Main & Delta): <strong>${Math.ceil(flc * 0.58)} أمبير</strong><br>
-                - كونتاكتور الستار (Star Contactor): <strong>${Math.ceil(flc * 0.33)} أمبير</strong><br>
-                - عيار الأوفرلود (تحت الدلتا): <strong style="color:var(--success-color);">${(flc * 0.58).toFixed(1)} أمبير</strong>
+            res.style.display = 'block';
+            res.innerHTML = `
+                - تيار FLC: <strong>${flc.toFixed(1)} A</strong><br>
+                - كونتاكتور الرئيسية والدلتا: <strong>${Math.ceil(flc * 0.58)} A</strong><br>
+                - كونتاكتور الستار: <strong>${Math.ceil(flc * 0.33)} A</strong><br>
+                - ضبط الأوفرلود: <strong>${(flc * 0.58).toFixed(1)} A</strong>
             `;
-            saveHistory(`حساب ستار-دلتا ${p}${unit}`);
         }
 
         function calculateSensorSignal() {
-            const type = document.getElementById('signalType').value;
-            const val = parseFloat(document.getElementById('signalValue').value);
+            const t = document.getElementById('signalType').value;
+            const v = parseFloat(document.getElementById('signalValue').value);
             const min = parseFloat(document.getElementById('sensorMin').value);
             const max = parseFloat(document.getElementById('sensorMax').value);
-            const resDiv = document.getElementById('signalResult');
-
-            if(isNaN(val)) { alert('يرجى إدخال القيمة'); return; }
-
-            let percentage = (type === 'current') ? ((val - 4) / 16) * 100 : (val / 10) * 100;
-            percentage = Math.max(0, Math.min(100, percentage));
-            const engVal = min + ((percentage / 100) * (max - min));
-
-            resDiv.style.display = 'block';
-            resDiv.innerHTML = `
-                - نسبة الإشارة: <strong>${percentage.toFixed(1)}%</strong><br>
-                - القيمة الهندسية المقابلة: <strong style="color:var(--accent-color);">${engVal.toFixed(2)} (من ${min} إلى ${max})</strong>
-            `;
-            saveHistory(`محاكاة حساس: ${val}`);
+            const res = document.getElementById('signalResult');
+            if(isNaN(v)) return;
+            let pct = t === 'current' ? ((v-4)/16)*100 : (v/10)*100;
+            pct = Math.max(0, Math.min(100, pct));
+            const eng = min + ((pct/100)*(max-min));
+            res.style.display = 'block';
+            res.innerHTML = `النسبة: <strong>${pct.toFixed(1)}%</strong> | القيمة الهندسية: <strong>${eng.toFixed(2)}</strong>`;
         }
 
-        function calculateGeneratorAndEarthing() {
+        function calculateGenAndEarthing() {
             const kw = parseFloat(document.getElementById('genLoadKw').value) || 0;
-            const motorHp = parseFloat(document.getElementById('genMaxMotor').value) || 0;
-            const resDiv = document.getElementById('genResult');
-
-            if(!kw) { alert('أدخل أحمال المبنى'); return; }
-
-            const recGenKva = Math.ceil(((kw / 0.8) * 1.25) + ((motorHp * 0.746 / 0.8) * 2));
-            resDiv.style.display = 'block';
-            resDiv.innerHTML = `
-                - سعة المولد المقترحة لتغطية تيار البدء: <strong style="color:var(--accent-color);">${recGenKva} kVA</strong><br>
-                - سعة القاطع الرئيسي: <strong>${Math.ceil((recGenKva * 1000)/(1.732 * 380))} A</strong>
-            `;
-            saveHistory(`حساب مولد ${kw}kW`);
+            const hp = parseFloat(document.getElementById('genMaxMotor').value) || 0;
+            const res = document.getElementById('genResult');
+            if(!kw) return;
+            const kva = Math.ceil(((kw/0.8)*1.25) + ((hp*0.746/0.8)*2));
+            res.style.display = 'block';
+            res.innerHTML = `سعة المولد المقترحة: <strong>${kva} kVA</strong> | القاطع: <strong>${Math.ceil((kva*1000)/(1.732*380))} A</strong>`;
         }
 
-        function diagnosePlcLed() {
-            const led = document.getElementById('plcLedSelect').value;
-            const resDiv = document.getElementById('plcLedResult');
-            resDiv.style.display = 'block';
-            resDiv.innerHTML = `<strong>نتيجة التشخيص:</strong> عطل في الربط الميداني أو خطأ في عنوان الـ I/O. افحص تغذية الـ 24V DC وتوافق العناوين.`;
-            saveHistory(`تشخيص لمبة PLC`);
+        function diagnosePlc() {
+            const res = document.getElementById('plcLedResult');
+            res.style.display = 'block';
+            res.innerHTML = `<strong>السبب:</strong> خطأ في التغذية أو انقطاع في سلك الإشارة. افحص خط الـ 24V DC والتوصيلات.`;
         }
-
-        window.onload = renderHistory;
     </script>
 </body>
 </html>
