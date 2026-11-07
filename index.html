@@ -439,7 +439,7 @@
         .sim-tabs-header {
             display: flex;
             gap: 8px;
-            margin-bottom: 14px;
+            margin-bottom: 12px;
             overflow-x: auto;
             padding-bottom: 6px;
             border-bottom: 1px solid var(--card-border);
@@ -461,6 +461,20 @@
             color: #fff;
             border-color: var(--accent-color);
         }
+
+        .comp-add-btn {
+            background: var(--input-bg);
+            border: 1px solid var(--accent-color);
+            color: var(--text-main);
+            padding: 8px 14px;
+            border-radius: 8px;
+            font-size: 0.8rem;
+            font-weight: bold;
+            cursor: pointer;
+            white-space: nowrap;
+            transition: all 0.2s ease;
+        }
+        .comp-add-btn:active { transform: scale(0.95); }
 
         .real-component {
             transition: transform 0.1s ease;
@@ -654,7 +668,7 @@
                     استوديو المحاكاة الصناعية الواقعي (Realistic Industrial Canvas)
                 </div>
 
-                <!-- شريط التبويبات التخصصية للأقسام -->
+                <!-- 1. شريط التبويبات التخصصية للأقسام -->
                 <div class="sim-tabs-header">
                     <button class="sim-tab-btn active" onclick="switchSimCategory('classic_sim', this)">⚡ 1. الكلاسيك كونترول</button>
                     <button class="sim-tab-btn" onclick="switchSimCategory('plc_sim', this)">💻 2. الـ PLC والأوتوميشن</button>
@@ -662,15 +676,17 @@
                     <button class="sim-tab-btn" onclick="switchSimCategory('breaker_sim', this)">🛡️ 4. الحمايات والقواطع</button>
                 </div>
 
-                <!-- شريط أدوات التوصيل و أزرار إدراج القطع -->
-                <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px; gap:8px; flex-wrap:wrap;">
-                    <div id="simToolsBar" style="display:flex; gap:8px; overflow-x:auto; padding-bottom:4px; flex:1;"></div>
-                    <button id="wireModeBtn" onclick="toggleWireMode()" class="btn-primary btn-secondary" style="width:auto; font-size:0.8rem; background:var(--card-bg); border-color:var(--accent-color); color:var(--accent-color);">
-                        🔌 وضع التوصيل: إيقاف
+                <!-- 2. زر وضع التوصيل بالأسلاك منفصل وفي سطر خاص -->
+                <div style="margin-bottom: 10px;">
+                    <button id="wireModeBtn" onclick="toggleWireMode()" class="btn-primary" style="background:var(--input-bg); border:1px solid var(--accent-color); color:var(--accent-color); font-size:0.85rem; padding:10px;">
+                        🔌 وضع التوصيل: إيقاف (اضغط لتفعيله)
                     </button>
                 </div>
 
-                <!-- لوحة الرسم والمحاكاة التفاعلية -->
+                <!-- 3. شريط أزرار إدراج القطع الواقعية مرتب أفقيًا لمنع أي تداخل -->
+                <div id="simToolsBar" style="display:flex; gap:8px; overflow-x:auto; padding-bottom:8px; margin-bottom:12px;"></div>
+
+                <!-- 4. لوحة الرسم والمحاكاة التفاعلية -->
                 <div id="realCanvasContainer" style="width:100%; height:460px; background:#070c17; border:2px solid var(--card-border); border-radius:14px; position:relative; overflow:hidden; background-image: radial-gradient(rgba(59, 130, 246, 0.15) 1px, transparent 1px); background-size: 24px 24px; touch-action: none;">
                     
                     <!-- أزرار التحكم بالزوم الطافية -->
@@ -1104,7 +1120,6 @@
         let currentZoom = 1.0;
         let initialPinchDistance = null;
 
-        // متغيرات محرك التوصيل بالأسلاك
         let isWireMode = false;
         let selectedTerminal = null;
         let wires = [];
@@ -1115,11 +1130,11 @@
             if (isWireMode) {
                 btn.style.background = 'var(--accent-color)';
                 btn.style.color = '#fff';
-                btn.innerHTML = '🔌 وضع التوصيل: يعمل (اختر محطتين)';
+                btn.innerHTML = '⚡ وضع التوصيل: يعمل (اختر محطتين بين القطع)';
             } else {
-                btn.style.background = 'var(--card-bg)';
+                btn.style.background = 'var(--input-bg)';
                 btn.style.color = 'var(--accent-color)';
-                btn.innerHTML = '🔌 وضع التوصيل: إيقاف';
+                btn.innerHTML = '🔌 وضع التوصيل: إيقاف (اضغط لتفعيله)';
                 if (selectedTerminal) {
                     selectedTerminal.elem.classList.remove('selected-term');
                     selectedTerminal = null;
@@ -1199,10 +1214,7 @@
 
             items.forEach(item => {
                 const b = document.createElement('button');
-                b.className = 'btn-primary btn-secondary';
-                b.style.width = 'auto';
-                b.style.fontSize = '0.8rem';
-                b.style.whiteSpace = 'nowrap';
+                b.className = 'comp-add-btn';
                 b.innerHTML = item.label;
                 b.onclick = () => addRealisticCompToCanvas(item);
                 toolsBar.appendChild(b);
@@ -1229,7 +1241,6 @@
             compWrapper.style.cursor = 'grab';
             compWrapper.style.touchAction = 'none';
             compWrapper.style.userSelect = 'none';
-            compWrapper.style.webkitUserSelect = 'none';
 
             const svgGraphic = getComponentSVG(item.id);
 
@@ -1249,7 +1260,6 @@
             board.appendChild(compWrapper);
         }
 
-        // التعامل مع النقر على محطات التوصيل لربط الأسلاك
         function handleTerminalClick(termElem, compId, termName) {
             if (!isWireMode) return;
 
@@ -1263,7 +1273,6 @@
                     return;
                 }
 
-                // إنشاء سلك توصيل جديد
                 createWire(selectedTerminal, { elem: termElem, compId: compId, termName: termName });
                 selectedTerminal.elem.classList.remove('selected-term');
                 selectedTerminal = null;
@@ -1299,13 +1308,11 @@
                 const rect1 = w.start.elem.getBoundingClientRect();
                 const rect2 = w.end.elem.getBoundingClientRect();
 
-                // تحويل إحداثيات المحطات الشاشية إلى إحداثيات SVG مع مراعاة الزوم
                 const x1 = (rect1.left + rect1.width/2 - boardRect.left) / currentZoom;
                 const y1 = (rect1.top + rect1.height/2 - boardRect.top) / currentZoom;
                 const x2 = (rect2.left + rect2.width/2 - boardRect.left) / currentZoom;
                 const y2 = (rect2.top + rect2.height/2 - boardRect.top) / currentZoom;
 
-                // رسم سلك منحني انسيابي (Bezier Curve)
                 const dx = Math.abs(x2 - x1) * 0.5;
                 const dy = Math.abs(y2 - y1) * 0.5;
                 const d = `M ${x1} ${y1} C ${x1} ${y1 + dy + 20}, ${x2} ${y2 - dy - 20}, ${x2} ${y2}`;
@@ -1314,7 +1321,6 @@
             });
         }
 
-        // دالة السحب المحسنة بدون حدود تمنع الإزاحة إلى أي مكان في اللوحة
         function makeElementDraggable(elmnt) {
             let startX = 0, startY = 0;
             let initialLeft = 0, initialTop = 0;
@@ -1323,7 +1329,7 @@
             elmnt.addEventListener('touchstart', dragStart, { passive: false });
 
             function dragStart(e) {
-                if (isWireMode) return; // تعطيل السحب في وضع التوصيل لمنع التضارب
+                if (isWireMode) return;
                 if (e.touches && e.touches.length > 1) return;
                 if (e.cancelable) e.preventDefault();
                 
@@ -1353,14 +1359,12 @@
                 const dx = (point.clientX - startX) / currentZoom;
                 const dy = (point.clientY - startY) / currentZoom;
 
-                // السحب بحرية تامة داخل نطاق اللوحة العريضة 2000px
                 let newLeft = Math.max(0, Math.min(initialLeft + dx, 1850));
                 let newTop = Math.max(0, Math.min(initialTop + dy, 1850));
 
                 elmnt.style.left = `${newLeft}px`;
                 elmnt.style.top = `${newTop}px`;
 
-                // تحديث موقع الأسلاك المربوطة بالقطعة أثناء السحب مباشرة
                 updateWires();
             }
 
