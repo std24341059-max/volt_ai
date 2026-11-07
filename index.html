@@ -466,15 +466,18 @@
             background: var(--input-bg);
             border: 1px solid var(--accent-color);
             color: var(--text-main);
-            padding: 8px 14px;
+            padding: 10px 16px;
             border-radius: 8px;
-            font-size: 0.8rem;
+            font-size: 0.85rem;
             font-weight: bold;
             cursor: pointer;
             white-space: nowrap;
             transition: all 0.2s ease;
+            user-select: none;
+            -webkit-user-select: none;
+            touch-action: manipulation;
         }
-        .comp-add-btn:active { transform: scale(0.95); }
+        .comp-add-btn:active { transform: scale(0.95); background: var(--accent-color); color: #fff; }
 
         .real-component {
             transition: transform 0.1s ease;
@@ -482,6 +485,7 @@
         .term-btn {
             cursor: pointer;
             transition: transform 0.2s, background 0.2s;
+            touch-action: manipulation;
         }
         .term-btn:hover, .term-btn.selected-term {
             transform: scale(1.15);
@@ -1224,8 +1228,20 @@
                 b.type = 'button';
                 b.innerHTML = '➕ ' + item.label;
 
-                b.addEventListener('click', function(ev) {
+                // إصلاح حدث النقر والمس للهواتف
+                let isTouched = false;
+                
+                b.addEventListener('pointerdown', function(ev) {
                     ev.preventDefault();
+                    isTouched = true;
+                    addRealisticCompToCanvas(item);
+                }, { passive: false });
+
+                b.addEventListener('click', function(ev) {
+                    if (isTouched) {
+                        isTouched = false;
+                        return;
+                    }
                     addRealisticCompToCanvas(item);
                 });
 
@@ -1238,8 +1254,13 @@
             const placeholder = document.getElementById('realCanvasPlaceholder');
             if (placeholder) placeholder.style.display = 'none';
 
-            const startX = 40 + ((compCount % 3) * 150);
-            const startY = 40 + (Math.floor(compCount / 3) * 160);
+            // حساب الإحداثيات بالنسبة للشاشة المرئية لضمان الظهور فوراً
+            const container = document.getElementById('realCanvasContainer');
+            const scrollLeft = container ? container.scrollLeft : 0;
+            const scrollTop = container ? container.scrollTop : 0;
+
+            const startX = Math.max(20, scrollLeft + 30 + ((compCount % 2) * 140));
+            const startY = Math.max(20, scrollTop + 30 + (Math.floor(compCount / 2) * 150));
 
             compCount++;
 
@@ -1253,6 +1274,7 @@
             compWrapper.style.cursor = 'grab';
             compWrapper.style.touchAction = 'none';
             compWrapper.style.userSelect = 'none';
+            compWrapper.style.zIndex = '50';
 
             const svgGraphic = getComponentSVG(item.id);
 
@@ -1270,6 +1292,11 @@
 
             makeElementDraggable(compWrapper);
             board.appendChild(compWrapper);
+
+            // التمرير والتمركز الآلي
+            setTimeout(() => {
+                compWrapper.scrollIntoView({ behavior: 'smooth', block: 'center', inline: 'center' });
+            }, 50);
         }
 
         function handleTerminalClick(termElem, compId, termName) {
@@ -1381,7 +1408,7 @@
             }
 
             function closeDragElement() {
-                elmnt.style.zIndex = 10;
+                elmnt.style.zIndex = 50;
                 document.removeEventListener('mousemove', elementDrag);
                 document.removeEventListener('mouseup', closeDragElement);
                 document.removeEventListener('touchmove', elementDrag);
