@@ -3,14 +3,15 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>VoltAI Pro | المهندس الذكي</title>
-    
+    <title>المهندس الذكي | VoltAI Pro</title>
+
     <!-- PWA Requirements -->
     <link rel="manifest" href="data:application/manifest+json,{%22name%22:%22VoltAI%20Pro%22,%22short_name%22:%22VoltAI%22,%22start_url%22:%22./%22,%22display%22:%22standalone%22,%22background_color%22:%22%23080c14%22,%22theme_color%22:%22%233b82f6%22,%22icons%22:[{%22src%22:%22https://cdn-icons-png.flaticon.com/512/3063/3063822.png%22,%22sizes%22:%22512x512%22,%22type%22:%22image/png%22}]}"/>
     <meta name="theme-color" content="#080c14">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 
+    <!-- External Libraries -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
 
     <style>
@@ -19,13 +20,16 @@
             --card-bg: #111827;
             --card-border: #1f2937;
             --accent-color: #3b82f6;
-            --accent-glow: rgba(59, 130, 246, 0.2);
+            --accent-hover: #2563eb;
+            --accent-glow: rgba(59, 130, 246, 0.25);
             --text-main: #f9fafb;
             --text-muted: #9ca3af;
             --input-bg: #030712;
             --nav-bg: rgba(17, 24, 39, 0.85);
             --success-color: #10b981;
+            --warning-color: #f59e0b;
             --danger-color: #ef4444;
+            --shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.5);
         }
 
         :root[data-theme="light"] {
@@ -33,20 +37,41 @@
             --card-bg: #ffffff;
             --card-border: #e5e7eb;
             --accent-color: #2563eb;
+            --accent-hover: #1d4ed8;
             --accent-glow: rgba(37, 99, 235, 0.15);
             --text-main: #111827;
             --text-muted: #4b5563;
             --input-bg: #f9fafb;
             --nav-bg: rgba(255, 255, 255, 0.9);
             --success-color: #059669;
+            --warning-color: #d97706;
             --danger-color: #dc2626;
+            --shadow: 0 10px 20px -5px rgba(0, 0, 0, 0.08);
         }
 
-        * { box-sizing: border-box; margin: 0; padding: 0; font-family: system-ui, -apple-system, sans-serif; }
-        body { background: var(--bg-color); color: var(--text-main); min-height: 100vh; padding-bottom: 30px; }
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: system-ui, -apple-system, sans-serif; -webkit-tap-highlight-color: transparent; }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+
+        body.torch-active { background-color: #ffffff !important; color: #000000 !important; }
+        body.torch-active * { display: none !important; }
+        body.torch-active #torchOverlay { display: flex !important; }
+
+        #torchOverlay {
+            display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0;
+            background: #ffffff; z-index: 9999; flex-direction: column;
+            align-items: center; justify-content: center; color: #000;
+        }
 
         header {
-            background: var(--nav-bg); backdrop-filter: blur(16px);
+            background: var(--nav-bg); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
             border-bottom: 1px solid var(--card-border); padding: 12px 20px;
             position: sticky; top: 0; z-index: 100;
             display: flex; justify-content: space-between; align-items: center;
@@ -54,11 +79,13 @@
 
         .logo-text { font-size: 1.15rem; font-weight: 800; color: var(--text-main); }
         .logo-accent { color: var(--accent-color); }
-        .header-actions { display: flex; gap: 8px; }
+        .header-actions { display: flex; align-items: center; gap: 8px; }
+
         .icon-btn {
             background: var(--input-bg); border: 1px solid var(--card-border);
             color: var(--text-main); width: 38px; height: 38px; border-radius: 10px;
-            display: flex; align-items: center; justify-content: center; cursor: pointer; text-decoration: none;
+            display: flex; align-items: center; justify-content: center;
+            cursor: pointer; transition: all 0.2s ease; text-decoration: none;
         }
 
         .tab-bar {
@@ -70,66 +97,88 @@
         .tab-btn {
             padding: 8px 14px; border-radius: 10px; border: 1px solid transparent;
             background: transparent; color: var(--text-muted); font-size: 0.85rem; font-weight: 600;
-            white-space: nowrap; cursor: pointer; display: flex; align-items: center; gap: 6px;
+            white-space: nowrap; cursor: pointer; transition: all 0.2s; display: flex; align-items: center; gap: 6px;
         }
         .tab-btn.active { background: var(--accent-glow); border-color: var(--accent-color); color: var(--accent-color); }
 
-        main { max-width: 900px; margin: 0 auto; padding: 16px; }
-        .tab-content { display: none; }
+        main { flex: 1; max-width: 920px; width: 100%; margin: 0 auto; padding: 16px; display: flex; flex-direction: column; gap: 16px; }
+
+        .tab-content { display: none; animation: fadeIn 0.3s ease; }
         .tab-content.active { display: block; }
+
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: translateY(0); } }
 
         .card {
             background: var(--card-bg); border: 1px solid var(--card-border);
-            border-radius: 14px; padding: 18px; margin-bottom: 16px;
+            border-radius: 14px; padding: 18px; margin-bottom: 16px; box-shadow: var(--shadow);
         }
+
         .card-title {
-            font-size: 1rem; font-weight: 700; color: var(--accent-color);
-            margin-bottom: 12px; border-bottom: 1px dashed var(--card-border); padding-bottom: 8px;
+            font-size: 1.05rem; font-weight: 700; color: var(--accent-color);
+            margin-bottom: 14px; display: flex; align-items: center; gap: 8px;
+            border-bottom: 1px dashed var(--card-border); padding-bottom: 8px;
         }
 
         .form-group { margin-bottom: 12px; }
-        label { display: block; font-size: 0.82rem; color: var(--text-muted); margin-bottom: 4px; }
-        input, select, textarea {
-            width: 100%; padding: 10px; background: var(--input-bg);
-            border: 1px solid var(--card-border); border-radius: 8px; color: var(--text-main); outline: none;
-        }
-        .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
-        @media(max-width: 600px){ .grid-2 { grid-template-columns: 1fr; } }
+        label { display: block; font-size: 0.85rem; font-weight: 600; color: var(--text-muted); margin-bottom: 6px; }
 
-        button {
-            width: 100%; background: var(--accent-color); color: #fff; border: none;
-            padding: 10px; border-radius: 8px; font-weight: 700; cursor: pointer;
+        input, select, textarea {
+            width: 100%; padding: 10px 14px; background: var(--input-bg);
+            border: 1px solid var(--card-border); border-radius: 8px; color: var(--text-main);
+            font-size: 0.92rem; outline: none; transition: border-color 0.2s;
         }
+        input:focus, select:focus, textarea:focus { border-color: var(--accent-color); }
+
+        .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+        @media (max-width: 600px) { .grid-2 { grid-template-columns: 1fr; } }
+
+        button, .btn-primary {
+            width: 100%; background: var(--accent-color); color: #ffffff; border: none;
+            padding: 11px 16px; border-radius: 8px; font-weight: 700; font-size: 0.92rem;
+            cursor: pointer; display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+        }
+
         .result-box {
             background: var(--input-bg); border: 1px solid var(--card-border);
-            border-radius: 8px; padding: 12px; margin-top: 12px; font-size: 0.88rem;
+            border-radius: 10px; padding: 14px; margin-top: 12px; font-size: 0.9rem; line-height: 1.6;
         }
-        pre { white-space: pre-wrap; font-family: monospace; color: #38bdf8; direction: ltr; text-align: left; }
-        .io-table { width: 100%; border-collapse: collapse; margin-top: 8px; font-size: 0.8rem; }
-        .io-table th, .io-table td { border: 1px solid var(--card-border); padding: 6px; text-align: right; }
+
+        pre { white-space: pre-wrap; font-family: monospace; color: #38bdf8; direction: ltr; text-align: left; background: rgba(0,0,0,0.3); padding: 10px; border-radius: 8px; margin-top: 8px; }
+        .io-table { width: 100%; border-collapse: collapse; margin-top: 10px; font-size: 0.85rem; }
+        .io-table th, .io-table td { border: 1px solid var(--card-border); padding: 8px; text-align: right; }
+        .io-table th { background: rgba(59, 130, 246, 0.1); color: var(--accent-color); }
+
+        footer { text-align: center; padding: 16px; font-size: 0.85rem; color: var(--text-muted); border-top: 1px solid var(--card-border); margin-top: auto; }
     </style>
 </head>
 <body>
 
+    <div id="torchOverlay" onclick="toggleEmergencyTorch()">
+        <h2>🔦 وضع الكشاف الشديد للطوارئ</h2>
+        <p style="margin-top:10px;">انقر في أي مكان في الشاشة لإغلاق الكشاف</p>
+    </div>
+
     <header>
-        <div class="logo-text">VoltAI Pro | <span class="logo-accent">المهندس</span></div>
+        <div class="logo-text">⚡ VoltAI Pro | <span class="logo-accent">المهندس</span></div>
         <div class="header-actions">
-            <a href="https://t.me/mzr_iq" target="_blank" class="icon-btn">✈️</a>
-            <button class="icon-btn" onclick="toggleTheme()">🌙</button>
+            <button class="icon-btn" onclick="toggleEmergencyTorch()" title="كشاف طوارئ">🔦</button>
+            <a href="https://t.me/mzr_iq" target="_blank" class="icon-btn" title="تواصل تلجرام">✈️</a>
+            <button class="icon-btn" onclick="toggleTheme()" title="تغيير المظهر">🌙</button>
         </div>
     </header>
 
     <div class="tab-bar">
-        <button class="tab-btn active" onclick="switchTab('t_ladder')">📄 منطق Ladder</button>
-        <button class="tab-btn" onclick="switchTab('t_stardelta')">⚙️ ستار - دلتا</button>
-        <button class="tab-btn" onclick="switchTab('t_sensor')">🎛️ محاكي الحساسات</button>
-        <button class="tab-btn" onclick="switchTab('t_power')">⚡ القوى والأرضي</button>
-        <button class="tab-btn" onclick="switchTab('t_plc_diag')">🚨 أعطال الـ PLC</button>
+        <button class="tab-btn active" onclick="switchTab('tab_ladder')">🤖 منطق Ladder</button>
+        <button class="tab-btn" onclick="switchTab('tab_stardelta')">⚙️ ستار - دلتا</button>
+        <button class="tab-btn" onclick="switchTab('tab_sensor')">🎛️ محاكي الحساسات</button>
+        <button class="tab-btn" onclick="switchTab('tab_power')">📐 القوى والأرضي</button>
+        <button class="tab-btn" onclick="switchTab('tab_ats')">⚡ ATS ومكثفات PFC</button>
+        <button class="tab-btn" onclick="switchTab('tab_plc_diag')">🚨 أعطال الـ PLC</button>
     </div>
 
     <main>
-        <!-- TAB 1: LADDER -->
-        <div id="t_ladder" class="tab-content active">
+        <!-- 1. LADDER -->
+        <div id="tab_ladder" class="tab-content active">
             <div class="card">
                 <div class="card-title">🤖 مولد مخططات وعناوين الـ Ladder Diagram</div>
                 <div class="form-group">
@@ -141,17 +190,17 @@
                 </div>
                 <div class="form-group">
                     <label>وصف دائرة التحكم المطلوبة:</label>
-                    <input type="text" id="ladderPrompt" placeholder="مثال: دائرة تشغيل وإيقاف محرك مع تايمر وحماية أوفرلود">
+                    <input type="text" id="ladderPrompt" placeholder="مثال: دائرة تشغيل وإيقاف محرك مع تايمر 5 ثوانٍ وحماية أوفرلود">
                 </div>
-                <button onclick="generateLadderDiagram()">توليد المخطط والعناوين ⚡</button>
+                <button onclick="generateLadderDiagram()">توليد الـ Ladder وتوزيع العناوين ⚡</button>
                 <div id="ladderResult" class="result-box" style="display:none;"></div>
             </div>
         </div>
 
-        <!-- TAB 2: STAR DELTA -->
-        <div id="t_stardelta" class="tab-content">
+        <!-- 2. STAR DELTA & MOTORS -->
+        <div id="tab_stardelta" class="tab-content">
             <div class="card">
-                <div class="card-title">⚙️ مصمم دائرة ستار - دلتا (Star-Delta Starter)</div>
+                <div class="card-title">⚙️ مصمم ومولد دائرة ستار - دلتا (Star-Delta Starter)</div>
                 <div class="grid-2">
                     <div class="form-group">
                         <label>قدرة المحرك:</label>
@@ -160,30 +209,30 @@
                     <div class="form-group">
                         <label>الوحدة:</label>
                         <select id="sdUnit">
-                            <option value="kw">kW</option>
-                            <option value="hp">HP</option>
+                            <option value="kw">كيلوواط (kW)</option>
+                            <option value="hp">حصان (HP)</option>
                         </select>
                     </div>
                 </div>
-                <button onclick="generateStarDelta()">حساب القطع والتوقيت ⚡</button>
+                <button onclick="generateStarDelta()">حساب القطع وتوليد المخطط ⚡</button>
                 <div id="sdResult" class="result-box" style="display:none;"></div>
             </div>
         </div>
 
-        <!-- TAB 3: SENSORS -->
-        <div id="t_sensor" class="tab-content">
+        <!-- 3. SENSORS -->
+        <div id="tab_sensor" class="tab-content">
             <div class="card">
                 <div class="card-title">🎛️ محاكي إشارات الحساسات (4-20mA & 0-10V)</div>
                 <div class="grid-2">
                     <div class="form-group">
                         <label>نوع الإشارة:</label>
                         <select id="signalType">
-                            <option value="current">4 - 20 mA</option>
-                            <option value="voltage">0 - 10 V</option>
+                            <option value="current">تيار قياسي (4 - 20 mA)</option>
+                            <option value="voltage">جهد قياسي (0 - 10 V)</option>
                         </select>
                     </div>
                     <div class="form-group">
-                        <label>القيمة المقروءة:</label>
+                        <label>القيمة المقروءة حالياً:</label>
                         <input type="number" id="signalValue" step="0.1" placeholder="مثال: 12 mA">
                     </div>
                 </div>
@@ -197,47 +246,112 @@
                         <input type="number" id="sensorMax" value="10">
                     </div>
                 </div>
-                <button onclick="calculateSensorSignal()">حساب القيمة الهندسية</button>
+                <button onclick="calculateSensorSignal()">حساب القيمة الهندسية المقابلة</button>
                 <div id="signalResult" class="result-box" style="display:none;"></div>
             </div>
         </div>
-
-        <!-- TAB 4: POWER & EARTHING -->
-        <div id="t_power" class="tab-content">
+<!-- بداية الجزء الثاني -->
+        <!-- 4. POWER & EARTHING -->
+        <div id="tab_power" class="tab-content">
             <div class="card">
-                <div class="card-title">⚡ حاسبة سعة المولدات ومقاومة التأريض</div>
+                <div class="card-title">⚡ حاسبة سعة المولدات ومقاومة تأريض الوقاية</div>
                 <div class="grid-2">
                     <div class="form-group">
-                        <label>أحمال المبنى (kW):</label>
+                        <label>إجمالي أحمال المبنى (kW):</label>
                         <input type="number" id="genLoadKw" placeholder="مثال: 80">
                     </div>
                     <div class="form-group">
-                        <label>أكبر محرك بالمبنى (HP):</label>
+                        <label>أكبر محرك يعمل بالمبنى (HP):</label>
                         <input type="number" id="genMaxMotor" placeholder="مثال: 25">
                     </div>
                 </div>
                 <button onclick="calculateGenAndEarthing()">حساب سعة المولد والأرضي</button>
                 <div id="genResult" class="result-box" style="display:none;"></div>
             </div>
+            <div class="card">
+                <div class="card-title">📐 حاسبة مقطع الكابلات وهبوط الجهد (Voltage Drop)</div>
+                <div class="grid-2">
+                    <div class="form-group">
+                        <label>التيار (Ampere):</label>
+                        <input type="number" id="cableCurrent" placeholder="مثال: 50">
+                    </div>
+                    <div class="form-group">
+                        <label>طول الكابل (متر):</label>
+                        <input type="number" id="cableLength" placeholder="مثال: 100">
+                    </div>
+                </div>
+                <div class="grid-2">
+                    <div class="form-group">
+                        <label>مادة الكابل:</label>
+                        <select id="cableMaterial">
+                            <option value="copper">نحاس (Copper)</option>
+                            <option value="aluminum">ألمنيوم (Aluminum)</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>مقطع الكابل (mm²):</label>
+                        <input type="number" id="cableSize" placeholder="مثال: 16">
+                    </div>
+                </div>
+                <button onclick="calculateCable()">حساب هبوط الجهد</button>
+                <div id="cableResult" class="result-box" style="display:none;"></div>
+            </div>
         </div>
 
-        <!-- TAB 5: PLC DIAGNOSTICS -->
-        <div id="t_plc_diag" class="tab-content">
+        <!-- 5. ATS & PFC -->
+        <div id="tab_ats" class="tab-content">
+            <div class="card">
+                <div class="card-title">⚡ مصمم لوحات ATS ومكثفات PFC</div>
+                <div class="form-group">
+                    <label>سعة لوحة الـ ATS المطلوبة:</label>
+                    <select id="atsCapacity">
+                        <option value="20">20 أمبير (منزلي)</option>
+                        <option value="40">40 أمبير (متوسط)</option>
+                        <option value="100">100 أمبير (صناعي)</option>
+                    </select>
+                </div>
+                <button onclick="generateATSPlan()">توليد مخطط ومكونات ATS</button>
+                <div id="atsResult" class="result-box" style="display:none;"></div>
+            </div>
+            <div class="card">
+                <div class="card-title">⚡ تصحيح معامل القدرة (PFC)</div>
+                <div class="grid-2">
+                    <div class="form-group">
+                        <label>القدرة الفعالة (kW):</label>
+                        <input type="number" id="pfcPower" placeholder="مثال: 100">
+                    </div>
+                    <div class="form-group">
+                        <label>معامل القدرة الحالي:</label>
+                        <input type="number" id="pfcCurrent" step="0.01" placeholder="مثال: 0.75">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>معامل القدرة المستهدف:</label>
+                    <input type="number" id="pfcTarget" step="0.01" value="0.95">
+                </div>
+                <button onclick="calculatePFC()">حساب قدرة بنك المكثفات (kVAr)</button>
+                <div id="pfcResult" class="result-box" style="display:none;"></div>
+            </div>
+        </div>
+
+        <!-- 6. PLC DIAGNOSTICS -->
+        <div id="tab_plc_diag" class="tab-content">
             <div class="card">
                 <div class="card-title">🚨 دليل تشخيص أعطال لمبات الـ PLC</div>
                 <div class="grid-2">
                     <div class="form-group">
                         <label>المصنع:</label>
                         <select id="plcBrand">
-                            <option value="siemens">Siemens S7</option>
-                            <option value="schneider">Schneider Modicon</option>
+                            <option value="siemens">Siemens (S7-1200 / S7-300)</option>
+                            <option value="schneider">Schneider (Modicon)</option>
                         </select>
                     </div>
                     <div class="form-group">
                         <label>حالة اللمبة:</label>
                         <select id="plcLed">
-                            <option value="sf_red">SF حمراء ثابتة</option>
-                            <option value="bf_blink">BF حمراء ترمش</option>
+                            <option value="sf_red">لمبة SF حمراء ثابتة</option>
+                            <option value="bf_blink">لمبة BF حمراء ترمش</option>
+                            <option value="stop_yellow">لمبة STOP برتقالية ثابتة</option>
                         </select>
                     </div>
                 </div>
@@ -247,6 +361,10 @@
         </div>
     </main>
 
+    <footer>
+        جميع الحقوق محفوظة © 2026 | تطوير <a href="https://github.com/std24341059-max" target="_blank" style="color:var(--accent-color); font-weight:bold; text-decoration:none;">المهندس منتظر عون</a>
+    </footer>
+
     <script>
         function switchTab(tId) {
             document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
@@ -255,29 +373,39 @@
             document.getElementById(tId).classList.add('active');
         }
 
+        function toggleEmergencyTorch() { document.body.classList.toggle('torch-active'); }
         function toggleTheme() {
             const cur = document.documentElement.getAttribute('data-theme');
             document.documentElement.setAttribute('data-theme', cur === 'dark' ? 'light' : 'dark');
         }
 
         function generateLadderDiagram() {
-            const p = document.getElementById('ladderPrompt').value || 'تشغيل محرك';
+            const p = document.getElementById('ladderPrompt').value || 'دائرة تشغيل محرك';
             const std = document.getElementById('ladderStandard').value;
             const res = document.getElementById('ladderResult');
             const isS = std === 'siemens';
             
             res.style.display = 'block';
             res.innerHTML = `
-                <strong>جدول العناوين (I/O Table):</strong>
+                <strong>📋 جدول تخصيص العناوين (I/O Table):</strong>
                 <table class="io-table">
-                    <tr><th>العنوان</th><th>العنصر</th></tr>
-                    <tr><td>${isS?'I0.0':'I:1/0'}</td><td>زر إيقاف NC</td></tr>
-                    <tr><td>${isS?'I0.1':'I:1/1'}</td><td>زر تشغيل NO</td></tr>
-                    <tr><td>${isS?'Q0.0':'O:2/0'}</td><td>مخرج المحرك</td></tr>
+                    <tr><th>العنوان البرمجي</th><th>العنصر الميداني</th><th>الحالة</th></tr>
+                    <tr><td><strong>${isS?'I0.0':'I:1/0'}</strong></td><td>زر إيقاف (Stop)</td><td>NC مغلق</td></tr>
+                    <tr><td><strong>${isS?'I0.1':'I:1/1'}</strong></td><td>حماية أوفرلود (Overload)</td><td>NC مغلق</td></tr>
+                    <tr><td><strong>${isS?'I0.2':'I:1/2'}</strong></td><td>زر تشغيل (Start)</td><td>NO مفتوح</td></tr>
+                    <tr><td><strong>${isS?'Q0.0':'O:2/0'}</strong></td><td>ملف المحرك (Motor)</td><td>Output</td></tr>
                 </table>
-                <h4 style="margin-top:8px;">مخطط Ladder:</h4>
-                <pre>---|/|-------| |-------( )---
- (Stop)    (Start)   (Motor)</pre>
+                <h4 style="margin-top:10px;">📐 مخطط الـ Ladder Diagram النصي:</h4>
+                <pre>
+NETWORK 1: ${p}
+   ${isS?'I0.0':'I:1/0'}       ${isS?'I0.1':'I:1/1'}       ${isS?'I0.2':'I:1/2'}      ${isS?'Q0.0':'O:2/0'}
+---|/|---------|/|---------| |---------( )---
+ (Stop NC)   (Overload NC) (Start NO)   (Motor)
+                               |
+                            ${isS?'Q0.0':'O:2/0'}
+                            ---| |---
+                             (Latch)
+                </pre>
             `;
         }
 
@@ -285,15 +413,16 @@
             const p = parseFloat(document.getElementById('sdPower').value);
             const u = document.getElementById('sdUnit').value;
             const res = document.getElementById('sdResult');
-            if(!p) return;
+            if(!p) { alert('أدخل قدرة المحرك'); return; }
             const kw = u === 'hp' ? p * 0.746 : p;
             const flc = (kw * 1000) / (1.732 * 380 * 0.85 * 0.88);
             res.style.display = 'block';
             res.innerHTML = `
-                - تيار FLC: <strong>${flc.toFixed(1)} A</strong><br>
-                - كونتاكتور الرئيسية والدلتا: <strong>${Math.ceil(flc * 0.58)} A</strong><br>
-                - كونتاكتور الستار: <strong>${Math.ceil(flc * 0.33)} A</strong><br>
-                - ضبط الأوفرلود: <strong>${(flc * 0.58).toFixed(1)} A</strong>
+                <strong>حسابات دائرة ستار - دلتا (${p} ${u}):</strong><br>
+                - تيار الحمل الكامل (FLC): <strong>${flc.toFixed(1)} أمبير</strong><br>
+                - كونتاكتور الرئيسي والداخلية: <strong>${Math.ceil(flc * 0.58)} أمبير</strong><br>
+                - كونتاكتور الستار: <strong>${Math.ceil(flc * 0.33)} أمبير</strong><br>
+                - عيار الأوفرلود (تحت الدلتا): <strong style="color:var(--success-color);">${(flc * 0.58).toFixed(1)} أمبير</strong>
             `;
         }
 
@@ -303,28 +432,69 @@
             const min = parseFloat(document.getElementById('sensorMin').value);
             const max = parseFloat(document.getElementById('sensorMax').value);
             const res = document.getElementById('signalResult');
-            if(isNaN(v)) return;
-            let pct = t === 'current' ? ((v-4)/16)*100 : (v/10)*100;
+            if(isNaN(v)) { alert('أدخل القيمة المقروءة'); return; }
+            let pct = t === 'current' ? ((v - 4) / 16) * 100 : (v / 10) * 100;
             pct = Math.max(0, Math.min(100, pct));
-            const eng = min + ((pct/100)*(max-min));
+            const eng = min + ((pct / 100) * (max - min));
             res.style.display = 'block';
-            res.innerHTML = `النسبة: <strong>${pct.toFixed(1)}%</strong> | القيمة الهندسية: <strong>${eng.toFixed(2)}</strong>`;
+            res.innerHTML = `
+                - نسبة الإشارة: <strong>${pct.toFixed(1)}%</strong><br>
+                - القيمة الهندسية: <strong style="color:var(--accent-color);">${eng.toFixed(2)} (من ${min} إلى ${max})</strong>
+            `;
         }
 
         function calculateGenAndEarthing() {
             const kw = parseFloat(document.getElementById('genLoadKw').value) || 0;
             const hp = parseFloat(document.getElementById('genMaxMotor').value) || 0;
             const res = document.getElementById('genResult');
-            if(!kw) return;
-            const kva = Math.ceil(((kw/0.8)*1.25) + ((hp*0.746/0.8)*2));
+            if(!kw) { alert('أدخل أحمال المبنى'); return; }
+            const kva = Math.ceil(((kw / 0.8) * 1.25) + ((hp * 0.746 / 0.8) * 2));
             res.style.display = 'block';
-            res.innerHTML = `سعة المولد المقترحة: <strong>${kva} kVA</strong> | القاطع: <strong>${Math.ceil((kva*1000)/(1.732*380))} A</strong>`;
+            res.innerHTML = `
+                - سعة المولد المقترحة: <strong style="color:var(--accent-color);">${kva} kVA</strong><br>
+                - سعة القاطع الرئيسي: <strong>${Math.ceil((kva * 1000)/(1.732 * 380))} A</strong>
+            `;
+        }
+
+        function calculateCable() {
+            const I = parseFloat(document.getElementById('cableCurrent').value);
+            const L = parseFloat(document.getElementById('cableLength').value);
+            const mat = document.getElementById('cableMaterial').value;
+            const S = parseFloat(document.getElementById('cableSize').value);
+            const res = document.getElementById('cableResult');
+            if(!I || !L || !S) return;
+            const rho = mat === 'copper' ? 0.018 : 0.028;
+            const vDrop = (Math.sqrt(3) * L * I * rho) / S;
+            const pctDrop = (vDrop / 380) * 100;
+            res.style.display = 'block';
+            res.innerHTML = `
+                - هبوط الجهد: <strong>${vDrop.toFixed(2)} V (${pctDrop.toFixed(2)}%)</strong><br>
+                - التقييم: <strong style="color:${pctDrop <= 4 ? 'var(--success-color)' : 'var(--danger-color)'};">${pctDrop <= 4 ? 'مقبول (أقل من 4%)' : 'غير مقبول! يرجى زيادة مقطع الكابل'}</strong>
+            `;
+        }
+
+        function generateATSPlan() {
+            const cap = document.getElementById('atsCapacity').value;
+            const res = document.getElementById('atsResult');
+            res.style.display = 'block';
+            res.innerHTML = `<strong>مكونات لوحة ATS (${cap}A):</strong> عدد 2 كونتاكتور sعة ${Math.ceil(cap * 1.25)}A + انترلوك ميكانيكي وكهربائي + تيمر تأخير خط المولد.`;
+        }
+
+        function calculatePFC() {
+            const P = parseFloat(document.getElementById('pfcPower').value);
+            const pf1 = parseFloat(document.getElementById('pfcCurrent').value);
+            const pf2 = parseFloat(document.getElementById('pfcTarget').value);
+            const res = document.getElementById('pfcResult');
+            if(!P || !pf1 || !pf2) return;
+            const Qc = P * (Math.tan(Math.acos(pf1)) - Math.tan(Math.acos(pf2)));
+            res.style.display = 'block';
+            res.innerHTML = `سعة بنك المكثفات المطلوبة: <strong style="color:var(--accent-color);">${Qc.toFixed(2)} kVAr</strong>`;
         }
 
         function diagnosePlc() {
             const res = document.getElementById('plcLedResult');
             res.style.display = 'block';
-            res.innerHTML = `<strong>السبب:</strong> خطأ في التغذية أو انقطاع في سلك الإشارة. افحص خط الـ 24V DC والتوصيلات.`;
+            res.innerHTML = `<strong>نتيجة التشخيص:</strong> عطل في التغذية الميدانية أو انقطاع خط التوصيل الـ 24V DC. قم بفحص سلامة الأسلاك والعناوين.`;
         }
     </script>
 </body>
