@@ -539,47 +539,47 @@
         </div>
 
         <nav class="drawer-nav">
-            <button class="drawer-item active" onclick="switchDomain('hub')">
+            <button class="drawer-item active" onclick="switchDomain('hub', event)">
                 <svg class="svg-icon" viewBox="0 0 24 24"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
                 الواجهة الرئيسية (AI Hub)
             </button>
-            <button class="drawer-item" onclick="switchDomain('simulator_studio')">
+            <button class="drawer-item" onclick="switchDomain('simulator_studio', event)">
                 <svg class="svg-icon" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polygon points="10 8 16 12 10 16 10 8"/></svg>
                 استوديو المحاكاة الصناعية Reality Hub 🛠️
             </button>
-            <button class="drawer-item" onclick="switchDomain('classic')">
+            <button class="drawer-item" onclick="switchDomain('classic', event)">
                 <svg class="svg-icon" viewBox="0 0 24 24"><rect x="4" y="4" width="16" height="16" rx="2"/><line x1="9" y1="9" x2="15" y2="15"/><line x1="15" y1="9" x2="9" y2="15"/></svg>
                 أنظمة التحكم الكلاسيكي
             </button>
-            <button class="drawer-item" onclick="switchDomain('plc')">
+            <button class="drawer-item" onclick="switchDomain('plc', event)">
                 <svg class="svg-icon" viewBox="0 0 24 24"><rect x="2" y="6" width="20" height="12" rx="2"/><path d="M6 12h4M14 12h4"/></svg>
                 أنظمة الـ PLC والأوتوميشن
             </button>
-            <button class="drawer-item" onclick="switchDomain('vfd')">
+            <button class="drawer-item" onclick="switchDomain('vfd', event)">
                 <svg class="svg-icon" viewBox="0 0 24 24"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>
                 مغيرات السرعة (VFD & Drives)
             </button>
-            <button class="drawer-item" onclick="switchDomain('power')">
+            <button class="drawer-item" onclick="switchDomain('power', event)">
                 <svg class="svg-icon" viewBox="0 0 24 24"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
                 الحسابات والقواطع الكهربائية
             </button>
-            <button class="drawer-item" onclick="switchDomain('solar')">
+            <button class="drawer-item" onclick="switchDomain('solar', event)">
                 <svg class="svg-icon" viewBox="0 0 24 24"><circle cx="12" cy="12" r="5"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42"/></svg>
                 الطاقة الشمسية والـ UPS
             </button>
-            <button class="drawer-item" onclick="switchDomain('theraja')">
+            <button class="drawer-item" onclick="switchDomain('theraja', event)">
                 <svg class="svg-icon" viewBox="0 0 24 24"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
                 مرجع وحلال مسائل ثيراجي
             </button>
-            <button class="drawer-item" onclick="switchDomain('standards')">
+            <button class="drawer-item" onclick="switchDomain('standards', event)">
                 <svg class="svg-icon" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
                 المعايير العالمية (NEC / IEC)
             </button>
-            <button class="drawer-item" onclick="switchDomain('bom_export')">
+            <button class="drawer-item" onclick="switchDomain('bom_export', event)">
                 <svg class="svg-icon" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M12 18v-6"/><path d="M9 15l3 3 3-3"/></svg>
                 مجمع المشتريات والـ BOM
             </button>
-            <button class="drawer-item" onclick="switchDomain('profile')">
+            <button class="drawer-item" onclick="switchDomain('profile', event)">
                 <svg class="svg-icon" viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
                 بطاقة المهندس والـ PDF
             </button>
@@ -676,14 +676,14 @@
                     <button class="sim-tab-btn" onclick="switchSimCategory('breaker_sim', this)">🛡️ 4. الحمايات والقواطع</button>
                 </div>
 
-                <!-- 2. زر وضع التوصيل بالأسلاك منفصل وفي سطر خاص -->
+                <!-- 2. زر وضع التوصيل بالأسلاك -->
                 <div style="margin-bottom: 10px;">
                     <button id="wireModeBtn" onclick="toggleWireMode()" class="btn-primary" style="background:var(--input-bg); border:1px solid var(--accent-color); color:var(--accent-color); font-size:0.85rem; padding:10px;">
                         🔌 وضع التوصيل: إيقاف (اضغط لتفعيله)
                     </button>
                 </div>
 
-                <!-- 3. شريط أزرار إدراج القطع الواقعية مرتب أفقيًا لمنع أي تداخل -->
+                <!-- 3. شريط أزرار إدراج القطع الواقعية مرتب أفقيًا -->
                 <div id="simToolsBar" style="display:flex; gap:8px; overflow-x:auto; padding-bottom:8px; margin-bottom:12px;"></div>
 
                 <!-- 4. لوحة الرسم والمحاكاة التفاعلية -->
@@ -1042,16 +1042,19 @@
         function toggleDrawer() {
             const drawer = document.getElementById('sideDrawer');
             const overlay = document.getElementById('drawerOverlay');
-            drawer.classList.toggle('open');
-            overlay.classList.toggle('open');
+            if (drawer && overlay) {
+                drawer.classList.toggle('open');
+                overlay.classList.toggle('open');
+            }
         }
 
-        function switchDomain(domainId) {
+        function switchDomain(domainId, evt) {
             document.querySelectorAll('.drawer-item').forEach(btn => btn.classList.remove('active'));
             document.querySelectorAll('.tab-content').forEach(content => content.classList.remove('active'));
             
-            if (event && event.currentTarget) {
-                event.currentTarget.classList.add('active');
+            const targetBtn = evt ? evt.currentTarget : null;
+            if (targetBtn) {
+                targetBtn.classList.add('active');
             }
             
             const targetTab = document.getElementById(domainId);
@@ -1059,7 +1062,10 @@
                 targetTab.classList.add('active');
             }
             
-            toggleDrawer();
+            const drawer = document.getElementById('sideDrawer');
+            if (drawer && drawer.classList.contains('open')) {
+                toggleDrawer();
+            }
         }
 
         // Feature 1: Image Upload Handler
@@ -1163,24 +1169,24 @@
 
         const SIM_CATEGORIES = {
             classic_sim: [
-                { id: 'mccb', label: '➕ قاطع MCCB 3-Pole' },
-                { id: 'contactor', label: '➕ كونتاكتور الرئيسي' },
-                { id: 'overload', label: '➕ أوفرلود حراري (Thermal OL)' },
-                { id: 'motor', label: '➕ محرك 3-Phase induction' }
+                { id: 'mccb', label: 'قاطع MCCB 3-Pole' },
+                { id: 'contactor', label: 'كونتاكتور الرئيسي' },
+                { id: 'overload', label: 'أوفرلود حراري (Thermal OL)' },
+                { id: 'motor', label: 'محرك 3-Phase induction' }
             ],
             plc_sim: [
-                { id: 'plc_cpu', label: '➕ وحدة PLC Siemens S7-1200' },
-                { id: 'sensor', label: '➕ حساس قُرب (Proximity Sensor)' },
-                { id: 'relay_module', label: '➕ وحدة مرحلات Relay Board' }
+                { id: 'plc_cpu', label: 'وحدة PLC Siemens S7-1200' },
+                { id: 'sensor', label: 'حساس قُرب (Proximity Sensor)' },
+                { id: 'relay_module', label: 'وحدة مرحلات Relay Board' }
             ],
             vfd_sim: [
-                { id: 'vfd_unit', label: '➕ مغير سرعة VFD (ABB/Siemens)' },
-                { id: 'potentiometer', label: '➕ مقاومة متغيرة (Speed Pot)' }
+                { id: 'vfd_unit', label: 'مغير سرعة VFD (ABB/Siemens)' },
+                { id: 'potentiometer', label: 'مقاومة متغيرة (Speed Pot)' }
             ],
             breaker_sim: [
-                { id: 'acb_breaker', label: '➕ قاطع هوائي رئيسي ACB' },
-                { id: 'phase_failure', label: '➕ ريليه حماية الفازات Phase Failure' },
-                { id: 'earth_leakage', label: '➕ قاطع العطل الأرضي GFCI' }
+                { id: 'acb_breaker', label: 'قاطع هوائي رئيسي ACB' },
+                { id: 'phase_failure', label: 'ريليه حماية الفازات Phase Failure' },
+                { id: 'earth_leakage', label: 'قاطع العطل الأرضي GFCI' }
             ]
         };
 
@@ -1215,8 +1221,14 @@
             items.forEach(item => {
                 const b = document.createElement('button');
                 b.className = 'comp-add-btn';
-                b.innerHTML = item.label;
-                b.onclick = () => addRealisticCompToCanvas(item);
+                b.type = 'button';
+                b.innerHTML = '➕ ' + item.label;
+
+                b.addEventListener('click', function(ev) {
+                    ev.preventDefault();
+                    addRealisticCompToCanvas(item);
+                });
+
                 toolsBar.appendChild(b);
             });
         }
@@ -1226,8 +1238,8 @@
             const placeholder = document.getElementById('realCanvasPlaceholder');
             if (placeholder) placeholder.style.display = 'none';
 
-            const startX = 30 + ((compCount % 3) * 160);
-            const startY = 30 + (Math.floor(compCount / 3) * 170);
+            const startX = 40 + ((compCount % 3) * 150);
+            const startY = 40 + (Math.floor(compCount / 3) * 160);
 
             compCount++;
 
@@ -1247,7 +1259,7 @@
             compWrapper.innerHTML = `
                 <div style="position:relative; background:rgba(15, 23, 42, 0.95); border:1px solid var(--accent-color); padding:10px 12px; border-radius:14px; text-align:center; min-width:130px; box-shadow:0 8px 24px rgba(0,0,0,0.6);">
                     <div style="position:absolute; top:6px; right:8px; width:7px; height:7px; background:#10b981; border-radius:50%; box-shadow:0 0 6px #10b981;"></div>
-                    <span style="font-size:0.75rem; color:#fff; font-weight:bold; display:block; margin-bottom:6px; white-space:nowrap;">${item.label.replace('➕ ', '')}</span>
+                    <span style="font-size:0.75rem; color:#fff; font-weight:bold; display:block; margin-bottom:6px; white-space:nowrap;">${item.label}</span>
                     <div style="display:flex; justify-content:center; margin:4px 0;">${svgGraphic}</div>
                     <div style="margin-top:8px; display:flex; justify-content:space-between; gap:4px;">
                         <span class="term-btn" onclick="handleTerminalClick(this, '${compId}', 'L1/L2/L3')" style="font-size:0.65rem; background:#ef4444; color:#fff; padding:3px 6px; border-radius:4px; font-weight:bold;">L1/L2/L3</span>
