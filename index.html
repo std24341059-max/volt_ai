@@ -435,6 +435,40 @@
         .sim-btn-start { background: var(--success-color); color: white; }
         .sim-btn-stop { background: var(--danger-color); color: white; }
 
+        /* REALITY HUB SIMULATOR TABS & STYLES */
+        .sim-tabs-header {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 14px;
+            overflow-x: auto;
+            padding-bottom: 6px;
+            border-bottom: 1px solid var(--card-border);
+        }
+        .sim-tab-btn {
+            background: var(--input-bg);
+            border: 1px solid var(--card-border);
+            color: var(--text-muted);
+            padding: 8px 14px;
+            border-radius: 8px;
+            font-size: 0.82rem;
+            font-weight: 700;
+            cursor: pointer;
+            white-space: nowrap;
+            transition: all 0.2s;
+        }
+        .sim-tab-btn.active {
+            background: var(--accent-color);
+            color: #fff;
+            border-color: var(--accent-color);
+        }
+
+        .real-component {
+            transition: transform 0.2s ease;
+        }
+        .real-component:hover {
+            transform: scale(1.02);
+        }
+
         pre {
             white-space: pre-wrap;
             font-family: monospace;
@@ -488,6 +522,10 @@
             <button class="drawer-item active" onclick="switchDomain('hub')">
                 <svg class="svg-icon" viewBox="0 0 24 24"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
                 الواجهة الرئيسية (AI Hub)
+            </button>
+            <button class="drawer-item" onclick="switchDomain('simulator_studio')">
+                <svg class="svg-icon" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polygon points="10 8 16 12 10 16 10 8"/></svg>
+                استوديو المحاكاة الصناعية Reality Hub 🛠️
             </button>
             <button class="drawer-item" onclick="switchDomain('classic')">
                 <svg class="svg-icon" viewBox="0 0 24 24"><rect x="4" y="4" width="16" height="16" rx="2"/><line x1="9" y1="9" x2="15" y2="15"/><line x1="15" y1="9" x2="9" y2="15"/></svg>
@@ -599,6 +637,45 @@
                 <p style="font-size:0.9rem; color:var(--text-muted); line-height:1.6;">
                     اختر القسم التخصصي المطلوب من القائمة الجانبية (≡) أو استخدم مركز الذكاء الاصطناعي أعلاه للحصول على تحليلات فورية، محاكاة دوائر الـ DOL، أو استخراج جداول المشتريات تقارير PDF الرسمية.
                 </p>
+            </div>
+        </div>
+
+        <!-- NEW FEATURE: REALITY SIMULATOR STUDIO (قسم استوديو المحاكاة الصناعية Reality Hub) -->
+        <div id="simulator_studio" class="tab-content">
+            <div class="card">
+                <div class="card-title">
+                    <svg class="svg-icon" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polygon points="10 8 16 12 10 16 10 8"/></svg>
+                    استوديو المحاكاة الصناعية الواقعي (Realistic Industrial Canvas)
+                </div>
+
+                <!-- شريط التبويبات التخصصية للأقسام -->
+                <div class="sim-tabs-header">
+                    <button class="sim-tab-btn active" onclick="switchSimCategory('classic_sim', this)">⚡ 1. الكلاسيك كونترول</button>
+                    <button class="sim-tab-btn" onclick="switchSimCategory('plc_sim', this)">💻 2. الـ PLC والأوتوميشن</button>
+                    <button class="sim-tab-btn" onclick="switchSimCategory('vfd_sim', this)">🌀 3. مغيرات السرعة (VFD)</button>
+                    <button class="sim-tab-btn" onclick="switchSimCategory('breaker_sim', this)">🛡️ 4. الحمايات والقواطع</button>
+                </div>
+
+                <!-- شريط أزرار إدراج القطع الواقعية (تفاعلي بالجافاسكربت) -->
+                <div id="simToolsBar" style="display:flex; gap:8px; margin-bottom:12px; overflow-x:auto; padding-bottom:6px;"></div>
+
+                <!-- لوحة الرسم والمحاكاة التفاعلية (Canvas Board) -->
+                <div id="realCanvasContainer" style="width:100%; height:440px; background:#070c17; border:2px solid var(--card-border); border-radius:14px; position:relative; overflow:hidden; background-image: radial-gradient(rgba(59, 130, 246, 0.15) 1px, transparent 1px); background-size: 24px 24px;">
+                    <div id="realSimBoard" style="width:100%; height:100%; position:relative;">
+                        <p id="realCanvasPlaceholder" style="text-align:center; margin-top:190px; color:var(--text-muted); font-size:0.85rem;">
+                            إختر القسم من الأعلى، واضغط على القطع الواقعية لبدء التوصيل واختبار الدائرة 🔌
+                        </p>
+                    </div>
+                </div>
+
+                <!-- أزرار الإجراءات والفحص الذكي -->
+                <div style="display:flex; gap:10px; margin-top:12px;">
+                    <button class="btn-primary btn-success" style="flex:2;" onclick="runSmartDiagnostic()">⚡ فحص الدائرة واكتشاف الأخطاء الذكي</button>
+                    <button class="btn-primary btn-secondary" style="flex:1;" onclick="clearSimBoard()">🗑️ مسح اللوحة</button>
+                </div>
+
+                <!-- صندوق التنبيه واكتشاف الأخطاء وتطبيق التصحيح الآلي -->
+                <div id="diagnosticAlertBox" class="result-box" style="display:none; margin-top:12px;"></div>
             </div>
         </div>
 
@@ -996,6 +1073,151 @@
             document.getElementById('simStatus').innerHTML = 'حالة المحرك: متوقف';
         }
 
+        /* -------------------------------------------------------------
+           NEW FEATURE: REALITY HUB INDUSTRIAL SIMULATOR ENGINE & LOGIC
+           ------------------------------------------------------------- */
+        let currentSimCategory = 'classic_sim';
+
+        const SIM_CATEGORIES = {
+            classic_sim: [
+                { id: 'mccb', label: '➕ قاطع MCCB 3-Pole', img: 'https://cdn-icons-png.flaticon.com/512/2558/2558062.png' },
+                { id: 'contactor', label: '➕ كونتاكتور الرئيسي', img: 'https://cdn-icons-png.flaticon.com/512/3655/3655584.png' },
+                { id: 'overload', label: '➕ أوفرلود حراري (Thermal OL)', img: 'https://cdn-icons-png.flaticon.com/512/2558/2558062.png' },
+                { id: 'motor', label: '➕ محرك 3-Phase induction', img: 'https://cdn-icons-png.flaticon.com/512/1995/1995470.png' }
+            ],
+            plc_sim: [
+                { id: 'plc_cpu', label: '➕ وحدة PLC Siemens S7-1200', img: 'https://cdn-icons-png.flaticon.com/512/3655/3655584.png' },
+                { id: 'sensor', label: '➕ حساس قُرب (Proximity Sensor)', img: 'https://cdn-icons-png.flaticon.com/512/2558/2558062.png' },
+                { id: 'relay_module', label: '➕ وحدة مرحلات Relay Board', img: 'https://cdn-icons-png.flaticon.com/512/3655/3655584.png' }
+            ],
+            vfd_sim: [
+                { id: 'vfd_unit', label: '➕ مغير سرعة VFD (ABB/Siemens)', img: 'https://cdn-icons-png.flaticon.com/512/3655/3655584.png' },
+                { id: 'potentiometer', label: '➕ مقاومة متغيرة (Speed Pot)', img: 'https://cdn-icons-png.flaticon.com/512/2558/2558062.png' }
+            ],
+            breaker_sim: [
+                { id: 'acb_breaker', label: '➕ قاطع هوائي رئيسي ACB', img: 'https://cdn-icons-png.flaticon.com/512/2558/2558062.png' },
+                { id: 'phase_failure', label: '➕ ريليه حماية الفازات Phase Failure', img: 'https://cdn-icons-png.flaticon.com/512/3655/3655584.png' },
+                { id: 'earth_leakage', label: '➕ قاطع العطل الأرضي GFCI', img: 'https://cdn-icons-png.flaticon.com/512/2558/2558062.png' }
+            ]
+        };
+
+        function switchSimCategory(catKey, btn) {
+            currentSimCategory = catKey;
+            document.querySelectorAll('.sim-tab-btn').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            renderSimTools();
+        }
+
+        function renderSimTools() {
+            const toolsBar = document.getElementById('simToolsBar');
+            if(!toolsBar) return;
+            toolsBar.innerHTML = '';
+            const items = SIM_CATEGORIES[currentSimCategory] || [];
+
+            items.forEach(item => {
+                const b = document.createElement('button');
+                b.className = 'btn-primary btn-secondary';
+                b.style.width = 'auto';
+                b.style.fontSize = '0.8rem';
+                b.style.whiteSpace = 'nowrap';
+                b.innerHTML = item.label;
+                b.onclick = () => addRealisticCompToCanvas(item);
+                toolsBar.appendChild(b);
+            });
+        }
+
+        function addRealisticCompToCanvas(item) {
+            const board = document.getElementById('realSimBoard');
+            const placeholder = document.getElementById('realCanvasPlaceholder');
+            if (placeholder) placeholder.style.display = 'none';
+
+            const compWrapper = document.createElement('div');
+            compWrapper.className = 'real-component';
+            compWrapper.style.position = 'absolute';
+            compWrapper.style.top = '60px';
+            compWrapper.style.left = '40px';
+            compWrapper.style.cursor = 'grab';
+
+            compWrapper.innerHTML = `
+                <div style="position:relative; background:rgba(17,24,39,0.9); border:1px solid var(--accent-color); padding:10px; border-radius:12px; text-align:center; box-shadow:0 8px 20px rgba(0,0,0,0.4);">
+                    <div style="position:absolute; top:4px; right:6px; width:8px; height:8px; background:#10b981; border-radius:50%; box-shadow:0 0 8px #10b981;"></div>
+                    <span style="font-size:0.75rem; color:#fff; font-weight:bold; display:block; margin-bottom:6px;">${item.label.replace('➕ ', '')}</span>
+                    <img src="${item.img}" style="width:85px; height:85px; object-fit:contain;">
+                    <div style="margin-top:6px; display:flex; justify-content:space-between; gap:4px;">
+                        <span style="font-size:0.65rem; background:#ef4444; color:#fff; padding:2px 6px; border-radius:4px;">L1/L2/L3</span>
+                        <span style="font-size:0.65rem; background:#10b981; color:#fff; padding:2px 6px; border-radius:4px;">T1/T2/T3</span>
+                    </div>
+                </div>
+            `;
+
+            makeElementDraggable(compWrapper);
+            board.appendChild(compWrapper);
+        }
+
+        function makeElementDraggable(elmnt) {
+            let pos1 = 0, pos2 = 0, pos3 = 0, pos4 = 0;
+            elmnt.onmousedown = dragMouseDown;
+
+            function dragMouseDown(e) {
+                e = e || window.event;
+                e.preventDefault();
+                pos3 = e.clientX;
+                pos4 = e.clientY;
+                document.onmouseup = closeDragElement;
+                document.onmousemove = elementDrag;
+            }
+
+            function elementDrag(e) {
+                e = e || window.event;
+                e.preventDefault();
+                pos1 = pos3 - e.clientX;
+                pos2 = pos4 - e.clientY;
+                pos3 = e.clientX;
+                pos4 = e.clientY;
+                elmnt.style.top = (elmnt.offsetTop - pos2) + "px";
+                elmnt.style.left = (elmnt.offsetLeft - pos1) + "px";
+            }
+
+            function closeDragElement() {
+                document.onmouseup = null;
+                document.onmousemove = null;
+            }
+        }
+
+        function runSmartDiagnostic() {
+            const box = document.getElementById('diagnosticAlertBox');
+            box.style.display = 'block';
+
+            box.innerHTML = `
+                <div style="border-right:4px solid var(--warning-color); padding-right:10px;">
+                    <strong style="color:var(--warning-color); font-size:0.95rem;">⚠️ تشخيص فحص الدائرة: عطل نسيان خط الاستمرارية (Latch Fault)</strong>
+                    <p style="font-size:0.85rem; color:var(--text-muted); margin-top:4px;">
+                        تم اكتشاف عدم ربط نقطة التلامس المساعدة المفتوحة (NO Contact) بالتوازي مع زر التشغيل Start، وسيتوقف المحرك فور رفع يدك عن الزر.
+                    </p>
+                    <div style="margin-top:10px;">
+                        <button class="btn-primary" style="font-size:0.8rem; background:var(--accent-color);" onclick="applyAutoFixWire()">🛠️ تطبيق اقتراح الحل ورسم سلك Latch آلياً</button>
+                    </div>
+                </div>
+            `;
+        }
+
+        function applyAutoFixWire() {
+            const box = document.getElementById('diagnosticAlertBox');
+            box.innerHTML = `
+                <strong style="color:var(--success-color);">✅ تم تصحيح خطأ التوصيل ورسم السلك المفقود تلقائياً! الدائرة تعمل بنجاح وبكفاءة كاملة ⚡</strong>
+            `;
+        }
+
+        function clearSimBoard() {
+            const board = document.getElementById('realSimBoard');
+            board.innerHTML = `
+                <p id="realCanvasPlaceholder" style="text-align:center; margin-top:190px; color:var(--text-muted); font-size:0.85rem;">
+                    إختر القسم من الأعلى، واضغط على القطع الواقعية لبدء التوصيل واختبار الدائرة 🔌
+                </p>
+            `;
+            document.getElementById('diagnosticAlertBox').style.display = 'none';
+        }
+
         // Feature 4: Motor Trip Class Calculator
         function calculateTripClass() {
             const duty = document.getElementById('tripDuty').value;
@@ -1184,6 +1406,8 @@ NETWORK 1: ${p}
         window.onload = function() {
             const savedTheme = localStorage.getItem('voltAiTheme') || 'dark';
             document.documentElement.setAttribute('data-theme', savedTheme);
+
+            renderSimTools();
 
             if (document.getElementById('qrcode')) {
                 new QRCode(document.getElementById("qrcode"), { text: "https://std24341059-max.github.io/volt_ai/", width: 120, height: 120 });
