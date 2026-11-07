@@ -25,6 +25,7 @@
             --border-color: #334155;
             --success-color: #10b981;
             --warning-color: #f59e0b;
+            --danger-color: #ef4444;
         }
 
         * {
@@ -250,6 +251,23 @@
             justify-content: space-between;
             margin-bottom: 12px;
         }
+
+        /* الجدول الخاص بالمكونات والـ Ladder */
+        .io-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 10px;
+            font-size: 0.9rem;
+        }
+        .io-table th, .io-table td {
+            border: 1px solid var(--border-color);
+            padding: 8px;
+            text-align: right;
+        }
+        .io-table th {
+            background-color: #0f172a;
+            color: var(--accent-color);
+        }
     </style>
 </head>
 <body>
@@ -272,6 +290,75 @@
             <ul id="historyList" class="history-list">
                 <li class="history-item">لا يوجد سجل عمليات حالياً.</li>
             </ul>
+        </section>
+
+        <!-- 🌟 جديد: مولد مخططات الـ Ladder Diagram المستقل -->
+        <section class="card">
+            <h2>🤖 مولد منطق ومخطط الـ Ladder Diagram الذكي</h2>
+            <p>أدخل العملية المطلوبة لتوليد مخطط الـ Ladder ورسم عناوين الـ I/O تلقائياً</p>
+            <div class="form-group">
+                <label>معيار عناوين الـ PLC:</label>
+                <select id="ladderStandard">
+                    <option value="siemens">Siemens Standard (I0.0 / Q0.0 / M0.0)</option>
+                    <option value="allen">Allen-Bradley Standard (I:1/0 / O:2/0 / B3:0)</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label>وصف دائرة التحكم المطلوبة:</label>
+                <input type="text" id="ladderPrompt" placeholder="مثال: دائرة تشغيل وإيقاف محرك مع تيمر تأخير 5 ثوانٍ وحماية أوفرلود">
+            </div>
+            <button onclick="generateLadderDiagram()">توليد الـ Ladder وتوزيع العناوين ⚡</button>
+            <div id="ladderResult" class="output-box" style="display:none;"></div>
+        </section>
+
+        <!-- 🌟 جديد: حاسبة ومولد دائرة ستار - دلتا الذكية -->
+        <section class="card">
+            <h2>⚙️ مصمم ومولد دائرة ستار - دلتا (Star-Delta Starter)</h2>
+            <div class="grid-2">
+                <div class="form-group">
+                    <label>قدرة المحرك:</label>
+                    <input type="number" id="sdPower" placeholder="مثال: 30">
+                </div>
+                <div class="form-group">
+                    <label>الوحدة:</label>
+                    <select id="sdUnit">
+                        <option value="kw">كيلوواط (kW)</option>
+                        <option value="hp">حصان (HP)</option>
+                    </select>
+                </div>
+            </div>
+            <button onclick="generateStarDelta()">حساب القطع وتوليد المخطط ⚡</button>
+            <div id="sdResult" class="output-box" style="display:none;"></div>
+        </section>
+
+        <!-- 🌟 جديد: محاكي ومولد إشارات الحساسات الميداني -->
+        <section class="card">
+            <h2>🎛️ محاكي ومولد إشارات الحساسات (4-20mA & 0-10V Signal Simulator)</h2>
+            <div class="grid-2">
+                <div class="form-group">
+                    <label>نوع الإشارة التناظرية (Analog):</label>
+                    <select id="signalType">
+                        <option value="current">تيار قياسي (4 - 20 mA)</option>
+                        <option value="voltage">جهد قياسي (0 - 10 V)</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>القيمة المقروءة حالياً في الموقع:</label>
+                    <input type="number" id="signalValue" step="0.1" placeholder="مثال: 12 mA أو 5 V">
+                </div>
+            </div>
+            <div class="grid-2">
+                <div class="form-group">
+                    <label>الحد الأدنى للحساس (Min Range):</label>
+                    <input type="number" id="sensorMin" value="0" placeholder="مثال: 0 Bar">
+                </div>
+                <div class="form-group">
+                    <label>الحد الأقصى للحساس (Max Range):</label>
+                    <input type="number" id="sensorMax" value="10" placeholder="مثال: 10 Bar">
+                </div>
+            </div>
+            <button onclick="calculateSensorSignal()">حساب النسبة والقيمة الهندسية المقابلة</button>
+            <div id="signalResult" class="output-box" style="display:none;"></div>
         </section>
 
         <!-- 1. مصمم لوحات ATS الذكي -->
@@ -315,6 +402,48 @@
             </div>
             <button onclick="calculateCable()">حساب هبوط الجهد والتوصية</button>
             <div id="cableResult" class="output-box" style="display:none;"></div>
+        </section>
+
+        <!-- 🌟 جديد: حاسبة سعة المولدات ومقاومة التأريض -->
+        <section class="card">
+            <h2>⚡ حاسبة سعة المولدات ومقاومة أرضي الوقاية (Generator & Earthing Sizing)</h2>
+            <div class="grid-2">
+                <div class="form-group">
+                    <label>إجمالي أحمال المبنى (kW):</label>
+                    <input type="number" id="genLoadKw" placeholder="مثال: 80">
+                </div>
+                <div class="form-group">
+                    <label>قدرة أكبر محرك يعمل في المبنى (HP):</label>
+                    <input type="number" id="genMaxMotor" placeholder="مثال: 25">
+                </div>
+            </div>
+            <button onclick="calculateGeneratorAndEarthing()">حساب سعة المولد وأوتاد التأريض</button>
+            <div id="genResult" class="output-box" style="display:none;"></div>
+        </section>
+
+        <!-- 🌟 جديد: دليل تشخيص أعطال لمبات كارتات الـ PLC -->
+        <section class="card">
+            <h2>🚨 دليل تشخيص أعطال لمبات كارتات الـ PLC (Diagnostic LEDs)</h2>
+            <div class="grid-2">
+                <div class="form-group">
+                    <label>العلامة التجارية للـ PLC:</label>
+                    <select id="plcBrandSelect">
+                        <option value="siemens">Siemens (S7-1200 / S7-300 / S7-1500)</option>
+                        <option value="schneider">Schneider (Modicon / M221)</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>حالة اللمبة التحذيرية:</label>
+                    <select id="plcLedSelect">
+                        <option value="sf_red">لمبة SF (System Fault) حمراء ثابتة</option>
+                        <option value="bf_blink">لمبة BF (Bus Fault) حمراء ترمش</option>
+                        <option value="stop_yellow">لمبة STOP صفراء / برتقالية ثابتة</option>
+                        <option value="run_flash">لمبة RUN خضراء ترمش ولا تتصل</option>
+                    </select>
+                </div>
+            </div>
+            <button onclick="diagnosePlcLed()">فحص السبب الميداني والحل 🔍</button>
+            <div id="plcLedResult" class="output-box" style="display:none;"></div>
         </section>
 
         <!-- 3. حاسبة تصحيح معامل القدرة (PFC) -->
@@ -431,7 +560,7 @@
         if ('serviceWorker' in navigator) {
             window.addEventListener('load', () => {
                 const swCode = `
-                    const CACHE_NAME = 'volt-ai-v3';
+                    const CACHE_NAME = 'volt-ai-v4';
                     const urlsToCache = ['./', './index.html'];
                     self.addEventListener('install', e => e.waitUntil(caches.open(CACHE_NAME).then(c => c.addAll(urlsToCache))));
                     self.addEventListener('fetch', e => e.respondWith(caches.match(e.request).then(r => r || fetch(e.request))));
@@ -464,7 +593,156 @@
             listEl.innerHTML = history.map(item => `<li class="history-item">${item}</li>`).join('');
         }
 
-        // --- 2. ATS Estimator ---
+        // --- 🌟 2. LADDER DIAGRAM GENERATOR LOGIC ---
+        function generateLadderDiagram() {
+            const prompt = document.getElementById('ladderPrompt').value || 'دائرة تشغيل وإيقاف محرك';
+            const std = document.getElementById('ladderStandard').value;
+            const resDiv = document.getElementById('ladderResult');
+
+            const isSiemens = std === 'siemens';
+            const startAddr = isSiemens ? 'I0.0' : 'I:1/0';
+            const stopAddr = isSiemens ? 'I0.1' : 'I:1/1';
+            const olAddr = isSiemens ? 'I0.2' : 'I:1/2';
+            const outAddr = isSiemens ? 'Q0.0' : 'O:2/0';
+
+            resDiv.style.display = 'block';
+            resDiv.innerHTML = `
+                <h4>📋 جدول تخصيص العناوين (I/O Allocation Table):</h4>
+                <table class="io-table">
+                    <tr><th>العنوان البرمجي</th><th>نوع العنصر الميداني</th><th>الحالة الافتراضية</th></tr>
+                    <tr><td><strong>${stopAddr}</strong></td><td>زر إيقاف (Stop Pushbutton)</td><td>مغلق مغناطيسياً (NC)</td></tr>
+                    <tr><td><strong>${olAddr}</strong></td><td>حماية أوفرلود (Overload Contact)</td><td>مغلق مغناطيسياً (NC)</td></tr>
+                    <tr><td><strong>${startAddr}</strong></td><td>زر تشغيل (Start Pushbutton)</td><td>مفتوح (NO)</td></tr>
+                    <tr><td><strong>${outAddr}</strong></td><td>ملف الكونتاكتور (Motor Contactor Coil)</td><td>مخرج (Output)</td></tr>
+                </table>
+
+                <h4 style="margin-top:14px;">📐 مخطط الـ Ladder Diagram النصي:</h4>
+                <pre>
+NETWORK 1: ${prompt}
+   ${stopAddr}         ${olAddr}         ${startAddr}        ${outAddr}
+---|/|---------|/|---------| |---------( )---
+ (Stop NC)   (Overload NC) (Start NO)   (Motor)
+                               |
+                             ${outAddr}
+                            ---| |---
+                             (Latch)
+                </pre>
+            `;
+            saveToHistory(`توليد Ladder Diagram: ${prompt}`);
+        }
+
+        // --- 🌟 3. STAR-DELTA GENERATOR LOGIC ---
+        function generateStarDelta() {
+            const p = parseFloat(document.getElementById('sdPower').value);
+            const unit = document.getElementById('sdUnit').value;
+            const resDiv = document.getElementById('sdResult');
+
+            if(!p) { alert('يرجى إدخال قدرة المحرك'); return; }
+
+            const kw = (unit === 'hp') ? p * 0.746 : p;
+            const flc = (kw * 1000) / (1.732 * 380 * 0.85 * 0.88);
+            
+            const mainContactor = flc * 0.58;
+            const deltaContactor = flc * 0.58;
+            const starContactor = flc * 0.33;
+            const overloadSet = flc * 0.58;
+
+            resDiv.style.display = 'block';
+            resDiv.innerHTML = `
+                <strong>نتائج حسابات ومكونات دائر ستار - دلتا (${p} ${unit}):</strong><br>
+                - تيار الحمل الكامل (FLC): <strong>${flc.toFixed(1)} أمبير</strong><br>
+                - سعة كونتاكتور الرئيسي (Main Contactor): <strong>${Math.ceil(mainContactor)} أمبير</strong><br>
+                - سعة كونتاكتور الدلتا (Delta Contactor): <strong>${Math.ceil(deltaContactor)} أمبير</strong><br>
+                - سعة كونتاكتور الستار (Star Contactor): <strong>${Math.ceil(starContactor)} أمبير</strong><br>
+                - ضبط الأوفرلود (تحت الدلتا): <strong style="color:var(--success-color);">${overloadSet.toFixed(1)} أمبير</strong> ($I_{\\text{FLC}} \\times 0.58$)<br>
+                - زمن تايمر التبديل الموصى به: <strong>6 - 8 ثوانٍ</strong><br>
+
+                <h4 style="margin-top:10px;">📋 المخطط المنطقي للدائرة:</h4>
+                <pre>
+[Start Button] --> Turn ON (Main + Star Contactors) + Start Timer
+[Timer Done 7s] --> Turn OFF (Star) -> Wait 50ms -> Turn ON (Delta)
+                </pre>
+            `;
+            saveToHistory(`حساب ستار-دلتا محرك ${p} ${unit}`);
+        }
+
+        // --- 🌟 4. SENSOR SIGNAL SIMULATOR LOGIC ---
+        function calculateSensorSignal() {
+            const type = document.getElementById('signalType').value;
+            const val = parseFloat(document.getElementById('signalValue').value);
+            const min = parseFloat(document.getElementById('sensorMin').value);
+            const max = parseFloat(document.getElementById('sensorMax').value);
+            const resDiv = document.getElementById('signalResult');
+
+            if(isNaN(val)) { alert('يرجى إدخال القيمة المقروءة'); return; }
+
+            let percentage = 0;
+            if(type === 'current') {
+                percentage = ((val - 4) / (20 - 4)) * 100;
+            } else {
+                percentage = (val / 10) * 100;
+            }
+
+            percentage = Math.max(0, Math.min(100, percentage));
+            const engVal = min + ((percentage / 100) * (max - min));
+
+            resDiv.style.display = 'block';
+            resDiv.innerHTML = `
+                <strong>نتائج محاكاة وتعاير الحساس الميداني:</strong><br>
+                - نسبة الإشارة (Signal Percentage): <strong>${percentage.toFixed(1)}%</strong><br>
+                - القيمة الهندسية المقابلة: <strong style="color:var(--accent-color);">${engVal.toFixed(2)} (من نطاق ${min} إلى ${max})</strong><br>
+                - التقييم الميداني: <span style="color:${(val < 3.8 && type==='current') ? 'var(--danger-color)' : 'var(--success-color)'};">
+                    ${(val < 3.8 && type==='current') ? '❌ خطأ: الإشارة منقطعة (Wire Break / Fault)' : '✅ الإشارة سليمة ومطابقة للمواصفات'}
+                </span>
+            `;
+            saveToHistory(`محاكاة إشارة حساس: ${val} ${type==='current'?'mA':'V'}`);
+        }
+
+        // --- 🌟 5. GENERATOR & EARTHING LOGIC ---
+        function calculateGeneratorAndEarthing() {
+            const kw = parseFloat(document.getElementById('genLoadKw').value) || 0;
+            const motorHp = parseFloat(document.getElementById('genMaxMotor').value) || 0;
+            const resDiv = document.getElementById('genResult');
+
+            if(!kw) { alert('يرجى إدخال إجمالي أحمال المبنى'); return; }
+
+            const baseKva = (kw / 0.8) * 1.25; // 25% safety margin
+            const motorStartKva = (motorHp * 0.746 / 0.8) * 2; // Inrush allowance
+            const recGenKva = Math.ceil(baseKva + motorStartKva);
+
+            resDiv.style.display = 'block';
+            resDiv.innerHTML = `
+                <strong>نتائج حسابات المولد ومقاومة التأريض:</strong><br>
+                - سعة المولد المقترحة لتغطية تيار البدء: <strong style="color:var(--accent-color);">${recGenKva} kVA</strong> (تستوعب تيار بدء محرك ${motorHp} HP)<br>
+                - سعة قاطع المولد الرئيسي المقترح: <strong>${Math.ceil((recGenKva * 1000)/(1.732 * 380))} أمبير</strong><br>
+                - منظومة التأريض الموصى بها: <strong>عدد 2 أوتاد نحاسية (Copper Rods 1.5m)</strong> متباعدة بمسافة 3 أمتار للوصول لمقاومة أقل من $5 \\Omega$.
+            `;
+            saveToHistory(`حساب مولد بقدرة ${kw}kW وأرضي`);
+        }
+
+        // --- 🌟 6. PLC DIAGNOSTIC LED LOGIC ---
+        function diagnosePlcLed() {
+            const brand = document.getElementById('plcBrandSelect').value;
+            const led = document.getElementById('plcLedSelect').value;
+            const resDiv = document.getElementById('plcLedResult');
+
+            let diagText = "";
+            if(led === 'sf_red') {
+                diagText = "<strong>السبب الميداني:</strong> وجود عطل بالنظام (System Fault)، مثل انقطاع سلك كارتة Inputs/Outputs، أو تجاوز نطاق عنوان الـ I/O بالبرنامج.<br><strong>الإجراء:</strong> افحص الربط الفيزيائي للكارتات وتأكد من تغذية 24V DC.";
+            } else if(led === 'bf_blink') {
+                diagText = "<strong>السبب الميداني:</strong> عطل في شبكة التوصيل (Bus Fault / Profinet / Profibus).<br><strong>الإجراء:</strong> افحص كابل الشبكة الأزرق/البنفسجي وفحوصات الـ Termination Resistors على الطرفين.";
+            } else if(led === 'stop_yellow') {
+                diagText = "<strong>السبب الميداني:</strong> المعالج في وضع STOP إما يدوياً أو بسبب عطل برمجي (Software Hardware Interrupt).<br><strong>الإجراء:</strong> قم بعمل Reset للمعالج أو أعد تحويل مفتاح التشغيل إلى RUN.";
+            } else {
+                diagText = "<strong>السبب الميداني:</strong> جاري محاولة الاتصال أو أن المعالج ينتظر تصفير الـ Memory.<br><strong>الإجراء:</strong> تأكد من عدم وجود تضارب في عنوان الـ IP Address مع حاسوب البرمجة.";
+            }
+
+            resDiv.style.display = 'block';
+            resDiv.innerHTML = `<strong>تشخيص عطل PLC (${brand.toUpperCase()}):</strong><br>${diagText}`;
+            saveToHistory(`تشخيص عطل لمبة PLC: ${led}`);
+        }
+
+        // --- 7. ATS Estimator ---
         function generateATSPlan() {
             const capacity = document.getElementById('ats-capacity').value;
             const resContainer = document.getElementById('ats-result');
@@ -508,7 +786,7 @@
             saveToHistory(`توليد خطة ATS بسعة ${capacity} أمبير`);
         }
 
-        // --- 3. Cable & Voltage Drop ---
+        // --- 8. Cable & Voltage Drop ---
         function calculateCable() {
             const I = parseFloat(document.getElementById('cableCurrent').value);
             const L = parseFloat(document.getElementById('cableLength').value);
@@ -535,7 +813,7 @@
             saveToHistory(`حساب كابل: ${I} أمبير، طول ${L}m`);
         }
 
-        // --- 4. Power Factor Correction (PFC) ---
+        // --- 9. Power Factor Correction (PFC) ---
         function calculatePFC() {
             const P = parseFloat(document.getElementById('pfcPower').value);
             const pf1 = parseFloat(document.getElementById('pfcCurrent').value);
@@ -561,7 +839,7 @@
             saveToHistory(`حساب معامل القدرة قدرة ${P}kW من ${pf1} إلى ${pf2}`);
         }
 
-        // --- 5. Induction Motor Calculator ---
+        // --- 10. Induction Motor Calculator ---
         function calculateMotor() {
             const val = parseFloat(document.getElementById('motorPower').value);
             const unit = document.getElementById('motorUnit').value;
@@ -588,7 +866,7 @@
             saveToHistory(`حساب محرك ${val} ${unit}`);
         }
 
-        // --- 6. AI & PDF ---
+        // --- 11. AI & PDF ---
         function generateAIResponse() {
             const type = document.getElementById('aiServiceType').value;
             const promptText = document.getElementById('aiPrompt').value;
