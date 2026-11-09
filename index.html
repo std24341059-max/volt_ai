@@ -450,6 +450,9 @@
             cursor: pointer;
             white-space: nowrap;
             transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 6px;
         }
         .sim-tab-btn.active {
             background: var(--accent-color);
@@ -471,6 +474,9 @@
             user-select: none;
             -webkit-user-select: none;
             touch-action: manipulation;
+            display: flex;
+            align-items: center;
+            gap: 6px;
         }
         .comp-add-btn:active { transform: scale(0.95); background: var(--accent-color); color: #fff; }
 
@@ -541,7 +547,7 @@
     <!-- Side Drawer Menu Backdrop -->
     <div class="drawer-overlay" id="drawerOverlay" onclick="toggleDrawer()"></div>
 
-    <!-- Side Drawer Menu -->
+    <!-- Side Drawer Menu (Clean SVG Icons Only) -->
     <aside class="side-drawer" id="sideDrawer">
         <div class="drawer-header">
             <div class="logo-block">
@@ -564,13 +570,25 @@
             </button>
             <button class="drawer-item" onclick="switchDomain('simulator_studio', event)">
                 <svg class="svg-icon" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polygon points="10 8 16 12 10 16 10 8"/></svg>
-                <span data-i18n="nav_sim">استوديو المحاكاة الصناعية Reality Hub 🛠️</span>
+                <span data-i18n="nav_sim">استوديو المحاكاة الصناعية Reality Hub</span>
             </button>
-            <!-- 🤖 قسم الأردوينو المضاف جديداً -->
             <button class="drawer-item" onclick="switchDomain('arduino', event)">
                 <svg class="svg-icon" viewBox="0 0 24 24"><rect x="5" y="5" width="14" height="14" rx="2"/><circle cx="9" cy="9" r="1"/><circle cx="15" cy="15" r="1"/><line x1="9" y1="15" x2="15" y2="9"/></svg>
-                <span data-i18n="nav_arduino">الأردوينو والأجهزة المدمجة 🤖</span>
+                <span data-i18n="nav_arduino">الأردوينو والأجهزة المدمجة</span>
             </button>
+
+            <!-- NEW DOMAIN: HVAC & LIGHTING CALCULATIONS -->
+            <button class="drawer-item" onclick="switchDomain('hvac_lighting', event)">
+                <svg class="svg-icon" viewBox="0 0 24 24"><path d="M12 2v20M2 12h20M4.93 4.93l14.14 14.14M4.93 19.07l14.14-14.14"/></svg>
+                <span data-i18n="nav_hvac">التكييف والإنارة الصناعية</span>
+            </button>
+
+            <!-- NEW DOMAIN: TESTING & COMMISSIONING -->
+            <button class="drawer-item" onclick="switchDomain('testing', event)">
+                <svg class="svg-icon" viewBox="0 0 24 24"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>
+                <span data-i18n="nav_testing">اختبار اللوحات وقياس العزل</span>
+            </button>
+
             <button class="drawer-item" onclick="switchDomain('classic', event)">
                 <svg class="svg-icon" viewBox="0 0 24 24"><rect x="4" y="4" width="16" height="16" rx="2"/><line x1="9" y1="9" x2="15" y2="15"/><line x1="15" y1="9" x2="9" y2="15"/></svg>
                 <span data-i18n="nav_classic">أنظمة التحكم الكلاسيكي</span>
@@ -601,7 +619,7 @@
             </button>
             <button class="drawer-item" onclick="switchDomain('history', event)">
                 <svg class="svg-icon" viewBox="0 0 24 24"><path d="M12 8v4l3 3"/><circle cx="12" cy="12" r="10"/></svg>
-                <span data-i18n="nav_history">سجل حاسبات الميدان 💾</span>
+                <span data-i18n="nav_history">سجل حاسبات الميدان</span>
             </button>
             <button class="drawer-item" onclick="switchDomain('bom_export', event)">
                 <svg class="svg-icon" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M12 18v-6"/><path d="M9 15l3 3 3-3"/></svg>
@@ -630,7 +648,6 @@
             </div>
         </div>
         <div class="header-actions">
-            <!-- 🌐 زر اللغات المخصص بتصميم SVG الهندسي الشفاف -->
             <button class="icon-btn" onclick="switchLanguageNext()" title="تغيير اللغة / Switch Language">
                 <svg class="svg-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                     <path d="M5 8h14M4 14h11M2 5l6 14M13 19l6-14M19 14h-5"/>
@@ -703,32 +720,45 @@
 
                 <div class="beta-warning-banner">
                     <svg class="svg-icon" viewBox="0 0 24 24"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
-                    <span data-i18n="sim_beta_warning">⚠️ هذا المحاكي قيد الاستخدام التجريبي والتطوير الميداني المستمر.</span>
+                    <span data-i18n="sim_beta_warning">تنبيه: هذا المحاكي قيد الاستخدام التجريبي والتطوير الميداني المستمر.</span>
                 </div>
 
-                <!-- 1. شريط التبويبات التخصصية (إضافة تبويب الأردوينو الخامس) -->
+                <!-- 1. شريط التبويبات التخصصية (أيقونات SVG هندسية) -->
                 <div class="sim-tabs-header">
-                    <button class="sim-tab-btn active" onclick="switchSimCategory('classic_sim', this)">⚡ 1. الكلاسيك كونترول</button>
-                    <button class="sim-tab-btn" onclick="switchSimCategory('plc_sim', this)">💻 2. الـ PLC والأوتوميشن</button>
-                    <button class="sim-tab-btn" onclick="switchSimCategory('vfd_sim', this)">🌀 3. مغيرات السرعة (VFD)</button>
-                    <button class="sim-tab-btn" onclick="switchSimCategory('breaker_sim', this)">🛡️ 4. الحمايات والقواطع</button>
-                    <button class="sim-tab-btn" onclick="switchSimCategory('arduino_sim', this)">🤖 5. الأردوينو والمتحكمات</button>
+                    <button class="sim-tab-btn active" onclick="switchSimCategory('classic_sim', this)">
+                        <svg class="svg-icon" viewBox="0 0 24 24"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+                        1. الكلاسيك كونترول
+                    </button>
+                    <button class="sim-tab-btn" onclick="switchSimCategory('plc_sim', this)">
+                        <svg class="svg-icon" viewBox="0 0 24 24"><rect x="2" y="6" width="20" height="12" rx="2"/><path d="M6 12h4M14 12h4"/></svg>
+                        2. الـ PLC والأوتوميشن
+                    </button>
+                    <button class="sim-tab-btn" onclick="switchSimCategory('vfd_sim', this)">
+                        <svg class="svg-icon" viewBox="0 0 24 24"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>
+                        3. مغيرات السرعة (VFD)
+                    </button>
+                    <button class="sim-tab-btn" onclick="switchSimCategory('breaker_sim', this)">
+                        <svg class="svg-icon" viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+                        4. الحمايات والقواطع
+                    </button>
+                    <button class="sim-tab-btn" onclick="switchSimCategory('arduino_sim', this)">
+                        <svg class="svg-icon" viewBox="0 0 24 24"><rect x="5" y="5" width="14" height="14" rx="2"/><circle cx="9" cy="9" r="1"/><circle cx="15" cy="15" r="1"/></svg>
+                        5. الأردوينو والمتحكمات
+                    </button>
                 </div>
 
-                <!-- 2. أزرار التحكم بوضع التوصيل وتصدير الصورة -->
+                <!-- 2. أزرار التحكم بدون إيموجي -->
                 <div style="display:flex; gap:8px; margin-bottom: 10px;">
                     <button id="wireModeBtn" onclick="toggleWireMode()" class="btn-primary" style="flex:2; background:var(--input-bg); border:1px solid var(--accent-color); color:var(--accent-color); font-size:0.85rem; padding:10px;">
-                        🔌 وضع التوصيل: إيقاف (اضغط لتفعيله)
+                        وضع التوصيل: إيقاف (اضغط لتفعيله)
                     </button>
                     <button onclick="captureCanvasImage()" class="btn-primary btn-secondary" style="flex:1; font-size:0.82rem; padding:10px;" title="حفظ مخطط المحاكاة كصورة PNG">
-                        📸 التقاط مخطط
+                        التقاط مخطط
                     </button>
                 </div>
 
-                <!-- 3. شريط أزرار إدراج القطع الواقعية مرتب أفقيًا -->
                 <div id="simToolsBar" style="display:flex; gap:8px; overflow-x:auto; padding-bottom:8px; margin-bottom:12px;"></div>
 
-                <!-- 4. لوحة الرسم والمحاكاة التفاعلية -->
                 <div id="realCanvasContainer" style="width:100%; height:460px; background:#070c17; border:2px solid var(--card-border); border-radius:14px; position:relative; overflow:hidden; background-image: radial-gradient(rgba(59, 130, 246, 0.15) 1px, transparent 1px); background-size: 24px 24px; touch-action: none;">
                     
                     <div style="position:absolute; bottom:12px; left:12px; z-index:100; display:flex; gap:6px; background:rgba(15, 23, 42, 0.85); padding:4px 8px; border-radius:10px; border:1px solid var(--card-border);">
@@ -745,21 +775,21 @@
 
                     <div id="realSimBoard" style="width:2000px; height:2000px; position:relative; transform-origin: 0 0; transition: transform 0.05s ease-out;">
                         <p id="realCanvasPlaceholder" style="text-align:center; padding-top:190px; color:var(--text-muted); font-size:0.85rem;" data-i18n="sim_placeholder">
-                            إختر القسم من الأعلى، واضغط على القطع الواقعية لبدء التوصيل واختبار الدائرة 🔌
+                            اختر القسم من الأعلى، واضغط على القطع الواقعية لبدء التوصيل واختبار الدائرة
                         </p>
                     </div>
                 </div>
 
                 <div style="display:flex; gap:10px; margin-top:12px;">
-                    <button class="btn-primary btn-success" style="flex:2;" onclick="runSmartDiagnostic()">⚡ فحص الدائرة واكتشاف الأخطاء الذكي</button>
-                    <button class="btn-primary btn-secondary" style="flex:1;" onclick="clearSimBoard()">🗑️ مسح اللوحة والأسلاك</button>
+                    <button class="btn-primary btn-success" style="flex:2;" onclick="runSmartDiagnostic()">فحص الدائرة واكتشاف الأخطاء الذكي</button>
+                    <button class="btn-primary btn-secondary" style="flex:1;" onclick="clearSimBoard()">مسح اللوحة والأسلاك</button>
                 </div>
 
                 <div id="diagnosticAlertBox" class="result-box" style="display:none; margin-top:12px;"></div>
             </div>
         </div>
 
-        <!-- 🤖 DOMAIN NEW: ARDUINO & EMBEDDED SYSTEMS -->
+        <!-- DOMAIN: ARDUINO & EMBEDDED SYSTEMS -->
         <div id="arduino" class="tab-content">
             <div class="card">
                 <div class="card-title">
@@ -808,6 +838,68 @@
                 <div class="form-group"><label>المضاعف (Multiplier):</label><select id="resMultiplier"><option value="100">أحمر (×100)</option><option value="1000">برتقالي (×1k)</option><option value="10000">أصفر (×10k)</option></select></div>
                 <button class="btn-primary" onclick="calculateResistorColor()">حساب قيمة المقاومة الأومية</button>
                 <div id="resColorResult" class="result-box" style="display:none;"></div>
+            </div>
+        </div>
+
+        <!-- NEW FEATURE DOMAIN: HVAC & LIGHTING CALCULATIONS -->
+        <div id="hvac_lighting" class="tab-content">
+            <div class="card">
+                <div class="card-title">
+                    <svg class="svg-icon" viewBox="0 0 24 24"><path d="M12 2v20M2 12h20M4.93 4.93l14.14 14.14M4.93 19.07l14.14-14.14"/></svg>
+                    حاسبة تبريد لوحات الكنترول والـ PLC (Panel Cooling BTU)
+                </div>
+                <div class="grid-2">
+                    <div class="form-group"><label>إجمالي الفقد الحراري للقطع داخل اللوحة (Watt):</label><input type="number" id="panelHeatLoss" placeholder="مثال: 450"></div>
+                    <div class="form-group"><label>درجة الحرارة الخارجية القصوى (C°):</label><input type="number" id="panelMaxTemp" value="45"></div>
+                </div>
+                <button class="btn-primary" onclick="calculatePanelCooling()">حساب قدرة التبريد بالـ BTU/h والـ Watt</button>
+                <div id="panelCoolingResult" class="result-box" style="display:none;"></div>
+            </div>
+
+            <div class="card">
+                <div class="card-title">
+                    <svg class="svg-icon" viewBox="0 0 24 24"><circle cx="12" cy="12" r="5"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42"/></svg>
+                    حاسبة شدة الإنارة وعدد الكشافات للمصانع (Lux Level Calculator)
+                </div>
+                <div class="grid-2">
+                    <div class="form-group"><label>مساحة القاعة أو المصنع (متر مربع):</label><input type="number" id="roomArea" placeholder="مثال: 120"></div>
+                    <div class="form-group">
+                        <label>نوع النشاط الميداني (Lux):</label>
+                        <select id="luxRequired">
+                            <option value="200">مخازن وممرات (200 Lux)</option>
+                            <option value="500">ورش تجميع وتحكم (500 Lux)</option>
+                            <option value="750">مختبرات ودقة عالية (750 Lux)</option>
+                        </select>
+                    </div>
+                </div>
+                <button class="btn-primary" onclick="calculateLightingLux()">حساب الـ Lumens وإجمالي عدد الكشافات</button>
+                <div id="lightingResult" class="result-box" style="display:none;"></div>
+            </div>
+        </div>
+
+        <!-- NEW FEATURE DOMAIN: TESTING & COMMISSIONING -->
+        <div id="testing" class="tab-content">
+            <div class="card">
+                <div class="card-title">
+                    <svg class="svg-icon" viewBox="0 0 24 24"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>
+                    مقيم نتائج فحص العزل للكابلات والمحركات (Megger Insulation Test)
+                </div>
+                <div class="grid-2">
+                    <div class="form-group"><label>جهد الفحص (Megger Voltage):</label><select id="meggerVolt"><option value="500">500 V DC</option><option value="1000">1000 V DC</option></select></div>
+                    <div class="form-group"><label>مقاومة العزل المقاسة (MΩ):</label><input type="number" id="meggerValue" placeholder="مثال: 150"></div>
+                </div>
+                <button class="btn-primary" onclick="evaluateInsulationTest()">تحليل العزل وتقييم سلامة المعدة</button>
+                <div id="meggerResult" class="result-box" style="display:none;"></div>
+            </div>
+
+            <div class="card">
+                <div class="card-title">
+                    <svg class="svg-icon" viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+                    حاسبة ومقيم فحص أرضي اللوحات (Earth Pit Resistance Tester)
+                </div>
+                <div class="form-group"><label>قراءة جهاز فحص الأرضي (Ohms):</label><input type="number" id="earthPitValue" placeholder="مثال: 2.5"></div>
+                <button class="btn-primary" onclick="evaluateEarthPit()">تقييم سلامة منظومة التأريض</button>
+                <div id="earthPitResult" class="result-box" style="display:none;"></div>
             </div>
         </div>
 
@@ -1084,7 +1176,7 @@
                 </p>
                 <div id="historyListContainer"></div>
                 <button class="btn-primary btn-secondary" style="margin-top:12px;" onclick="clearCalculationHistory()" data-i18n="btn_clear_history">
-                    🗑️ مسح سجل الحسابات بالكامل
+                    مسح سجل الحسابات بالكامل
                 </button>
             </div>
         </div>
@@ -1107,7 +1199,7 @@
                         <tr><td>قاطع رئيسي (MCCB)</td><td>250A / 3-Pole 36kA</td><td>1</td></tr>
                     </tbody>
                 </table>
-                <button class="btn-primary btn-success" style="margin-top:16px;" onclick="exportBOMReport()">📄 تصدير كشف المشتريات الرسمي (PDF)</button>
+                <button class="btn-primary btn-success" style="margin-top:16px;" onclick="exportBOMReport()">تصدير كشف المشتريات الرسمي (PDF)</button>
             </div>
         </div>
 
@@ -1137,8 +1229,10 @@
         const TRANSLATIONS = {
             ar: {
                 nav_hub: "الواجهة الرئيسية (AI Hub)",
-                nav_sim: "استوديو المحاكاة الصناعية Reality Hub 🛠️",
-                nav_arduino: "الأردوينو والأجهزة المدمجة 🤖",
+                nav_sim: "استوديو المحاكاة الصناعية Reality Hub",
+                nav_arduino: "الأردوينو والأجهزة المدمجة",
+                nav_hvac: "التكييف والإنارة الصناعية",
+                nav_testing: "اختبار اللوحات وقياس العزل",
                 nav_classic: "أنظمة التحكم الكلاسيكي",
                 nav_plc: "أنظمة الـ PLC والأوتوميشن",
                 nav_vfd: "مغيرات السرعة (VFD & Drives)",
@@ -1146,7 +1240,7 @@
                 nav_solar: "الطاقة الشمسية والـ UPS",
                 nav_theraja: "مرجع وحلال مسائل ثيراجي",
                 nav_standards: "المعايير العالمية (NEC / IEC)",
-                nav_history: "سجل حاسبات الميدان 💾",
+                nav_history: "سجل حاسبات الميدان",
                 nav_bom: "مجمع المشتريات والـ BOM",
                 nav_profile: "بطاقة المهندس والـ PDF",
                 ai_hub_title: "مركز الذكاء الاصطناعي المباشر (VoltAI Central Hub)",
@@ -1155,8 +1249,8 @@
                 welcome_title: "مرحباً بك في منصة VoltAI Pro الهندسيّة",
                 welcome_desc: "اختر القسم التخصصي المطلوب من القائمة الجانبية (≡) أو استخدم مركز الذكاء الاصطناعي أعلاه للحصول على تحليلات فورية.",
                 sim_studio_title: "استوديو المحاكاة الصناعية الواقعي (Reality Hub)",
-                sim_beta_warning: "⚠️ هذا المحاكي قيد الاستخدام التجريبي والتطوير الميداني المستمر.",
-                sim_placeholder: "إختر القسم من الأعلى، واضغط على القطع الواقعية لبدء التوصيل واختبار الدائرة 🔌",
+                sim_beta_warning: "تنبيه: هذا المحاكي قيد الاستخدام التجريبي والتطوير الميداني المستمر.",
+                sim_placeholder: "اختر القسم من الأعلى، واضغط على القطع الواقعية لبدء التوصيل واختبار الدائرة",
                 calc_cable_title: "حاسبة مقطع الكابلات وهبوط الجهد (Voltage Drop)",
                 lbl_amp: "التيار (Ampere):",
                 lbl_len: "طول المسار (متر):",
@@ -1165,13 +1259,15 @@
                 btn_calc: "حساب هبوط الجهد والحفظ بالسجل",
                 history_title: "سجل حسابات الميدان المحفوظة (Field History)",
                 history_desc: "يتم حفظ نتائج حسابات الكابلات، القواطع، والطاقة آلياً في ذاكرة الهاتف لسهولة الرجوع إليها في الميدان.",
-                btn_clear_history: "🗑️ مسح سجل الحسابات بالكامل",
+                btn_clear_history: "مسح سجل الحسابات بالكامل",
                 footer_rights: "جميع الحقوق محفوظة © 2026 | تطوير"
             },
             en: {
                 nav_hub: "Main Dashboard (AI Hub)",
-                nav_sim: "Simulation Studio (Reality Hub) 🛠️",
-                nav_arduino: "Arduino & Embedded Systems 🤖",
+                nav_sim: "Simulation Studio (Reality Hub)",
+                nav_arduino: "Arduino & Embedded Systems",
+                nav_hvac: "HVAC & Industrial Lighting",
+                nav_testing: "Testing & Commissioning Hub",
                 nav_classic: "Classic Control Systems",
                 nav_plc: "PLC Systems & Automation",
                 nav_vfd: "Variable Speed Drives (VFD)",
@@ -1179,7 +1275,7 @@
                 nav_solar: "Solar Systems & UPS",
                 nav_theraja: "Theraja Textbook Solver",
                 nav_standards: "Global Standards (NEC / IEC)",
-                nav_history: "Field Calculations History 💾",
+                nav_history: "Field Calculations History",
                 nav_bom: "Procurement & BOM Exporter",
                 nav_profile: "Engineer Card & PDF Report",
                 ai_hub_title: "VoltAI Central Intelligence Hub",
@@ -1188,8 +1284,8 @@
                 welcome_title: "Welcome to VoltAI Pro Engineering Platform",
                 welcome_desc: "Select a module from the side drawer (≡) or use the AI Hub above for instant analysis.",
                 sim_studio_title: "Industrial Simulation Studio (Reality Hub)",
-                sim_beta_warning: "⚠️ This simulator is currently under beta testing and active field development.",
-                sim_placeholder: "Select category above and click components to wire and test your circuit 🔌",
+                sim_beta_warning: "Warning: This simulator is currently under beta testing and active field development.",
+                sim_placeholder: "Select category above and click components to wire and test your circuit",
                 calc_cable_title: "Cable Sizing & Voltage Drop Calculator",
                 lbl_amp: "Current (Amps):",
                 lbl_len: "Route Length (Meters):",
@@ -1198,13 +1294,15 @@
                 btn_calc: "Calculate Voltage Drop & Save to History",
                 history_title: "Saved Field Calculations History",
                 history_desc: "All cable, breaker, and solar calculation results are stored locally for easy field reference.",
-                btn_clear_history: "🗑️ Clear All Calculation History",
+                btn_clear_history: "Clear All Calculation History",
                 footer_rights: "All Rights Reserved © 2026 | Developed by"
             },
             ku: {
                 nav_hub: "دەستپێک (AI Hub)",
-                nav_sim: "ستۆدیۆی هاوشێوەسازی (Reality Hub) 🛠️",
-                nav_arduino: "ئاردوینۆ و سیستەمەکانی ئیمبێدد 🤖",
+                nav_sim: "ستۆدیۆی هاوشێوەسازی (Reality Hub)",
+                nav_arduino: "ئاردوینۆ و سیستەمەکانی ئیمبێدد",
+                nav_hvac: "فێنککردنەوە و ڕووناکی پیشەسازی",
+                nav_testing: "تاقیکردنەوەی تەختەکان و عەزل",
                 nav_classic: "سیستەمەکانی کۆنترۆڵی کلاسیك",
                 nav_plc: "سیستەمەکانی PLC و ئۆتۆمەی شن",
                 nav_vfd: "گۆڕەرەکانی خێرایی (VFD)",
@@ -1212,7 +1310,7 @@
                 nav_solar: "وەزەی خۆر و UPS",
                 nav_theraja: "شیکارکاری پەڕتووکی ثیراجی",
                 nav_standards: "پێوەرە جیهانییەکان (NEC / IEC)",
-                nav_history: "تۆماری ژمێرکارییەکانی مەیدان 💾",
+                nav_history: "تۆماری ژمێرکارییەکانی مەیدان",
                 nav_bom: "کۆکەرەوەی کڕینەکان و BOM",
                 nav_profile: "پڕۆفایلی ئەندازیار و ڕاپۆرتی PDF",
                 ai_hub_title: "مەڵبەندی ژیری دەستکردی ڕاستەوخۆ (VoltAI Hub)",
@@ -1221,8 +1319,8 @@
                 welcome_title: "بەخێربێن بۆ سەکۆی ئەندازیاری VoltAI Pro",
                 welcome_desc: "بەشە تایبەتمەندەکان لە بەشی لایەنگر (≡) هەڵبژێرە بۆ بەکارهێنانی ئامرازەکان.",
                 sim_studio_title: "ستۆدیۆی هاوشێوەسازی پیشەسازی (Reality Hub)",
-                sim_beta_warning: "⚠️ ئەم هاوشێوەسازە لە ژێر تاقیکردنەوەی بەرایی و گەشەپێدانی بەردەوامدایە.",
-                sim_placeholder: "داگرە لەسەر پارچەکان بۆ دەستپێکردنی بەستنەوە و تاقیکردنەوە 🔌",
+                sim_beta_warning: "ئاگاداری: ئەم هاوشێوەسازە لە ژێر تاقیکردنەوەی بەرایی و گەشەپێدانی بەردەوامدایە.",
+                sim_placeholder: "داگرە لەسەر پارچەکان بۆ دەستپێکردنی بەستنەوە و تاقیکردنەوە",
                 calc_cable_title: "ژمێرکاری بەشی کێبل و دابەزینی ڤۆڵتیە",
                 lbl_amp: "تەزوو (ئەمپێر):",
                 lbl_len: "درێژی ڕێڕەو (مەتر):",
@@ -1231,7 +1329,7 @@
                 btn_calc: "ژمێرکاری و پاشەکەوتکردن لە تۆمار",
                 history_title: "تۆماری ژمێرکارییە پاشەکەوتکراوەکانی مەیدان",
                 history_desc: "سەرجەم ئەنجامەکانی کێبل و قاطعەکان بە شێوەی خۆکار لە بیرگەی مۆبایلەکەت پاشەکەوت دەکرێن.",
-                btn_clear_history: "🗑️ سڕینەوەی تەواوی تۆمارەکان",
+                btn_clear_history: "سڕینەوەی تەواوی تۆمارەکان",
                 footer_rights: "سەرجەم مافەکان پارێزراون © 2026 | گەشەپێدان لەلایەن"
             }
         };
@@ -1268,7 +1366,6 @@
             }
         }
 
-        // Theme Switcher Logic
         function toggleTheme() {
             const current = document.documentElement.getAttribute('data-theme');
             let next = 'dark';
@@ -1281,7 +1378,6 @@
             triggerHapticFeedback();
         }
 
-        // Side Drawer Menu Actions
         function toggleDrawer() {
             const drawer = document.getElementById('sideDrawer');
             const overlay = document.getElementById('drawerOverlay');
@@ -1312,7 +1408,6 @@
             }
         }
 
-        // HISTORY ENGINE SYSTEM
         function saveToHistory(type, details) {
             let history = JSON.parse(localStorage.getItem('voltAiHistory') || '[]');
             const entry = {
@@ -1353,7 +1448,6 @@
             renderHistoryUI();
         }
 
-        // Feature 1: Image Upload Handler
         function handleImageUpload(e) {
             const file = e.target.files[0];
             if(file) {
@@ -1361,14 +1455,13 @@
             }
         }
 
-        // AI Query Handler
         function processAiQuery() {
             const query = document.getElementById('mainAiInput').value.trim();
             const res = document.getElementById('mainAiResult');
             if (!query) { alert('يرجى كتابة الاستفسار أو رفع الصورة أولاً'); return; }
 
             res.style.display = 'block';
-            res.innerHTML = '<span style="color:var(--warning-color);">⏳ جاري المعالجة والتحليل بواسطة VoltAI...</span>';
+            res.innerHTML = '<span style="color:var(--warning-color);">جاري المعالجة والتحليل بواسطة VoltAI...</span>';
 
             setTimeout(() => {
                 res.innerHTML = `<strong>إجابة واستجابة VoltAI المباشرة:</strong><br><p style="margin-top:6px;">تم فحص وتدقيق طلبك والصورة المرفقة ("${query}")، بناءً على المعايير الهندسية: التوصيل متوافق مع الحمايات المطلوبة، ويفضل دائماً مراجعة معيار ضبط الفولتية ومطابقة القواطع الفرعية.</p>`;
@@ -1390,11 +1483,10 @@
             recognition.start();
         }
 
-        // Feature 2: Interactive Simulator Controls
         function runSimStart() {
             document.getElementById('simCoil').setAttribute('fill', '#10b981');
             document.getElementById('simCoilText').textContent = 'Q0.0 ON';
-            document.getElementById('simStatus').innerHTML = '<strong style="color:var(--success-color);">حالة المحرك: يعمل بنجاح (Latch Active) ⚡</strong>';
+            document.getElementById('simStatus').innerHTML = '<strong style="color:var(--success-color);">حالة المحرك: يعمل بنجاح (Latch Active)</strong>';
             triggerHapticFeedback();
         }
 
@@ -1424,11 +1516,11 @@
             if (isWireMode) {
                 btn.style.background = 'var(--accent-color)';
                 btn.style.color = '#fff';
-                btn.innerHTML = '⚡ وضع التوصيل: يعمل (اختر محطتين بين القطع)';
+                btn.innerHTML = 'وضع التوصيل: يعمل (اختر محطتين بين القطع)';
             } else {
                 btn.style.background = 'var(--input-bg)';
                 btn.style.color = 'var(--accent-color)';
-                btn.innerHTML = '🔌 وضع التوصيل: إيقاف (اضغط لتفعيله)';
+                btn.innerHTML = 'وضع التوصيل: إيقاف (اضغط لتفعيله)';
                 if (selectedTerminal) {
                     selectedTerminal.elem.classList.remove('selected-term');
                     selectedTerminal = null;
@@ -1526,7 +1618,7 @@
                 const b = document.createElement('button');
                 b.className = 'comp-add-btn';
                 b.type = 'button';
-                b.innerHTML = '➕ ' + item.label;
+                b.innerHTML = '<span style="color:var(--accent-color); font-weight:bold;">+</span> ' + item.label;
 
                 let isTouched = false;
                 
@@ -1719,7 +1811,7 @@
 
         function captureCanvasImage() {
             triggerHapticFeedback();
-            alert('📸 جاري التقاط صورة المخطط وتصديرها بصيغة PNG عالية الدقة...');
+            alert('جاري التقاط صورة المخطط وتصديرها بصيغة PNG عالية الدقة...');
         }
 
         function runSmartDiagnostic() {
@@ -1730,16 +1822,16 @@
             if (wires.length === 0) {
                 box.innerHTML = `
                     <div style="border-right:4px solid var(--warning-color); padding-right:10px;">
-                        <strong style="color:var(--warning-color); font-size:0.95rem;">⚠️ تشخيص الفحص: لم يتم توصيل أي أسلاك في الدائرة!</strong>
+                        <strong style="color:var(--warning-color); font-size:0.95rem;">تشخيص الفحص: لم يتم توصيل أي أسلاك في الدائرة!</strong>
                         <p style="font-size:0.85rem; color:var(--text-muted); margin-top:4px;">
-                            يرجى تفعيل "وضع التوصيل 🔌" من الأعلى واختيار المحطات لربط العناصر بالأسلاك ثم إعادة الفحص.
+                            يرجى تفعيل "وضع التوصيل" من الأعلى واختيار المحطات لربط العناصر بالأسلاك ثم إعادة الفحص.
                         </p>
                     </div>
                 `;
             } else {
                 box.innerHTML = `
                     <div style="border-right:4px solid var(--success-color); padding-right:10px;">
-                        <strong style="color:var(--success-color); font-size:0.95rem;">✅ تم فحص التوصيل: تم اكتشاف ${wires.length} أسلاك موصلة بنجاح!</strong>
+                        <strong style="color:var(--success-color); font-size:0.95rem;">تم فحص التوصيل: تم اكتشاف ${wires.length} أسلاك موصلة بنجاح!</strong>
                         <p style="font-size:0.85rem; color:var(--text-muted); margin-top:4px;">
                             مسار الدائرة متكامل، ولا توجد أي ثغرات أو قصر في الفازات (No Short Circuit detected).
                         </p>
@@ -1757,11 +1849,82 @@
             const board = document.getElementById('realSimBoard');
             board.innerHTML = `
                 <p id="realCanvasPlaceholder" style="text-align:center; padding-top:190px; color:var(--text-muted); font-size:0.85rem;" data-i18n="sim_placeholder">
-                    إختر القسم من الأعلى، واضغط على القطع الواقعية لبدء التوصيل واختبار الدائرة 🔌
+                    اختر القسم من الأعلى، واضغط على القطع الواقعية لبدء التوصيل واختبار الدائرة
                 </p>
             `;
             document.getElementById('diagnosticAlertBox').style.display = 'none';
             updateSimStatusBar();
+        }
+
+        // HVAC & LIGHTING LOGIC
+        function calculatePanelCooling() {
+            const heat = parseFloat(document.getElementById('panelHeatLoss').value);
+            const res = document.getElementById('panelCoolingResult');
+            if (!heat) { alert('أدخل قيمة الفقد الحراري بالأقسام Watt'); return; }
+
+            const btu = heat * 3.412;
+            const tons = (btu / 12000).toFixed(2);
+
+            res.style.display = 'block';
+            res.innerHTML = `
+                <strong>نتائج حساب قدرة تبريد اللوحة:</strong><br>
+                - سعة التبريد المطلوبة: <strong style="color:var(--accent-color);">${btu.toFixed(0)} BTU/h</strong> (${heat} Watt)<br>
+                - القدرة بالطن التبريدي: <strong>${tons} Ton</strong><br>
+                - التوصية: تركيب مكيف لوحات بمروحة طرد سريعة ومصنع بطبقة الحماية IP54.
+            `;
+            saveToHistory('حساب تبريد اللوحات', `فقد حراري ${heat}W | تبريد مطلوب: ${btu.toFixed(0)} BTU/h`);
+        }
+
+        function calculateLightingLux() {
+            const area = parseFloat(document.getElementById('roomArea').value);
+            const lux = parseFloat(document.getElementById('luxRequired').value);
+            const res = document.getElementById('lightingResult');
+            if (!area) { alert('أدخل المساحة بالمتر المربع'); return; }
+
+            const totalLumens = area * lux * 1.25;
+            const fixtureCount = Math.ceil(totalLumens / 4000);
+
+            res.style.display = 'block';
+            res.innerHTML = `
+                <strong>نتائج حسابات شدة الإنارة (Lux):</strong><br>
+                - التدفق الضوئي الكلي المطلوب: <strong style="color:var(--success-color);">${totalLumens.toFixed(0)} Lumens</strong><br>
+                - عدد الكشافات المقترح (سعة 40W / 4000lm): <strong>${fixtureCount} كشافات LED</strong>
+            `;
+            saveToHistory('حساب شدة الإنارة', `مساحة ${area}m² عند ${lux} Lux | عدد الكشافات: ${fixtureCount}`);
+        }
+
+        // TESTING & COMMISSIONING LOGIC
+        function evaluateInsulationTest() {
+            const v = document.getElementById('meggerVolt').value;
+            const val = parseFloat(document.getElementById('meggerValue').value);
+            const res = document.getElementById('meggerResult');
+            if (!val) { alert('أدخل قيمة عزل الكابل الميومية'); return; }
+
+            let status = val >= 100 ? '<strong style="color:var(--success-color);">ممتاز وآمن للتشغيل (Pass)</strong>' : '<strong style="color:var(--danger-color);">ضعيف / رطوبة عالية - يتطلب الفحص (Fail)</strong>';
+
+            res.style.display = 'block';
+            res.innerHTML = `
+                <strong>نتائج فحص الـ Megger عند (${v}V DC):</strong><br>
+                - قيمة العزل: <strong>${val} MΩ</strong><br>
+                - حالة التقييم: ${status}
+            `;
+            saveToHistory('فحص عزل الـ Megger', `جهد ${v}V | قيمة العزل: ${val} MΩ`);
+        }
+
+        function evaluateEarthPit() {
+            const val = parseFloat(document.getElementById('earthPitValue').value);
+            const res = document.getElementById('earthPitResult');
+            if (!val) { alert('أدخل قراءة فحص التأريض'); return; }
+
+            let status = val <= 5.0 ? '<strong style="color:var(--success-color);">مطابق للمواصفات الدولية IEEE/NEC (أقل من 5 أوم)</strong>' : '<strong style="color:var(--warning-color);">مرتفع - يحتاج إضافة ملح وحفر تحسين التأريض</strong>';
+
+            res.style.display = 'block';
+            res.innerHTML = `
+                <strong>نتيجة فحص مقاومة بئر التأريض:</strong><br>
+                - القراءة المحسوبة: <strong>${val} Ohms</strong><br>
+                - التقييم الهندسي: ${status}
+            `;
+            saveToHistory('فحص مقاومة الأرضي', `قيمة المقاومة: ${val} Ohms`);
         }
 
         // ARDUINO FUNCTIONS
@@ -1778,7 +1941,7 @@
                     <tr><td><strong>Pin 10</strong></td><td>Echo Pin (Ultrasonic)</td><td>INPUT</td></tr>
                     <tr><td><strong>Pin 11</strong></td><td>Relay Module / Motor Control</td><td>OUTPUT</td></tr>
                 </table>
-                <h4 style="margin-top:10px;">🤖 كود C++ الجاهز للأردوينو:</h4>
+                <h4 style="margin-top:10px;">كود C++ الجاهز للأردوينو:</h4>
                 <pre>
 // VoltAI Pro - Generated Arduino Code
 // Task: ${prompt}
@@ -1823,7 +1986,7 @@ void loop() {
             const vl = parseFloat(document.getElementById('ledVoltage').value) || 2.0;
             const res = document.getElementById('ledResistorResult');
 
-            const r = (vs - vl) / 0.02; // Assuming 20mA LED current
+            const r = (vs - vl) / 0.02;
             const p = Math.pow(vs - vl, 2) / r;
 
             res.style.display = 'block';
@@ -1845,7 +2008,6 @@ void loop() {
             res.innerHTML = `قيمة المقاومة الأومية المحسوبة: <strong style="color:var(--success-color);">${val >= 1000 ? (val/1000).toFixed(1) + ' kΩ' : val + ' Ω'}</strong> (نسبة التسامح ±5%)`;
         }
 
-        // Motor Trip Class Calculator
         function calculateTripClass() {
             const duty = document.getElementById('tripDuty').value;
             const amp = parseFloat(document.getElementById('tripStartAmp').value);
@@ -1909,7 +2071,7 @@ void loop() {
                     <tr><td><strong>${isS?'I0.2':'I:1/2'}</strong></td><td>زر تشغيل (Start)</td><td>NO مفتوح</td></tr>
                     <tr><td><strong>${isS?'Q0.0':'O:2/0'}</strong></td><td>ملف المحرك (Motor)</td><td>Output</td></tr>
                 </table>
-                <h4 style="margin-top:10px;">📐 مخطط الـ Ladder Diagram النصي:</h4>
+                <h4 style="margin-top:10px;">مخطط الـ Ladder Diagram النصي:</h4>
                 <pre>
 NETWORK 1: ${p}
    ${isS?'I0.0':'I:1/0'}       ${isS?'I0.1':'I:1/1'}       ${isS?'I0.2':'I:1/2'}      ${isS?'Q0.0':'O:2/0'}
