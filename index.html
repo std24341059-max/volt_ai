@@ -500,7 +500,6 @@
             align-items: center;
         }
 
-        /* Banner التنبيه التجريبي */
         .beta-warning-banner {
             background: rgba(245, 158, 11, 0.1);
             border: 1px solid var(--warning-color);
@@ -567,6 +566,11 @@
                 <svg class="svg-icon" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polygon points="10 8 16 12 10 16 10 8"/></svg>
                 <span data-i18n="nav_sim">استوديو المحاكاة الصناعية Reality Hub 🛠️</span>
             </button>
+            <!-- 🤖 قسم الأردوينو المضاف جديداً -->
+            <button class="drawer-item" onclick="switchDomain('arduino', event)">
+                <svg class="svg-icon" viewBox="0 0 24 24"><rect x="5" y="5" width="14" height="14" rx="2"/><circle cx="9" cy="9" r="1"/><circle cx="15" cy="15" r="1"/><line x1="9" y1="15" x2="15" y2="9"/></svg>
+                <span data-i18n="nav_arduino">الأردوينو والأجهزة المدمجة 🤖</span>
+            </button>
             <button class="drawer-item" onclick="switchDomain('classic', event)">
                 <svg class="svg-icon" viewBox="0 0 24 24"><rect x="4" y="4" width="16" height="16" rx="2"/><line x1="9" y1="9" x2="15" y2="15"/><line x1="15" y1="9" x2="9" y2="15"/></svg>
                 <span data-i18n="nav_classic">أنظمة التحكم الكلاسيكي</span>
@@ -626,7 +630,7 @@
             </div>
         </div>
         <div class="header-actions">
-            <!-- 🌐 زر اللغات المخصص بتصميم SVG الهندسي الشفاف بدلاً من علامة البرق -->
+            <!-- 🌐 زر اللغات المخصص بتصميم SVG الهندسي الشفاف -->
             <button class="icon-btn" onclick="switchLanguageNext()" title="تغيير اللغة / Switch Language">
                 <svg class="svg-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                     <path d="M5 8h14M4 14h11M2 5l6 14M13 19l6-14M19 14h-5"/>
@@ -654,7 +658,7 @@
                 اطرح سؤالك الهندسي الميداني، ارفع صورة المخطط أو المسألة، أو استخدم الإملاء الصوتي المباشر.
             </p>
             <div class="ai-hub-input-group">
-                <textarea id="mainAiInput" rows="3" placeholder="مثال: قم بتحليل سبب فصل قاطع العطل الأرضي، أو اكتب مسألة من مرجع ثيراجي..."></textarea>
+                <textarea id="mainAiInput" rows="3" placeholder="مثال: قم بتحليل سبب فصل قاطع العطل الأرضي، أو اكتب كود أردوينو لقراءة حساس المسافة..."></textarea>
                 <div id="imageBadge" class="image-preview-badge">
                     <svg class="svg-icon" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
                     تم إرفاق الصورة جاهزة للتحليل
@@ -697,18 +701,18 @@
                     <span data-i18n="sim_studio_title">استوديو المحاكاة الصناعية الواقعي (Reality Hub)</span>
                 </div>
 
-                <!-- ⚠️ وسم التنبيه التجريبي البارز للمحاكي -->
                 <div class="beta-warning-banner">
                     <svg class="svg-icon" viewBox="0 0 24 24"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
                     <span data-i18n="sim_beta_warning">⚠️ هذا المحاكي قيد الاستخدام التجريبي والتطوير الميداني المستمر.</span>
                 </div>
 
-                <!-- 1. شريط التبويبات التخصصية للأقسام -->
+                <!-- 1. شريط التبويبات التخصصية (إضافة تبويب الأردوينو الخامس) -->
                 <div class="sim-tabs-header">
                     <button class="sim-tab-btn active" onclick="switchSimCategory('classic_sim', this)">⚡ 1. الكلاسيك كونترول</button>
                     <button class="sim-tab-btn" onclick="switchSimCategory('plc_sim', this)">💻 2. الـ PLC والأوتوميشن</button>
                     <button class="sim-tab-btn" onclick="switchSimCategory('vfd_sim', this)">🌀 3. مغيرات السرعة (VFD)</button>
                     <button class="sim-tab-btn" onclick="switchSimCategory('breaker_sim', this)">🛡️ 4. الحمايات والقواطع</button>
+                    <button class="sim-tab-btn" onclick="switchSimCategory('arduino_sim', this)">🤖 5. الأردوينو والمتحكمات</button>
                 </div>
 
                 <!-- 2. أزرار التحكم بوضع التوصيل وتصدير الصورة -->
@@ -727,22 +731,18 @@
                 <!-- 4. لوحة الرسم والمحاكاة التفاعلية -->
                 <div id="realCanvasContainer" style="width:100%; height:460px; background:#070c17; border:2px solid var(--card-border); border-radius:14px; position:relative; overflow:hidden; background-image: radial-gradient(rgba(59, 130, 246, 0.15) 1px, transparent 1px); background-size: 24px 24px; touch-action: none;">
                     
-                    <!-- أزرار التحكم بالزوم الطافية -->
                     <div style="position:absolute; bottom:12px; left:12px; z-index:100; display:flex; gap:6px; background:rgba(15, 23, 42, 0.85); padding:4px 8px; border-radius:10px; border:1px solid var(--card-border);">
                         <button onclick="zoomCanvas(0.1)" style="background:var(--accent-color); color:#fff; border:none; border-radius:6px; width:30px; height:30px; font-weight:bold; cursor:pointer;">+</button>
                         <button onclick="zoomCanvas(-0.1)" style="background:var(--accent-color); color:#fff; border:none; border-radius:6px; width:30px; height:30px; font-weight:bold; cursor:pointer;">-</button>
                         <button onclick="resetCanvasZoom()" style="background:var(--input-bg); color:var(--text-main); border:1px solid var(--card-border); border-radius:6px; padding:0 8px; font-size:0.75rem; font-weight:bold; cursor:pointer;">100%</button>
                     </div>
 
-                    <!-- شريط حالة التوصيل التفاعلي السفلي (Status Bar) -->
                     <div id="simStatusBar" style="position:absolute; bottom:12px; right:12px; z-index:100; background:rgba(15, 23, 42, 0.85); padding:6px 12px; border-radius:10px; border:1px solid var(--card-border); font-size:0.75rem; color:var(--text-muted);">
                         القطع: <span id="statCompCount" style="color:var(--accent-color); font-weight:bold;">0</span> | الأسلاك: <span id="statWireCount" style="color:var(--success-color); font-weight:bold;">0</span>
                     </div>
 
-                    <!-- طبقة رسم الأسلاك المباشرة -->
                     <svg id="wiresSvgLayer" style="position:absolute; top:0; left:0; width:2000px; height:2000px; pointer-events:none; z-index:5; transform-origin: 0 0;"></svg>
 
-                    <!-- لوحة العناصر -->
                     <div id="realSimBoard" style="width:2000px; height:2000px; position:relative; transform-origin: 0 0; transition: transform 0.05s ease-out;">
                         <p id="realCanvasPlaceholder" style="text-align:center; padding-top:190px; color:var(--text-muted); font-size:0.85rem;" data-i18n="sim_placeholder">
                             إختر القسم من الأعلى، واضغط على القطع الواقعية لبدء التوصيل واختبار الدائرة 🔌
@@ -750,14 +750,64 @@
                     </div>
                 </div>
 
-                <!-- أزرار الإجراءات والفحص الذكي -->
                 <div style="display:flex; gap:10px; margin-top:12px;">
                     <button class="btn-primary btn-success" style="flex:2;" onclick="runSmartDiagnostic()">⚡ فحص الدائرة واكتشاف الأخطاء الذكي</button>
                     <button class="btn-primary btn-secondary" style="flex:1;" onclick="clearSimBoard()">🗑️ مسح اللوحة والأسلاك</button>
                 </div>
 
-                <!-- صندوق التنبيه واكتشاف الأخطاء -->
                 <div id="diagnosticAlertBox" class="result-box" style="display:none; margin-top:12px;"></div>
+            </div>
+        </div>
+
+        <!-- 🤖 DOMAIN NEW: ARDUINO & EMBEDDED SYSTEMS -->
+        <div id="arduino" class="tab-content">
+            <div class="card">
+                <div class="card-title">
+                    <svg class="svg-icon" viewBox="0 0 24 24"><rect x="5" y="5" width="14" height="14" rx="2"/><circle cx="9" cy="9" r="1"/><circle cx="15" cy="15" r="1"/></svg>
+                    مولد أكواد الأردوينو بـ C++ (Arduino Code Generator)
+                </div>
+                <div class="form-group">
+                    <label>وصف المشروع أو الوظيفة المطلوبة:</label>
+                    <input type="text" id="arduinoPrompt" placeholder="مثال: تشغيل محرك ستبّر عند اقتراب جسم من حساس الـ Ultrasonic">
+                </div>
+                <button class="btn-primary" onclick="generateArduinoCode()">توليد كود C++ وتحديد الأرجل (Pinout)</button>
+                <div id="arduinoResult" class="result-box" style="display:none;"></div>
+            </div>
+
+            <div class="card">
+                <div class="card-title">
+                    <svg class="svg-icon" viewBox="0 0 24 24"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>
+                    حاسبة مقاومة الـ LED وحماية أرجل الأردوينو (LED Resistor Calculator)
+                </div>
+                <div class="grid-2">
+                    <div class="form-group">
+                        <label>جهد التغذية المصدر (Volt):</label>
+                        <input type="number" id="ledSupply" value="5">
+                    </div>
+                    <div class="form-group">
+                        <label>لون الـ LED أو جهد العمل (Volt):</label>
+                        <select id="ledVoltage">
+                            <option value="2.0">أحمر / أصفر (2.0 Volts)</option>
+                            <option value="3.2">أزرق / أبيض / أخضر (3.2 Volts)</option>
+                        </select>
+                    </div>
+                </div>
+                <button class="btn-primary" onclick="calculateLedResistor()">حساب المقاومات بالأوم والواط</button>
+                <div id="ledResistorResult" class="result-box" style="display:none;"></div>
+            </div>
+
+            <div class="card">
+                <div class="card-title">
+                    <svg class="svg-icon" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
+                    حاسبة المقاومات الملونة ذات الـ 4 نطاقات (Color Code Calculator)
+                </div>
+                <div class="grid-2">
+                    <div class="form-group"><label>النطاق 1 (الحلقة الأولى):</label><select id="resBand1"><option value="1">بني (1)</option><option value="2">أحمر (2)</option><option value="3">برتقالي (3)</option><option value="4">أصفر (4)</option><option value="5">أخضر (5)</option><option value="10">أسود (0)</option></select></div>
+                    <div class="form-group"><label>النطاق 2 (الحلقة الثانية):</label><select id="resBand2"><option value="0">أسود (0)</option><option value="1">بني (1)</option><option value="2">أحمر (2)</option><option value="7">بنفسجي (7)</option></select></div>
+                </div>
+                <div class="form-group"><label>المضاعف (Multiplier):</label><select id="resMultiplier"><option value="100">أحمر (×100)</option><option value="1000">برتقالي (×1k)</option><option value="10000">أصفر (×10k)</option></select></div>
+                <button class="btn-primary" onclick="calculateResistorColor()">حساب قيمة المقاومة الأومية</button>
+                <div id="resColorResult" class="result-box" style="display:none;"></div>
             </div>
         </div>
 
@@ -1088,6 +1138,7 @@
             ar: {
                 nav_hub: "الواجهة الرئيسية (AI Hub)",
                 nav_sim: "استوديو المحاكاة الصناعية Reality Hub 🛠️",
+                nav_arduino: "الأردوينو والأجهزة المدمجة 🤖",
                 nav_classic: "أنظمة التحكم الكلاسيكي",
                 nav_plc: "أنظمة الـ PLC والأوتوميشن",
                 nav_vfd: "مغيرات السرعة (VFD & Drives)",
@@ -1120,6 +1171,7 @@
             en: {
                 nav_hub: "Main Dashboard (AI Hub)",
                 nav_sim: "Simulation Studio (Reality Hub) 🛠️",
+                nav_arduino: "Arduino & Embedded Systems 🤖",
                 nav_classic: "Classic Control Systems",
                 nav_plc: "PLC Systems & Automation",
                 nav_vfd: "Variable Speed Drives (VFD)",
@@ -1152,6 +1204,7 @@
             ku: {
                 nav_hub: "دەستپێک (AI Hub)",
                 nav_sim: "ستۆدیۆی هاوشێوەسازی (Reality Hub) 🛠️",
+                nav_arduino: "ئاردوینۆ و سیستەمەکانی ئیمبێدد 🤖",
                 nav_classic: "سیستەمەکانی کۆنترۆڵی کلاسیك",
                 nav_plc: "سیستەمەکانی PLC و ئۆتۆمەی شن",
                 nav_vfd: "گۆڕەرەکانی خێرایی (VFD)",
@@ -1427,11 +1480,21 @@
                 { id: 'acb_breaker', label: 'قاطع هوائي رئيسي ACB' },
                 { id: 'phase_failure', label: 'ريليه حماية الفازات Phase Failure' },
                 { id: 'earth_leakage', label: 'قاطع العطل الأرضي GFCI' }
+            ],
+            arduino_sim: [
+                { id: 'arduino_uno', label: 'لوحة Arduino Uno R3' },
+                { id: 'ultrasonic_sensor', label: 'حساس المسافة Ultrasonic HC-SR04' },
+                { id: 'relay_5v', label: 'مرحل 5V Relay Module' },
+                { id: 'servo_motor', label: 'محرك سيرفو SG90 Servo' }
             ]
         };
 
         function getComponentSVG(id) {
             switch (id) {
+                case 'arduino_uno':
+                    return `<svg viewBox="0 0 80 80" width="65" height="65"><rect x="8" y="10" width="64" height="60" rx="5" fill="#00838f" stroke="#00acc1" stroke-width="2.5"/><text x="40" y="25" fill="#ffffff" font-size="7" text-anchor="middle" font-weight="bold">ARDUINO UNO</text><rect x="14" y="32" width="20" height="12" fill="#37474f"/><circle cx="56" cy="38" r="6" fill="#1565c0"/><rect x="14" y="52" width="52" height="10" rx="2" fill="#263238"/></svg>`;
+                case 'ultrasonic_sensor':
+                    return `<svg viewBox="0 0 80 80" width="65" height="65"><rect x="10" y="15" width="60" height="50" rx="6" fill="#1e293b" stroke="#3b82f6" stroke-width="2"/><circle cx="28" cy="40" r="12" fill="#94a3b8" stroke="#000" stroke-width="2"/><circle cx="52" cy="40" r="12" fill="#94a3b8" stroke="#000" stroke-width="2"/><circle cx="28" cy="40" r="6" fill="#0f172a"/><circle cx="52" cy="40" r="6" fill="#0f172a"/></svg>`;
                 case 'overload':
                     return `<svg viewBox="0 0 80 80" width="65" height="65"><rect x="10" y="10" width="60" height="60" rx="8" fill="#1e293b" stroke="#f59e0b" stroke-width="2.5"/><circle cx="40" cy="32" r="12" fill="#0f172a" stroke="#f59e0b" stroke-width="2"/><line x1="40" y1="20" x2="40" y2="44" stroke="#ef4444" stroke-width="2.5"/><rect x="20" y="52" width="16" height="8" rx="2" fill="#ef4444"/><rect x="44" y="52" width="16" height="8" rx="2" fill="#3b82f6"/></svg>`;
                 case 'contactor':
@@ -1520,8 +1583,8 @@
                     <span style="font-size:0.75rem; color:#fff; font-weight:bold; display:block; margin-bottom:6px; white-space:nowrap;">${item.label}</span>
                     <div style="display:flex; justify-content:center; margin:4px 0;">${svgGraphic}</div>
                     <div style="margin-top:8px; display:flex; justify-content:space-between; gap:4px;">
-                        <span class="term-btn" onclick="handleTerminalClick(this, '${compId}', 'L1/L2/L3')" style="font-size:0.65rem; background:#ef4444; color:#fff; padding:3px 6px; border-radius:4px; font-weight:bold;">L1/L2/L3</span>
-                        <span class="term-btn" onclick="handleTerminalClick(this, '${compId}', 'T1/T2/T3')" style="font-size:0.65rem; background:#10b981; color:#fff; padding:3px 6px; border-radius:4px; font-weight:bold;">T1/T2/T3</span>
+                        <span class="term-btn" onclick="handleTerminalClick(this, '${compId}', 'VCC/GND')" style="font-size:0.65rem; background:#ef4444; color:#fff; padding:3px 6px; border-radius:4px; font-weight:bold;">VCC/GND</span>
+                        <span class="term-btn" onclick="handleTerminalClick(this, '${compId}', 'IN/OUT')" style="font-size:0.65rem; background:#10b981; color:#fff; padding:3px 6px; border-radius:4px; font-weight:bold;">IN/OUT</span>
                     </div>
                 </div>
             `;
@@ -1701,6 +1764,87 @@
             updateSimStatusBar();
         }
 
+        // ARDUINO FUNCTIONS
+        function generateArduinoCode() {
+            const prompt = document.getElementById('arduinoPrompt').value || 'تشغيل محرك حساس مسافة';
+            const res = document.getElementById('arduinoResult');
+
+            res.style.display = 'block';
+            res.innerHTML = `
+                <strong>📋 جدول تخصيص الأرجل (Pinout Mapping):</strong>
+                <table class="io-table">
+                    <tr><th>رقم الرجل (Pin)</th><th>الوظيفة / المكون</th><th>النوع (Mode)</th></tr>
+                    <tr><td><strong>Pin 9</strong></td><td>Trig Pin (Ultrasonic)</td><td>OUTPUT</td></tr>
+                    <tr><td><strong>Pin 10</strong></td><td>Echo Pin (Ultrasonic)</td><td>INPUT</td></tr>
+                    <tr><td><strong>Pin 11</strong></td><td>Relay Module / Motor Control</td><td>OUTPUT</td></tr>
+                </table>
+                <h4 style="margin-top:10px;">🤖 كود C++ الجاهز للأردوينو:</h4>
+                <pre>
+// VoltAI Pro - Generated Arduino Code
+// Task: ${prompt}
+
+const int trigPin = 9;
+const int echoPin = 10;
+const int relayPin = 11;
+
+void setup() {
+  pinMode(trigPin, OUTPUT);
+  pinMode(echoPin, INPUT);
+  pinMode(relayPin, OUTPUT);
+  Serial.begin(9600);
+}
+
+void loop() {
+  long duration;
+  int distance;
+  digitalWrite(trigPin, LOW);
+  delayMicroseconds(2);
+  digitalWrite(trigPin, HIGH);
+  delayMicroseconds(10);
+  digitalWrite(trigPin, LOW);
+  
+  duration = pulseIn(echoPin, HIGH);
+  distance = duration * 0.034 / 2;
+  
+  if (distance < 20) {
+    digitalWrite(relayPin, HIGH); // Turn ON Motor
+  } else {
+    digitalWrite(relayPin, LOW);  // Turn OFF Motor
+  }
+  delay(100);
+}
+                </pre>
+            `;
+            saveToHistory('توليد كود أردوينو', prompt);
+        }
+
+        function calculateLedResistor() {
+            const vs = parseFloat(document.getElementById('ledSupply').value) || 5;
+            const vl = parseFloat(document.getElementById('ledVoltage').value) || 2.0;
+            const res = document.getElementById('ledResistorResult');
+
+            const r = (vs - vl) / 0.02; // Assuming 20mA LED current
+            const p = Math.pow(vs - vl, 2) / r;
+
+            res.style.display = 'block';
+            res.innerHTML = `
+                - قيمة المقاومة المطلوبة لحماية الأرجل: <strong style="color:var(--accent-color);">${r.toFixed(0)} أوم (Ohms)</strong>.<br>
+                - قدرة المقاومة الأدنى: <strong>${p.toFixed(3)} Watt (استخدم مقاومة 1/4W عادية)</strong>.
+            `;
+            saveToHistory('حساب مقاومة الـ LED للأردوينو', `جهد ${vs}V | مقاومة مطلوبة: ${r.toFixed(0)} Ohm`);
+        }
+
+        function calculateResistorColor() {
+            const b1 = parseInt(document.getElementById('resBand1').value);
+            const b2 = parseInt(document.getElementById('resBand2').value);
+            const mult = parseInt(document.getElementById('resMultiplier').value);
+            const res = document.getElementById('resColorResult');
+
+            const val = ((b1 * 10) + b2) * mult;
+            res.style.display = 'block';
+            res.innerHTML = `قيمة المقاومة الأومية المحسوبة: <strong style="color:var(--success-color);">${val >= 1000 ? (val/1000).toFixed(1) + ' kΩ' : val + ' Ω'}</strong> (نسبة التسامح ±5%)`;
+        }
+
         // Motor Trip Class Calculator
         function calculateTripClass() {
             const duty = document.getElementById('tripDuty').value;
@@ -1718,12 +1862,10 @@
             saveToHistory('ضبط فئات الحماية الحرارية', resText);
         }
 
-        // Export BOM Report PDF
         function exportBOMReport() {
             alert('جاري توليد ملف كشف المشتريات والـ BOM بصيغة PDF معتمدة باسم المهندس منتظر عون...');
         }
 
-        // Star Delta Calculator
         function generateStarDelta() {
             const p = parseFloat(document.getElementById('sdPower').value);
             const u = document.getElementById('sdUnit').value;
@@ -1745,14 +1887,12 @@
             saveToHistory('حساب ستار - دلتا', resText);
         }
 
-        // Schematics Analyzer
         function analyzeSchematic() {
             const res = document.getElementById('schematicResult');
             res.style.display = 'block';
             res.innerHTML = `<strong style="color:var(--accent-color);">📋 نتائج فحص المخطط:</strong><br>- تم التحقق من نقاط التماس والانترلوك الكهربائي بنجاح. الدائرة آمنة للتشغيل.`;
         }
 
-        // Ladder Generator
         function generateLadderDiagram() {
             const p = document.getElementById('ladderPrompt').value || 'دائرة تشغيل وإيقاف محرك';
             const std = document.getElementById('ladderStandard').value;
@@ -1783,7 +1923,6 @@ NETWORK 1: ${p}
             `;
         }
 
-        // Modbus Map Generator
         function generateModbusMap() {
             const type = document.getElementById('modbusType').value;
             const start = parseInt(document.getElementById('modbusStart').value) || 1;
@@ -1802,7 +1941,6 @@ NETWORK 1: ${p}
             `;
         }
 
-        // VFD Error Lookup
         function lookupVFDError() {
             const code = document.getElementById('vfdCode').value.trim().toUpperCase();
             const res = document.getElementById('vfdResult');
@@ -1810,7 +1948,6 @@ NETWORK 1: ${p}
             res.innerHTML = `<strong>نتائج فحص الكود (${code || 'F0001'}):</strong><br>- العطل: تيار زائد (Overcurrent)<br>- الإجراء: افحص مقاومة ملفات المحرك وزد زمن التسارع (Ramp Up Time).`;
         }
 
-        // Cable Calculation
         function calculateCable() {
             const I = parseFloat(document.getElementById('cableAmp').value);
             const L = parseFloat(document.getElementById('cableLen').value);
@@ -1828,7 +1965,6 @@ NETWORK 1: ${p}
             saveToHistory('حساب هبوط الجهد للكابلات', resText);
         }
 
-        // Breaker Settings
         function calculateBreakerSettings() {
             const In = parseFloat(document.getElementById('breakerIn').value);
             const Ib = parseFloat(document.getElementById('breakerIb').value);
@@ -1846,7 +1982,6 @@ NETWORK 1: ${p}
             saveToHistory('ضبط وتعيير القواطع', resText);
         }
 
-        // Solar & UPS
         function calculateSolar() {
             const load = parseFloat(document.getElementById('solarLoad').value) || 5000;
             const hours = parseFloat(document.getElementById('sunHours').value) || 5;
@@ -1870,7 +2005,6 @@ NETWORK 1: ${p}
             saveToHistory('حساب بطاريات الـ UPS', `أحمال ${load}W لمدة ${hrs} ساعة | بقدرة ${kva.toFixed(2)}kVA والبطارية ${ah}Ah`);
         }
 
-        // Theraja Problem Solver
         function solveTherajaProblem() {
             const vol = document.getElementById('therajaVol').value;
             const txt = document.getElementById('therajaInput').value;
@@ -1884,7 +2018,6 @@ NETWORK 1: ${p}
             `;
         }
 
-        // Conduit Sizing Calculator
         function calculateConduit() {
             const count = parseFloat(document.getElementById('conduitCableCount').value);
             const dia = parseFloat(document.getElementById('conduitCableDia').value);
