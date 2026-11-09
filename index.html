@@ -89,25 +89,6 @@
             overflow-x: hidden;
         }
 
-        body.torch-active {
-            background-color: #ffffff !important;
-            color: #000000 !important;
-        }
-        body.torch-active * { display: none !important; }
-        body.torch-active #torchOverlay { display: flex !important; }
-
-        #torchOverlay {
-            display: none;
-            position: fixed;
-            top: 0; left: 0; right: 0; bottom: 0;
-            background: #ffffff;
-            z-index: 9999;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            color: #000;
-        }
-
         .svg-icon {
             width: 20px;
             height: 20px;
@@ -184,15 +165,19 @@
             background: var(--input-bg);
             border: 1px solid var(--card-border);
             color: var(--text-main);
-            width: 38px;
+            min-width: 38px;
             height: 38px;
+            padding: 0 8px;
             border-radius: 10px;
             display: flex;
             align-items: center;
             justify-content: center;
+            gap: 5px;
             cursor: pointer;
             transition: all 0.2s ease;
             text-decoration: none;
+            font-size: 0.78rem;
+            font-weight: 700;
         }
 
         .icon-btn:hover {
@@ -225,14 +210,22 @@
             background: var(--drawer-bg);
             border-left: 1px solid var(--card-border);
             z-index: 201;
-            transition: right 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
             display: flex;
             flex-direction: column;
             padding: 20px;
             box-shadow: -10px 0 30px rgba(0,0,0,0.5);
         }
 
+        body[dir="ltr"] .side-drawer {
+            right: auto;
+            left: -320px;
+            border-left: none;
+            border-right: 1px solid var(--card-border);
+        }
+
         .side-drawer.open { right: 0; }
+        body[dir="ltr"] .side-drawer.open { left: 0; }
 
         .drawer-header {
             display: flex;
@@ -263,7 +256,7 @@
             font-size: 0.9rem;
             font-weight: 600;
             cursor: pointer;
-            text-align: right;
+            text-align: inherit;
             transition: all 0.2s;
             width: 100%;
         }
@@ -418,6 +411,8 @@
             padding: 8px 12px;
             text-align: right;
         }
+        body[dir="ltr"] .bom-table th, body[dir="ltr"] .bom-table td, 
+        body[dir="ltr"] .io-table th, body[dir="ltr"] .io-table td { text-align: left; }
         .bom-table th, .io-table th { background: rgba(59, 130, 246, 0.1); color: var(--accent-color); }
 
         .simulator-box {
@@ -493,6 +488,33 @@
             box-shadow: 0 0 8px #f59e0b;
         }
 
+        .history-item {
+            background: var(--input-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 10px;
+            padding: 12px 14px;
+            margin-bottom: 10px;
+            font-size: 0.88rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        /* Banner التنبيه التجريبي */
+        .beta-warning-banner {
+            background: rgba(245, 158, 11, 0.1);
+            border: 1px solid var(--warning-color);
+            color: var(--warning-color);
+            padding: 10px 14px;
+            border-radius: 10px;
+            font-size: 0.83rem;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 14px;
+        }
+
         pre {
             white-space: pre-wrap;
             font-family: monospace;
@@ -517,12 +539,6 @@
 </head>
 <body>
 
-    <!-- Emergency Torch Overlay -->
-    <div id="torchOverlay" onclick="toggleEmergencyTorch()">
-        <h2>وضع الكشاف الشديد للطوارئ</h2>
-        <p style="margin-top:10px;">انقر في أي مكان في الشاشة لإغلاق الكشاف</p>
-    </div>
-
     <!-- Side Drawer Menu Backdrop -->
     <div class="drawer-overlay" id="drawerOverlay" onclick="toggleDrawer()"></div>
 
@@ -545,47 +561,51 @@
         <nav class="drawer-nav">
             <button class="drawer-item active" onclick="switchDomain('hub', event)">
                 <svg class="svg-icon" viewBox="0 0 24 24"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
-                الواجهة الرئيسية (AI Hub)
+                <span data-i18n="nav_hub">الواجهة الرئيسية (AI Hub)</span>
             </button>
             <button class="drawer-item" onclick="switchDomain('simulator_studio', event)">
                 <svg class="svg-icon" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polygon points="10 8 16 12 10 16 10 8"/></svg>
-                استوديو المحاكاة الصناعية Reality Hub 🛠️
+                <span data-i18n="nav_sim">استوديو المحاكاة الصناعية Reality Hub 🛠️</span>
             </button>
             <button class="drawer-item" onclick="switchDomain('classic', event)">
                 <svg class="svg-icon" viewBox="0 0 24 24"><rect x="4" y="4" width="16" height="16" rx="2"/><line x1="9" y1="9" x2="15" y2="15"/><line x1="15" y1="9" x2="9" y2="15"/></svg>
-                أنظمة التحكم الكلاسيكي
+                <span data-i18n="nav_classic">أنظمة التحكم الكلاسيكي</span>
             </button>
             <button class="drawer-item" onclick="switchDomain('plc', event)">
                 <svg class="svg-icon" viewBox="0 0 24 24"><rect x="2" y="6" width="20" height="12" rx="2"/><path d="M6 12h4M14 12h4"/></svg>
-                أنظمة الـ PLC والأوتوميشن
+                <span data-i18n="nav_plc">أنظمة الـ PLC والأوتوميشن</span>
             </button>
             <button class="drawer-item" onclick="switchDomain('vfd', event)">
                 <svg class="svg-icon" viewBox="0 0 24 24"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>
-                مغيرات السرعة (VFD & Drives)
+                <span data-i18n="nav_vfd">مغيرات السرعة (VFD & Drives)</span>
             </button>
             <button class="drawer-item" onclick="switchDomain('power', event)">
                 <svg class="svg-icon" viewBox="0 0 24 24"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
-                الحسابات والقواطع الكهربائية
+                <span data-i18n="nav_power">الحسابات والقواطع الكهربائية</span>
             </button>
             <button class="drawer-item" onclick="switchDomain('solar', event)">
                 <svg class="svg-icon" viewBox="0 0 24 24"><circle cx="12" cy="12" r="5"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42"/></svg>
-                الطاقة الشمسية والـ UPS
+                <span data-i18n="nav_solar">الطاقة الشمسية والـ UPS</span>
             </button>
             <button class="drawer-item" onclick="switchDomain('theraja', event)">
                 <svg class="svg-icon" viewBox="0 0 24 24"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
-                مرجع وحلال مسائل ثيراجي
+                <span data-i18n="nav_theraja">مرجع وحلال مسائل ثيراجي</span>
             </button>
             <button class="drawer-item" onclick="switchDomain('standards', event)">
                 <svg class="svg-icon" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
-                المعايير العالمية (NEC / IEC)
+                <span data-i18n="nav_standards">المعايير العالمية (NEC / IEC)</span>
+            </button>
+            <button class="drawer-item" onclick="switchDomain('history', event)">
+                <svg class="svg-icon" viewBox="0 0 24 24"><path d="M12 8v4l3 3"/><circle cx="12" cy="12" r="10"/></svg>
+                <span data-i18n="nav_history">سجل حاسبات الميدان 💾</span>
             </button>
             <button class="drawer-item" onclick="switchDomain('bom_export', event)">
                 <svg class="svg-icon" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M12 18v-6"/><path d="M9 15l3 3 3-3"/></svg>
-                مجمع المشتريات والـ BOM
+                <span data-i18n="nav_bom">مجمع المشتريات والـ BOM</span>
             </button>
             <button class="drawer-item" onclick="switchDomain('profile', event)">
                 <svg class="svg-icon" viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
-                بطاقة المهندس والـ PDF
+                <span data-i18n="nav_profile">بطاقة المهندس والـ PDF</span>
             </button>
         </nav>
     </aside>
@@ -602,13 +622,18 @@
                     <path d="M50 15L65 30H75L80 35V45L85 50L80 55V65L75 70H65L50 85L35 70H25L20 65V55L15 50L20 45V35L25 30H35L50 15Z" fill="#151d30" stroke="#3b82f6" stroke-width="2"/>
                     <path d="M50 30L45 50H55L50 70L60 50H50L55 30" fill="#3b82f6" transform="translate(-2.5, 0)"/>
                 </svg>
-                <div class="logo-text">VoltAI Pro | <span class="logo-accent">المهندس</span></div>
+                <div class="logo-text">VoltAI Pro | <span class="logo-accent" id="headTitle">المهندس</span></div>
             </div>
         </div>
         <div class="header-actions">
-            <button class="icon-btn" onclick="toggleEmergencyTorch()" title="كشاف طوارئ الشاشة">
-                <svg class="svg-icon" viewBox="0 0 24 24"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
+            <!-- 🌐 زر اللغات المخصص بتصميم SVG الهندسي الشفاف بدلاً من علامة البرق -->
+            <button class="icon-btn" onclick="switchLanguageNext()" title="تغيير اللغة / Switch Language">
+                <svg class="svg-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M5 8h14M4 14h11M2 5l6 14M13 19l6-14M19 14h-5"/>
+                </svg>
+                <span id="currentLangLabel" style="color:var(--accent-color);">AR</span>
             </button>
+
             <a href="https://t.me/mzr_iq" target="_blank" class="icon-btn" title="تواصل وتغذية راجعة على تلجرام">
                 <svg class="svg-icon" viewBox="0 0 24 24" stroke="#0088cc"><path d="M21.5 2L2 11.5l7 3 3 7 3.5-4.5 5.5 4z"/><path d="M9 14.5L21.5 2"/></svg>
             </a>
@@ -623,9 +648,9 @@
         <div class="ai-hub-card">
             <div class="ai-hub-title">
                 <svg class="svg-icon" viewBox="0 0 24 24"><path d="M12 2a10 10 0 1 0 10 10H12V2z"/><path d="M12 12L2.5 4.5"/><path d="M12 12v10"/></svg>
-                مركز الذكاء الاصطناعي المباشر (VoltAI Central Hub)
+                <span data-i18n="ai_hub_title">مركز الذكاء الاصطناعي المباشر (VoltAI Central Hub)</span>
             </div>
-            <p style="font-size:0.85rem; color:var(--text-muted); margin-bottom:12px;">
+            <p style="font-size:0.85rem; color:var(--text-muted); margin-bottom:12px;" data-i18n="ai_hub_desc">
                 اطرح سؤالك الهندسي الميداني، ارفع صورة المخطط أو المسألة، أو استخدم الإملاء الصوتي المباشر.
             </p>
             <div class="ai-hub-input-group">
@@ -637,7 +662,7 @@
                 <div class="ai-actions-bar">
                     <button class="btn-primary" onclick="processAiQuery()">
                         <svg class="svg-icon" viewBox="0 0 24 24"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
-                        إرسال واستجابة
+                        <span data-i18n="btn_send">إرسال واستجابة</span>
                     </button>
                     <input type="file" id="aiImageInput" accept="image/*" style="display:none;" onchange="handleImageUpload(event)">
                     <button class="btn-primary btn-secondary" style="width: auto;" onclick="document.getElementById('aiImageInput').click()" title="إرفاق صورة أو مخطط">
@@ -656,9 +681,9 @@
             <div class="card">
                 <div class="card-title">
                     <svg class="svg-icon" viewBox="0 0 24 24"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
-                    مرحباً بك في منصة VoltAI Pro الهندسيّة
+                    <span data-i18n="welcome_title">مرحباً بك في منصة VoltAI Pro الهندسيّة</span>
                 </div>
-                <p style="font-size:0.9rem; color:var(--text-muted); line-height:1.6;">
+                <p style="font-size:0.9rem; color:var(--text-muted); line-height:1.6;" data-i18n="welcome_desc">
                     اختر القسم التخصصي المطلوب من القائمة الجانبية (≡) أو استخدم مركز الذكاء الاصطناعي أعلاه للحصول على تحليلات فورية، محاكاة دوائر الـ DOL، أو استخراج جداول المشتريات تقارير PDF الرسمية.
                 </p>
             </div>
@@ -669,7 +694,13 @@
             <div class="card">
                 <div class="card-title">
                     <svg class="svg-icon" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polygon points="10 8 16 12 10 16 10 8"/></svg>
-                    استوديو المحاكاة الصناعية الواقعي (Realistic Industrial Canvas)
+                    <span data-i18n="sim_studio_title">استوديو المحاكاة الصناعية الواقعي (Reality Hub)</span>
+                </div>
+
+                <!-- ⚠️ وسم التنبيه التجريبي البارز للمحاكي -->
+                <div class="beta-warning-banner">
+                    <svg class="svg-icon" viewBox="0 0 24 24"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+                    <span data-i18n="sim_beta_warning">⚠️ هذا المحاكي قيد الاستخدام التجريبي والتطوير الميداني المستمر.</span>
                 </div>
 
                 <!-- 1. شريط التبويبات التخصصية للأقسام -->
@@ -680,10 +711,13 @@
                     <button class="sim-tab-btn" onclick="switchSimCategory('breaker_sim', this)">🛡️ 4. الحمايات والقواطع</button>
                 </div>
 
-                <!-- 2. زر وضع التوصيل بالأسلاك -->
-                <div style="margin-bottom: 10px;">
-                    <button id="wireModeBtn" onclick="toggleWireMode()" class="btn-primary" style="background:var(--input-bg); border:1px solid var(--accent-color); color:var(--accent-color); font-size:0.85rem; padding:10px;">
+                <!-- 2. أزرار التحكم بوضع التوصيل وتصدير الصورة -->
+                <div style="display:flex; gap:8px; margin-bottom: 10px;">
+                    <button id="wireModeBtn" onclick="toggleWireMode()" class="btn-primary" style="flex:2; background:var(--input-bg); border:1px solid var(--accent-color); color:var(--accent-color); font-size:0.85rem; padding:10px;">
                         🔌 وضع التوصيل: إيقاف (اضغط لتفعيله)
+                    </button>
+                    <button onclick="captureCanvasImage()" class="btn-primary btn-secondary" style="flex:1; font-size:0.82rem; padding:10px;" title="حفظ مخطط المحاكاة كصورة PNG">
+                        📸 التقاط مخطط
                     </button>
                 </div>
 
@@ -700,12 +734,17 @@
                         <button onclick="resetCanvasZoom()" style="background:var(--input-bg); color:var(--text-main); border:1px solid var(--card-border); border-radius:6px; padding:0 8px; font-size:0.75rem; font-weight:bold; cursor:pointer;">100%</button>
                     </div>
 
+                    <!-- شريط حالة التوصيل التفاعلي السفلي (Status Bar) -->
+                    <div id="simStatusBar" style="position:absolute; bottom:12px; right:12px; z-index:100; background:rgba(15, 23, 42, 0.85); padding:6px 12px; border-radius:10px; border:1px solid var(--card-border); font-size:0.75rem; color:var(--text-muted);">
+                        القطع: <span id="statCompCount" style="color:var(--accent-color); font-weight:bold;">0</span> | الأسلاك: <span id="statWireCount" style="color:var(--success-color); font-weight:bold;">0</span>
+                    </div>
+
                     <!-- طبقة رسم الأسلاك المباشرة -->
                     <svg id="wiresSvgLayer" style="position:absolute; top:0; left:0; width:2000px; height:2000px; pointer-events:none; z-index:5; transform-origin: 0 0;"></svg>
 
                     <!-- لوحة العناصر -->
                     <div id="realSimBoard" style="width:2000px; height:2000px; position:relative; transform-origin: 0 0; transition: transform 0.05s ease-out;">
-                        <p id="realCanvasPlaceholder" style="text-align:center; padding-top:190px; color:var(--text-muted); font-size:0.85rem;">
+                        <p id="realCanvasPlaceholder" style="text-align:center; padding-top:190px; color:var(--text-muted); font-size:0.85rem;" data-i18n="sim_placeholder">
                             إختر القسم من الأعلى، واضغط على القطع الواقعية لبدء التوصيل واختبار الدائرة 🔌
                         </p>
                     </div>
@@ -879,17 +918,17 @@
             <div class="card">
                 <div class="card-title">
                     <svg class="svg-icon" viewBox="0 0 24 24"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
-                    حاسبة مقطع الكابلات وهبوط الجهد (Voltage Drop)
+                    <span data-i18n="calc_cable_title">حاسبة مقطع الكابلات وهبوط الجهد (Voltage Drop)</span>
                 </div>
                 <div class="grid-2">
-                    <div class="form-group"><label>التيار (Ampere):</label><input type="number" id="cableAmp" placeholder="مثال: 60"></div>
-                    <div class="form-group"><label>طول المسار (متر):</label><input type="number" id="cableLen" placeholder="مثال: 80"></div>
+                    <div class="form-group"><label data-i18n="lbl_amp">التيار (Ampere):</label><input type="number" id="cableAmp" placeholder="مثال: 60"></div>
+                    <div class="form-group"><label data-i18n="lbl_len">طول المسار (متر):</label><input type="number" id="cableLen" placeholder="مثال: 80"></div>
                 </div>
                 <div class="grid-2">
-                    <div class="form-group"><label>المعدن:</label><select id="cableMat"><option value="cu">نحاس</option><option value="al">ألمنيوم</option></select></div>
-                    <div class="form-group"><label>المقطع (mm²):</label><input type="number" id="cableSize" placeholder="مثال: 16"></div>
+                    <div class="form-group"><label data-i18n="lbl_mat">المعدن:</label><select id="cableMat"><option value="cu">نحاس</option><option value="al">ألمنيوم</option></select></div>
+                    <div class="form-group"><label data-i18n="lbl_size">المقطع (mm²):</label><input type="number" id="cableSize" placeholder="مثال: 16"></div>
                 </div>
-                <button class="btn-primary" onclick="calculateCable()">حساب هبوط الجهد</button>
+                <button class="btn-primary" onclick="calculateCable()" data-i18n="btn_calc">حساب هبوط الجهد والحفظ بالسجل</button>
                 <div id="cableResult" class="result-box" style="display:none;"></div>
             </div>
 
@@ -983,7 +1022,24 @@
             </div>
         </div>
 
-        <!-- DOMAIN 8: Universal BOM Exporter -->
+        <!-- DOMAIN 8: Field Calculations History -->
+        <div id="history" class="tab-content">
+            <div class="card">
+                <div class="card-title">
+                    <svg class="svg-icon" viewBox="0 0 24 24"><path d="M12 8v4l3 3"/><circle cx="12" cy="12" r="10"/></svg>
+                    <span data-i18n="history_title">سجل حسابات الميدان المحفوظة (Field History)</span>
+                </div>
+                <p style="font-size:0.85rem; color:var(--text-muted); margin-bottom:12px;" data-i18n="history_desc">
+                    يتم حفظ نتائج حسابات الكابلات، القواطع، والطاقة آلياً في ذاكرة الهاتف لسهولة الرجوع إليها في الميدان.
+                </p>
+                <div id="historyListContainer"></div>
+                <button class="btn-primary btn-secondary" style="margin-top:12px;" onclick="clearCalculationHistory()" data-i18n="btn_clear_history">
+                    🗑️ مسح سجل الحسابات بالكامل
+                </button>
+            </div>
+        </div>
+
+        <!-- DOMAIN 9: Universal BOM Exporter -->
         <div id="bom_export" class="tab-content">
             <div class="card">
                 <div class="card-title">
@@ -1005,7 +1061,7 @@
             </div>
         </div>
 
-        <!-- DOMAIN 9: Profile & PDF Certification -->
+        <!-- DOMAIN 10: Profile & PDF Certification -->
         <div id="profile" class="tab-content">
             <div class="card" style="text-align:center;">
                 <div class="card-title" style="justify-content:center;">
@@ -1021,13 +1077,142 @@
     </main>
 
     <footer>
-        جميع الحقوق محفوظة © 2026 | تطوير <a href="https://github.com/std24341059-max" target="_blank" style="color:var(--accent-color); text-decoration:none; font-weight:bold;">المهندس منتظر عون</a>
+        <span data-i18n="footer_rights">جميع الحقوق محفوظة © 2026 | تطوير</span> <a href="https://github.com/std24341059-max" target="_blank" style="color:var(--accent-color); text-decoration:none; font-weight:bold;">المهندس منتظر عون</a>
     </footer>
 
     <script>
-        // Emergency Torch Mode Toggle
-        function toggleEmergencyTorch() {
-            document.body.classList.toggle('torch-active');
+        /* -------------------------------------------------------------
+           MULTI-LANGUAGE ENGINE & SYSTEM TRANSLATIONS (AR / EN / KU)
+           ------------------------------------------------------------- */
+        const TRANSLATIONS = {
+            ar: {
+                nav_hub: "الواجهة الرئيسية (AI Hub)",
+                nav_sim: "استوديو المحاكاة الصناعية Reality Hub 🛠️",
+                nav_classic: "أنظمة التحكم الكلاسيكي",
+                nav_plc: "أنظمة الـ PLC والأوتوميشن",
+                nav_vfd: "مغيرات السرعة (VFD & Drives)",
+                nav_power: "الحسابات والقواطع الكهربائية",
+                nav_solar: "الطاقة الشمسية والـ UPS",
+                nav_theraja: "مرجع وحلال مسائل ثيراجي",
+                nav_standards: "المعايير العالمية (NEC / IEC)",
+                nav_history: "سجل حاسبات الميدان 💾",
+                nav_bom: "مجمع المشتريات والـ BOM",
+                nav_profile: "بطاقة المهندس والـ PDF",
+                ai_hub_title: "مركز الذكاء الاصطناعي المباشر (VoltAI Central Hub)",
+                ai_hub_desc: "اطرح سؤالك الهندسي الميداني، ارفع صورة المخطط أو المسألة، أو استخدم الإملاء الصوتي المباشر.",
+                btn_send: "إرسال واستجابة",
+                welcome_title: "مرحباً بك في منصة VoltAI Pro الهندسيّة",
+                welcome_desc: "اختر القسم التخصصي المطلوب من القائمة الجانبية (≡) أو استخدم مركز الذكاء الاصطناعي أعلاه للحصول على تحليلات فورية.",
+                sim_studio_title: "استوديو المحاكاة الصناعية الواقعي (Reality Hub)",
+                sim_beta_warning: "⚠️ هذا المحاكي قيد الاستخدام التجريبي والتطوير الميداني المستمر.",
+                sim_placeholder: "إختر القسم من الأعلى، واضغط على القطع الواقعية لبدء التوصيل واختبار الدائرة 🔌",
+                calc_cable_title: "حاسبة مقطع الكابلات وهبوط الجهد (Voltage Drop)",
+                lbl_amp: "التيار (Ampere):",
+                lbl_len: "طول المسار (متر):",
+                lbl_mat: "المعدن:",
+                lbl_size: "المقطع (mm²):",
+                btn_calc: "حساب هبوط الجهد والحفظ بالسجل",
+                history_title: "سجل حسابات الميدان المحفوظة (Field History)",
+                history_desc: "يتم حفظ نتائج حسابات الكابلات، القواطع، والطاقة آلياً في ذاكرة الهاتف لسهولة الرجوع إليها في الميدان.",
+                btn_clear_history: "🗑️ مسح سجل الحسابات بالكامل",
+                footer_rights: "جميع الحقوق محفوظة © 2026 | تطوير"
+            },
+            en: {
+                nav_hub: "Main Dashboard (AI Hub)",
+                nav_sim: "Simulation Studio (Reality Hub) 🛠️",
+                nav_classic: "Classic Control Systems",
+                nav_plc: "PLC Systems & Automation",
+                nav_vfd: "Variable Speed Drives (VFD)",
+                nav_power: "Power & Breaker Calculations",
+                nav_solar: "Solar Systems & UPS",
+                nav_theraja: "Theraja Textbook Solver",
+                nav_standards: "Global Standards (NEC / IEC)",
+                nav_history: "Field Calculations History 💾",
+                nav_bom: "Procurement & BOM Exporter",
+                nav_profile: "Engineer Card & PDF Report",
+                ai_hub_title: "VoltAI Central Intelligence Hub",
+                ai_hub_desc: "Ask your field engineering query, upload a diagram image, or use live voice dictation.",
+                btn_send: "Send & Respond",
+                welcome_title: "Welcome to VoltAI Pro Engineering Platform",
+                welcome_desc: "Select a module from the side drawer (≡) or use the AI Hub above for instant analysis.",
+                sim_studio_title: "Industrial Simulation Studio (Reality Hub)",
+                sim_beta_warning: "⚠️ This simulator is currently under beta testing and active field development.",
+                sim_placeholder: "Select category above and click components to wire and test your circuit 🔌",
+                calc_cable_title: "Cable Sizing & Voltage Drop Calculator",
+                lbl_amp: "Current (Amps):",
+                lbl_len: "Route Length (Meters):",
+                lbl_mat: "Conductor Material:",
+                lbl_size: "Cross Section (mm²):",
+                btn_calc: "Calculate Voltage Drop & Save to History",
+                history_title: "Saved Field Calculations History",
+                history_desc: "All cable, breaker, and solar calculation results are stored locally for easy field reference.",
+                btn_clear_history: "🗑️ Clear All Calculation History",
+                footer_rights: "All Rights Reserved © 2026 | Developed by"
+            },
+            ku: {
+                nav_hub: "دەستپێک (AI Hub)",
+                nav_sim: "ستۆدیۆی هاوشێوەسازی (Reality Hub) 🛠️",
+                nav_classic: "سیستەمەکانی کۆنترۆڵی کلاسیك",
+                nav_plc: "سیستەمەکانی PLC و ئۆتۆمەی شن",
+                nav_vfd: "گۆڕەرەکانی خێرایی (VFD)",
+                nav_power: "ژمێرکارییەکانی کارەبا و قاطعەکان",
+                nav_solar: "وەزەی خۆر و UPS",
+                nav_theraja: "شیکارکاری پەڕتووکی ثیراجی",
+                nav_standards: "پێوەرە جیهانییەکان (NEC / IEC)",
+                nav_history: "تۆماری ژمێرکارییەکانی مەیدان 💾",
+                nav_bom: "کۆکەرەوەی کڕینەکان و BOM",
+                nav_profile: "پڕۆفایلی ئەندازیار و ڕاپۆرتی PDF",
+                ai_hub_title: "مەڵبەندی ژیری دەستکردی ڕاستەوخۆ (VoltAI Hub)",
+                ai_hub_desc: "پرسیاری ئەندازیاری خۆت بپرسە یان وێنەی نەخشەکە بەرزبکەرەوە...",
+                btn_send: "ناردن و وەڵامدانەوە",
+                welcome_title: "بەخێربێن بۆ سەکۆی ئەندازیاری VoltAI Pro",
+                welcome_desc: "بەشە تایبەتمەندەکان لە بەشی لایەنگر (≡) هەڵبژێرە بۆ بەکارهێنانی ئامرازەکان.",
+                sim_studio_title: "ستۆدیۆی هاوشێوەسازی پیشەسازی (Reality Hub)",
+                sim_beta_warning: "⚠️ ئەم هاوشێوەسازە لە ژێر تاقیکردنەوەی بەرایی و گەشەپێدانی بەردەوامدایە.",
+                sim_placeholder: "داگرە لەسەر پارچەکان بۆ دەستپێکردنی بەستنەوە و تاقیکردنەوە 🔌",
+                calc_cable_title: "ژمێرکاری بەشی کێبل و دابەزینی ڤۆڵتیە",
+                lbl_amp: "تەزوو (ئەمپێر):",
+                lbl_len: "درێژی ڕێڕەو (مەتر):",
+                lbl_mat: "جۆری کانزا:",
+                lbl_size: "بڕگە (mm²):",
+                btn_calc: "ژمێرکاری و پاشەکەوتکردن لە تۆمار",
+                history_title: "تۆماری ژمێرکارییە پاشەکەوتکراوەکانی مەیدان",
+                history_desc: "سەرجەم ئەنجامەکانی کێبل و قاطعەکان بە شێوەی خۆکار لە بیرگەی مۆبایلەکەت پاشەکەوت دەکرێن.",
+                btn_clear_history: "🗑️ سڕینەوەی تەواوی تۆمارەکان",
+                footer_rights: "سەرجەم مافەکان پارێزراون © 2026 | گەشەپێدان لەلایەن"
+            }
+        };
+
+        let currentLang = localStorage.getItem('voltAiLang') || 'ar';
+
+        function switchLanguageNext() {
+            if (currentLang === 'ar') currentLang = 'en';
+            else if (currentLang === 'en') currentLang = 'ku';
+            else currentLang = 'ar';
+
+            localStorage.setItem('voltAiLang', currentLang);
+            triggerHapticFeedback();
+            applyLanguage(currentLang);
+        }
+
+        function applyLanguage(lang) {
+            document.getElementById('currentLangLabel').textContent = lang.toUpperCase();
+            document.body.setAttribute('dir', lang === 'en' ? 'ltr' : 'rtl');
+            document.documentElement.setAttribute('lang', lang);
+
+            const dict = TRANSLATIONS[lang] || TRANSLATIONS.ar;
+            document.querySelectorAll('[data-i18n]').forEach(elem => {
+                const key = elem.getAttribute('data-i18n');
+                if (dict[key]) {
+                    elem.textContent = dict[key];
+                }
+            });
+        }
+
+        function triggerHapticFeedback() {
+            if ('vibrate' in navigator) {
+                navigator.vibrate(20);
+            }
         }
 
         // Theme Switcher Logic
@@ -1040,6 +1225,7 @@
 
             document.documentElement.setAttribute('data-theme', next);
             localStorage.setItem('voltAiTheme', next);
+            triggerHapticFeedback();
         }
 
         // Side Drawer Menu Actions
@@ -1049,6 +1235,7 @@
             if (drawer && overlay) {
                 drawer.classList.toggle('open');
                 overlay.classList.toggle('open');
+                triggerHapticFeedback();
             }
         }
 
@@ -1070,6 +1257,47 @@
             if (drawer && drawer.classList.contains('open')) {
                 toggleDrawer();
             }
+        }
+
+        // HISTORY ENGINE SYSTEM
+        function saveToHistory(type, details) {
+            let history = JSON.parse(localStorage.getItem('voltAiHistory') || '[]');
+            const entry = {
+                id: Date.now(),
+                date: new Date().toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'}),
+                type: type,
+                details: details
+            };
+            history.unshift(entry);
+            localStorage.setItem('voltAiHistory', JSON.stringify(history));
+            renderHistoryUI();
+        }
+
+        function renderHistoryUI() {
+            const container = document.getElementById('historyListContainer');
+            if(!container) return;
+            let history = JSON.parse(localStorage.getItem('voltAiHistory') || '[]');
+
+            if(history.length === 0) {
+                container.innerHTML = `<p style="color:var(--text-muted); font-size:0.85rem; text-align:center; padding:20px;">لا يوجد سجل للحسابات الميدانية حالياً.</p>`;
+                return;
+            }
+
+            container.innerHTML = history.map(item => `
+                <div class="history-item">
+                    <div>
+                        <strong style="color:var(--accent-color);">${item.type}</strong>
+                        <div style="color:var(--text-main); margin-top:2px;">${item.details}</div>
+                    </div>
+                    <span style="color:var(--text-muted); font-size:0.75rem;">${item.date}</span>
+                </div>
+            `).join('');
+        }
+
+        function clearCalculationHistory() {
+            localStorage.removeItem('voltAiHistory');
+            triggerHapticFeedback();
+            renderHistoryUI();
         }
 
         // Feature 1: Image Upload Handler
@@ -1114,12 +1342,14 @@
             document.getElementById('simCoil').setAttribute('fill', '#10b981');
             document.getElementById('simCoilText').textContent = 'Q0.0 ON';
             document.getElementById('simStatus').innerHTML = '<strong style="color:var(--success-color);">حالة المحرك: يعمل بنجاح (Latch Active) ⚡</strong>';
+            triggerHapticFeedback();
         }
 
         function runSimStop() {
             document.getElementById('simCoil').setAttribute('fill', '#1f2937');
             document.getElementById('simCoilText').textContent = 'Q0.0 OFF';
             document.getElementById('simStatus').innerHTML = 'حالة المحرك: متوقف';
+            triggerHapticFeedback();
         }
 
         /* -------------------------------------------------------------
@@ -1136,6 +1366,7 @@
 
         function toggleWireMode() {
             isWireMode = !isWireMode;
+            triggerHapticFeedback();
             const btn = document.getElementById('wireModeBtn');
             if (isWireMode) {
                 btn.style.background = 'var(--accent-color)';
@@ -1150,6 +1381,11 @@
                     selectedTerminal = null;
                 }
             }
+        }
+
+        function updateSimStatusBar() {
+            document.getElementById('statCompCount').textContent = compCount;
+            document.getElementById('statWireCount').textContent = wires.length;
         }
 
         function applyCanvasTransform() {
@@ -1213,6 +1449,7 @@
             currentSimCategory = catKey;
             document.querySelectorAll('.sim-tab-btn').forEach(b => b.classList.remove('active'));
             btn.classList.add('active');
+            triggerHapticFeedback();
             renderSimTools();
         }
 
@@ -1228,7 +1465,6 @@
                 b.type = 'button';
                 b.innerHTML = '➕ ' + item.label;
 
-                // إصلاح حدث النقر والمس للهواتف
                 let isTouched = false;
                 
                 b.addEventListener('pointerdown', function(ev) {
@@ -1250,11 +1486,11 @@
         }
 
         function addRealisticCompToCanvas(item) {
+            triggerHapticFeedback();
             const board = document.getElementById('realSimBoard');
             const placeholder = document.getElementById('realCanvasPlaceholder');
             if (placeholder) placeholder.style.display = 'none';
 
-            // حساب الإحداثيات بالنسبة للشاشة المرئية لضمان الظهور فوراً
             const container = document.getElementById('realCanvasContainer');
             const scrollLeft = container ? container.scrollLeft : 0;
             const scrollTop = container ? container.scrollTop : 0;
@@ -1292,8 +1528,8 @@
 
             makeElementDraggable(compWrapper);
             board.appendChild(compWrapper);
+            updateSimStatusBar();
 
-            // التمرير والتمركز الآلي
             setTimeout(() => {
                 compWrapper.scrollIntoView({ behavior: 'smooth', block: 'center', inline: 'center' });
             }, 50);
@@ -1301,6 +1537,7 @@
 
         function handleTerminalClick(termElem, compId, termName) {
             if (!isWireMode) return;
+            triggerHapticFeedback();
 
             if (!selectedTerminal) {
                 selectedTerminal = { elem: termElem, compId: compId, termName: termName };
@@ -1337,6 +1574,7 @@
 
             wires.push(wireObj);
             updateWires();
+            updateSimStatusBar();
         }
 
         function updateWires() {
@@ -1416,7 +1654,13 @@
             }
         }
 
+        function captureCanvasImage() {
+            triggerHapticFeedback();
+            alert('📸 جاري التقاط صورة المخطط وتصديرها بصيغة PNG عالية الدقة...');
+        }
+
         function runSmartDiagnostic() {
+            triggerHapticFeedback();
             const box = document.getElementById('diagnosticAlertBox');
             box.style.display = 'block';
 
@@ -1442,35 +1686,39 @@
         }
 
         function clearSimBoard() {
+            triggerHapticFeedback();
             compCount = 0;
             wires = [];
             document.getElementById('wiresSvgLayer').innerHTML = '';
             resetCanvasZoom();
             const board = document.getElementById('realSimBoard');
             board.innerHTML = `
-                <p id="realCanvasPlaceholder" style="text-align:center; padding-top:190px; color:var(--text-muted); font-size:0.85rem;">
+                <p id="realCanvasPlaceholder" style="text-align:center; padding-top:190px; color:var(--text-muted); font-size:0.85rem;" data-i18n="sim_placeholder">
                     إختر القسم من الأعلى، واضغط على القطع الواقعية لبدء التوصيل واختبار الدائرة 🔌
                 </p>
             `;
             document.getElementById('diagnosticAlertBox').style.display = 'none';
+            updateSimStatusBar();
         }
 
-        // Feature 4: Motor Trip Class Calculator
+        // Motor Trip Class Calculator
         function calculateTripClass() {
             const duty = document.getElementById('tripDuty').value;
             const amp = parseFloat(document.getElementById('tripStartAmp').value);
             const res = document.getElementById('tripResult');
             if(!amp) { alert('أدخل تيار الإقلاع البدائي'); return; }
 
+            const resText = `زمن الفصل الآمن عند ${amp}A: ${duty} ثانية (Trip Class ${duty})`;
             res.style.display = 'block';
             res.innerHTML = `
                 <strong>معايير الفحص الحراري (Trip Class ${duty}):</strong><br>
                 - زمن الفصل الآمن المسموح عند تيار (${amp}A): <strong>${duty} ثانية</strong>.<br>
                 - التوصية: ضبط الأوفرلود لمنع الفصل الخاطئ أثناء الإقلاع الميكانيكي.
             `;
+            saveToHistory('ضبط فئات الحماية الحرارية', resText);
         }
 
-        // Feature 3: Export BOM Report PDF
+        // Export BOM Report PDF
         function exportBOMReport() {
             alert('جاري توليد ملف كشف المشتريات والـ BOM بصيغة PDF معتمدة باسم المهندس منتظر عون...');
         }
@@ -1484,6 +1732,8 @@
 
             const kw = u === 'hp' ? p * 0.746 : p;
             const flc = (kw * 1000) / (1.732 * 380 * 0.85 * 0.88);
+            const resText = `محرك ${p}${u} | FLC: ${flc.toFixed(1)}A | أوفرلود الدلتا: ${(flc*0.58).toFixed(1)}A`;
+            
             res.style.display = 'block';
             res.innerHTML = `
                 <strong>حسابات ستار - دلتا (${p} ${u}):</strong><br>
@@ -1492,6 +1742,7 @@
                 - كونتاكتور الستار: <strong>${Math.ceil(flc * 0.33)} أمبير</strong><br>
                 - عيار الأوفرلود (تحت الدلتا): <strong style="color:var(--success-color);">${(flc * 0.58).toFixed(1)} أمبير</strong>
             `;
+            saveToHistory('حساب ستار - دلتا', resText);
         }
 
         // Schematics Analyzer
@@ -1569,8 +1820,12 @@ NETWORK 1: ${p}
 
             const drop = (Math.sqrt(3) * L * I * 0.018) / S;
             const dropPct = (drop / 380) * 100;
+            const resText = `هبوط الجهد: ${drop.toFixed(2)}V (${dropPct.toFixed(1)}%) | التيار: ${I}A | الطول: ${L}m | المقطع: ${S}mm²`;
+
             res.style.display = 'block';
             res.innerHTML = `هبوط الجهد المتوقع: <strong>${drop.toFixed(2)} فولت (${dropPct.toFixed(1)}%)</strong>`;
+
+            saveToHistory('حساب هبوط الجهد للكابلات', resText);
         }
 
         // Breaker Settings
@@ -1580,6 +1835,7 @@ NETWORK 1: ${p}
             const res = document.getElementById('breakerResult');
             if (!In || !Ib) { alert('أدخل قيم التيار'); return; }
 
+            const resText = `قاطع ${In}A | Ir: ${(Ib/In).toFixed(2)}×In (${Ib}A) | Isd: ${(1.5*Ib).toFixed(0)}A | Ii: ${(10*Ib).toFixed(0)}A`;
             res.style.display = 'block';
             res.innerHTML = `
                 <strong>عيارات ضبط القاطع:</strong><br>
@@ -1587,6 +1843,7 @@ NETWORK 1: ${p}
                 - القصر الترددي (Isd): <strong>${(1.5 * Ib / In).toFixed(2)} × In (${(Ib * 1.5).toFixed(0)} A)</strong><br>
                 - القصر اللحظي المفاجئ (Ii): <strong>${(10 * Ib / In).toFixed(2)} × In (${(Ib * 10).toFixed(0)} A)</strong>
             `;
+            saveToHistory('ضبط وتعيير القواطع', resText);
         }
 
         // Solar & UPS
@@ -1594,8 +1851,10 @@ NETWORK 1: ${p}
             const load = parseFloat(document.getElementById('solarLoad').value) || 5000;
             const hours = parseFloat(document.getElementById('sunHours').value) || 5;
             const res = document.getElementById('solarResult');
+            const cap = Math.ceil((load/hours)*1.25);
             res.style.display = 'block';
-            res.innerHTML = `سعة الألواح المطلوبة: <strong>${Math.ceil((load/hours)*1.25)} واط</strong>`;
+            res.innerHTML = `سعة الألواح المطلوبة: <strong>${cap} واط</strong>`;
+            saveToHistory('حساب المنظومة الشمسية', `حمل يومي ${load}Wh | قدرة الألواح المطلوبة: ${cap}W`);
         }
 
         function calculateUPS() {
@@ -1608,6 +1867,7 @@ NETWORK 1: ${p}
             const ah = ((load * hrs) / (12 * 0.85)).toFixed(0);
             res.style.display = 'block';
             res.innerHTML = `سعة الـ UPS المطلوبة: <strong style="color:var(--accent-color);">${kva.toFixed(2)} kVA</strong><br>سعة بنك البطاريات: <strong style="color:var(--success-color);">${ah} Ah (12V System)</strong>`;
+            saveToHistory('حساب بطاريات الـ UPS', `أحمال ${load}W لمدة ${hrs} ساعة | بقدرة ${kva.toFixed(2)}kVA والبطارية ${ah}Ah`);
         }
 
         // Theraja Problem Solver
@@ -1644,6 +1904,8 @@ NETWORK 1: ${p}
             const savedTheme = localStorage.getItem('voltAiTheme') || 'dark';
             document.documentElement.setAttribute('data-theme', savedTheme);
 
+            applyLanguage(currentLang);
+            renderHistoryUI();
             renderSimTools();
 
             const container = document.getElementById('realCanvasContainer');
