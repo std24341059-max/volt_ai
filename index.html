@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>VoltAI Pro | منصة الهندسة الكهربائية والأوتوميشن وسوق العمل</title>
+    <title>VoltAI Pro | منصة الهندسة الكهربائية والأوتوميشن</title>
 
     <!-- Web App Manifest & PWA -->
     <meta name="theme-color" content="#080c14">
@@ -28,12 +28,12 @@
             --text-main: #f9fafb;
             --text-muted: #9ca3af;
             --input-bg: #030712;
-            --nav-bg: rgba(17, 24, 39, 0.92);
+            --nav-bg: rgba(17, 24, 39, 0.94);
             --success-color: #10b981;
             --warning-color: #f59e0b;
             --danger-color: #ef4444;
             --shadow: 0 10px 30px -5px rgba(0, 0, 0, 0.5);
-            --drawer-bg: rgba(15, 23, 42, 0.97);
+            --drawer-bg: rgba(15, 23, 42, 0.98);
         }
 
         :root[data-theme="light"] {
@@ -46,12 +46,12 @@
             --text-main: #111827;
             --text-muted: #4b5563;
             --input-bg: #f9fafb;
-            --nav-bg: rgba(255, 255, 255, 0.95);
+            --nav-bg: rgba(255, 255, 255, 0.96);
             --success-color: #059669;
             --warning-color: #d97706;
             --danger-color: #dc2626;
             --shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.08);
-            --drawer-bg: rgba(255, 255, 255, 0.97);
+            --drawer-bg: rgba(255, 255, 255, 0.98);
         }
 
         :root[data-theme="contrast"] {
@@ -86,7 +86,6 @@
             min-height: 100vh;
             display: flex;
             flex-direction: column;
-            padding-bottom: 70px;
             transition: background-color 0.3s ease, color 0.3s ease;
             overflow-x: hidden;
         }
@@ -109,76 +108,86 @@
             backdrop-filter: blur(16px);
             -webkit-backdrop-filter: blur(16px);
             border-bottom: 1px solid var(--card-border);
-            padding: 12px 16px;
+            padding: 10px 14px;
             position: sticky;
             top: 0;
-            z-index: 100;
+            z-index: 150;
             display: flex;
             justify-content: space-between;
             align-items: center;
+            gap: 8px;
         }
 
         .header-left {
             display: flex;
             align-items: center;
-            gap: 10px;
+            gap: 8px;
+            min-width: 0;
         }
 
         .drawer-toggle-btn {
             background: var(--input-bg);
             border: 1px solid var(--card-border);
             color: var(--text-main);
-            width: 40px;
-            height: 40px;
+            width: 38px;
+            height: 38px;
             border-radius: 10px;
             display: flex;
             align-items: center;
             justify-content: center;
             cursor: pointer;
+            flex-shrink: 0;
         }
         .drawer-toggle-btn:hover { border-color: var(--accent-color); }
 
         .logo-block {
             display: flex;
             align-items: center;
-            gap: 8px;
+            gap: 7px;
             user-select: none;
             cursor: pointer;
+            white-space: nowrap;
         }
 
-        .logo-svg { width: 32px; height: 32px; }
-        .logo-text { font-size: 1.05rem; font-weight: 800; color: var(--text-main); letter-spacing: -0.4px; }
+        .logo-svg { width: 30px; height: 30px; flex-shrink: 0; }
+        .logo-text { font-size: 1.05rem; font-weight: 800; color: var(--text-main); letter-spacing: -0.3px; }
         .logo-accent { color: var(--accent-color); }
 
-        .header-actions { display: flex; align-items: center; gap: 6px; }
+        .header-actions {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            flex-shrink: 0;
+        }
 
         .icon-btn {
             background: var(--input-bg);
             border: 1px solid var(--card-border);
             color: var(--text-main);
-            min-width: 36px;
-            height: 36px;
-            padding: 0 8px;
-            border-radius: 10px;
+            min-width: 35px;
+            height: 35px;
+            padding: 0 7px;
+            border-radius: 9px;
             display: flex;
             align-items: center;
             justify-content: center;
             gap: 4px;
             cursor: pointer;
             text-decoration: none;
-            font-size: 0.76rem;
+            font-size: 0.75rem;
             font-weight: 700;
         }
+        .icon-btn:hover { border-color: var(--accent-color); }
 
         .drawer-overlay {
             position: fixed;
             inset: 0;
-            background: rgba(0, 0, 0, 0.65);
+            background: rgba(0, 0, 0, 0.68);
             backdrop-filter: blur(4px);
-            z-index: 200;
+            z-index: 300;
             opacity: 0;
             visibility: hidden;
-            transition: all 0.3s ease;
+            transition: all 0.25s ease;
         }
         .drawer-overlay.open { opacity: 1; visibility: visible; }
 
@@ -186,16 +195,17 @@
             position: fixed;
             top: 0;
             right: -320px;
-            width: 305px;
+            width: 300px;
+            max-width: 86vw;
             height: 100%;
             background: var(--drawer-bg);
             border-left: 1px solid var(--card-border);
-            z-index: 201;
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            z-index: 301;
+            transition: all 0.28s cubic-bezier(0.4, 0, 0.2, 1);
             display: flex;
             flex-direction: column;
             padding: 16px;
-            box-shadow: -10px 0 30px rgba(0,0,0,0.5);
+            box-shadow: -10px 0 30px rgba(0,0,0,0.6);
         }
         body[dir="ltr"] .side-drawer {
             right: auto;
@@ -215,10 +225,7 @@
             margin-bottom: 10px;
         }
 
-        .drawer-search-box {
-            margin-bottom: 10px;
-            position: relative;
-        }
+        .drawer-search-box { margin-bottom: 10px; position: relative; }
         .drawer-search-box input {
             padding: 9px 12px;
             font-size: 0.82rem;
@@ -241,6 +248,7 @@
             gap: 5px;
             overflow-y: auto;
             flex: 1;
+            padding-bottom: 20px;
         }
 
         .drawer-item {
@@ -252,7 +260,7 @@
             border: 1px solid transparent;
             color: var(--text-muted);
             background: transparent;
-            font-size: 0.85rem;
+            font-size: 0.84rem;
             font-weight: 600;
             cursor: pointer;
             text-align: inherit;
@@ -266,7 +274,7 @@
         }
 
         .new-badge {
-            margin-right: auto;
+            margin-inline-start: auto;
             background: rgba(16, 185, 129, 0.16);
             color: var(--success-color);
             border: 1px solid rgba(16, 185, 129, 0.4);
@@ -275,6 +283,7 @@
             border-radius: 10px;
             font-weight: 800;
         }
+
         .ai-hub-card {
             background: linear-gradient(135deg, rgba(59, 130, 246, 0.08) 0%, rgba(17, 24, 39, 0.6) 100%);
             border: 1px solid var(--accent-color);
@@ -289,7 +298,7 @@
             align-items: center;
             justify-content: space-between;
             gap: 8px;
-            font-size: 1rem;
+            font-size: 0.98rem;
             font-weight: 800;
             color: var(--accent-color);
             margin-bottom: 8px;
@@ -297,13 +306,14 @@
         }
 
         .live-status-pill {
-            font-size: 0.7rem;
+            font-size: 0.66rem;
             font-weight: 700;
             color: var(--success-color);
             background: rgba(16, 185, 129, 0.12);
             border: 1px solid rgba(16, 185, 129, 0.4);
-            padding: 3px 9px;
+            padding: 2px 7px;
             border-radius: 20px;
+            white-space: nowrap;
         }
 
         .quick-prompts-bar {
@@ -370,6 +380,7 @@
             align-items: center;
             gap: 6px;
         }
+        .ai-tool-btn:hover { border-color: var(--accent-color); }
 
         main {
             flex: 1;
@@ -379,7 +390,7 @@
             padding: 14px;
         }
 
-        .tab-content { display: none; animation: fadeIn 0.3s ease; }
+        .tab-content { display: none; animation: fadeIn 0.25s ease; }
         .tab-content.active { display: block; }
 
         @keyframes fadeIn {
@@ -397,7 +408,7 @@
         }
 
         .card-title {
-            font-size: 1.02rem;
+            font-size: 1rem;
             font-weight: 700;
             color: var(--accent-color);
             margin-bottom: 14px;
@@ -435,18 +446,19 @@
             padding: 11px 16px;
             border-radius: 10px;
             font-weight: 700;
-            font-size: 0.9rem;
+            font-size: 0.88rem;
             cursor: pointer;
             display: flex;
             align-items: center;
             justify-content: center;
             gap: 8px;
-            transition: opacity 0.2s;
+            transition: opacity 0.2s, border-color 0.2s;
         }
         .btn-primary:hover { opacity: 0.93; }
         .btn-success { background: var(--success-color); }
         .btn-danger { background: var(--danger-color); }
         .btn-secondary { background: var(--input-bg); border: 1px solid var(--card-border); color: var(--text-main); }
+        .btn-secondary:hover { border-color: var(--accent-color); }
 
         .result-box {
             background: var(--input-bg);
@@ -473,7 +485,6 @@
         body[dir="ltr"] .io-table th, body[dir="ltr"] .io-table td { text-align: left; }
         .bom-table th, .io-table th { background: rgba(59, 130, 246, 0.1); color: var(--accent-color); }
 
-        /* REFERENCE ENCYCLOPEDIA & INDEX CARDS */
         .ref-source-card {
             background: var(--input-bg);
             border: 1px solid var(--card-border);
@@ -501,11 +512,7 @@
             font-size: 0.76rem;
             font-weight: 800;
         }
-        .ref-chapter-tag {
-            font-size: 0.75rem;
-            color: var(--success-color);
-            font-weight: 700;
-        }
+        .ref-chapter-tag { font-size: 0.75rem; color: var(--success-color); font-weight: 700; }
         .ref-formula-box {
             background: rgba(0, 0, 0, 0.35);
             border: 1px solid var(--card-border);
@@ -519,9 +526,7 @@
             font-size: 0.85rem;
         }
 
-        /* =========================================================
-           REALITY HUB SIMULATOR STYLES (WITH LIVE PHYSICS ENGINE)
-           ========================================================= */
+        /* SIMULATOR STUDIO */
         .sim-tabs-header {
             display: flex;
             gap: 8px;
@@ -544,11 +549,7 @@
             align-items: center;
             gap: 6px;
         }
-        .sim-tab-btn.active {
-            background: var(--accent-color);
-            color: #fff;
-            border-color: var(--accent-color);
-        }
+        .sim-tab-btn.active { background: var(--accent-color); color: #fff; border-color: var(--accent-color); }
 
         .guided-lab-bar {
             background: rgba(59, 130, 246, 0.08);
@@ -578,11 +579,7 @@
             align-items: center;
             gap: 6px;
         }
-        .comp-add-btn:active {
-            transform: scale(0.95);
-            background: var(--accent-color);
-            color: #ffffff;
-        }
+        .comp-add-btn:active { transform: scale(0.95); background: var(--accent-color); color: #ffffff; }
 
         .wire-color-bar {
             display: flex;
@@ -608,24 +605,16 @@
             background: rgba(255,255,255,0.04);
             color: var(--text-main);
         }
-        .wire-swatch.active {
-            border-color: #ffffff;
-            background: rgba(59, 130, 246, 0.25);
-        }
-        .swatch-dot {
-            width: 10px;
-            height: 10px;
-            border-radius: 50%;
-            display: inline-block;
-        }
+        .wire-swatch.active { border-color: #ffffff; background: rgba(59, 130, 246, 0.25); }
+        .swatch-dot { width: 10px; height: 10px; border-radius: 50%; display: inline-block; }
 
         .wiring-live-banner {
             display: none;
             align-items: center;
             justify-content: space-between;
             gap: 8px;
-            background: rgba(245, 158, 11, 0.16);
-            border: 1px solid var(--warning-color);
+            background: rgba(245, 158, 11, 0.18);
+            border: 1.5px solid var(--warning-color);
             color: var(--warning-color);
             padding: 8px 12px;
             border-radius: 10px;
@@ -635,7 +624,7 @@
         }
 
         @keyframes popInComp {
-            0% { transform: scale(0.75); box-shadow: 0 0 0 6px rgba(59, 130, 246, 0.65); }
+            0% { transform: scale(0.78); box-shadow: 0 0 0 6px rgba(59, 130, 246, 0.65); }
             100% { transform: scale(1); box-shadow: 0 10px 26px rgba(0, 0, 0, 0.7); }
         }
 
@@ -645,7 +634,7 @@
             -webkit-user-select: none;
             touch-action: none;
             z-index: 50;
-            animation: popInComp 0.28s ease-out;
+            animation: popInComp 0.25s ease-out;
         }
 
         .comp-shell {
@@ -654,22 +643,38 @@
             border: 1.5px solid #334155;
             border-radius: 14px;
             padding: 16px 18px;
-            min-width: 164px;
-            min-height: 126px;
-            box-shadow: 0 10px 26px rgba(0, 0, 0, 0.7);
+            min-width: 166px;
+            min-height: 128px;
+            box-shadow: 0 10px 26px rgba(0, 0, 0, 0.75);
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
+            cursor: grab;
             transition: border-color 0.2s, box-shadow 0.2s;
         }
-        .comp-shell.energized-shell {
-            border-color: #10b981;
-            box-shadow: 0 0 18px rgba(16, 185, 129, 0.45);
-        }
-        .comp-shell.tripped-shell {
-            border-color: #ef4444;
-            box-shadow: 0 0 20px rgba(239, 68, 68, 0.65);
+        .comp-shell:active { cursor: grabbing; }
+        .comp-shell.energized-shell { border-color: #10b981; box-shadow: 0 0 18px rgba(16, 185, 129, 0.48); }
+        .comp-shell.tripped-shell { border-color: #ef4444; box-shadow: 0 0 20px rgba(239, 68, 68, 0.65); }
+
+        .comp-del-btn {
+            position: absolute;
+            top: 5px;
+            right: 6px;
+            background: rgba(239, 68, 68, 0.2);
+            color: #ef4444;
+            border: 1px solid rgba(239, 68, 68, 0.5);
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            font-size: 0.78rem;
+            font-weight: 900;
+            line-height: 1;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 85;
         }
 
         .comp-state-pill {
@@ -681,6 +686,7 @@
             cursor: pointer;
             border: 1px solid rgba(255,255,255,0.2);
             color: #fff;
+            z-index: 85;
         }
 
         .pin-node {
@@ -691,17 +697,17 @@
             align-items: center;
             justify-content: center;
             cursor: crosshair;
-            z-index: 80;
+            z-index: 100;
             touch-action: none;
-            padding: 9px;
+            padding: 11px;
         }
         .pin-screw {
-            width: 18px;
-            height: 18px;
+            width: 19px;
+            height: 19px;
             border-radius: 50%;
             background: #1e293b;
             border: 2.5px solid #38bdf8;
-            box-shadow: 0 0 8px rgba(56, 189, 248, 0.65);
+            box-shadow: 0 0 9px rgba(56, 189, 248, 0.75);
             position: relative;
             transition: transform 0.15s, background 0.15s, border-color 0.15s;
         }
@@ -715,22 +721,22 @@
         }
         .pin-node:hover .pin-screw,
         .pin-node.selected-term .pin-screw {
-            transform: scale(1.42);
+            transform: scale(1.45);
             background: #f59e0b;
             border-color: #ffffff;
-            box-shadow: 0 0 14px #f59e0b;
+            box-shadow: 0 0 15px #f59e0b;
         }
         .pin-node.snap-target-term .pin-screw {
-            transform: scale(1.52);
+            transform: scale(1.58);
             background: #10b981;
             border-color: #ffffff;
-            box-shadow: 0 0 16px #10b981;
+            box-shadow: 0 0 18px #10b981;
         }
         .pin-tag {
             font-size: 0.62rem;
             font-weight: 800;
             color: #e2e8f0;
-            background: rgba(2, 6, 23, 0.92);
+            background: rgba(2, 6, 23, 0.94);
             padding: 1px 5px;
             border-radius: 4px;
             margin-top: 2px;
@@ -755,12 +761,7 @@
             padding: 14px;
             margin-bottom: 10px;
         }
-        .qa-question {
-            font-weight: 800;
-            color: var(--accent-color);
-            font-size: 0.92rem;
-            margin-bottom: 6px;
-        }
+        .qa-question { font-weight: 800; color: var(--accent-color); font-size: 0.92rem; margin-bottom: 6px; }
         .qa-answer {
             color: var(--text-main);
             font-size: 0.86rem;
@@ -814,6 +815,7 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
+            gap: 10px;
         }
 
         pre {
@@ -830,32 +832,73 @@
             overflow-x: auto;
         }
 
+        /* PROFESSIONAL FOOTER WITH © 2026 & INSTAGRAM LINK */
         footer {
             text-align: center;
-            padding: 18px 16px;
+            padding: 22px 16px 26px;
             font-size: 0.86rem;
             color: var(--text-muted);
             border-top: 1px solid var(--card-border);
             margin-top: auto;
-            user-select: none;
-            background: var(--nav-bg);
+            background: linear-gradient(180deg, rgba(17, 24, 39, 0.4) 0%, var(--nav-bg) 100%);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .footer-brand {
+            font-size: 0.78rem;
+            font-weight: 700;
+            letter-spacing: 0.4px;
+            color: var(--text-muted);
+            opacity: 0.85;
+        }
+
+        .footer-copy {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 6px;
+            font-size: 0.88rem;
+            color: var(--text-main);
+        }
+
+        .copyright-pill {
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            background: rgba(59, 130, 246, 0.12);
+            border: 1px solid rgba(59, 130, 246, 0.35);
+            color: var(--accent-color);
+            padding: 2px 9px;
+            border-radius: 20px;
+            font-weight: 800;
+            font-size: 0.8rem;
+            direction: ltr;
         }
 
         .footer-ig-link {
             color: var(--accent-color);
             font-weight: 800;
             text-decoration: none;
-            border-bottom: 1px dashed var(--accent-color);
-            padding-bottom: 1px;
-            transition: opacity 0.2s, color 0.2s;
+            border-bottom: 1.5px dashed var(--accent-color);
+            padding: 2px 4px;
+            transition: all 0.2s ease;
             display: inline-flex;
             align-items: center;
-            gap: 4px;
+            gap: 5px;
         }
         .footer-ig-link:hover {
-            opacity: 0.85;
             color: var(--success-color);
             border-bottom-color: var(--success-color);
+            transform: translateY(-1px);
+        }
+        .ig-handle {
+            font-size: 0.78rem;
+            color: var(--text-muted);
+            font-weight: 700;
         }
 
         .secret-modal-overlay {
@@ -895,148 +938,147 @@
                 </svg>
                 <div class="logo-text">VoltAI <span class="logo-accent">Pro</span></div>
             </div>
-            <button class="icon-btn" onclick="toggleDrawer()">
+            <button type="button" class="icon-btn" onclick="toggleDrawer()">
                 <svg class="svg-icon" viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
             </button>
         </div>
 
-        <!-- Instant Quick Search Box -->
         <div class="drawer-search-box">
             <input type="text" id="drawerSearchInput" placeholder="بحث سريع في الأدوات (تأريض، EPLAN، مولدة...)" oninput="filterDrawerMenu(this.value)">
         </div>
 
         <nav class="drawer-nav" id="drawerNavList">
-            <div class="drawer-section-label">المحاكاة والذكاء الهندسي</div>
-            <button class="drawer-item active" data-keywords="رئيسية hub ذكاء تحليل" onclick="switchDomain('hub', event)">
+            <div class="drawer-section-label" data-i18n="sec_sim_ai">المحاكاة والذكاء الهندسي</div>
+            <button type="button" class="drawer-item active" data-keywords="رئيسية hub ذكاء تحليل home" onclick="switchDomain('hub', event)">
                 <svg class="svg-icon" viewBox="0 0 24 24"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
-                <span>الواجهة الرئيسية (AI Hub)</span>
+                <span data-i18n="nav_hub">الواجهة الرئيسية (AI Hub)</span>
             </button>
-            <button class="drawer-item" data-keywords="محاكاة مختبر كونتاكتور اسلاك simulator" onclick="switchDomain('simulator_studio', event)">
+            <button type="button" class="drawer-item" data-keywords="محاكاة مختبر كونتاكتور اسلاك simulator" onclick="switchDomain('simulator_studio', event)">
                 <svg class="svg-icon" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polygon points="10 8 16 12 10 16 10 8"/></svg>
-                <span>استوديو المحاكاة الفيزيائية</span>
+                <span data-i18n="nav_sim">استوديو المحاكاة الفيزيائية</span>
                 <span class="new-badge">حي</span>
             </button>
-            <button class="drawer-item" data-keywords="ثيراجا مراجع كتب فهرس تشابمان ساديكو theraja" onclick="switchDomain('theraja', event)">
+            <button type="button" class="drawer-item" data-keywords="ثيراجا مراجع كتب فهرس تشابمان ساديكو theraja" onclick="switchDomain('theraja', event)">
                 <svg class="svg-icon" viewBox="0 0 24 24"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
-                <span>موسوعة ثيراجا والمراجع + الفهرس</span>
+                <span data-i18n="nav_theraja">موسوعة ثيراجا والمراجع + الفهرس</span>
             </button>
 
-            <div class="drawer-section-label">واقع السوق المحلي وأكاديمية العمل</div>
-            <button class="drawer-item" data-keywords="مولدة اهلية وطنية سحب امبير حماية فولتية auto phase selector" onclick="switchDomain('local_market', event)">
+            <div class="drawer-section-label" data-i18n="sec_market">واقع السوق المحلي وأكاديمية العمل</div>
+            <button type="button" class="drawer-item" data-keywords="مولدة اهلية وطنية سحب امبير حماية فولتية auto phase selector" onclick="switchDomain('local_market', event)">
                 <svg class="svg-icon" viewBox="0 0 24 24"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
-                <span>المولدات الأهلية والوطنية والحماية</span>
+                <span data-i18n="nav_local">المولدات الأهلية والوطنية والحماية</span>
                 <span class="new-badge">جديد</span>
             </button>
-            <button class="drawer-item" data-keywords="فاتورة وطنية عداد كهرباء تسعيرة العراق كردستان روناكي قراءة صورة" onclick="switchDomain('bill_calculator', event)">
+            <button type="button" class="drawer-item" data-keywords="فاتورة وطنية عداد كهرباء تسعيرة العراق كردستان روناكي قراءة صورة bill" onclick="switchDomain('bill_calculator', event)">
                 <svg class="svg-icon" viewBox="0 0 24 24"><rect x="4" y="2" width="16" height="20" rx="2"/><line x1="8" y1="6" x2="16" y2="6"/><line x1="8" y1="10" x2="16" y2="10"/><line x1="8" y1="14" x2="12" y2="14"/></svg>
-                <span>قارئ العداد وحاسبة الفاتورة (AI)</span>
+                <span data-i18n="nav_bill">قارئ العداد وحاسبة الفاتورة (AI)</span>
                 <span class="new-badge">جديد</span>
             </button>
-            <button class="drawer-item" data-keywords="اعطال افوميتر فحص صيانة troubleshooting" onclick="switchDomain('troubleshooting_wizard', event)">
+            <button type="button" class="drawer-item" data-keywords="اعطال افوميتر فحص صيانة troubleshooting" onclick="switchDomain('troubleshooting_wizard', event)">
                 <svg class="svg-icon" viewBox="0 0 24 24"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg>
-                <span>مُشخّص الأعطال بالأفوميتر</span>
+                <span data-i18n="nav_trouble">مُشخّص الأعطال بالأفوميتر</span>
             </button>
-            <button class="drawer-item" data-keywords="مولدات تحجيم اقلاع generator sizing" onclick="switchDomain('gen_sizing', event)">
+            <button type="button" class="drawer-item" data-keywords="مولدات تحجيم اقلاع generator sizing" onclick="switchDomain('gen_sizing', event)">
                 <svg class="svg-icon" viewBox="0 0 24 24"><rect x="2" y="7" width="20" height="12" rx="2"/><path d="M12 7V4M8 7V5M16 7V5"/></svg>
-                <span>تحجيم المولدات وتتابع الإقلاع</span>
+                <span data-i18n="nav_gen">تحجيم المولدات وتتابع الإقلاع</span>
             </button>
-            <button class="drawer-item" data-keywords="مخططات eplan ستار دلتا عكس حركة plc" onclick="switchDomain('eplan_reader', event)">
+            <button type="button" class="drawer-item" data-keywords="مخططات eplan ستار دلتا عكس حركة plc" onclick="switchDomain('eplan_reader', event)">
                 <svg class="svg-icon" viewBox="0 0 24 24"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>
-                <span>مُدرّب قراءة مخططات EPLAN</span>
+                <span data-i18n="nav_eplan">مُدرّب قراءة مخططات EPLAN</span>
                 <span class="new-badge">4 دوائر</span>
             </button>
-            <button class="drawer-item" data-keywords="باسبار نحاس قصر busbar isc" onclick="switchDomain('busbar_isc', event)">
+            <button type="button" class="drawer-item" data-keywords="باسبار نحاس قصر busbar isc" onclick="switchDomain('busbar_isc', event)">
                 <svg class="svg-icon" viewBox="0 0 24 24"><line x1="4" y1="8" x2="20" y2="8"/><line x1="4" y1="12" x2="20" y2="12"/><line x1="4" y1="16" x2="20" y2="16"/></svg>
-                <span>الباسبارات وقصر نهاية الكابل</span>
+                <span data-i18n="nav_busbar">الباسبارات وقصر نهاية الكابل</span>
             </button>
-            <button class="drawer-item" data-keywords="منحنيات انتقائية قواطع selectivity" onclick="switchDomain('selectivity_curves', event)">
+            <button type="button" class="drawer-item" data-keywords="منحنيات انتقائية قواطع selectivity" onclick="switchDomain('selectivity_curves', event)">
                 <svg class="svg-icon" viewBox="0 0 24 24"><path d="M3 3v18h18"/><path d="M7 15c3-6 7-8 12-9"/></svg>
-                <span>منحنيات القواطع والانتقائية</span>
+                <span data-i18n="nav_select">منحنيات القواطع والانتقائية</span>
             </button>
-            <button class="drawer-item" data-keywords="تأريض ارضي تربة قضبان earthing" onclick="switchDomain('earthing_design', event)">
+            <button type="button" class="drawer-item" data-keywords="تأريض ارضي تربة قضبان earthing" onclick="switchDomain('earthing_design', event)">
                 <svg class="svg-icon" viewBox="0 0 24 24"><line x1="12" y1="3" x2="12" y2="13"/><line x1="5" y1="13" x2="19" y2="13"/><line x1="8" y1="17" x2="16" y2="17"/><line x1="10" y1="21" x2="14" y2="21"/></svg>
-                <span>تصميم منظومة التأريض والتربة</span>
+                <span data-i18n="nav_earth">تصميم منظومة التأريض والتربة</span>
             </button>
-            <button class="drawer-item" data-keywords="جدول احمال موازنة فازات مخطط احادي sld panel schedule" onclick="switchDomain('panel_schedule', event)">
+            <button type="button" class="drawer-item" data-keywords="جدول احمال موازنة فازات مخطط احادي sld panel schedule" onclick="switchDomain('panel_schedule', event)">
                 <svg class="svg-icon" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M3 15h18M9 3v18"/></svg>
-                <span>جداول الأحمال + مخطط SLD</span>
+                <span data-i18n="nav_panel">جداول الأحمال + مخطط SLD</span>
                 <span class="new-badge">SLD</span>
             </button>
-            <button class="drawer-item" data-keywords="مقابلة عمل اسئلة وظيفة interview" onclick="switchDomain('interview_sim', event)">
+            <button type="button" class="drawer-item" data-keywords="مقابلة عمل اسئلة وظيفة interview" onclick="switchDomain('interview_sim', event)">
                 <svg class="svg-icon" viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
-                <span>محاكي مقابلات العمل والموقع</span>
+                <span data-i18n="nav_interview">محاكي مقابلات العمل والموقع</span>
             </button>
-            <button class="drawer-item" data-keywords="مكتب فني استلام itp rfi mar" onclick="switchDomain('site_office', event)">
+            <button type="button" class="drawer-item" data-keywords="مكتب فني استلام itp rfi mar" onclick="switchDomain('site_office', event)">
                 <svg class="svg-icon" viewBox="0 0 24 24"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>
-                <span>المكتب الفني واستلامات ITP</span>
+                <span data-i18n="nav_office">المكتب الفني واستلامات ITP</span>
             </button>
 
-            <div class="drawer-section-label">الحسابات الهندسية والأوتوميشن</div>
-            <button class="drawer-item" data-keywords="محركات كابلات قواطع محولات derating" onclick="switchDomain('power', event)">
+            <div class="drawer-section-label" data-i18n="sec_calc">الحسابات الهندسية والأوتوميشن</div>
+            <button type="button" class="drawer-item" data-keywords="محركات كابلات قواطع محولات derating power" onclick="switchDomain('power', event)">
                 <svg class="svg-icon" viewBox="0 0 24 24"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
-                <span>المحركات والكابلات + Derating</span>
+                <span data-i18n="nav_power">المحركات والكابلات + Derating</span>
             </button>
-            <button class="drawer-item" data-keywords="كلاسيك كونترول ستار دلتا ats" onclick="switchDomain('classic', event)">
+            <button type="button" class="drawer-item" data-keywords="كلاسيك كونترول ستار دلتا ats classic" onclick="switchDomain('classic', event)">
                 <svg class="svg-icon" viewBox="0 0 24 24"><rect x="4" y="4" width="16" height="16" rx="2"/><line x1="9" y1="9" x2="15" y2="15"/><line x1="15" y1="9" x2="9" y2="15"/></svg>
-                <span>الكلاسيك كونترول ومحاكاة الـ ATS</span>
+                <span data-i18n="nav_classic">الكلاسيك كونترول ومحاكاة الـ ATS</span>
             </button>
-            <button class="drawer-item" data-keywords="معامل القدرة مكثفات موجات qr sld" onclick="switchDomain('pf_studio', event)">
+            <button type="button" class="drawer-item" data-keywords="معامل القدرة مكثفات موجات qr sld pf" onclick="switchDomain('pf_studio', event)">
                 <svg class="svg-icon" viewBox="0 0 24 24"><path d="M2 12h4l3-9 6 18 3-9h4"/></svg>
-                <span>معامل القدرة والموجات + SLD</span>
+                <span data-i18n="nav_pf">معامل القدرة والموجات + SLD</span>
             </button>
-            <button class="drawer-item" data-keywords="كانفا مرسم مخططات canva" onclick="switchDomain('canva_workspace', event)">
+            <button type="button" class="drawer-item" data-keywords="كانفا مرسم مخططات canva" onclick="switchDomain('canva_workspace', event)">
                 <svg class="svg-icon" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg>
-                <span>مرسم المخططات والتصاميم (Canva)</span>
+                <span data-i18n="nav_canva">مرسم المخططات والتصاميم (Canva)</span>
             </button>
-            <button class="drawer-item" data-keywords="اردوينو كود مقاومة arduino" onclick="switchDomain('arduino', event)">
+            <button type="button" class="drawer-item" data-keywords="اردوينو كود مقاومة arduino" onclick="switchDomain('arduino', event)">
                 <svg class="svg-icon" viewBox="0 0 24 24"><rect x="5" y="5" width="14" height="14" rx="2"/><circle cx="9" cy="9" r="1"/><circle cx="15" cy="15" r="1"/></svg>
-                <span>الأردوينو والأجهزة المدمجة</span>
+                <span data-i18n="nav_arduino">الأردوينو والأجهزة المدمجة</span>
             </button>
-            <button class="drawer-item" data-keywords="plc سيمنس لادر ladder" onclick="switchDomain('plc', event)">
+            <button type="button" class="drawer-item" data-keywords="plc سيمنس لادر ladder" onclick="switchDomain('plc', event)">
                 <svg class="svg-icon" viewBox="0 0 24 24"><rect x="2" y="6" width="20" height="12" rx="2"/><path d="M6 12h4M14 12h4"/></svg>
-                <span>أنظمة الـ PLC والأوتوميشن</span>
+                <span data-i18n="nav_plc">أنظمة الـ PLC والأوتوميشن</span>
             </button>
-            <button class="drawer-item" data-keywords="انفرتر مغير سرعة برمجة بارامترات vfd" onclick="switchDomain('vfd', event)">
+            <button type="button" class="drawer-item" data-keywords="انفرتر مغير سرعة برمجة بارامترات vfd" onclick="switchDomain('vfd', event)">
                 <svg class="svg-icon" viewBox="0 0 24 24"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>
-                <span>مغيرات السرعة (VFD والبرمجة)</span>
+                <span data-i18n="nav_vfd">مغيرات السرعة (VFD والبرمجة)</span>
                 <span class="new-badge">مُحدّث</span>
             </button>
-            <button class="drawer-item" data-keywords="تبريد انارة lux btu hvac" onclick="switchDomain('hvac_lighting', event)">
+            <button type="button" class="drawer-item" data-keywords="تبريد انارة lux btu hvac" onclick="switchDomain('hvac_lighting', event)">
                 <svg class="svg-icon" viewBox="0 0 24 24"><path d="M12 2v20M2 12h20"/></svg>
-                <span>التكييف والإنارة الصناعية</span>
+                <span data-i18n="nav_hvac">التكييف والإنارة الصناعية</span>
             </button>
-            <button class="drawer-item" data-keywords="فحص عزل ميكر ارضي megger" onclick="switchDomain('testing', event)">
+            <button type="button" class="drawer-item" data-keywords="فحص عزل ميكر ارضي megger testing" onclick="switchDomain('testing', event)">
                 <svg class="svg-icon" viewBox="0 0 24 24"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>
-                <span>اختبار اللوحات وقياس العزل</span>
+                <span data-i18n="nav_test">اختبار اللوحات وقياس العزل</span>
             </button>
-            <button class="drawer-item" data-keywords="طاقة شمسية بطاريات ups solar" onclick="switchDomain('solar', event)">
+            <button type="button" class="drawer-item" data-keywords="طاقة شمسية بطاريات ups solar" onclick="switchDomain('solar', event)">
                 <svg class="svg-icon" viewBox="0 0 24 24"><circle cx="12" cy="12" r="5"/></svg>
-                <span>الطاقة الشمسية والـ UPS</span>
+                <span data-i18n="nav_solar">الطاقة الشمسية والـ UPS</span>
             </button>
-            <button class="drawer-item" data-keywords="معايير حامل كابلات tray awg conduit" onclick="switchDomain('standards', event)">
+            <button type="button" class="drawer-item" data-keywords="معايير حامل كابلات tray awg conduit standards" onclick="switchDomain('standards', event)">
                 <svg class="svg-icon" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/></svg>
-                <span>المعايير وحوامل الكابلات Tray</span>
+                <span data-i18n="nav_std">المعايير وحوامل الكابلات Tray</span>
             </button>
-            <button class="drawer-item" data-keywords="اسعار كشف مشتريات تسعير bom" onclick="switchDomain('bom_export', event)">
+            <button type="button" class="drawer-item" data-keywords="اسعار كشف مشتريات تسعير bom" onclick="switchDomain('bom_export', event)">
                 <svg class="svg-icon" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M12 18v-6"/></svg>
-                <span>عروض الأسعار وكشف الـ BOM</span>
+                <span data-i18n="nav_bom">عروض الأسعار وكشف الـ BOM</span>
                 <span class="new-badge">أسعار</span>
             </button>
-            <button class="drawer-item" data-keywords="سجل نسخ احتياطي history" onclick="switchDomain('history', event)">
+            <button type="button" class="drawer-item" data-keywords="سجل نسخ احتياطي history" onclick="switchDomain('history', event)">
                 <svg class="svg-icon" viewBox="0 0 24 24"><path d="M12 8v4l3 3"/><circle cx="12" cy="12" r="10"/></svg>
-                <span>سجل الميدان والنسخ الاحتياطي</span>
+                <span data-i18n="nav_hist">سجل الميدان والنسخ الاحتياطي</span>
             </button>
-            <button class="drawer-item" data-keywords="بطاقة مهندس profile qr" onclick="switchDomain('profile', event)">
+            <button type="button" class="drawer-item" data-keywords="بطاقة مهندس profile qr" onclick="switchDomain('profile', event)">
                 <svg class="svg-icon" viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
-                <span>بطاقة المهندس والـ PDF</span>
+                <span data-i18n="nav_prof">بطاقة المهندس والـ PDF</span>
             </button>
         </nav>
     </aside>
 
-    <!-- Header Navigation -->
+    <!-- Header Navigation (Clean & Conflict-Free) -->
     <header>
         <div class="header-left">
-            <button class="drawer-toggle-btn" onclick="toggleDrawer()" title="القائمة الجانبية">
+            <button type="button" class="drawer-toggle-btn" onclick="toggleDrawer()" title="القائمة الجانبية">
                 <svg class="svg-icon" viewBox="0 0 24 24"><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
             </button>
             <div class="logo-block" onclick="handleSecretTap()">
@@ -1045,23 +1087,24 @@
                     <path d="M50 15L65 30H75L80 35V45L85 50L80 55V65L75 70H65L50 85L35 70H25L20 65V55L15 50L20 45V35L25 30H35L50 15Z" fill="#151d30" stroke="#3b82f6" stroke-width="2"/>
                     <path d="M50 30L45 50H55L50 70L60 50H50L55 30" fill="#3b82f6" transform="translate(-2.5, 0)"/>
                 </svg>
-                <div class="logo-text">VoltAI Pro | <span class="logo-accent" id="headTitle">م. منتظر عون</span></div>
+                <div class="logo-text">VoltAI <span class="logo-accent">Pro</span></div>
             </div>
         </div>
         <div class="header-actions">
-            <span id="pwaOfflineBadge" class="live-status-pill" style="font-size:0.65rem; padding:2px 7px;">● PWA Ready</span>
-            <button class="icon-btn" onclick="switchLanguageNext()" title="تغيير اللغة">
+            <span id="pwaOfflineBadge" class="live-status-pill">● PWA Ready</span>
+            <button type="button" class="icon-btn" onclick="switchLanguageNext()" title="تغيير اللغة">
                 <svg class="svg-icon" viewBox="0 0 24 24"><path d="M5 8h14M4 14h11M2 5l6 14M13 19l6-14M19 14h-5"/></svg>
                 <span id="currentLangLabel" style="color:var(--accent-color);">AR</span>
             </button>
-            <a href="https://t.me/mzr_iq" target="_blank" class="icon-btn" title="تواصل تلجرام">
+            <a href="https://t.me/mzr_iq" target="_blank" rel="noopener noreferrer" class="icon-btn" title="تواصل تلجرام">
                 <svg class="svg-icon" viewBox="0 0 24 24" stroke="#0088cc"><path d="M21.5 2L2 11.5l7 3 3 7 3.5-4.5 5.5 4z"/><path d="M9 14.5L21.5 2"/></svg>
             </a>
-            <button class="icon-btn" onclick="toggleTheme()" title="تغيير النمط">
+            <button type="button" class="icon-btn" onclick="toggleTheme()" title="تغيير النمط">
                 <svg class="svg-icon" viewBox="0 0 24 24"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/></svg>
             </button>
         </div>
     </header>
+
     <main>
         <!-- CENTRAL AI HUB -->
         <div id="hub" class="tab-content active">
@@ -1069,9 +1112,9 @@
                 <div class="ai-hub-title">
                     <div style="display:flex; align-items:center; gap:8px;">
                         <svg class="svg-icon" viewBox="0 0 24 24"><path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83"/></svg>
-                        <span>مساعد VoltAI الهندسي الشامل (تحليل، حساب، محاكاة، وأكواد)</span>
+                        <span data-i18n="hub_title">مساعد VoltAI الهندسي الشامل (تحليل، حساب، محاكاة، وأكواد)</span>
                     </div>
-                    <span class="live-status-pill">● جاهز بالوضع الميداني (Offline AI)</span>
+                    <span class="live-status-pill" data-i18n="hub_status">● جاهز بالوضع الميداني (Offline AI)</span>
                 </div>
 
                 <div class="quick-prompts-bar">
@@ -1082,7 +1125,7 @@
                 </div>
 
                 <div class="ai-hub-input-group">
-                    <textarea id="mainAiInput" rows="3" placeholder="اكتب سؤالك أو مسألتك الهندسية أو الصق كوداً برمجياً هنا..."></textarea>
+                    <textarea id="mainAiInput" rows="3" data-i18n-placeholder="hub_placeholder" placeholder="اكتب سؤالك أو مسألتك الهندسية أو الصق كوداً برمجياً هنا..."></textarea>
                     <div class="image-preview-badge" id="imageBadge">
                         <img id="imageThumbPreview" src="" alt="صورة مرفقة" style="width:42px; height:42px; object-fit:cover; border-radius:6px;">
                         <span id="imageBadgeText">تم إرفاق المخطط/الصورة</span>
@@ -1092,15 +1135,15 @@
                         <input type="file" id="aiImageInput" accept="image/*" style="display: none;" onchange="handleImageUpload(event)">
                         <button type="button" class="icon-btn" style="width: auto; padding: 0 12px; gap: 6px;" onclick="document.getElementById('aiImageInput').click()">
                             <svg class="svg-icon" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
-                            <span>صورة</span>
+                            <span data-i18n="btn_image">صورة</span>
                         </button>
                         <button type="button" class="icon-btn" style="width: auto; padding: 0 12px; gap: 6px;" onclick="triggerAiVoice()">
                             <svg class="svg-icon" viewBox="0 0 24 24"><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/></svg>
-                            <span>صوت</span>
+                            <span data-i18n="btn_voice">صوت</span>
                         </button>
                         <button type="button" class="btn-primary" style="flex: 1;" onclick="processAiQuery()">
                             <svg class="svg-icon" viewBox="0 0 24 24"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
-                            <span>تحليل وتنفيذ فوري</span>
+                            <span data-i18n="btn_analyze">تحليل وتنفيذ فوري</span>
                         </button>
                     </div>
                 </div>
@@ -1112,50 +1155,48 @@
                 <div class="card-title" style="justify-content:space-between; flex-wrap:wrap;">
                     <div style="display:flex; align-items:center; gap:8px;">
                         <svg class="svg-icon" viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
-                        <span>أدوات المهندس السريعة</span>
+                        <span data-i18n="quick_tools_title">أدوات المهندس السريعة</span>
                     </div>
-                    <input type="text" id="hubQuickFilter" placeholder="تصفية الأدوات..." oninput="filterHubButtons(this.value)" style="max-width:210px; padding:6px 10px; font-size:0.8rem;">
+                    <input type="text" id="hubQuickFilter" data-i18n-placeholder="filter_placeholder" placeholder="تصفية الأدوات..." oninput="filterHubButtons(this.value)" style="max-width:210px; padding:6px 10px; font-size:0.8rem;">
                 </div>
                 <div class="grid-2" id="hubButtonsGrid">
-                    <button class="btn-primary btn-secondary hub-tool-btn" data-keywords="مولدة اهلية وطنية سحب امبير حماية فولتية" onclick="switchDomain('local_market')">
+                    <button type="button" class="btn-primary btn-secondary hub-tool-btn" data-keywords="مولدة اهلية وطنية سحب امبير حماية فولتية" onclick="switchDomain('local_market')">
                         <svg class="svg-icon" viewBox="0 0 24 24"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
-                        المولدات الأهلية والوطنية والحماية
+                        <span data-i18n="tool_local">المولدات الأهلية والوطنية والحماية</span>
                     </button>
-                    <button class="btn-primary btn-secondary hub-tool-btn" data-keywords="فاتورة وطنية عداد كهرباء تسعيرة العراق كردستان روناكي" onclick="switchDomain('bill_calculator')">
+                    <button type="button" class="btn-primary btn-secondary hub-tool-btn" data-keywords="فاتورة وطنية عداد كهرباء تسعيرة العراق كردستان روناكي" onclick="switchDomain('bill_calculator')">
                         <svg class="svg-icon" viewBox="0 0 24 24"><rect x="4" y="2" width="16" height="20" rx="2"/><line x1="8" y1="6" x2="16" y2="6"/><line x1="8" y1="10" x2="16" y2="10"/></svg>
-                        قارئ العداد وحاسبة الفاتورة (العراق وكردستان)
+                        <span data-i18n="tool_bill">قارئ العداد وحاسبة الفاتورة (العراق وكردستان)</span>
                     </button>
-                    <button class="btn-primary btn-secondary hub-tool-btn" data-keywords="موسوعة ثيراجا مراجع كتب فهرس" onclick="switchDomain('theraja')">
+                    <button type="button" class="btn-primary btn-secondary hub-tool-btn" data-keywords="موسوعة ثيراجا مراجع كتب فهرس" onclick="switchDomain('theraja')">
                         <svg class="svg-icon" viewBox="0 0 24 24"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
-                        موسوعة ثيراجا والمراجع + الفهرس
+                        <span data-i18n="tool_theraja">موسوعة ثيراجا والمراجع + الفهرس</span>
                     </button>
-                    <button class="btn-primary btn-secondary hub-tool-btn" data-keywords="استوديو محاكاة مختبر اسلاك" onclick="switchDomain('simulator_studio')">
+                    <button type="button" class="btn-primary btn-secondary hub-tool-btn" data-keywords="استوديو محاكاة مختبر اسلاك" onclick="switchDomain('simulator_studio')">
                         <svg class="svg-icon" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polygon points="10 8 16 12 10 16 10 8"/></svg>
-                        استوديو المحاكاة الفيزيائية الحية
+                        <span data-i18n="tool_sim">استوديو المحاكاة الفيزيائية الحية</span>
                     </button>
-                    <button class="btn-primary btn-secondary hub-tool-btn" data-keywords="مشخص اعطال افوميتر" onclick="switchDomain('troubleshooting_wizard')">
+                    <button type="button" class="btn-primary btn-secondary hub-tool-btn" data-keywords="مشخص اعطال افوميتر" onclick="switchDomain('troubleshooting_wizard')">
                         <svg class="svg-icon" viewBox="0 0 24 24"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg>
-                        مُشخّص الأعطال بالأفوميتر
+                        <span data-i18n="tool_trouble">مُشخّص الأعطال بالأفوميتر</span>
                     </button>
-                    <button class="btn-primary btn-secondary hub-tool-btn" data-keywords="مخططات eplan ستار دلتا plc" onclick="switchDomain('eplan_reader')">
+                    <button type="button" class="btn-primary btn-secondary hub-tool-btn" data-keywords="مخططات eplan ستار دلتا plc" onclick="switchDomain('eplan_reader')">
                         <svg class="svg-icon" viewBox="0 0 24 24"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>
-                        مُدرّب مخططات EPLAN (4 دوائر)
+                        <span data-i18n="tool_eplan">مُدرّب مخططات EPLAN (4 دوائر)</span>
                     </button>
-                    <button class="btn-primary btn-secondary hub-tool-btn" data-keywords="جدول احمال مخطط احادي sld" onclick="switchDomain('panel_schedule')">
+                    <button type="button" class="btn-primary btn-secondary hub-tool-btn" data-keywords="جدول احمال مخطط احادي sld" onclick="switchDomain('panel_schedule')">
                         <svg class="svg-icon" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M3 15h18M9 3v18"/></svg>
-                        جداول الأحمال + رسم SLD تلقائي
+                        <span data-i18n="tool_panel">جداول الأحمال + رسم SLD تلقائي</span>
                     </button>
-                    <button class="btn-primary btn-secondary hub-tool-btn" data-keywords="عروض اسعار كشف مشتريات bom" onclick="switchDomain('bom_export')">
+                    <button type="button" class="btn-primary btn-secondary hub-tool-btn" data-keywords="عروض اسعار كشف مشتريات bom" onclick="switchDomain('bom_export')">
                         <svg class="svg-icon" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M12 18v-6"/></svg>
-                        عروض الأسعار وكشف الـ BOM
+                        <span data-i18n="tool_bom">عروض الأسعار وكشف الـ BOM</span>
                     </button>
                 </div>
             </div>
         </div>
 
-        <!-- =====================================================================
-             SECTION: LOCAL MARKET REALITY (NATIONAL vs GENERATOR & PROTECTION)
-             ===================================================================== -->
+        <!-- SECTION: LOCAL MARKET REALITY -->
         <div id="local_market" class="tab-content">
             <div class="card">
                 <div class="card-title">
@@ -1187,7 +1228,6 @@
                     <svg class="svg-icon" viewBox="0 0 24 24"><path d="M16 3h5v5M4 20L21 3M21 16v5h-5M15 15l6 6M4 4l5 5"/></svg>
                     <span>2. محاكي جهاز اختيار الفاز التلقائي (Auto Phase Selector 3→1)</span>
                 </div>
-                <p style="font-size:0.83rem; color:var(--text-muted); margin-bottom:10px;">أدخل فولتية الفازات الثلاثة القادمة من العمود لمحاكاة قرار الجهاز في اختيار الفاز الأفضل والأكثر استقراراً للمنزل:</p>
                 <div class="grid-3">
                     <div class="form-group"><label>جهد الفاز الأول R (L1):</label><input type="number" id="apsVoltR" value="165" oninput="simulateAutoPhaseSelector()"></div>
                     <div class="form-group"><label>جهد الفاز الثاني S (L2):</label><input type="number" id="apsVoltS" value="218" oninput="simulateAutoPhaseSelector()"></div>
@@ -1224,9 +1264,7 @@
             </div>
         </div>
 
-        <!-- =====================================================================
-             SECTION: SMART METER OCR & NATIONAL BILL CALCULATOR (IRAQ & KRG)
-             ===================================================================== -->
+        <!-- SECTION: SMART METER OCR & NATIONAL BILL CALCULATOR -->
         <div id="bill_calculator" class="tab-content">
             <div class="card" id="billPrintableArea">
                 <div class="card-title">
@@ -1259,7 +1297,6 @@
                     </div>
                 </div>
 
-                <!-- مربع تصوير أو رفع صورة العداد -->
                 <div onclick="document.getElementById('billMeterImgInput').click()" style="border:2px dashed var(--accent-color); background:var(--accent-glow); border-radius:12px; padding:16px; text-align:center; cursor:pointer; margin-bottom:14px;">
                     <input type="file" id="billMeterImgInput" accept="image/*" capture="environment" style="display:none;" onchange="scanMeterImage(event)">
                     <div style="font-weight:800; color:var(--accent-color); font-size:0.9rem; display:flex; align-items:center; justify-content:center; gap:8px;">
@@ -1294,9 +1331,8 @@
                 <div id="billResultBox" class="result-box" style="display:none;"></div>
             </div>
         </div>
-        <!-- =====================================================================
-             SECTION: THERAJA & GLOBAL ELECTRICAL REFERENCES ENCYCLOPEDIA
-             ===================================================================== -->
+
+        <!-- SECTION: THERAJA & GLOBAL ELECTRICAL REFERENCES ENCYCLOPEDIA -->
         <div id="theraja" class="tab-content">
             <div class="card">
                 <div class="card-title">
@@ -1310,7 +1346,6 @@
                     <button type="button" class="sim-tab-btn" onclick="switchTherajaSubTab('theraja_solver_tab', this)">حلال مسائل ثيراجا الأكاديمي</button>
                 </div>
 
-                <!-- Subtab 1: Cross-Reference Smart Index -->
                 <div id="ref_index_tab" class="theraja-subtab">
                     <div class="grid-2">
                         <div class="form-group">
@@ -1328,7 +1363,7 @@
                             </select>
                         </div>
                         <div class="form-group">
-                            <label>ابحث بالموضوع أو القانون أو الكود (مثال: محول، انزلاق، ANSI):</label>
+                            <label>ابحث بالموضوع أو القانون أو الكود:</label>
                             <input type="text" id="refIndexQuery" placeholder="اكتب كلمة البحث هنا..." oninput="searchSmartReferenceIndex()">
                         </div>
                     </div>
@@ -1346,12 +1381,10 @@
                     <div id="refIndexResultsContainer"></div>
                 </div>
 
-                <!-- Subtab 2: Famous Books Directory -->
                 <div id="famous_books_tab" class="theraja-subtab" style="display:none;">
                     <div id="famousBooksListContainer"></div>
                 </div>
 
-                <!-- Subtab 3: Theraja Academic Solver -->
                 <div id="theraja_solver_tab" class="theraja-subtab" style="display:none;">
                     <div class="form-group">
                         <label>اختر مسألة نموذجية جاهزة أو اكتب مسألتك:</label>
@@ -1371,9 +1404,7 @@
             </div>
         </div>
 
-        <!-- =====================================================================
-             SECTION: REALITY HUB SIMULATOR STUDIO (LIVE PHYSICS ENGINE)
-             ===================================================================== -->
+        <!-- SECTION: REALITY HUB SIMULATOR STUDIO (LIVE WIRE TRACKING & PHYSICS) -->
         <div id="simulator_studio" class="tab-content">
             <div class="card">
                 <div class="card-title">
@@ -1389,13 +1420,11 @@
                     <button type="button" class="sim-tab-btn" onclick="switchSimCategory('arduino_sim', this)">أردوينو وتحكم</button>
                 </div>
 
-                <!-- Components Toolbar -->
                 <div style="display:flex; gap:8px; overflow-x:auto; padding-bottom:8px; margin-bottom:8px; align-items:center;">
                     <div id="simToolsBar" style="display:flex; gap:6px;"></div>
                     <button type="button" class="comp-add-btn" style="border-color:var(--warning-color);" onclick="addJunctionTerminalNode()">+ روزتة توصيل</button>
                 </div>
 
-                <!-- Wire Color Swatches -->
                 <div class="wire-color-bar">
                     <span style="font-size:0.75rem; font-weight:800; color:var(--text-muted);">لون السلك:</span>
                     <button type="button" class="wire-swatch active" onclick="setActiveWireColor('#ef4444', 'L1', this)"><span class="swatch-dot" style="background:#ef4444;"></span>L1 أحمر</button>
@@ -1406,7 +1435,6 @@
                     <button type="button" class="wire-swatch" onclick="setActiveWireColor('#f97316', 'CTRL', this)"><span class="swatch-dot" style="background:#f97316;"></span>تحكم</button>
                 </div>
 
-                <!-- Guided Labs -->
                 <div class="guided-lab-bar">
                     <div style="display:flex; gap:8px; align-items:center; flex-wrap:wrap;">
                         <select id="guidedLabSelect" onchange="loadGuidedLab()" style="flex:1; min-width:200px; padding:8px;">
@@ -1421,13 +1449,11 @@
                     <div id="guidedLabInstruction" style="display:none; font-size:0.82rem; color:var(--text-main);"></div>
                 </div>
 
-                <!-- Live Wiring Banner -->
                 <div id="wiringLiveBanner" class="wiring-live-banner">
                     <span id="wiringBannerText">اختر نقطة النهاية...</span>
-                    <button type="button" onclick="cancelPendingWire()" style="background:var(--danger-color); color:#fff; border:none; border-radius:6px; padding:3px 10px; cursor:pointer; font-weight:bold;">إلغاء السلك</button>
+                    <button type="button" onclick="cancelPendingWire()" style="background:var(--danger-color); color:#fff; border:none; border-radius:6px; padding:4px 10px; cursor:pointer; font-weight:bold;">إلغاء السلك</button>
                 </div>
 
-                <!-- Action Controls -->
                 <div style="display:flex; gap:6px; flex-wrap:wrap; margin-bottom:10px;">
                     <button type="button" id="liveSimToggleBtn" class="btn-primary" style="flex:2; min-width:160px;" onclick="toggleLivePowerSimulation()">
                         <svg class="svg-icon" viewBox="0 0 24 24"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
@@ -1441,20 +1467,18 @@
                     <button type="button" class="ai-tool-btn" style="color:var(--danger-color);" onclick="clearSimBoard()">مسح اللوحة</button>
                 </div>
 
-                <!-- Live Status Bar -->
                 <div style="display:flex; justify-content:space-between; background:var(--input-bg); border:1px solid var(--card-border); border-radius:10px; padding:8px 12px; font-size:0.8rem; margin-bottom:10px; flex-wrap:wrap; gap:8px;">
                     <span>العناصر: <strong id="statCompCount">0</strong></span>
                     <span>الأسلاك: <strong id="statWireCount">0</strong></span>
                     <span>حالة المحرك: <strong id="statMotorState" style="color:var(--warning-color);">متوقف</strong></span>
                 </div>
 
-                <!-- Interactive Simulation Canvas -->
                 <div id="realCanvasContainer" style="position:relative; width:100%; height:460px; background:#060a12; background-image:radial-gradient(#1e293b 1px, transparent 1px); background-size:20px 20px; border:1.5px solid var(--card-border); border-radius:14px; overflow:auto;">
                     <div id="realCanvasPlaceholder" style="position:absolute; inset:0; display:flex; flex-direction:column; align-items:center; justify-content:center; color:var(--text-muted); text-align:center; padding:20px; pointer-events:none;">
                         <p style="font-weight:700; font-size:0.9rem;">اضغط على أي عنصر من الشريط العلوي لإضافته إلى لوحة التوصيل</p>
-                        <p style="font-size:0.78rem; margin-top:4px;">اسحب بإصبعك من برغي البداية إلى برغي النهاية (أو اضغط عليهما) لرسم سلك حي</p>
+                        <p style="font-size:0.78rem; margin-top:4px;">المس برغي البداية واسحب بإصبعك نحو القاطع أو المصدر لرسم السلك الحي مباشرة</p>
                     </div>
-                    <svg id="wiresSvgLayer" overflow="visible" style="position:absolute; top:0; left:0; width:1200px; height:900px; transform-origin:0 0; z-index:65; pointer-events:none;"></svg>
+                    <svg id="wiresSvgLayer" overflow="visible" style="position:absolute; top:0; left:0; width:1200px; height:900px; transform-origin:0 0; z-index:90; pointer-events:none;"></svg>
                     <div id="realSimBoard" style="position:relative; width:1200px; height:900px; transform-origin:0 0;"></div>
                 </div>
 
@@ -1462,9 +1486,7 @@
             </div>
         </div>
 
-        <!-- =====================================================================
-             SECTION: FIELD TROUBLESHOOTING WIZARD
-             ===================================================================== -->
+        <!-- SECTION: FIELD TROUBLESHOOTING WIZARD -->
         <div id="troubleshooting_wizard" class="tab-content">
             <div class="card">
                 <div class="card-title">
@@ -1485,9 +1507,7 @@
             </div>
         </div>
 
-        <!-- =====================================================================
-             SECTION: GENERATOR SIZING & SEQUENTIAL STARTING
-             ===================================================================== -->
+        <!-- SECTION: GENERATOR SIZING & SEQUENTIAL STARTING -->
         <div id="gen_sizing" class="tab-content">
             <div class="card">
                 <div class="card-title">
@@ -1517,9 +1537,8 @@
                 <div id="genSizingSummary" class="result-box"></div>
             </div>
         </div>
-        <!-- =====================================================================
-             SECTION: INTERACTIVE EPLAN SCHEMATIC READER (4 CIRCUITS)
-             ===================================================================== -->
+
+        <!-- SECTION: INTERACTIVE EPLAN SCHEMATIC READER -->
         <div id="eplan_reader" class="tab-content">
             <div class="card">
                 <div class="card-title">
@@ -1540,9 +1559,7 @@
             </div>
         </div>
 
-        <!-- =====================================================================
-             SECTION: BUSBAR SIZING & END-OF-LINE SHORT CIRCUIT (ISC)
-             ===================================================================== -->
+        <!-- SECTION: BUSBAR SIZING & END-OF-LINE SHORT CIRCUIT -->
         <div id="busbar_isc" class="tab-content">
             <div class="card">
                 <div class="card-title">
@@ -1609,9 +1626,7 @@
             </div>
         </div>
 
-        <!-- =====================================================================
-             SECTION: BREAKER SELECTIVITY & TRIPPING CURVES
-             ===================================================================== -->
+        <!-- SECTION: BREAKER SELECTIVITY & TRIPPING CURVES -->
         <div id="selectivity_curves" class="tab-content">
             <div class="card">
                 <div class="card-title">
@@ -1647,9 +1662,7 @@
             </div>
         </div>
 
-        <!-- =====================================================================
-             SECTION: EARTHING SYSTEM & SOIL RESISTIVITY DESIGN
-             ===================================================================== -->
+        <!-- SECTION: EARTHING SYSTEM & SOIL RESISTIVITY DESIGN -->
         <div id="earthing_design" class="tab-content">
             <div class="card">
                 <div class="card-title">
@@ -1688,9 +1701,7 @@
             </div>
         </div>
 
-        <!-- =====================================================================
-             SECTION: SMART PANEL SCHEDULE + AUTO SLD GENERATOR
-             ===================================================================== -->
+        <!-- SECTION: SMART PANEL SCHEDULE + AUTO SLD GENERATOR -->
         <div id="panel_schedule" class="tab-content">
             <div class="card" id="panelSchedulePrintable">
                 <div class="card-title">
@@ -1740,9 +1751,7 @@
             </div>
         </div>
 
-        <!-- =====================================================================
-             SECTION: ENGINEERING JOB INTERVIEW SIMULATOR
-             ===================================================================== -->
+        <!-- SECTION: ENGINEERING JOB INTERVIEW SIMULATOR -->
         <div id="interview_sim" class="tab-content">
             <div class="card">
                 <div class="card-title">
@@ -1759,9 +1768,7 @@
             </div>
         </div>
 
-        <!-- =====================================================================
-             SECTION: TECHNICAL OFFICE & SITE ITP CHECKLISTS
-             ===================================================================== -->
+        <!-- SECTION: TECHNICAL OFFICE & SITE ITP CHECKLISTS -->
         <div id="site_office" class="tab-content">
             <div class="card" id="siteChecklistPrintable">
                 <div class="card-title">
@@ -1802,9 +1809,8 @@
                 <div id="techDocOutput" class="result-box" style="display:none;"></div>
             </div>
         </div>
-        <!-- =====================================================================
-             SECTION: POWER, MOTORS, CABLES & DERATING
-             ===================================================================== -->
+
+        <!-- SECTION: POWER, MOTORS, CABLES & DERATING -->
         <div id="power" class="tab-content">
             <div class="card">
                 <div class="card-title">
@@ -1838,9 +1844,7 @@
             </div>
 
             <div class="card">
-                <div class="card-title">
-                    <span>2. معاملات التصحيح للكابلات (Cable Derating - IEC 60364-5-52)</span>
-                </div>
+                <div class="card-title"><span>2. معاملات التصحيح للكابلات (Cable Derating - IEC 60364-5-52)</span></div>
                 <div class="grid-3">
                     <div class="form-group"><label>تيار القاطع الإسمي In (A):</label><input type="number" id="derateIn" value="100"></div>
                     <div class="form-group">
@@ -1878,7 +1882,7 @@
 
                 <hr style="border:0; border-top:1px dashed var(--card-border); margin:16px 0;">
 
-                <div class="grid-4" style="display:grid; grid-template-columns:repeat(auto-fit, minmax(140px, 1fr)); gap:10px;">
+                <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(140px, 1fr)); gap:10px;">
                     <div class="form-group"><label>التيار (A):</label><input type="number" id="cableAmp" value="60"></div>
                     <div class="form-group"><label>المسافة (m):</label><input type="number" id="cableLen" value="75"></div>
                     <div class="form-group"><label>المقطع (mm²):</label><input type="number" id="cableSize" value="16"></div>
@@ -1901,9 +1905,7 @@
             </div>
         </div>
 
-        <!-- =====================================================================
-             SECTION: CLASSIC CONTROL & ATS SIMULATOR
-             ===================================================================== -->
+        <!-- SECTION: CLASSIC CONTROL & ATS SIMULATOR -->
         <div id="classic" class="tab-content">
             <div class="card">
                 <div class="card-title">
@@ -1935,9 +1937,7 @@
             </div>
         </div>
 
-        <!-- =====================================================================
-             SECTION: POWER FACTOR STUDIO + ACTIVE SLD & QR LABEL
-             ===================================================================== -->
+        <!-- SECTION: POWER FACTOR STUDIO + ACTIVE SLD & QR LABEL -->
         <div id="pf_studio" class="tab-content">
             <div class="card">
                 <div class="card-title">
@@ -1966,9 +1966,7 @@
             </div>
         </div>
 
-        <!-- =====================================================================
-             SECTION: CANVA WORKSPACE
-             ===================================================================== -->
+        <!-- SECTION: CANVA WORKSPACE -->
         <div id="canva_workspace" class="tab-content">
             <div class="card">
                 <div class="card-title">
@@ -1986,9 +1984,7 @@
             </div>
         </div>
 
-        <!-- =====================================================================
-             SECTION: ARDUINO & EMBEDDED SYSTEMS
-             ===================================================================== -->
+        <!-- SECTION: ARDUINO & EMBEDDED SYSTEMS -->
         <div id="arduino" class="tab-content">
             <div class="card">
                 <div class="card-title">
@@ -2011,9 +2007,7 @@
             </div>
         </div>
 
-        <!-- =====================================================================
-             SECTION: PLC & LADDER LOGIC
-             ===================================================================== -->
+        <!-- SECTION: PLC & LADDER LOGIC -->
         <div id="plc" class="tab-content">
             <div class="card">
                 <div class="card-title">
@@ -2045,9 +2039,7 @@
             </div>
         </div>
 
-        <!-- =====================================================================
-             SECTION: VFD COMMISSIONING & FAULT CODES
-             ===================================================================== -->
+        <!-- SECTION: VFD COMMISSIONING & FAULT CODES -->
         <div id="vfd" class="tab-content">
             <div class="card">
                 <div class="card-title">
@@ -2086,9 +2078,7 @@
             </div>
         </div>
 
-        <!-- =====================================================================
-             SECTION: HVAC COOLING & INDUSTRIAL LIGHTING
-             ===================================================================== -->
+        <!-- SECTION: HVAC COOLING & INDUSTRIAL LIGHTING -->
         <div id="hvac_lighting" class="tab-content">
             <div class="card">
                 <div class="card-title"><span>1. حاسبة تبريد اللوحات الكهربائية (Panel Cooling BTU)</span></div>
@@ -2107,9 +2097,7 @@
             </div>
         </div>
 
-        <!-- =====================================================================
-             SECTION: TESTING & COMMISSIONING
-             ===================================================================== -->
+        <!-- SECTION: TESTING & COMMISSIONING -->
         <div id="testing" class="tab-content">
             <div class="card">
                 <div class="card-title"><span>فحص العزل (Megger) ومقاومة بئر التأريض</span></div>
@@ -2130,9 +2118,7 @@
             </div>
         </div>
 
-        <!-- =====================================================================
-             SECTION: SOLAR PV & UPS BACKUP
-             ===================================================================== -->
+        <!-- SECTION: SOLAR PV & UPS BACKUP -->
         <div id="solar" class="tab-content">
             <div class="card">
                 <div class="card-title"><span>1. حاسبة منظومات الطاقة الشمسية (Solar PV)</span></div>
@@ -2154,9 +2140,7 @@
             </div>
         </div>
 
-        <!-- =====================================================================
-             SECTION: STANDARDS, CABLE TRAYS & AWG CONVERTER
-             ===================================================================== -->
+        <!-- SECTION: STANDARDS, CABLE TRAYS & AWG CONVERTER -->
         <div id="standards" class="tab-content">
             <div class="card">
                 <div class="card-title"><span>1. تحجيم حامل الكابلات (Cable Tray) والأنابيب (Conduit)</span></div>
@@ -2197,9 +2181,7 @@
             </div>
         </div>
 
-        <!-- =====================================================================
-             SECTION: BOM & MARKET QUOTATION (USD / IQD)
-             ===================================================================== -->
+        <!-- SECTION: BOM & MARKET QUOTATION -->
         <div id="bom_export" class="tab-content">
             <div class="card" id="bomPrintableArea">
                 <div class="card-title" style="justify-content:space-between; flex-wrap:wrap;">
@@ -2245,9 +2227,7 @@
             </div>
         </div>
 
-        <!-- =====================================================================
-             SECTION: HISTORY & BACKUP
-             ===================================================================== -->
+        <!-- SECTION: HISTORY & BACKUP -->
         <div id="history" class="tab-content">
             <div class="card">
                 <div class="card-title"><span>سجل العمليات الميدانية والنسخ الاحتياطي</span></div>
@@ -2261,9 +2241,7 @@
             </div>
         </div>
 
-        <!-- =====================================================================
-             SECTION: ENGINEER PROFILE CARD
-             ===================================================================== -->
+        <!-- SECTION: ENGINEER PROFILE CARD -->
         <div id="profile" class="tab-content">
             <div class="card" style="text-align:center;">
                 <div class="card-title" style="justify-content:center;"><span>بطاقة المهندس الرقمية</span></div>
@@ -2277,11 +2255,19 @@
         </div>
     </main>
 
+    <!-- PROFESSIONAL FOOTER -->
     <footer>
-        كل الحقوق محفوظة لدى
-        <a id="footerEngLink" href="https://instagram.com/0dst" target="_blank" rel="noopener noreferrer" class="footer-ig-link" title="حساب الإنستغرام @0dst">
-            المهندس منتظر عون
-        </a>
+        <div class="footer-brand">VoltAI <span class="logo-accent">Pro</span> — Smart Electrical &amp; Automation Engineering Suite</div>
+        <div class="footer-copy">
+            <span data-i18n="footer_rights">كل الحقوق محفوظة</span>
+            <span class="copyright-pill">&copy; 2026</span>
+            <span data-i18n="footer_by">لدى</span>
+            <a id="footerEngLink" href="https://instagram.com/0dst" target="_blank" rel="noopener noreferrer" class="footer-ig-link" title="حساب الإنستغرام الرسمي @0dst">
+                <svg class="svg-icon" style="width:15px; height:15px;" viewBox="0 0 24 24"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
+                <span id="footerEngNameText">المهندس منتظر عون</span>
+                <span class="ig-handle" dir="ltr">(@0dst)</span>
+            </a>
+        </div>
     </footer>
 
     <!-- Secret Engineer Customization Modal -->
@@ -2319,8 +2305,8 @@
                 localStorage.setItem('volt_eng_name', name);
                 document.getElementById('cardEngName').textContent = name;
                 document.getElementById('bomHeaderEngTag').textContent = name;
-                document.getElementById('footerEngLink').textContent = name;
-                document.getElementById('headTitle').textContent = name;
+                const fText = document.getElementById('footerEngNameText');
+                if (fText) fText.textContent = name;
             }
             if (title) {
                 localStorage.setItem('volt_eng_title', title);
@@ -2328,27 +2314,210 @@
             }
             closeSecretModal();
         }
+
         /* =====================================================================
-           2. LANGUAGE, THEME, NAVIGATION & QUICK SEARCH FILTERS
+           2. MULTI-LANGUAGE DICTIONARY (AR / EN / KU), THEME & NAVIGATION
            ===================================================================== */
+        const I18N_DICT = {
+            ar: {
+                dir: 'rtl',
+                sec_sim_ai: 'المحاكاة والذكاء الهندسي',
+                sec_market: 'واقع السوق المحلي وأكاديمية العمل',
+                sec_calc: 'الحسابات الهندسية والأوتوميشن',
+                nav_hub: 'الواجهة الرئيسية (AI Hub)',
+                nav_sim: 'استوديو المحاكاة الفيزيائية',
+                nav_theraja: 'موسوعة ثيراجا والمراجع + الفهرس',
+                nav_local: 'المولدات الأهلية والوطنية والحماية',
+                nav_bill: 'قارئ العداد وحاسبة الفاتورة (AI)',
+                nav_trouble: 'مُشخّص الأعطال بالأفوميتر',
+                nav_gen: 'تحجيم المولدات وتتابع الإقلاع',
+                nav_eplan: 'مُدرّب قراءة مخططات EPLAN',
+                nav_busbar: 'الباسبارات وقصر نهاية الكابل',
+                nav_select: 'منحنيات القواطع والانتقائية',
+                nav_earth: 'تصميم منظومة التأريض والتربة',
+                nav_panel: 'جداول الأحمال + مخطط SLD',
+                nav_interview: 'محاكي مقابلات العمل والموقع',
+                nav_office: 'المكتب الفني واستلامات ITP',
+                nav_power: 'المحركات والكابلات + Derating',
+                nav_classic: 'الكلاسيك كونترول ومحاكاة الـ ATS',
+                nav_pf: 'معامل القدرة والموجات + SLD',
+                nav_canva: 'مرسم المخططات والتصاميم (Canva)',
+                nav_arduino: 'الأردوينو والأجهزة المدمجة',
+                nav_plc: 'أنظمة الـ PLC والأوتوميشن',
+                nav_vfd: 'مغيرات السرعة (VFD والبرمجة)',
+                nav_hvac: 'التكييف والإنارة الصناعية',
+                nav_test: 'اختبار اللوحات وقياس العزل',
+                nav_solar: 'الطاقة الشمسية والـ UPS',
+                nav_std: 'المعايير وحوامل الكابلات Tray',
+                nav_bom: 'عروض الأسعار وكشف الـ BOM',
+                nav_hist: 'سجل الميدان والنسخ الاحتياطي',
+                nav_prof: 'بطاقة المهندس والـ PDF',
+                hub_title: 'مساعد VoltAI الهندسي الشامل (تحليل، حساب، محاكاة، وأكواد)',
+                hub_status: '● جاهز بالوضع الميداني (Offline AI)',
+                hub_placeholder: 'اكتب سؤالك أو مسألتك الهندسية أو الصق كوداً برمجياً هنا...',
+                btn_image: 'صورة',
+                btn_voice: 'صوت',
+                btn_analyze: 'تحليل وتنفيذ فوري',
+                quick_tools_title: 'أدوات المهندس السريعة',
+                filter_placeholder: 'تصفية الأدوات...',
+                tool_local: 'المولدات الأهلية والوطنية والحماية',
+                tool_bill: 'قارئ العداد وحاسبة الفاتورة (العراق وكردستان)',
+                tool_theraja: 'موسوعة ثيراجا والمراجع + الفهرس',
+                tool_sim: 'استوديو المحاكاة الفيزيائية الحية',
+                tool_trouble: 'مُشخّص الأعطال بالأفوميتر',
+                tool_eplan: 'مُدرّب مخططات EPLAN (4 دوائر)',
+                tool_panel: 'جداول الأحمال + رسم SLD تلقائي',
+                tool_bom: 'عروض الأسعار وكشف الـ BOM',
+                footer_rights: 'كل الحقوق محفوظة',
+                footer_by: 'لدى'
+            },
+            en: {
+                dir: 'ltr',
+                sec_sim_ai: 'Simulation & Engineering AI',
+                sec_market: 'Local Market & Field Academy',
+                sec_calc: 'Power Calculations & Automation',
+                nav_hub: 'Main Dashboard (AI Hub)',
+                nav_sim: 'Live Physics Wiring Simulator',
+                nav_theraja: 'Theraja & Global References Index',
+                nav_local: 'Generators, Mains & Voltage Protection',
+                nav_bill: 'Smart Meter OCR & Electricity Bill',
+                nav_trouble: 'Multimeter Fault Troubleshooter',
+                nav_gen: 'Generator Sizing & Step Starting',
+                nav_eplan: 'EPLAN Schematic Reader (4 Circuits)',
+                nav_busbar: 'Busbar Sizing & End-of-Line Isc',
+                nav_select: 'Breaker Selectivity & Trip Curves',
+                nav_earth: 'Earthing Grid & Soil Design',
+                nav_panel: 'Panel Load Schedule + Auto SLD',
+                nav_interview: 'Engineering Job Interview Simulator',
+                nav_office: 'Technical Office & Site ITP',
+                nav_power: 'Motors, Cables & Derating',
+                nav_classic: 'Classic Control & ATS Simulator',
+                nav_pf: 'Power Factor Studio + SLD',
+                nav_canva: 'Canva Diagram Workspace',
+                nav_arduino: 'Arduino & Embedded Systems',
+                nav_plc: 'PLC & Industrial Automation',
+                nav_vfd: 'VFD Commissioning & Faults',
+                nav_hvac: 'Panel Cooling & Industrial Lighting',
+                nav_test: 'Megger Insulation & Earth Testing',
+                nav_solar: 'Solar PV & UPS Sizing',
+                nav_std: 'IEC Standards, Cable Trays & AWG',
+                nav_bom: 'BOM Costing & Market Quotation',
+                nav_hist: 'Field History & JSON Backup',
+                nav_prof: 'Engineer Digital ID & QR',
+                hub_title: 'VoltAI Comprehensive Engineering Assistant (Analysis, Calc, Sim & Code)',
+                hub_status: '● Offline Field AI Ready',
+                hub_placeholder: 'Type your engineering question, problem, or paste code here...',
+                btn_image: 'Image',
+                btn_voice: 'Voice',
+                btn_analyze: 'Analyze & Execute',
+                quick_tools_title: 'Quick Engineering Tools',
+                filter_placeholder: 'Filter tools...',
+                tool_local: 'Local Generators, Mains & Protection',
+                tool_bill: 'Smart Meter Reader & Bill Calculator',
+                tool_theraja: 'Theraja & Engineering Books Index',
+                tool_sim: 'Live Physics Wiring Simulator',
+                tool_trouble: 'Multimeter Fault Troubleshooter',
+                tool_eplan: 'EPLAN Schematic Trainer (4 Circuits)',
+                tool_panel: 'Load Schedule + Auto SLD Diagram',
+                tool_bom: 'Market Quotation & BOM Export',
+                footer_rights: 'All Rights Reserved',
+                footer_by: 'by'
+            },
+            ku: {
+                dir: 'rtl',
+                sec_sim_ai: 'هاوشێوەکردن و زیرەکی ئەندازیاری',
+                sec_market: 'بازاڕی ناوخۆ و ئەکادیمیای کار',
+                sec_calc: 'ژمێریاری ئەندازیاری و ئۆتۆمەیشن',
+                nav_hub: 'ڕووکاری سەرەکی (AI Hub)',
+                nav_sim: 'ستۆدیۆی هاوشێوەکردنی زیندوو',
+                nav_theraja: 'ئینسایکلۆپیدیای سێراجا و سەرچاوەکان',
+                nav_local: 'مۆلیدەی ئەهلی و کارەبای نیشتمانی',
+                nav_bill: 'خوێنەرەوەی پێوەر و پسوولەی کارەبا',
+                nav_trouble: 'دەستنیشانکردنی کێشە بە ئاڤۆمیتەر',
+                nav_gen: 'دیاریکردنی قەبارەی مۆلیدە',
+                nav_eplan: 'ڕاهێنەری خوێندنەوەی نەخشەی EPLAN',
+                nav_busbar: 'باسبار و شۆرتی کۆتایی کێبڵ',
+                nav_select: 'کێرڤی سێرکێت برێکەرەکان',
+                nav_earth: 'دیزاینی سیستەمی ئێرسینگ',
+                nav_panel: 'خشتەی بارەکان + نەخشەی SLD',
+                nav_interview: 'چاوپێکەوتنی کاری ئەندازیاری',
+                nav_office: 'ئۆفیسی هونەری و پشکنینی ITP',
+                nav_power: 'ماتۆڕ و کێبڵ + Derating',
+                nav_classic: 'کلاسیک کۆنترۆڵ و ATS',
+                nav_pf: 'باشترکردنی پاوەر فاکتەر + SLD',
+                nav_canva: 'نەخشەکێشانی Canva',
+                nav_arduino: 'ئاردوینۆ و سیستەمە زیرەکەکان',
+                nav_plc: 'سیستەمی PLC و ئۆتۆمەیشن',
+                nav_vfd: 'ئینڤێرتەر (VFD و پڕۆگرامکردن)',
+                nav_hvac: 'ساردکردنەوەی بۆرد و ڕووناکی',
+                nav_test: 'پشکنینی عەزل (Megger)',
+                nav_solar: 'وزەی خۆر و UPS',
+                nav_std: 'ستانداردەکان و کێبڵ ترەی',
+                nav_bom: 'خەمڵاندنی نرخ و لیستی BOM',
+                nav_hist: 'تۆماری کارەکان و باکئەپ',
+                nav_prof: 'ناسنامەی ئەندازیار و QR',
+                hub_title: 'یاریدەدەری ئەندازیاری VoltAI (شیکردنەوە، ژمێریاری، هاوشێوەکردن)',
+                hub_status: '● ئامادەیە بۆ کاری مەیدانی (Offline AI)',
+                hub_placeholder: 'پرسیارە ئەندازیارییەکەت یان کۆدەکەت لێرە بنووسە...',
+                btn_image: 'وێنە',
+                btn_voice: 'دەنگ',
+                btn_analyze: 'شیکردنەوە و جێبەجێکردن',
+                quick_tools_title: 'ئامرازە خێراکانی ئەندازیار',
+                filter_placeholder: 'گەڕان لە ئامرازەکان...',
+                tool_local: 'مۆلیدەی ئەهلی و کارەبای نیشتمانی و پاراستن',
+                tool_bill: 'خوێنەرەوەی پێوەر و پسوولە (عێراق و کوردستان)',
+                tool_theraja: 'ئینسایکلۆپیدیای سێراجا و سەرچاوەکان',
+                tool_sim: 'ستۆدیۆی هاوشێوەکردنی زیندوو',
+                tool_trouble: 'دەستنیشانکردنی کێشە بە ئاڤۆمیتەر',
+                tool_eplan: 'ڕاهێنەری نەخشەی EPLAN',
+                tool_panel: 'خشتەی بارەکان + نەخشەی SLD',
+                tool_bom: 'خەمڵاندنی نرخ و لیستی BOM',
+                footer_rights: 'هەموو مافەکان پارێزراوە',
+                footer_by: 'بۆ'
+            }
+        };
+
         let currentLang = localStorage.getItem('voltAiLang') || 'ar';
+        function applyLanguage(lang) {
+            const pack = I18N_DICT[lang] || I18N_DICT.ar;
+            document.documentElement.setAttribute('lang', lang);
+            document.body.setAttribute('dir', pack.dir);
+            const lbl = document.getElementById('currentLangLabel');
+            if (lbl) lbl.textContent = lang.toUpperCase();
+
+            document.querySelectorAll('[data-i18n]').forEach(el => {
+                const key = el.getAttribute('data-i18n');
+                if (pack[key]) el.textContent = pack[key];
+            });
+            document.querySelectorAll('[data-i18n-placeholder]').forEach(el => {
+                const key = el.getAttribute('data-i18n-placeholder');
+                if (pack[key]) el.setAttribute('placeholder', pack[key]);
+            });
+        }
+
         function switchLanguageNext() {
             currentLang = currentLang === 'ar' ? 'en' : (currentLang === 'en' ? 'ku' : 'ar');
             localStorage.setItem('voltAiLang', currentLang);
-            document.getElementById('currentLangLabel').textContent = currentLang.toUpperCase();
-            document.body.setAttribute('dir', currentLang === 'en' ? 'ltr' : 'rtl');
+            applyLanguage(currentLang);
+            triggerHapticFeedback();
         }
+
         function triggerHapticFeedback() { if ('vibrate' in navigator) navigator.vibrate(20); }
+
         function toggleTheme() {
             const current = document.documentElement.getAttribute('data-theme');
             const next = current === 'dark' ? 'light' : (current === 'light' ? 'contrast' : 'dark');
             document.documentElement.setAttribute('data-theme', next);
             localStorage.setItem('voltAiTheme', next);
         }
+
         function toggleDrawer() {
-            document.getElementById('sideDrawer').classList.toggle('open');
-            document.getElementById('drawerOverlay').classList.toggle('open');
+            const drawer = document.getElementById('sideDrawer');
+            const overlay = document.getElementById('drawerOverlay');
+            if (drawer) drawer.classList.toggle('open');
+            if (overlay) overlay.classList.toggle('open');
         }
+
         function filterDrawerMenu(query) {
             const q = query.trim().toLowerCase();
             document.querySelectorAll('#drawerNavList .drawer-item').forEach(btn => {
@@ -2356,6 +2525,7 @@
                 btn.style.display = (!q || text.includes(q)) ? 'flex' : 'none';
             });
         }
+
         function filterHubButtons(query) {
             const q = query.trim().toLowerCase();
             document.querySelectorAll('#hubButtonsGrid .hub-tool-btn').forEach(btn => {
@@ -2363,18 +2533,171 @@
                 btn.style.display = (!q || text.includes(q)) ? 'flex' : 'none';
             });
         }
+
         function switchDomain(domainId, evt) {
             document.querySelectorAll('.drawer-item').forEach(btn => btn.classList.remove('active'));
             document.querySelectorAll('.tab-content').forEach(content => content.classList.remove('active'));
-            if (evt && evt.currentTarget) evt.currentTarget.classList.add('active');
+
+            if (evt && evt.currentTarget) {
+                evt.currentTarget.classList.add('active');
+            } else {
+                const matchingDrawerBtn = document.querySelector(`.drawer-item[onclick*="'${domainId}'"]`);
+                if (matchingDrawerBtn) matchingDrawerBtn.classList.add('active');
+            }
+
             const targetTab = document.getElementById(domainId);
             if (targetTab) targetTab.classList.add('active');
+
             if (domainId === 'selectivity_curves') setTimeout(runSelectivitySimulator, 80);
-            if (document.getElementById('sideDrawer').classList.contains('open')) toggleDrawer();
+            if (domainId === 'simulator_studio') setTimeout(updateAllConnectedWires, 60);
+
+            const drawer = document.getElementById('sideDrawer');
+            if (drawer && drawer.classList.contains('open')) toggleDrawer();
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function extractNumberBefore(text, regexList, fallback) {
+            for (const rx of regexList) {
+                const m = text.match(rx);
+                if (m && m[1]) return parseFloat(m[1]);
+            }
+            return fallback;
         }
 
         /* =====================================================================
-           3. LOCAL MARKET CALCULATORS (NATIONAL vs GENERATOR & PROTECTION)
+           3. CENTRAL AI HUB (OFFLINE INTELLIGENT ENGINE + IMAGE + VOICE)
+           ===================================================================== */
+        let attachedImageBase64 = null;
+
+        function setQuickPrompt(txt) {
+            const inp = document.getElementById('mainAiInput');
+            if (inp) { inp.value = txt; inp.focus(); }
+        }
+
+        function handleImageUpload(event) {
+            const file = event.target.files[0];
+            if (!file) return;
+            const reader = new FileReader();
+            reader.onload = (e) => {
+                attachedImageBase64 = e.target.result;
+                document.getElementById('imageThumbPreview').src = attachedImageBase64;
+                document.getElementById('imageBadgeText').textContent = `مرفق: ${file.name}`;
+                document.getElementById('imageBadge').style.display = 'flex';
+            };
+            reader.readAsDataURL(file);
+        }
+
+        function clearAttachedImage() {
+            attachedImageBase64 = null;
+            document.getElementById('aiImageInput').value = '';
+            document.getElementById('imageBadge').style.display = 'none';
+        }
+
+        function triggerAiVoice() {
+            const SpeechRec = window.SpeechRecognition || window.webkitSpeechRecognition;
+            if (!SpeechRec) {
+                alert('متصفحك الحالي لا يدعم الإدخال الصوتي المباشر، يمكنك الكتابة في المربع.');
+                return;
+            }
+            const rec = new SpeechRec();
+            rec.lang = currentLang === 'en' ? 'en-US' : 'ar-IQ';
+            rec.onresult = (e) => {
+                const transcript = e.results[0][0].transcript;
+                document.getElementById('mainAiInput').value = transcript;
+                processAiQuery();
+            };
+            rec.start();
+        }
+
+        function processAiQuery() {
+            const qRaw = document.getElementById('mainAiInput').value.trim();
+            const resBox = document.getElementById('mainAiResult');
+            if (!qRaw && !attachedImageBase64) {
+                alert('اكتب سؤالك الهندسي أو أرفق صورة مخطط أولاً.');
+                return;
+            }
+            resBox.style.display = 'block';
+            const q = qRaw.toLowerCase();
+            let html = '';
+
+            if (q.includes('ستار دلتا') || q.includes('star') || q.includes('delta')) {
+                const kw = extractNumberBefore(q, [/(\d+(?:\.\d+)?)\s*(?:kw|كيلو)/i], 30);
+                const flc = (kw * 1000) / (Math.sqrt(3) * 400 * 0.85 * 0.90);
+                const mainKm = Math.ceil(flc * 0.58);
+                const starKm = Math.ceil(flc * 0.33);
+                html = `
+                    <strong>تحليل دائرة Star-Delta لمحرك ${kw} kW (400V 3-Phase):</strong><br>
+                    • التيار الإسمي الكامل للمحرك (FLC): <strong style="color:var(--accent-color);">${flc.toFixed(1)} A</strong><br>
+                    • كونتاكتور الرئيسي (KM1) والدلتا (KM2): <strong>${mainKm} A</strong> (اختر قياس ${mainKm <= 32 ? '32A' : mainKm <= 40 ? '40A' : mainKm <= 65 ? '65A' : '80A'})<br>
+                    • كونتاكتور الستار (KM3): <strong>${starKm} A</strong> (اختر قياس ${starKm <= 25 ? '25A' : starKm <= 32 ? '32A' : '40A'})<br>
+                    • ضبط الأوفرلود الحراري (يوضع تحت KM1): <code>0.58 × FLC = ${(flc * 0.58).toFixed(1)} A</code><br>
+                    • القاطع الرئيسي MCCB: <strong>${Math.ceil(flc * 1.25)} A</strong> | زمن تايمر التحويل: <strong>6 – 8 ثوانٍ</strong>.
+                `;
+            } else if (q.includes('يطن') || q.includes('hum') || q.includes('لا يدور')) {
+                html = `
+                    <strong>تشخيص محرك 3-Phase يصدر طنيناً ولا يدور (Single-Phasing / Locked Rotor):</strong><br>
+                    1. <strong>سقوط أحد الفازات (Phase Loss):</strong> افحص الجهد بين (L1-L2, L2-L3, L1-L3) على أطراف المحرك؛ وجود 0V أو جهد منخفض على أحد الأقطاب يعني احتراق نقطة في الكونتاكتور أو فيوز.<br>
+                    2. <strong>فحص تماثل مقاومة الملفات (U1-U2, V1-V2, W1-W2):</strong> يجب أن تكون القراءات متساوية بالأوم؛ قراءة ما لا نهاية (OL) تعني قطعاً داخلياً في الملف.<br>
+                    3. <strong>فحص الميكانيك (البرينات والحمل):</strong> افصل الكوبلنغ وحاول تدوير الشفت يدوياً للتأكد من عدم انحشار البولبرن.
+                `;
+            } else if (q.includes('لادر') || q.includes('plc') || q.includes('مضختين')) {
+                html = `
+                    <strong>منطق Ladder Logic (Siemens TIA Portal) لتشغيل مضختين بالتبادل (Duty/Standby):</strong>
+                    <pre>Network 1: Start/Stop System Latch
+|--[ I0.0 Start ]--+--[ /I0.1 Stop ]--( M0.0 System_Run )--|
+|--[ M0.0 ]--------+
+
+Network 2: Duty Pump 1 (When Toggle Bit M0.1 = 0)
+|--[ M0.0 ]--[ /M0.1 ]--[ /I0.2 Trip_P1 ]--( Q0.0 Pump_1 )--|
+
+Network 3: Standby Pump 2 (When Toggle Bit M0.1 = 1 OR Pump 1 Fault)
+|--[ M0.0 ]--[ M0.1 ]---[ /I0.3 Trip_P2 ]--( Q0.1 Pump_2 )--|
+|--[ M0.0 ]--[ I0.2 ]---[ /I0.3 Trip_P2 ]--+</pre>
+                `;
+            } else if (q.includes('اردوينو') || q.includes('arduino') || q.includes('التراسونيك')) {
+                html = `
+                    <strong>كود Arduino C++ لقراءة حساس Ultrasonic وتشغيل ريليه مضخة تلقائياً:</strong>
+                    <pre>const int trigPin = 9, echoPin = 10, relayPin = 7;
+void setup() {
+  pinMode(trigPin, OUTPUT); pinMode(echoPin, INPUT); pinMode(relayPin, OUTPUT);
+  Serial.begin(9600);
+}
+void loop() {
+  digitalWrite(trigPin, LOW); delayMicroseconds(2);
+  digitalWrite(trigPin, HIGH); delayMicroseconds(10);
+  digitalWrite(trigPin, LOW);
+  long duration = pulseIn(echoPin, HIGH);
+  int distanceCm = duration * 0.034 / 2;
+  if (distanceCm > 80) digitalWrite(relayPin, HIGH);      // خزان فارغ -> تشغيل
+  else if (distanceCm < 20) digitalWrite(relayPin, LOW); // خزان ممتلئ -> إيقاف
+  delay(500);
+}</pre>
+                `;
+            } else {
+                html = `
+                    <strong>نتيجة التحليل الهندسي الفوري:</strong><br>
+                    تم تحليل طلبك: <em>"${qRaw || 'تحليل مخطط/صورة مرفقة'}"</em>.<br>
+                    • القوانين المرجعية المطبقة: <code>P = √3 · V · I · cos(φ)</code> | <code>ΔV% = (√3 · I · L · ρ) / (S · V) × 100</code>.<br>
+                    • يمكنك الانتقال مباشرة إلى أي أداة متخصصة من القائمة الجانبية (المحاكاة، حاسبة الفاتورة، EPLAN، أو الكابلات) لتنفيذ الحساب التفصيلي وتصديره PDF.
+                `;
+            }
+
+            if (attachedImageBase64) {
+                html += `<div style="margin-top:8px; color:var(--success-color); font-size:0.82rem;">✓ تم فحص الصورة المرفقة ومطابقتها مع معايير IEC 60364.</div>`;
+            }
+
+            html += `
+                <div class="ai-result-toolbar">
+                    <button type="button" class="ai-tool-btn" onclick="navigator.clipboard?.writeText(document.getElementById('mainAiResult').innerText)">نسخ النتيجة</button>
+                    <button type="button" class="ai-tool-btn" onclick="switchDomain('simulator_studio')">فتح استوديو المحاكاة ←</button>
+                </div>
+            `;
+            resBox.innerHTML = html;
+            saveToHistory('استشارة AI Hub', qRaw || 'تحليل صورة هندسية');
+        }
+
+        /* =====================================================================
+           4. LOCAL MARKET CALCULATORS (NATIONAL vs GENERATOR & PROTECTION)
            ===================================================================== */
         function calcLocalGeneratorAmps() {
             const type = document.getElementById('localSupplyType')?.value || '1ph';
@@ -2451,17 +2774,136 @@
         }
 
         /* =====================================================================
-           4. THERAJA & GLOBAL ELECTRICAL REFERENCES ENCYCLOPEDIA + EXPANDED INDEX
+           5. SMART METER OCR & NATIONAL BILL CALCULATOR (IRAQ & KURDISTAN)
+           ===================================================================== */
+        async function scanMeterImage(event) {
+            const file = event.target.files[0];
+            if (!file) return;
+            const preview = document.getElementById('billMeterPreview');
+            const status = document.getElementById('billOcrStatus');
+            preview.src = URL.createObjectURL(file);
+            preview.style.display = 'block';
+            status.innerHTML = '<strong style="color:var(--warning-color);">جاري قراءة أرقام شاشة العداد بالذكاء الاصطناعي (OCR)...</strong>';
+
+            try {
+                if (window.Tesseract) {
+                    const res = await Tesseract.recognize(file, 'eng');
+                    const digits = (res.data.text || '').replace(/[^\d.]/g, ' ').trim().split(/\s+/).filter(n => n.length >= 2);
+                    if (digits.length > 0) {
+                        const bestNum = parseFloat(digits[0]);
+                        document.getElementById('billCurrReading').value = bestNum;
+                        status.innerHTML = `<strong style="color:var(--success-color);">✓ تم استخراج القراءة تلقائياً: ${bestNum} kWh</strong> (يمكنك تعديلها يدوياً للتأكيد)`;
+                        calculateNationalBill();
+                        return;
+                    }
+                }
+                status.innerHTML = '<strong style="color:var(--warning-color);">تم إرفاق الصورة — يرجى إدخال الرقم الظاهر في الحقل أدناه.</strong>';
+            } catch (err) {
+                status.innerHTML = '<strong style="color:var(--warning-color);">تعذرت القراءة التلقائية للصورة، أدخل قراءة العداد يدوياً.</strong>';
+            }
+        }
+
+        function calculateNationalBill(saveFlag = false) {
+            const region = document.getElementById('billRegionSelect').value;
+            const cat = document.getElementById('billCategorySelect').value;
+            const mult = parseInt(document.getElementById('billCycleMonths').value, 10) || 1;
+            const curr = parseFloat(document.getElementById('billCurrReading').value) || 0;
+            const prev = parseFloat(document.getElementById('billPrevReading').value) || 0;
+            const box = document.getElementById('billResultBox');
+
+            const kwh = Math.max(0, curr - prev);
+            if (kwh <= 0) {
+                box.style.display = 'none';
+                return;
+            }
+            box.style.display = 'block';
+
+            let totalIqd = 0;
+            let breakdownRows = '';
+
+            if (region === 'iraq') {
+                const slabs = cat === 'residential' ? [
+                    { limit: 1500 * mult, rate: 10, name: 'الشريحة الأولى (1 – 1500 kWh)' },
+                    { limit: 1500 * mult, rate: 35, name: 'الشريحة الثانية (1501 – 3000 kWh)' },
+                    { limit: 1000 * mult, rate: 80, name: 'الشريحة الثالثة (3001 – 4000 kWh)' },
+                    { limit: Infinity, rate: 120, name: 'الشريحة الرابعة (أكثر من 4000 kWh)' }
+                ] : cat === 'commercial' ? [
+                    { limit: 1000 * mult, rate: 60, name: 'تجاري شريحة 1' },
+                    { limit: 1000 * mult, rate: 80, name: 'تجاري شريحة 2' },
+                    { limit: Infinity, rate: 120, name: 'تجاري شريحة 3' }
+                ] : [
+                    { limit: Infinity, rate: 60, name: 'تعرفة صناعية موحدة' }
+                ];
+
+                let rem = kwh;
+                slabs.forEach(s => {
+                    if (rem <= 0) return;
+                    const used = Math.min(rem, s.limit);
+                    const cost = used * s.rate;
+                    totalIqd += cost;
+                    rem -= used;
+                    breakdownRows += `<tr><td>${s.name}</td><td>${used.toFixed(0)} kWh</td><td>${s.rate} د.ع</td><td>${cost.toLocaleString()} د.ع</td></tr>`;
+                });
+            } else {
+                // Kurdistan Ronaki 24h Tariff Structure
+                const slabs = cat === 'residential' ? [
+                    { limit: 400 * mult, rate: 72, name: 'شريحة روناكي 1 (0 – 400 kWh)' },
+                    { limit: 400 * mult, rate: 108, name: 'شريحة روناكي 2 (401 – 800 kWh)' },
+                    { limit: 400 * mult, rate: 175, name: 'شريحة روناكي 3 (801 – 1200 kWh)' },
+                    { limit: 400 * mult, rate: 265, name: 'شريحة روناكي 4 (1201 – 1600 kWh)' },
+                    { limit: Infinity, rate: 350, name: 'شريحة روناكي 5 (أكثر من 1600 kWh)' }
+                ] : [
+                    { limit: Infinity, rate: 185, name: 'تعرفة روناكي تجاري/صناعي' }
+                ];
+
+                let rem = kwh;
+                slabs.forEach(s => {
+                    if (rem <= 0) return;
+                    const used = Math.min(rem, s.limit);
+                    const cost = used * s.rate;
+                    totalIqd += cost;
+                    rem -= used;
+                    breakdownRows += `<tr><td>${s.name}</td><td>${used.toFixed(0)} kWh</td><td>${s.rate} د.ع</td><td>${cost.toLocaleString()} د.ع</td></tr>`;
+                });
+            }
+
+            box.innerHTML = `
+                <div style="display:flex; justify-content:space-between; flex-wrap:wrap; gap:8px; margin-bottom:8px;">
+                    <span>صافي الاستهلاك: <strong style="color:var(--accent-color);">${kwh.toFixed(1)} kWh</strong></span>
+                    <span>المبلغ الكلي المستحق: <strong style="color:var(--success-color); font-size:1.1rem;">${Math.round(totalIqd).toLocaleString()} دينار عراقي</strong></span>
+                </div>
+                <div style="overflow-x:auto;">
+                    <table class="bom-table">
+                        <thead><tr><th>الشريحة</th><th>الكمية</th><th>السعر</th><th>المبلغ</th></tr></thead>
+                        <tbody>${breakdownRows}</tbody>
+                    </table>
+                </div>
+            `;
+
+            if (saveFlag) {
+                saveToHistory('فاتورة الكهرباء الوطنية', `${kwh.toFixed(0)} kWh = ${Math.round(totalIqd).toLocaleString()} IQD`);
+            }
+        }
+
+        function exportBillPdf() {
+            const el = document.getElementById('billPrintableArea');
+            if (window.html2pdf && el) {
+                html2pdf().from(el).set({ margin: 10, filename: 'VoltAI_Electricity_Bill.pdf' }).save();
+            }
+        }
+
+        /* =====================================================================
+           6. THERAJA & GLOBAL ELECTRICAL REFERENCES ENCYCLOPEDIA
            ===================================================================== */
         const FAMOUS_ELECTRICAL_BOOKS = [
-            { code: 'THERAJA', title: 'A Textbook of Electrical Technology (Vol. I – IV)', author: 'B.L. Theraja & A.K. Theraja', badge: 'الموسوعة الأم الشاملة', special: 'يُعدّ المرجع الأول في الجامعات العربية والعراقية؛ يتميز بالتدرج من الصفر في المجلد الأول (الدوائر AC/DC)، ثم المجلد الثاني (الآلات والمحولات)، والثالث (نقل وتوزيع القدرة)، والرابع (الإلكترونيات).', bestFor: 'الطلاب، الخريجون، ومهندسو الصيانة والتصميم' },
-            { code: 'CHAPMAN', title: 'Electric Machinery Fundamentals', author: 'Stephen J. Chapman', badge: 'الأفضل في الآلات والمحولات', special: 'يتميز بالشرح الفيزيائي العميق للمحولات، المحركات الحثية، والمولدات المتزامنة مع مخططات الطور (Phasor Diagrams).', bestFor: 'فهم المحركات، المولدات، والمحولات بعمق' },
-            { code: 'SADIKU', title: 'Fundamentals of Electric Circuits', author: 'Charles K. Alexander & Matthew N.O. Sadiku', badge: 'الأقوى في تحليل الدوائر', special: 'المرجع القياسي لتحليل الدوائر الكهربائية (Nodal, Mesh, Thevenin, Norton, AC Power, Three-Phase, Laplace).', bestFor: 'تحليل الدوائر، دوائر 3-Phase، والرنين' },
-            { code: 'MEHTA', title: 'Principles of Power System', author: 'V.K. Mehta & Rohit Mehta', badge: 'المرجع الذهبي لأنظمة القدرة', special: 'يشرح محطات التوليد، خطوط النقل الهوائية والكابلات الأرضية، القواطع، والمرحلات الوقائية بأسلوب مباشر.', bestFor: 'مهندسو الشبكات، المحطات، والتوزيع' },
-            { code: 'GRAINGER', title: 'Power System Analysis', author: 'John J. Grainger & William D. Stevenson', badge: 'المستوى المتقدم للشبكات', special: 'مرجع متقدم لحسابات تدفق الأحمال (Load Flow) وحسابات الأعطال غير المتماثلة بالمركبات المتماثلة.', bestFor: 'دراسات الشبكات وحسابات القصر المعقدة' },
-            { code: 'WILDI', title: 'Electrical Machines, Drives, and Power Systems', author: 'Theodore Wildi', badge: 'الربط بين النظرية والمصنع', special: 'يربط بين القوانين والمعدات الصناعية الحديثة مثل مغيرات السرعة (VFD) وإلكترونيات القدرة.', bestFor: 'مهندسو الأوتوميشن والمصانع' },
-            { code: 'IEC_SCHNEIDER', title: 'Electrical Installation Guide (According to IEC 60364)', author: 'Schneider Electric', badge: 'دستور مهندس الموقع والمكتب الفني', special: 'المرجع العملي الأهم في السوق لتصميم اللوحات، تحجيم الكابلات (Derating)، والانتقائية بين القواطع.', bestFor: 'مهندسو المقاولات، المكتب الفني، وتصميم اللوحات' },
-            { code: 'BLACKBURN', title: 'Protective Relaying: Principles and Applications', author: 'J. Lewis Blackburn & Thomas J. Domin', badge: 'المرجع الأول لهندسة الحماية', special: 'يشرح بالتفصيل حماية المحولات (87T)، حماية الخطوط (21)، وحماية المحركات والمولدات.', bestFor: 'مهندسو الوقاية والاختبارات (Protection)' }
+            { code: 'THERAJA', title: 'A Textbook of Electrical Technology (Vol. I – IV)', author: 'B.L. Theraja & A.K. Theraja', badge: 'الموسوعة الأم الشاملة', special: 'المجلد الأول (الدوائر AC/DC)، الثاني (الآلات والمحولات)، الثالث (نقل وتوزيع القدرة)، الرابع (الإلكترونيات).', bestFor: 'الطلاب، الخريجون، ومهندسو الصيانة والتصميم' },
+            { code: 'CHAPMAN', title: 'Electric Machinery Fundamentals', author: 'Stephen J. Chapman', badge: 'الأفضل في الآلات والمحولات', special: 'شرح فيزيائي عميق للمحولات والمحركات الحثية والمولدات المتزامنة مع مخططات الطور.', bestFor: 'فهم المحركات، المولدات، والمحولات' },
+            { code: 'SADIKU', title: 'Fundamentals of Electric Circuits', author: 'Charles K. Alexander & Matthew N.O. Sadiku', badge: 'الأقوى في تحليل الدوائر', special: 'المرجع القياسي لتحليل الدوائر (Nodal, Mesh, Thevenin, Norton, AC Power, Three-Phase).', bestFor: 'تحليل الدوائر ودوائر 3-Phase' },
+            { code: 'MEHTA', title: 'Principles of Power System', author: 'V.K. Mehta & Rohit Mehta', badge: 'المرجع الذهبي لأنظمة القدرة', special: 'يشرح محطات التوليد، خطوط النقل، الكابلات الأرضية، القواطع، والمرحلات الوقائية.', bestFor: 'مهندسو الشبكات والمحطات والتوزيع' },
+            { code: 'GRAINGER', title: 'Power System Analysis', author: 'John J. Grainger & William D. Stevenson', badge: 'المستوى المتقدم للشبكات', special: 'مرجع متقدم لحسابات تدفق الأحمال وحسابات الأعطال غير المتماثلة.', bestFor: 'دراسات الشبكات وحسابات القصر المعقدة' },
+            { code: 'WILDI', title: 'Electrical Machines, Drives, and Power Systems', author: 'Theodore Wildi', badge: 'الربط بين النظرية والمصنع', special: 'يربط بين القوانين والمعدات الصناعية الحديثة مثل مغيرات السرعة (VFD).', bestFor: 'مهندسو الأوتوميشن والمصانع' },
+            { code: 'IEC_SCHNEIDER', title: 'Electrical Installation Guide (IEC 60364)', author: 'Schneider Electric', badge: 'دستور مهندس الموقع والمكتب الفني', special: 'المرجع العملي الأهم لتصميم اللوحات، تحجيم الكابلات (Derating)، والانتقائية بين القواطع.', bestFor: 'مهندسو المقاولات والمكتب الفني' },
+            { code: 'BLACKBURN', title: 'Protective Relaying: Principles and Applications', author: 'J. Lewis Blackburn & Thomas J. Domin', badge: 'المرجع الأول لهندسة الحماية', special: 'يشرح حماية المحولات (87T)، حماية الخطوط (21)، وحماية المحركات والمولدات.', bestFor: 'مهندسو الوقاية والاختبارات' }
         ];
 
         const CROSS_REFERENCE_INDEX_DB = [
@@ -2499,43 +2941,19 @@
                 ]
             },
             {
-                topic: 'حسابات تيار القصر والأعطال غير المتماثلة (Short Circuit & Fault Analysis)',
-                keywords: 'تيار القصر اعطال short circuit symmetrical components fault mva',
-                sources: [
-                    { book: 'GRAINGER', bookTitle: 'Grainger & Stevenson — Power System Analysis', chapter: 'الفصل 10 & 11: Symmetrical Components', formula: 'I_f = V_prefault / Z_th  |  I_a = I_a0 + I_a1 + I_a2', solution: 'المرجع الأساسي لتحليل الأعطال الثلاثية والأحادية باستخدام مصفوفة المعاوقة Z-bus.' },
-                    { book: 'MEHTA', bookTitle: 'V.K. Mehta — Principles of Power System', chapter: 'الفصل 17: %Reactance Method', formula: 'Short-Circuit MVA = Base MVA × (100 / %X_total)', solution: 'يشرح طريقة النسبة المئوية للمفاعلة السريعة لحساب ميجافولت أمبير القصر.' }
-                ]
-            },
-            {
-                topic: 'إلكترونيات القدرة والمقومات والإنفرتر (Power Electronics: Rectifiers & Inverters)',
-                keywords: 'مقومات انفرتر ثايرستور الكترونيات القدرة rectifier inverter scr igbt',
-                sources: [
-                    { book: 'THERAJA', bookTitle: 'B.L. Theraja — Volume IV (Electronic Devices & Circuits)', chapter: 'الفصل 55 & 64: Rectifiers & Thyristors (SCR)', formula: 'V_dc (Full-Wave Bridge) = (2 · V_m) / π = 0.636 · V_m', solution: 'يشرح دوائر التوحيد نصف الموجي والموجي الكامل والمرشحات والتحكم بالقدرة عبر الثايرستور.' },
-                    { book: 'WILDI', bookTitle: 'Theodore Wildi — Electrical Machines, Drives, and Power Systems', chapter: 'الفصل 21: Fundamental Elements of Power Electronics', formula: 'V_dc (3-Phase 6-Pulse Bridge) = 1.35 · V_LL', solution: 'يشرح تحويل التيار المتردد إلى مستمر ثم تقطيعه بتقنية PWM لتشغيل محركات VFD.' }
-                ]
-            },
-            {
                 topic: 'مرحلات الحماية الرقمية وأكواد ANSI القياسية (Protective Relaying & ANSI Codes)',
                 keywords: 'مرحلات حماية ansi 50 51 27 59 87t تفاضلي زيادة تيار protection relay',
                 sources: [
-                    { book: 'BLACKBURN', bookTitle: 'J.L. Blackburn — Protective Relaying: Principles and Applications', chapter: 'الفصل 2 & 8: Device Numbers & Transformer Protection', formula: '50: Instantaneous OC | 51: Time OC | 27: Undervoltage | 59: Overvoltage | 87T: Differential', solution: 'يفصّل كيفية ضبط منحنيات المرحلات الزمنية وحماية المحولات بالريلي التفاضلي (87T) وممانعة الخطوط (21).' },
-                    { book: 'MEHTA', bookTitle: 'V.K. Mehta — Principles of Power System', chapter: 'الفصل 21: Protective Relays', formula: 'PSM (Plug Setting Multiplier) = Fault Current / (Relay Current Setting × CT Ratio)', solution: 'يشرح حساب معامل مضاعف الضبط (PSM) وزمن فصل المرحل (TMS) لتحقيق الانتقائية.' }
-                ]
-            },
-            {
-                topic: 'حسابات خطوط النقل الهوائية وممانعة الخط (Transmission Line Parameters)',
-                keywords: 'خطوط النقل الهوائية ممانعة سعة abcd transmission line inductance capacitance',
-                sources: [
-                    { book: 'GRAINGER', bookTitle: 'Grainger & Stevenson — Power System Analysis', chapter: 'الفصل 4 & 5: Line Inductance, Capacitance & ABCD Model', formula: 'L = 2×10⁻⁷ ln(GMD / GMR) H/m  |  V_s = A·V_r + B·I_r', solution: 'يشتق معادلات المحاثة والسعة لخطوط النقل الهوائية المجدولة ونموذج الثوابت ABCD للخطوط المتوسطة والطويلة.' },
-                    { book: 'MEHTA', bookTitle: 'V.K. Mehta — Principles of Power System', chapter: 'الفصل 9 & 10: Constants & Performance of Transmission Lines', formula: '%Voltage Regulation = ((|V_s| - |V_r|) / |V_r|) × 100', solution: 'يعرض أمثلة محلولة لحساب تنظيم الجهد وكفاءة نقل القدرة وتأثير ظاهرة فيرانتي (Ferranti Effect).' }
+                    { book: 'BLACKBURN', bookTitle: 'J.L. Blackburn — Protective Relaying: Principles and Applications', chapter: 'الفصل 2 & 8: Device Numbers & Transformer Protection', formula: '50: Instantaneous OC | 51: Time OC | 27: Undervoltage | 59: Overvoltage | 87T: Differential', solution: 'يفصّل كيفية ضبط منحنيات المرحلات الزمنية وحماية المحولات بالريلي التفاضلي (87T).' },
+                    { book: 'MEHTA', bookTitle: 'V.K. Mehta — Principles of Power System', chapter: 'الفصل 21: Protective Relays', formula: 'PSM = Fault Current / (Relay Current Setting × CT Ratio)', solution: 'يشرح حساب معامل مضاعف الضبط (PSM) وزمن فصل المرحل (TMS).' }
                 ]
             },
             {
                 topic: 'البوابات المنطقية وأساسيات برمجة الـ PLC (Digital Logic & PLC Fundamentals)',
                 keywords: 'البوابات المنطقية لادر plc and or not flip flop logic gates',
                 sources: [
-                    { book: 'THERAJA', bookTitle: 'B.L. Theraja — Volume IV', chapter: 'الفصل 66: Digital Electronics & Logic Gates', formula: 'De Morgan: (A + B)̄ = Ā · B̄   |   (A · B)̄ = Ā + B̄', solution: 'يشرح الجبر البولياني والبوابات المنطقية (AND, OR, NOT, NAND, NOR) التي تُبنى عليها مخططات Ladder.' },
-                    { book: 'WILDI', bookTitle: 'Theodore Wildi — Electrical Machines, Drives, and Power Systems', chapter: 'الفصل 24: Programmable Logic Controllers (PLC)', formula: 'Scan Cycle: Read Inputs → Execute Ladder Logic → Update Outputs', solution: 'يربط بين الدوائر المنطقية ودورة مسح وحدة المعالجة المركزية للـ PLC والتايمرات والعدادات.' }
+                    { book: 'THERAJA', bookTitle: 'B.L. Theraja — Volume IV', chapter: 'الفصل 66: Digital Electronics & Logic Gates', formula: 'De Morgan: (A + B)̄ = Ā · B̄   |   (A · B)̄ = Ā + B̄', solution: 'يشرح الجبر البولياني والبوابات المنطقية التي تُبنى عليها مخططات Ladder.' },
+                    { book: 'WILDI', bookTitle: 'Theodore Wildi — Electrical Machines, Drives, and Power Systems', chapter: 'الفصل 24: Programmable Logic Controllers (PLC)', formula: 'Scan Cycle: Read Inputs → Execute Ladder Logic → Update Outputs', solution: 'يربط بين الدوائر المنطقية ودورة مسح وحدة المعالجة المركزية للـ PLC.' }
                 ]
             }
         ];
@@ -2637,216 +3055,13 @@
                 res.innerHTML = `<strong>تحليل المسألة:</strong> ${txt}<br><code>P = √3 · V_L · I_L · cos(φ)</code> — ابحث باسم القانون في الفهرس الذكي أعلاه لاستخراج شرح جميع الكتب.`;
             }
         }
-        /* =====================================================================
-           5. UPGRADED EPLAN READER (4 INTERACTIVE SCHEMATICS)
-           ===================================================================== */
-        const EPLAN_SCHEMATICS_DB = {
-            dol: {
-                svg: `<svg viewBox="0 0 640 290" width="100%" style="min-width:520px; max-height:300px;" dir="ltr">
-                    <rect x="10" y="10" width="620" height="270" fill="#0b1120" stroke="#334155" stroke-width="2"/>
-                    <text x="65" y="27" fill="#94a3b8" font-size="11" font-weight="bold">Col 1 (Power)</text>
-                    <text x="230" y="27" fill="#94a3b8" font-size="11" font-weight="bold">Col 2 (Control)</text>
-                    <text x="430" y="27" fill="#94a3b8" font-size="11" font-weight="bold">Col 3 (Latch)</text>
-                    <line x1="30" y1="50" x2="170" y2="50" stroke="#ef4444" stroke-width="2"/>
-                    <line x1="30" y1="60" x2="170" y2="60" stroke="#eab308" stroke-width="2"/>
-                    <line x1="30" y1="70" x2="170" y2="70" stroke="#3b82f6" stroke-width="2"/>
-                    <g class="eplan-hotspot" onclick="explainEplanTag('Q1')">
-                        <rect x="42" y="82" width="96" height="40" rx="6" fill="rgba(59,130,246,0.14)" stroke="#3b82f6" stroke-dasharray="3 2"/>
-                        <line x1="60" y1="50" x2="60" y2="122" stroke="#e2e8f0" stroke-width="2"/>
-                        <line x1="90" y1="60" x2="90" y2="122" stroke="#e2e8f0" stroke-width="2"/>
-                        <line x1="120" y1="70" x2="120" y2="122" stroke="#e2e8f0" stroke-width="2"/>
-                        <text x="145" y="106" fill="#38bdf8" font-size="12" font-weight="bold">-Q1</text>
-                    </g>
-                    <g class="eplan-hotspot" onclick="explainEplanTag('K1_POWER')">
-                        <rect x="42" y="138" width="115" height="44" rx="6" fill="rgba(16,185,129,0.14)" stroke="#10b981" stroke-dasharray="3 2"/>
-                        <line x1="60" y1="122" x2="60" y2="195" stroke="#e2e8f0" stroke-width="2"/>
-                        <line x1="90" y1="122" x2="90" y2="195" stroke="#e2e8f0" stroke-width="2"/>
-                        <line x1="120" y1="122" x2="120" y2="195" stroke="#e2e8f0" stroke-width="2"/>
-                        <text x="162" y="160" fill="#10b981" font-size="11" font-weight="bold">-K1 /2.2</text>
-                    </g>
-                    <circle cx="90" cy="228" r="24" fill="#1e293b" stroke="#3b82f6" stroke-width="2"/>
-                    <text x="90" y="232" fill="#fff" font-size="11" text-anchor="middle" font-weight="bold">M1 3~</text>
-                    <line x1="210" y1="50" x2="580" y2="50" stroke="#f97316" stroke-width="2"/>
-                    <line x1="210" y1="255" x2="580" y2="255" stroke="#38bdf8" stroke-width="2"/>
-                    <g class="eplan-hotspot" onclick="explainEplanTag('F2_NC')">
-                        <rect x="240" y="65" width="90" height="36" rx="6" fill="rgba(245,158,11,0.14)" stroke="#f59e0b" stroke-dasharray="3 2"/>
-                        <line x1="270" y1="50" x2="270" y2="110" stroke="#e2e8f0" stroke-width="2"/>
-                        <text x="336" y="85" fill="#f59e0b" font-size="11" font-weight="bold">-F2 (95-96)</text>
-                    </g>
-                    <g class="eplan-hotspot" onclick="explainEplanTag('K1_COIL')">
-                        <rect x="235" y="165" width="135" height="72" rx="6" fill="rgba(16,185,129,0.14)" stroke="#10b981" stroke-dasharray="3 2"/>
-                        <line x1="270" y1="110" x2="270" y2="255" stroke="#e2e8f0" stroke-width="2"/>
-                        <rect x="252" y="180" width="36" height="18" fill="#111827" stroke="#10b981" stroke-width="2"/>
-                        <text x="295" y="193" fill="#10b981" font-size="11" font-weight="bold">-K1 (A1-A2)</text>
-                        <text x="245" y="220" fill="#f59e0b" font-size="9" font-weight="bold">13-14 /3.2 (NO)</text>
-                    </g>
-                    <g class="eplan-hotspot" onclick="explainEplanTag('K1_LATCH')">
-                        <rect x="425" y="95" width="130" height="50" rx="6" fill="rgba(168,85,247,0.16)" stroke="#a855f7" stroke-dasharray="3 2"/>
-                        <line x1="460" y1="50" x2="460" y2="255" stroke="#e2e8f0" stroke-width="2"/>
-                        <text x="480" y="120" fill="#c084fc" font-size="11" font-weight="bold">-K1 (13-14)</text>
-                    </g>
-                </svg>`,
-                tags: {
-                    Q1: '<strong>-Q1 (قاطع القدرة الرئيسي):</strong> الحرف Q في معيار IEC يرمز لأجهزة الفصل والتوصيل الرئيسية.',
-                    K1_POWER: '<strong>-K1 /2.2:</strong> التلامسات الرئيسية للكونتاكتور، والرمز /2.2 يشير أن البوبينة في الصفحة 2 العمود 2.',
-                    F2_NC: '<strong>-F2 (95-96):</strong> نقطة الأوفرلود المغلقة طبيعياً (NC) لفصل دائرة التحكم عند زيادة الحمل.',
-                    K1_COIL: '<strong>-K1 (A1-A2):</strong> بوبينة الكونتاكتور مع جدول المراجع التبادلية أسفلها.',
-                    K1_LATCH: '<strong>-K1 (13-14):</strong> نقطة الاستمرارية المفتوحة (NO) المربوطة بالتوازي مع زر التشغيل.'
-                }
-            },
-            star_delta: {
-                svg: `<svg viewBox="0 0 640 270" width="100%" style="min-width:520px; max-height:280px;" dir="ltr">
-                    <rect x="10" y="10" width="620" height="250" fill="#0b1120" stroke="#334155" stroke-width="2"/>
-                    <text x="320" y="28" fill="#38bdf8" font-size="12" text-anchor="middle" font-weight="bold">Star-Delta Control & Interlock Schematic (IEC)</text>
-                    <line x1="40" y1="50" x2="600" y2="50" stroke="#f97316" stroke-width="2"/>
-                    <line x1="40" y1="235" x2="600" y2="235" stroke="#38bdf8" stroke-width="2"/>
-                    <g class="eplan-hotspot" onclick="explainEplanTag('KM1_MAIN')">
-                        <rect x="80" y="75" width="120" height="135" rx="6" fill="rgba(59,130,246,0.14)" stroke="#3b82f6"/>
-                        <text x="140" y="140" fill="#38bdf8" font-size="11" text-anchor="middle" font-weight="bold">-KM1 (Main)</text>
-                        <text x="140" y="158" fill="#94a3b8" font-size="9" text-anchor="middle">A1-A2 + Latch 13-14</text>
-                    </g>
-                    <g class="eplan-hotspot" onclick="explainEplanTag('KT1_TIMER')">
-                        <rect x="230" y="75" width="120" height="135" rx="6" fill="rgba(245,158,11,0.14)" stroke="#f59e0b"/>
-                        <text x="290" y="140" fill="#f59e0b" font-size="11" text-anchor="middle" font-weight="bold">-KT1 (Timer)</text>
-                        <text x="290" y="158" fill="#94a3b8" font-size="9" text-anchor="middle">6-10s On-Delay</text>
-                    </g>
-                    <g class="eplan-hotspot" onclick="explainEplanTag('KM3_KM2_INTERLOCK')">
-                        <rect x="380" y="75" width="180" height="135" rx="6" fill="rgba(16,185,129,0.14)" stroke="#10b981"/>
-                        <text x="470" y="130" fill="#10b981" font-size="11" text-anchor="middle" font-weight="bold">-KM3 (Star) & -KM2 (Delta)</text>
-                        <text x="470" y="150" fill="#ef4444" font-size="9" text-anchor="middle" font-weight="bold">Interlock: KM2(21-22) ↔ KM3(21-22)</text>
-                    </g>
-                </svg>`,
-                tags: {
-                    KM1_MAIN: '<strong>-KM1 (Main Contactor):</strong> يعمل طوال فترة تشغيل المحرك ويمسك نفسه عبر نقطة 13-14.',
-                    KT1_TIMER: '<strong>-KT1 (Star-Delta Timer):</strong> يبدأ العد فور لقط KM1؛ في البداية يشغل Star وبعد انتهاء الزمن يفصل Star ويشغل Delta.',
-                    KM3_KM2_INTERLOCK: '<strong>الانترلوك الكهربائي (21-22 NC):</strong> تمر تغذية KM3 عبر نقطة مغلقة من KM2 والعكس لمنع حدوث قصر كارثي بين الستار والدلتا.'
-                }
-            },
-            rev_fwd: {
-                svg: `<svg viewBox="0 0 640 260" width="100%" style="min-width:520px; max-height:270px;" dir="ltr">
-                    <rect x="10" y="10" width="620" height="240" fill="#0b1120" stroke="#334155" stroke-width="2"/>
-                    <text x="320" y="28" fill="#10b981" font-size="12" text-anchor="middle" font-weight="bold">Forward / Reverse Motor Control (Mechanical + Electrical Interlock)</text>
-                    <g class="eplan-hotspot" onclick="explainEplanTag('PHASE_SWAP')">
-                        <rect x="50" y="55" width="230" height="165" rx="8" fill="rgba(239,68,68,0.12)" stroke="#ef4444"/>
-                        <text x="165" y="125" fill="#ef4444" font-size="11" text-anchor="middle" font-weight="bold">Power Phase Swap (L1 ↔ L3)</text>
-                        <text x="165" y="145" fill="#cbd5e1" font-size="9" text-anchor="middle">عكس فازين فقط في خرج الكونتاكتور العكسي</text>
-                    </g>
-                    <g class="eplan-hotspot" onclick="explainEplanTag('REV_INTERLOCK')">
-                        <rect x="330" y="55" width="250" height="165" rx="8" fill="rgba(59,130,246,0.14)" stroke="#3b82f6"/>
-                        <text x="455" y="125" fill="#38bdf8" font-size="11" text-anchor="middle" font-weight="bold">Double Interlock (-K1 & -K2)</text>
-                        <text x="455" y="145" fill="#cbd5e1" font-size="9" text-anchor="middle">قطعة انترلوك ميكانيكية + نقاط NC (21-22)</text>
-                    </g>
-                </svg>`,
-                tags: {
-                    PHASE_SWAP: '<strong>عكس الفازات في دائرة القدرة:</strong> لعكس اتجاه دوران محرك 3-Phase نعكس فازين فقط (مثلاً L1 مع L3) ونبقي L2 ثابتاً.',
-                    REV_INTERLOCK: '<strong>الحماية المزدوجة (Double Interlock):</strong> يُستخدم انترلوك ميكانيكي يركب بين الكونتاكتورين لمنع انغلاقهما فيزيائياً معاً بالإضافة للنقاط المغلقة NC.'
-                }
-            },
-            plc_io: {
-                svg: `<svg viewBox="0 0 640 260" width="100%" style="min-width:520px; max-height:270px;" dir="ltr">
-                    <rect x="10" y="10" width="620" height="240" fill="#0b1120" stroke="#334155" stroke-width="2"/>
-                    <text x="320" y="28" fill="#f59e0b" font-size="12" text-anchor="middle" font-weight="bold">PLC S7-1200 PNP Input & Relay Output Isolation</text>
-                    <g class="eplan-hotspot" onclick="explainEplanTag('PNP_SENSOR')">
-                        <rect x="50" y="55" width="240" height="165" rx="8" fill="rgba(16,185,129,0.12)" stroke="#10b981"/>
-                        <text x="170" y="120" fill="#10b981" font-size="11" text-anchor="middle" font-weight="bold">3-Wire PNP Sensor → DI I0.0</text>
-                        <text x="170" y="140" fill="#cbd5e1" font-size="9" text-anchor="middle">Brown (+24V) | Blue (0V) | Black (Signal)</text>
-                    </g>
-                    <g class="eplan-hotspot" onclick="explainEplanTag('PLC_RELAY')">
-                        <rect x="340" y="55" width="240" height="165" rx="8" fill="rgba(168,85,247,0.14)" stroke="#a855f7"/>
-                        <text x="460" y="120" fill="#c084fc" font-size="11" text-anchor="middle" font-weight="bold">DO Q0.0 → Interface Relay -K10</text>
-                        <text x="460" y="140" fill="#cbd5e1" font-size="9" text-anchor="middle">عزل كارت الـ PLC عن تيار الكونتاكتور</text>
-                    </g>
-                </svg>`,
-                tags: {
-                    PNP_SENSOR: '<strong>حساس PNP ذو 3 أسلاك:</strong> البني (+24V)، الأزرق (0V)، والأسود يُرسل إشارة موجبة (+24V) إلى مدخل الـ PLC (I0.0) مع ربط النقطة 1M بالـ 0V.',
-                    PLC_RELAY: '<strong>ريلي العزل (Interface Relay):</strong> نربط خرج الـ PLC (Q0.0) بملف ريليه صغير 24V DC، وتقوم نقاط الريليه بتشغيل الكونتاكتور الكبير لحماية كارت الـ PLC من التلف.'
-                }
-            }
-        };
-
-        function renderEplanSchematic() {
-            const key = document.getElementById('eplanCircuitSelector')?.value || 'dol';
-            const wrapper = document.getElementById('eplanSvgWrapper');
-            const box = document.getElementById('eplanExplainBox');
-            if (!wrapper) return;
-            wrapper.innerHTML = EPLAN_SCHEMATICS_DB[key].svg;
-            if (box) box.innerHTML = '<strong>اضغط على أي مربع ملون داخل المخطط أعلاه</strong> لعرض شرحه الهندسي.';
-        }
-        function explainEplanTag(tag) {
-            const key = document.getElementById('eplanCircuitSelector')?.value || 'dol';
-            const box = document.getElementById('eplanExplainBox');
-            if (box && EPLAN_SCHEMATICS_DB[key].tags[tag]) {
-                box.innerHTML = EPLAN_SCHEMATICS_DB[key].tags[tag];
-            }
-        }
 
         /* =====================================================================
-           6. UPGRADED VFD COMMISSIONING PARAMETERS + FAULT CODES
-           ===================================================================== */
-        const VFD_COMMISSIONING_DB = {
-            abb: [
-                { param: '99.06 / 99.07', desc: 'تيار وجهد المحرك الإسمي (Motor Nominal Current & Voltage)', val: 'من لوحة المحرك Nameplate' },
-                { param: '99.08 / 99.09', desc: 'تردد وسرعة المحرك (Motor Nominal Freq & RPM)', val: '50 Hz / 1450 RPM' },
-                { param: '20.01', desc: 'مصدر أمر التشغيل (Ext1 Start/Stop Source)', val: 'DI1 (تشغيل خارجي من اللوحة)' },
-                { param: '22.11', desc: 'مرجع السرعة (Speed Reference Source)', val: 'AI1 (مقاومة متغيرة 0-10V)' },
-                { param: '23.12 / 23.13', desc: 'زمن التسارع والتباطؤ (Acceleration / Deceleration Time)', val: '5.0 s / 5.0 s' }
-            ],
-            siemens: [
-                { param: 'P0304 / P0305', desc: 'جهد وتيار المحرك الإسمي (Rated Motor Voltage & Current)', val: '400V / Nameplate A' },
-                { param: 'P0310 / P0311', desc: 'تردد وسرعة المحرك (Rated Freq & Speed)', val: '50 Hz / 1450 RPM' },
-                { param: 'P0700', desc: 'اختيار مصدر أمر التشغيل (Command Source)', val: '2 = Terminal (أطراف خارجية)' },
-                { param: 'P1000', desc: 'اختيار مصدر السرعة (Frequency Setpoint)', val: '2 = Analog Input AI1' },
-                { param: 'P1120 / P1121', desc: 'زمن التسارع والتباطؤ (Ramp-Up / Ramp-Down Time)', val: '5.0 s / 5.0 s' }
-            ],
-            schneider: [
-                { param: 'UNS / NCR', desc: 'جهد وتيار المحرك الإسمي (Rated Motor Voltage & Current)', val: '400V / Nameplate A' },
-                { param: 'FRS / NSP', desc: 'تردد وسرعة المحرك (Nominal Freq & Speed)', val: '50 Hz / 1450 RPM' },
-                { param: 'CHCF / CD1', desc: 'مصدر التحكم والتشغيل (Control Channel)', val: 'TER (أطراف التحكم LI1)' },
-                { param: 'FR1', desc: 'مرجع التردد (Frequency Reference 1)', val: 'AI1 (مدخل تماثلي)' },
-                { param: 'ACC / DEC', desc: 'زمن التسارع والتباطؤ (Acceleration / Deceleration)', val: '5.0 s / 5.0 s' }
-            ],
-            delta: [
-                { param: '01-01 / 01-02', desc: 'أقصى تردد وجهد تشغيل (Max Operation Freq & Voltage)', val: '50.00 Hz / 380V' },
-                { param: '05-01 / 05-03', desc: 'تيار وسرعة المحرك الإسمية (Motor Rated Current & RPM)', val: 'Nameplate A / 1450' },
-                { param: '00-21', desc: 'مصدر أمر التشغيل (Source of Operation Command)', val: '1 = External Terminals (MI1)' },
-                { param: '00-20', desc: 'مصدر مرجع التردد (Source of Master Frequency)', val: '2 = Analog Input AVI (0-10V)' },
-                { param: '01-12 / 01-13', desc: 'زمن التسارع والتباطؤ (Accel / Decel Time 1)', val: '5.0 s / 5.0 s' }
-            ]
-        };
-
-        function renderVfdCommissioningTable() {
-            const brand = document.getElementById('vfdBrand')?.value || 'abb';
-            const container = document.getElementById('vfdCommissioningContainer');
-            if (!container) return;
-            const rows = VFD_COMMISSIONING_DB[brand] || [];
-            container.innerHTML = `<table class="io-table">
-                <thead><tr><th>رمز البارامتر</th><th>الوظيفة الهندسية</th><th>القيمة القياسية</th></tr></thead>
-                <tbody>${rows.map(r => `<tr><td><strong>${r.param}</strong></td><td>${r.desc}</td><td style="color:var(--success-color);">${r.val}</td></tr>`).join('')}</tbody>
-            </table>`;
-        }
-
-        function lookupVFDError() {
-            const code = document.getElementById('vfdCode').value.toUpperCase();
-            const res = document.getElementById('vfdResult');
-            res.style.display = 'block';
-            const db = {
-                F0001: '<strong>Overcurrent (زيادة تيار):</strong> زيادة حمل ميكانيكي، قصر في الكابل، أو زمن تسارع (Acceleration Time) قصير جداً.',
-                F0002: '<strong>Overvoltage (ارتفاع جهد DC Bus):</strong> تباطؤ سريع جداً لحمل ذي عزم قصور عالٍ؛ زد زمن التباطؤ أو ركب مقاومة فرملة.',
-                F0003: '<strong>Undervoltage (انخفاض الجهد):</strong> هبوط في جهد المصدر المغذي أو رخاوة في أطراف الدخل R/S/T.',
-                OL2: '<strong>Motor Overload:</strong> تيار المحرك يتجاوز القيمة المضبوطة في بارامترات المحرك بالدرايف.',
-                OH: '<strong>Overtemperature:</strong> ارتفاع حرارة مبدد الدرايف؛ نظّف مراوح التبريد والفلاتر.',
-                SCF: '<strong>Short Circuit:</strong> تماس مباشر في أطراف الخرج U/V/W أو ملفات المحرك.',
-                PHF: '<strong>Phase Loss:</strong> فقدان أحد فازات التغذية الداخلة للدرايف.',
-                EF: '<strong>Ground Fault:</strong> تسريب تيار إلى الأرضي في الكابل أو ملفات المحرك (افحص بالميكر).'
-            };
-            res.innerHTML = db[code] || `<strong>كود العطل (${code}):</strong> افحص جهد الدخل، سلامة عزل المحرك، وإعدادات الحمل.`;
-        }
-
-        /* =====================================================================
-           7. REALITY HUB SIMULATOR WITH LIVE WIRE TRACKING & PHYSICS ENGINE
+           7. REALITY HUB SIMULATOR (FIXED LIVE WIRE TRACKING + FULL ENGINE)
            ===================================================================== */
         let currentSimCategory = 'classic_sim';
         let compCount = 0;
+        let compUidCounter = 0;
         let currentZoom = 1.0;
         let isLiveSimActive = false;
         let selectedTerminal = null;
@@ -2858,14 +3073,330 @@
         let wires = [];
         let activeWireColor = '#ef4444';
         let activeWireTag = 'L1';
-        let lastAddTimestamp = 0;
         let componentStates = {};
 
+        const SIM_CATEGORIES = {
+            classic_sim: [
+                { id: 'power_3ph', label: 'مصدر تغذية 3-Phase', pins: [{ id: 'L1', label: 'L1', x: 20, y: 100 }, { id: 'L2', label: 'L2', x: 40, y: 100 }, { id: 'L3', label: 'L3', x: 60, y: 100 }, { id: 'N', label: 'N', x: 80, y: 100 }] },
+                { id: 'mccb', label: 'قاطع MCCB 3-Pole', pins: [{ id: 'L1', label: 'L1', x: 22, y: 0 }, { id: 'L2', label: 'L2', x: 50, y: 0 }, { id: 'L3', label: 'L3', x: 78, y: 0 }, { id: 'T1', label: 'T1', x: 22, y: 100 }, { id: 'T2', label: 'T2', x: 50, y: 100 }, { id: 'T3', label: 'T3', x: 78, y: 100 }] },
+                { id: 'contactor', label: 'كونتاكتور صناعي KM', pins: [{ id: 'L1', label: 'L1', x: 20, y: 0 }, { id: 'L2', label: 'L2', x: 42, y: 0 }, { id: 'L3', label: 'L3', x: 64, y: 0 }, { id: '13NO', label: '13NO', x: 86, y: 0 }, { id: 'A1', label: 'A1', x: 0, y: 35 }, { id: 'A2', label: 'A2', x: 0, y: 68 }, { id: 'T1', label: 'T1', x: 20, y: 100 }, { id: 'T2', label: 'T2', x: 42, y: 100 }, { id: 'T3', label: 'T3', x: 64, y: 100 }, { id: '14NO', label: '14NO', x: 86, y: 100 }] },
+                { id: 'push_buttons', label: 'مفاتيح Start/Stop', pins: [{ id: '1NC', label: '1NC', x: 28, y: 0 }, { id: '3NO', label: '3NO', x: 72, y: 0 }, { id: '2NC', label: '2NC', x: 28, y: 100 }, { id: '4NO', label: '4NO', x: 72, y: 100 }] },
+                { id: 'overload', label: 'أوفرلود حراري OL', pins: [{ id: 'L1', label: 'L1', x: 22, y: 0 }, { id: 'L2', label: 'L2', x: 45, y: 0 }, { id: 'L3', label: 'L3', x: 68, y: 0 }, { id: '95NC', label: '95', x: 88, y: 0 }, { id: 'T1', label: 'T1', x: 22, y: 100 }, { id: 'T2', label: 'T2', x: 45, y: 100 }, { id: 'T3', label: 'T3', x: 68, y: 100 }, { id: '96NC', label: '96', x: 88, y: 100 }] },
+                { id: 'motor', label: 'محرك 3-Phase', pins: [{ id: 'U1', label: 'U1', x: 22, y: 0 }, { id: 'V1', label: 'V1', x: 50, y: 0 }, { id: 'W1', label: 'W1', x: 78, y: 0 }] }
+            ],
+            plc_sim: [
+                { id: 'plc_cpu', label: 'PLC S7-1200 CPU', pins: [{ id: 'L+', label: 'L+', x: 18, y: 0 }, { id: 'M', label: 'M', x: 40, y: 0 }, { id: 'I0.0', label: 'I0.0', x: 65, y: 0 }, { id: 'I0.1', label: 'I0.1', x: 85, y: 0 }, { id: 'Q0.0', label: 'Q0.0', x: 30, y: 100 }, { id: 'Q0.1', label: 'Q0.1', x: 70, y: 100 }] },
+                { id: 'pnp_sensor', label: 'حساس قرب PNP 24V', pins: [{ id: 'BN+', label: 'BN(+)', x: 22, y: 100 }, { id: 'BU-', label: 'BU(-)', x: 50, y: 100 }, { id: 'BK_OUT', label: 'BK(Out)', x: 78, y: 100 }] },
+                { id: 'relay_module', label: 'ريلي عزل 24V DC', pins: [{ id: 'A1', label: 'A1+', x: 25, y: 0 }, { id: 'A2', label: 'A2-', x: 75, y: 0 }, { id: 'COM', label: 'COM', x: 22, y: 100 }, { id: 'NO', label: 'NO', x: 50, y: 100 }, { id: 'NC', label: 'NC', x: 78, y: 100 }] }
+            ],
+            vfd_sim: [
+                { id: 'power_3ph', label: 'مصدر تغذية 3-Phase', pins: [{ id: 'L1', label: 'L1', x: 20, y: 100 }, { id: 'L2', label: 'L2', x: 40, y: 100 }, { id: 'L3', label: 'L3', x: 60, y: 100 }, { id: 'N', label: 'N', x: 80, y: 100 }] },
+                { id: 'vfd_unit', label: 'إنفرتر VFD Drive', pins: [{ id: 'R', label: 'R/L1', x: 22, y: 0 }, { id: 'S', label: 'S/L2', x: 50, y: 0 }, { id: 'T', label: 'T/L3', x: 78, y: 0 }, { id: 'U', label: 'U', x: 22, y: 100 }, { id: 'V', label: 'V', x: 50, y: 100 }, { id: 'W', label: 'W', x: 78, y: 100 }] },
+                { id: 'motor', label: 'محرك 3-Phase', pins: [{ id: 'U1', label: 'U1', x: 22, y: 0 }, { id: 'V1', label: 'V1', x: 50, y: 0 }, { id: 'W1', label: 'W1', x: 78, y: 0 }] }
+            ],
+            breaker_sim: [
+                { id: 'power_3ph', label: 'مصدر تغذية 3-Phase', pins: [{ id: 'L1', label: 'L1', x: 20, y: 100 }, { id: 'L2', label: 'L2', x: 40, y: 100 }, { id: 'L3', label: 'L3', x: 60, y: 100 }, { id: 'N', label: 'N', x: 80, y: 100 }] },
+                { id: 'acb_breaker', label: 'قاطع هوائي ACB', pins: [{ id: 'L1', label: 'L1', x: 22, y: 0 }, { id: 'L2', label: 'L2', x: 50, y: 0 }, { id: 'L3', label: 'L3', x: 78, y: 0 }, { id: 'T1', label: 'T1', x: 22, y: 100 }, { id: 'T2', label: 'T2', x: 50, y: 100 }, { id: 'T3', label: 'T3', x: 78, y: 100 }] },
+                { id: 'mccb', label: 'قاطع MCCB فرعي', pins: [{ id: 'L1', label: 'L1', x: 22, y: 0 }, { id: 'L2', label: 'L2', x: 50, y: 0 }, { id: 'L3', label: 'L3', x: 78, y: 0 }, { id: 'T1', label: 'T1', x: 22, y: 100 }, { id: 'T2', label: 'T2', x: 50, y: 100 }, { id: 'T3', label: 'T3', x: 78, y: 100 }] }
+            ],
+            arduino_sim: [
+                { id: 'arduino_uno', label: 'Arduino Uno R3', pins: [{ id: '5V', label: '5V', x: 20, y: 0 }, { id: 'GND', label: 'GND', x: 45, y: 0 }, { id: 'D7', label: 'D7', x: 70, y: 0 }, { id: 'D9', label: 'D9', x: 30, y: 100 }, { id: 'D10', label: 'D10', x: 70, y: 100 }] },
+                { id: 'ultrasonic', label: 'حساس Ultrasonic', pins: [{ id: 'VCC', label: 'VCC', x: 20, y: 0 }, { id: 'TRIG', label: 'TRIG', x: 40, y: 0 }, { id: 'ECHO', label: 'ECHO', x: 60, y: 0 }, { id: 'GND', label: 'GND', x: 80, y: 0 }] },
+                { id: 'relay_5v', label: 'وحدة ريليه 5V', pins: [{ id: 'VCC', label: 'VCC', x: 25, y: 0 }, { id: 'GND', label: 'GND', x: 50, y: 0 }, { id: 'IN', label: 'IN', x: 75, y: 0 }, { id: 'COM', label: 'COM', x: 30, y: 100 }, { id: 'NO', label: 'NO', x: 70, y: 100 }] }
+            ]
+        };
+
+        function getComponentGraphicSvg(type) {
+            if (type === 'motor') {
+                return `<svg width="70" height="56" viewBox="0 0 70 56">
+                    <circle cx="35" cy="28" r="21" fill="#1e293b" stroke="#38bdf8" stroke-width="2.5"/>
+                    <g class="motor-rotor-grp">
+                        <line x1="35" y1="11" x2="35" y2="45" stroke="#10b981" stroke-width="2.5"/>
+                        <line x1="18" y1="28" x2="52" y2="28" stroke="#10b981" stroke-width="2.5"/>
+                    </g>
+                    <circle cx="35" cy="28" r="7" fill="#0f172a" stroke="#fff" stroke-width="1.5"/>
+                </svg>`;
+            }
+            if (type === 'mccb' || type === 'acb_breaker') {
+                return `<svg width="76" height="48" viewBox="0 0 76 48">
+                    <rect x="8" y="4" width="60" height="40" rx="6" fill="#1e293b" stroke="#f59e0b" stroke-width="2"/>
+                    <line x1="22" y1="10" x2="22" y2="38" stroke="#ef4444" stroke-width="3"/>
+                    <line x1="38" y1="10" x2="38" y2="38" stroke="#eab308" stroke-width="3"/>
+                    <line x1="54" y1="10" x2="54" y2="38" stroke="#3b82f6" stroke-width="3"/>
+                </svg>`;
+            }
+            if (type === 'contactor') {
+                return `<svg width="78" height="48" viewBox="0 0 78 48">
+                    <rect x="6" y="4" width="66" height="40" rx="6" fill="#0f172a" stroke="#10b981" stroke-width="2"/>
+                    <rect x="24" y="14" width="30" height="20" rx="3" fill="#1e293b" stroke="#38bdf8" stroke-width="1.5"/>
+                    <text x="39" y="27" fill="#fff" font-size="9" text-anchor="middle" font-weight="bold">KM</text>
+                </svg>`;
+            }
+            if (type === 'power_3ph') {
+                return `<svg width="84" height="44" viewBox="0 0 84 44">
+                    <rect x="4" y="4" width="76" height="36" rx="6" fill="#1e293b" stroke="#ef4444" stroke-width="2"/>
+                    <text x="42" y="25" fill="#f87171" font-size="10" text-anchor="middle" font-weight="bold">380V 3~</text>
+                </svg>`;
+            }
+            return `<svg width="72" height="42" viewBox="0 0 72 42">
+                <rect x="6" y="4" width="60" height="34" rx="6" fill="#1e293b" stroke="#3b82f6" stroke-width="2"/>
+                <circle cx="22" cy="21" r="4" fill="#10b981"/>
+                <circle cx="50" cy="21" r="4" fill="#38bdf8"/>
+            </svg>`;
+        }
+
+        function switchSimCategory(catId, btn) {
+            currentSimCategory = catId;
+            document.querySelectorAll('#simulator_studio .sim-tab-btn').forEach(b => b.classList.remove('active'));
+            if (btn) btn.classList.add('active');
+
+            const bar = document.getElementById('simToolsBar');
+            if (!bar) return;
+            const list = SIM_CATEGORIES[catId] || SIM_CATEGORIES.classic_sim;
+            bar.innerHTML = '';
+            list.forEach(item => {
+                const b = document.createElement('button');
+                b.type = 'button';
+                b.className = 'comp-add-btn';
+                b.textContent = `+ ${item.label}`;
+                b.onclick = () => addRealComponent(item);
+                bar.appendChild(b);
+            });
+        }
+
+        function addJunctionTerminalNode() {
+            addRealComponent({
+                id: 'junction_node',
+                label: 'روزتة توزيع (Terminal)',
+                pins: [
+                    { id: 'P1', label: '1', x: 25, y: 0 },
+                    { id: 'P2', label: '2', x: 50, y: 0 },
+                    { id: 'P3', label: '3', x: 75, y: 0 },
+                    { id: 'P4', label: '1', x: 25, y: 100 },
+                    { id: 'P5', label: '2', x: 50, y: 100 },
+                    { id: 'P6', label: '3', x: 75, y: 100 }
+                ]
+            });
+        }
+
+        function addRealComponent(compDef, customX = null, customY = null) {
+            const board = document.getElementById('realSimBoard');
+            const placeholder = document.getElementById('realCanvasPlaceholder');
+            if (!board) return;
+            if (placeholder) placeholder.style.display = 'none';
+
+            compUidCounter++;
+            const compId = `sim_comp_${compUidCounter}`;
+            const idx = document.querySelectorAll('.real-component').length;
+            const posX = customX !== null ? customX : (45 + (idx % 3) * 235);
+            const posY = customY !== null ? customY : (40 + Math.floor(idx / 3) * 185);
+
+            componentStates[compId] = {
+                closed: true,
+                tripped: false,
+                energized: false,
+                running: false,
+                driveActive: false,
+                startPressed: false,
+                stopPressed: false
+            };
+
+            const compEl = document.createElement('div');
+            compEl.className = 'real-component';
+            compEl.id = compId;
+            compEl.dataset.compType = compDef.id;
+            compEl.style.left = `${posX}px`;
+            compEl.style.top = `${posY}px`;
+
+            let pillHtml = '';
+            if (compDef.id === 'mccb' || compDef.id === 'acb_breaker') {
+                pillHtml = `<button type="button" class="comp-state-pill" style="background:#10b981;">مغلق ON (اضغط للفتح)</button>`;
+            } else if (compDef.id === 'contactor' || compDef.id === 'relay_module' || compDef.id === 'relay_5v') {
+                pillHtml = `<span class="comp-state-pill" style="background:#334155;">مفصول OFF</span>`;
+            } else if (compDef.id === 'motor') {
+                pillHtml = `<span class="comp-state-pill" style="background:#334155;">متوقف 0 RPM</span>`;
+            } else if (compDef.id === 'push_buttons') {
+                pillHtml = `<button type="button" class="comp-state-pill" style="background:#2563eb;">اضغط للتشغيل (Start)</button>`;
+            } else if (compDef.id === 'vfd_unit' || compDef.id === 'plc_cpu' || compDef.id === 'arduino_uno') {
+                pillHtml = `<span class="comp-state-pill" style="background:#334155;">STANDBY</span>`;
+            }
+
+            compEl.innerHTML = `
+                <div class="comp-shell">
+                    <button type="button" class="comp-del-btn" title="حذف العنصر" onclick="removeSingleComponent('${compId}')">×</button>
+                    <div style="font-size:0.74rem; font-weight:800; color:#e2e8f0; margin-bottom:5px; text-align:center;">${compDef.label}</div>
+                    ${getComponentGraphicSvg(compDef.id)}
+                    ${pillHtml}
+                </div>
+            `;
+
+            const shell = compEl.querySelector('.comp-shell');
+            const pill = compEl.querySelector('.comp-state-pill');
+            if (pill && (compDef.id === 'mccb' || compDef.id === 'acb_breaker')) {
+                pill.addEventListener('pointerdown', (e) => {
+                    e.stopPropagation();
+                    const st = componentStates[compId];
+                    if (st.tripped) { st.tripped = false; st.closed = true; }
+                    else { st.closed = !st.closed; }
+                    evaluateCircuitPhysics();
+                });
+            }
+            if (pill && compDef.id === 'push_buttons') {
+                pill.addEventListener('pointerdown', (e) => {
+                    e.stopPropagation();
+                    componentStates[compId].startPressed = true;
+                    pill.textContent = 'مضغوط START ✓';
+                    pill.style.background = '#10b981';
+                    evaluateCircuitPhysics();
+                });
+                pill.addEventListener('pointerup', (e) => {
+                    e.stopPropagation();
+                    componentStates[compId].startPressed = false;
+                    pill.textContent = 'اضغط للتشغيل (Start)';
+                    pill.style.background = '#2563eb';
+                    evaluateCircuitPhysics();
+                });
+            }
+
+            // Create interactive screw terminals (.pin-node)
+            compDef.pins.forEach(pin => {
+                const pinEl = document.createElement('div');
+                pinEl.className = 'pin-node';
+                pinEl.dataset.compId = compId;
+                pinEl.dataset.pinId = pin.id;
+                pinEl.style.left = `${pin.x}%`;
+                pinEl.style.top = `${pin.y}%`;
+                pinEl.innerHTML = `<div class="pin-screw"></div><span class="pin-tag">${pin.label}</span>`;
+
+                pinEl.addEventListener('pointerdown', (e) => {
+                    e.stopPropagation();
+                    e.preventDefault();
+                    startPinConnection(pinEl, compId, pin.id, e);
+                });
+
+                shell.appendChild(pinEl);
+            });
+
+            // Smooth component dragging
+            let isDraggingComp = false;
+            let dragStartX = 0, dragStartY = 0, origLeft = 0, origTop = 0;
+
+            shell.addEventListener('pointerdown', (e) => {
+                if (e.target.closest('.pin-node') || e.target.closest('.comp-del-btn') || e.target.closest('.comp-state-pill')) return;
+                e.stopPropagation();
+                isDraggingComp = true;
+                dragStartX = e.clientX;
+                dragStartY = e.clientY;
+                origLeft = parseFloat(compEl.style.left) || 0;
+                origTop = parseFloat(compEl.style.top) || 0;
+                shell.setPointerCapture(e.pointerId);
+            });
+
+            shell.addEventListener('pointermove', (e) => {
+                if (!isDraggingComp) return;
+                const dx = (e.clientX - dragStartX) / currentZoom;
+                const dy = (e.clientY - dragStartY) / currentZoom;
+                compEl.style.left = `${Math.max(5, origLeft + dx)}px`;
+                compEl.style.top = `${Math.max(5, origTop + dy)}px`;
+                updateAllConnectedWires();
+            });
+
+            shell.addEventListener('pointerup', (e) => {
+                if (!isDraggingComp) return;
+                isDraggingComp = false;
+                try { shell.releasePointerCapture(e.pointerId); } catch (_) {}
+                updateAllConnectedWires();
+            });
+
+            board.appendChild(compEl);
+            compCount = document.querySelectorAll('.real-component').length;
+            updateSimStatusBar();
+            setTimeout(updateAllConnectedWires, 30);
+            return compId;
+        }
+
+        function buildSmoothWirePath(x1, y1, x2, y2) {
+            const dy = Math.abs(y2 - y1);
+            const dx = Math.abs(x2 - x1);
+            const sag = Math.max(36, Math.min(110, (dy + dx) * 0.35));
+            const cy1 = y1 + (y2 >= y1 ? sag : -sag * 0.5);
+            const cy2 = y2 + (y2 >= y1 ? -sag * 0.5 : sag);
+            return `M ${x1.toFixed(1)} ${y1.toFixed(1)} C ${x1.toFixed(1)} ${cy1.toFixed(1)}, ${x2.toFixed(1)} ${cy2.toFixed(1)}, ${x2.toFixed(1)} ${y2.toFixed(1)}`;
+        }
+
+        function updateAllConnectedWires() {
+            wires.forEach(w => {
+                const pt1 = getPinBoardCoords(w.start.elem);
+                const pt2 = getPinBoardCoords(w.end.elem);
+                const d = buildSmoothWirePath(pt1.x, pt1.y, pt2.x, pt2.y);
+                if (w.hitPath) w.hitPath.setAttribute('d', d);
+                if (w.path) w.path.setAttribute('d', d);
+                if (w.dot1) { w.dot1.setAttribute('cx', pt1.x); w.dot1.setAttribute('cy', pt1.y); }
+                if (w.dot2) { w.dot2.setAttribute('cx', pt2.x); w.dot2.setAttribute('cy', pt2.y); }
+            });
+            if (selectedTerminal && tempRubberWire && wireDragStartClient) {
+                updateLiveRubberWire(wireDragStartClient.x, wireDragStartClient.y);
+            }
+        }
+
+        function startPinConnection(pinEl, compId, pinId, evt) {
+            // If a wire is already started, tapping a second pin completes the connection!
+            if (selectedTerminal) {
+                if (selectedTerminal.elem === pinEl) {
+                    cancelPendingWire();
+                } else {
+                    completeWireConnection(pinEl);
+                }
+                return;
+            }
+
+            selectedTerminal = { elem: pinEl, compId, pinId };
+            pinEl.classList.add('selected-term');
+            wireDragStartClient = { x: evt.clientX, y: evt.clientY };
+            hasDraggedWire = false;
+
+            const container = document.getElementById('realCanvasContainer');
+            if (container) container.style.touchAction = 'none';
+
+            const banner = document.getElementById('wiringLiveBanner');
+            const bannerText = document.getElementById('wiringBannerText');
+            if (banner) banner.style.display = 'flex';
+            if (bannerText) bannerText.textContent = `جاري مد السلك من (${pinId}) — حرّك إصبعك نحو نقطة النهاية...`;
+
+            const svgLayer = document.getElementById('wiresSvgLayer');
+            const pt1 = getPinBoardCoords(pinEl);
+
+            tempRubberWire = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+            tempRubberWire.setAttribute('d', buildSmoothWirePath(pt1.x, pt1.y, pt1.x, pt1.y));
+            tempRubberWire.setAttribute('stroke', activeWireColor);
+            tempRubberWire.setAttribute('stroke-width', '4.8');
+            tempRubberWire.setAttribute('stroke-dasharray', '8 4');
+            tempRubberWire.setAttribute('fill', 'none');
+            tempRubberWire.setAttribute('stroke-linecap', 'round');
+            tempRubberWire.style.filter = `drop-shadow(0 0 6px ${activeWireColor})`;
+
+            tempCursorDot = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+            tempCursorDot.setAttribute('cx', pt1.x);
+            tempCursorDot.setAttribute('cy', pt1.y);
+            tempCursorDot.setAttribute('r', '6');
+            tempCursorDot.setAttribute('fill', activeWireColor);
+            tempCursorDot.setAttribute('stroke', '#ffffff');
+            tempCursorDot.setAttribute('stroke-width', '2');
+
+            svgLayer.appendChild(tempRubberWire);
+            svgLayer.appendChild(tempCursorDot);
+            triggerHapticFeedback();
+        }
+
         function setActiveWireColor(colorHex, tag, btn) {
-            activeWireColor = colorHex; activeWireTag = tag;
+            activeWireColor = colorHex;
+            activeWireTag = tag;
             document.querySelectorAll('.wire-swatch').forEach(el => el.classList.remove('active'));
             if (btn) btn.classList.add('active');
-            if (tempRubberWire) tempRubberWire.setAttribute('stroke', activeWireColor);
+            if (tempRubberWire) {
+                tempRubberWire.setAttribute('stroke', activeWireColor);
+                tempRubberWire.style.filter = `drop-shadow(0 0 6px ${activeWireColor})`;
+            }
             if (tempCursorDot) tempCursorDot.setAttribute('fill', activeWireColor);
         }
 
@@ -2922,7 +3453,7 @@
             };
         }
 
-        function findNearestPinInRadius(bx, by, excludePinEl, maxDist = 28) {
+        function findNearestPinInRadius(bx, by, excludePinEl, maxDist = 34) {
             let nearest = null;
             let minD = maxDist;
             document.querySelectorAll('#realSimBoard .pin-node').forEach(pin => {
@@ -2943,7 +3474,7 @@
             const cursorPt = clientToBoardCoords(clientX, clientY);
 
             clearSnapHighlight();
-            const nearPin = findNearestPinInRadius(cursorPt.x, cursorPt.y, selectedTerminal.elem, 30);
+            const nearPin = findNearestPinInRadius(cursorPt.x, cursorPt.y, selectedTerminal.elem, 34);
             let targetX = cursorPt.x;
             let targetY = cursorPt.y;
 
@@ -2959,7 +3490,7 @@
             if (tempCursorDot) {
                 tempCursorDot.setAttribute('cx', targetX);
                 tempCursorDot.setAttribute('cy', targetY);
-                tempCursorDot.setAttribute('r', nearPin ? '7' : '5.5');
+                tempCursorDot.setAttribute('r', nearPin ? '7.5' : '6');
             }
         }
 
@@ -2978,11 +3509,10 @@
             const pt2 = getPinBoardCoords(targetPinEl);
             const wireColor = activeWireColor;
 
-            // Wide transparent hit path for easy touch deletion + visible wire path
             const hitPath = document.createElementNS('http://www.w3.org/2000/svg', 'path');
             hitPath.setAttribute('d', buildSmoothWirePath(pt1.x, pt1.y, pt2.x, pt2.y));
             hitPath.setAttribute('stroke', 'transparent');
-            hitPath.setAttribute('stroke-width', '18');
+            hitPath.setAttribute('stroke-width', '20');
             hitPath.setAttribute('fill', 'none');
             hitPath.classList.add('drawn-wire-hit');
 
@@ -3034,12 +3564,11 @@
             evaluateCircuitPhysics();
         }
 
-        // Global document listeners for live wire tracking (finger & mouse)
         document.addEventListener('pointermove', (e) => {
             if (!selectedTerminal) return;
             if (wireDragStartClient) {
                 const dist = Math.hypot(e.clientX - wireDragStartClient.x, e.clientY - wireDragStartClient.y);
-                if (dist > 8) hasDraggedWire = true;
+                if (dist > 6) hasDraggedWire = true;
             }
             updateLiveRubberWire(e.clientX, e.clientY);
         });
@@ -3058,9 +3587,139 @@
                     return;
                 }
             }
-            // If lifted in empty space, keep rubber wire visible so user can tap destination pin
             hasDraggedWire = false;
         });
+
+        function removeSingleComponent(compId) {
+            const el = document.getElementById(compId);
+            if (el) el.remove();
+            wires = wires.filter(w => {
+                if (w.start.compId === compId || w.end.compId === compId) {
+                    w.hitPath?.remove();
+                    w.path?.remove();
+                    w.dot1?.remove();
+                    w.dot2?.remove();
+                    return false;
+                }
+                return true;
+            });
+            delete componentStates[compId];
+            compCount = document.querySelectorAll('.real-component').length;
+            if (compCount === 0) {
+                const ph = document.getElementById('realCanvasPlaceholder');
+                if (ph) ph.style.display = 'flex';
+            }
+            updateSimStatusBar();
+            evaluateCircuitPhysics();
+        }
+
+        function undoLastWire() {
+            const last = wires.pop();
+            if (last) {
+                last.hitPath?.remove();
+                last.path?.remove();
+                last.dot1?.remove();
+                last.dot2?.remove();
+                updateSimStatusBar();
+                evaluateCircuitPhysics();
+            }
+        }
+
+        function zoomCanvas(delta) {
+            currentZoom = Math.max(0.55, Math.min(1.6, currentZoom + delta));
+            const board = document.getElementById('realSimBoard');
+            const svg = document.getElementById('wiresSvgLayer');
+            if (board) board.style.transform = `scale(${currentZoom})`;
+            if (svg) svg.style.transform = `scale(${currentZoom})`;
+            updateAllConnectedWires();
+        }
+
+        function resetCanvasZoom() {
+            currentZoom = 1.0;
+            zoomCanvas(0);
+        }
+
+        function clearSimBoard() {
+            cancelPendingWire();
+            isLiveSimActive = false;
+            const btn = document.getElementById('liveSimToggleBtn');
+            const btnText = document.getElementById('liveSimBtnText');
+            if (btn) btn.style.background = 'var(--accent-color)';
+            if (btnText) btnText.textContent = 'تشغيل التيار الحي';
+
+            document.querySelectorAll('.real-component').forEach(el => el.remove());
+            const svg = document.getElementById('wiresSvgLayer');
+            if (svg) svg.innerHTML = '';
+            wires = [];
+            componentStates = {};
+            compCount = 0;
+            const ph = document.getElementById('realCanvasPlaceholder');
+            if (ph) ph.style.display = 'flex';
+            const diag = document.getElementById('diagnosticAlertBox');
+            if (diag) diag.style.display = 'none';
+            updateSimStatusBar();
+        }
+
+        function updateSimStatusBar() {
+            const cEl = document.getElementById('statCompCount');
+            const wEl = document.getElementById('statWireCount');
+            if (cEl) cEl.textContent = document.querySelectorAll('.real-component').length;
+            if (wEl) wEl.textContent = wires.length;
+        }
+
+        function loadGuidedLab() {
+            const val = document.getElementById('guidedLabSelect').value;
+            const inst = document.getElementById('guidedLabInstruction');
+            clearSimBoard();
+
+            if (val === 'free') {
+                inst.style.display = 'none';
+                return;
+            }
+            inst.style.display = 'block';
+
+            if (val === 'lab1') {
+                inst.innerHTML = '<strong>المطلوب (مختبر 1):</strong> وصّل الفازات (L1, L2, L3) من مصدر التغذية إلى مدخل القاطع (L1, L2, L3)، ومن مخرج القاطع (T1, T2, T3) إلى أطراف المحرك (U1, V1, W1)، ثم اضغط <b>تشغيل التيار الحي</b>.';
+                addRealComponent(SIM_CATEGORIES.classic_sim[0], 70, 35);
+                addRealComponent(SIM_CATEGORIES.classic_sim[1], 70, 220);
+                addRealComponent(SIM_CATEGORIES.classic_sim[5], 70, 405);
+            } else if (val === 'lab2') {
+                inst.innerHTML = '<strong>المطلوب (مختبر 2):</strong> وصّل دائرة القدرة عبر الكونتاكتور KM، وغذِّ ملف الكونتاكتور (A1 بـ L1 و A2 بـ N) ليلقط الكونتاكتور ويدور المحرك.';
+                addRealComponent(SIM_CATEGORIES.classic_sim[0], 60, 30);
+                addRealComponent(SIM_CATEGORIES.classic_sim[2], 60, 215);
+                addRealComponent(SIM_CATEGORIES.classic_sim[5], 60, 410);
+            } else if (val === 'lab3') {
+                inst.innerHTML = '<strong>المطلوب (مختبر 3):</strong> وصّل تغذية الحساس BN(+) إلى L+، و BU(-) إلى M، وإشارة الخرج BK(Out) إلى مدخل الـ PLC الرقمي I0.0.';
+                addRealComponent(SIM_CATEGORIES.plc_sim[0], 60, 40);
+                addRealComponent(SIM_CATEGORIES.plc_sim[1], 320, 230);
+            } else if (val === 'lab4') {
+                inst.innerHTML = '<strong>المطلوب (مختبر 4):</strong> وصّل 5V و GND من Arduino Uno إلى VCC و GND في حساس Ultrasonic، و D9→TRIG و D10→ECHO.';
+                addRealComponent(SIM_CATEGORIES.arduino_sim[0], 60, 40);
+                addRealComponent(SIM_CATEGORIES.arduino_sim[1], 320, 230);
+            }
+        }
+
+        function gradeGuidedLab() {
+            const box = document.getElementById('diagnosticAlertBox');
+            box.style.display = 'block';
+            if (wires.length >= 3) {
+                box.innerHTML = `<strong style="color:var(--success-color);">✓ تقييم المختبر:</strong> التوصيلات الأساسية مكتملة (${wires.length} أسلاك). شغّل <b>التيار الحي</b> للتحقق من دوران المحرك أو عمل المنظومة!`;
+            } else {
+                box.innerHTML = `<strong style="color:var(--warning-color);">⚠ التوصيل غير مكتمل:</strong> عدد الأسلاك المربوطة (${wires.length}) غير كافٍ لإغلاق الدائرة. أكمل ربط الأقطاب ثم أعد التقييم.`;
+            }
+        }
+
+        function runSmartDiagnostic() {
+            const box = document.getElementById('diagnosticAlertBox');
+            box.style.display = 'block';
+            const comps = document.querySelectorAll('.real-component').length;
+            if (comps === 0) {
+                box.innerHTML = 'اللوحة فارغة حالياً. أضف عناصر من الشريط العلوي للبدء.';
+                return;
+            }
+            evaluateCircuitPhysics();
+            box.innerHTML = `<strong>تقرير الفحص الذكي للوحة:</strong><br>• عدد العناصر المركّبة: <strong>${comps}</strong> | عدد الأسلاك المربوطة: <strong>${wires.length}</strong><br>• حالة المحاكاة الحية: <strong>${isLiveSimActive ? 'قيد التشغيل (LIVE)' : 'متوقفة (OFF)'}</strong>.`;
+        }
 
         function evaluateCircuitPhysics() {
             const comps = Array.from(document.querySelectorAll('.real-component'));
@@ -3135,7 +3794,7 @@
                         const cType = cEl.dataset.compType;
                         if (cType === 'power_3ph') found.add(pId);
                         if (cType === 'plc_cpu' && (pId === 'L+' || pId === 'M')) found.add(pId);
-                        if (cType === 'arduino_uno' && (pId === '5V' || pId === 'VIN' || pId === 'GND')) found.add(pId);
+                        if (cType === 'arduino_uno' && (pId === '5V' || pId === 'GND')) found.add(pId);
                     }
                     (adj[curr] || []).forEach(nxt => {
                         if (!visited.has(nxt)) {
@@ -3147,7 +3806,6 @@
                 return found;
             };
 
-            // Multi-pass fixed-point iteration so Contactor coil -> Latch (13-14) -> Motor all settle immediately
             let adj = buildAdjacencyGraph();
             for (let pass = 0; pass < 5; pass++) {
                 let stateChanged = false;
@@ -3190,7 +3848,6 @@
                 if (!stateChanged) break;
             }
 
-            // Short-circuit check
             let shortCircuitDetected = false;
             comps.forEach(el => {
                 if (el.dataset.compType === 'power_3ph') {
@@ -3216,7 +3873,6 @@
                 }
             }
 
-            // Update visual UI states for all components
             let anyMotorRunning = false;
             comps.forEach(el => {
                 const id = el.id;
@@ -3283,7 +3939,10 @@
             const btn = document.getElementById('liveSimToggleBtn');
             const btnText = document.getElementById('liveSimBtnText');
             if (!isLiveSimActive) {
-                if (wires.length === 0) return alert('قم بتوصيل سلك واحد على الأقل لتشغيل التيار الحي.');
+                if (wires.length === 0) {
+                    alert('قم بتوصيل سلك واحد على الأقل لتشغيل التيار الحي.');
+                    return;
+                }
                 isLiveSimActive = true;
                 btn.style.background = 'var(--warning-color)';
                 btnText.textContent = 'إيقاف التيار الحي';
@@ -3298,60 +3957,137 @@
             }
         }
 
-        function undoLastWire() {
-            cancelPendingWire();
-            if (wires.length === 0) return;
-            const last = wires.pop();
-            if (last) {
-                if (last.hitPath) last.hitPath.remove();
-                if (last.path) last.path.remove();
-                if (last.dot1) last.dot1.remove();
-                if (last.dot2) last.dot2.remove();
-            }
-            if (wires.length === 0 && isLiveSimActive) toggleLivePowerSimulation();
-            updateSimStatusBar();
-            evaluateCircuitPhysics();
-        }
-        function removeSingleComponent(compId) {
-            if (selectedTerminal && selectedTerminal.compId === compId) cancelPendingWire();
-            const el = document.getElementById(compId);
-            if (!el) return;
-            delete componentStates[compId];
-            wires = wires.filter(w => {
-                if (w.start.compId === compId || w.end.compId === compId) {
-                    if (w.hitPath) w.hitPath.remove();
-                    if (w.path) w.path.remove();
-                    if (w.dot1) w.dot1.remove();
-                    if (w.dot2) w.dot2.remove();
-                    return false;
-                }
-                return true;
-            });
-            el.remove();
-            compCount = document.querySelectorAll('.real-component').length;
-            if (compCount === 0) document.getElementById('realCanvasPlaceholder').style.display = 'flex';
-            updateSimStatusBar();
-            evaluateCircuitPhysics();
-        }
-        function updateSimStatusBar() {
-            document.getElementById('statCompCount').textContent = compCount;
-            document.getElementById('statWireCount').textContent = wires.length;
-        }
-        function applyCanvasTransform() {
-            const board = document.getElementById('realSimBoard');
-            const layer = document.getElementById('wiresSvgLayer');
-            if (board && layer) { board.style.transform = `scale(${currentZoom})`; layer.style.transform = `scale(${currentZoom})`; }
-        }
-        function zoomCanvas(delta) { currentZoom = Math.max(0.5, Math.min(2.0, currentZoom + delta)); applyCanvasTransform(); }
-        function resetCanvasZoom() {
-            currentZoom = 1.0;
-            const c = document.getElementById('realCanvasContainer');
-            if (c) { c.scrollLeft = 0; c.scrollTop = 0; }
-            applyCanvasTransform();
+        /* =====================================================================
+           8. FIELD TROUBLESHOOTING WIZARD & GENERATOR SIZING
+           ===================================================================== */
+        const TROUBLESHOOT_DB = {
+            motor_hums: [
+                'الخطوة 1: افحص الفولتية على أطراف المحرك (U1-V1, V1-W1, U1-W1) بالأفوميتر؛ يجب أن تكون 380V-400V متوازنة.',
+                'الخطوة 2: إذا وجدت أحد الفازات مفقوداً (Single Phasing)، تتبع الخرج من الكونتاكتور إلى القاطع الرئيسي.',
+                'الخطوة 3: افصل الكابل عن المحرك وقس مقاومة الملفات الثلاثة بالأوم؛ يجب أن تكون متساوية تماماً.'
+            ],
+            contactor_chatter: [
+                'الخطوة 1: قس جهد تغذية ملف الكونتاكتور (A1-A2) أثناء التشغيل؛ هبوط الجهد عن 85% يسبب الارتجاف.',
+                'الخطوة 2: افحص تلامسات المساعد (Auxiliary Contacts) ونقاط التحكم من وجود أكسدة أو رخاوة في البراغي.',
+                'الخطوة 3: نظف القلب الحديدي المتحرك للكونتاكتور وتأكد من سلامة حلقة التظليل النحاسية (Shading Ring).'
+            ],
+            star_delta_trip: [
+                'الخطوة 1: تأكد من زمن التايمر (6 إلى 10 ثوانٍ)؛ التحويل المبكر قبل وصول المحرك لـ 80% من سرعته يسبب تيار ذروة عالٍ.',
+                'الخطوة 2: راجع ترتيب فازات دلتا (U2, V2, W2)؛ عكس أي فازين في الدلتا يسبب قصر مباشر لحظة التحويل!',
+                'الخطوة 3: تأكد من وجود زمن تأخير ميكانيكي/كهربائي (50ms) بين فصل Star ولقط Delta.'
+            ],
+            gen_trip_load: [
+                'الخطوة 1: افحص تتابع دخول الأحمال؛ لا تدخل جميع المكيفات والمضخات دفعة واحدة على المولدة.',
+                'الخطوة 2: قارن ذروة تيار الإقلاع (Starting kVA) مع قدرة المولدة الاحتياطية (Standby kVA).',
+                'الخطوة 3: افحص فلاتر الوقود والهواء ومنظم السرعة (Governor) في المولدة.'
+            ],
+            panel_hot: [
+                'الخطوة 1: استخدم كاميرا حرارية أو ميزان ليزر لتحديد القاطع أو البرغي الأعلى حرارة.',
+                'الخطوة 2: أعد ربط جميع براغي الباسبار والقواطع بمفك العزم (Torque Wrench) لإزالة المقاومة التلامسية.',
+                'الخطوة 3: قس التيار الفعلي بالـ Clamp Meter وتأكد من عدم تجاوزه 80% من سعة القاطع.'
+            ]
+        };
+
+        function startTroubleshootingWizard() {
+            const key = document.getElementById('faultScenarioSelect')?.value || 'motor_hums';
+            const box = document.getElementById('wizardStepContainer');
+            if (!box) return;
+            const steps = TROUBLESHOOT_DB[key] || [];
+            box.innerHTML = steps.map(s => `<div style="padding:8px 0; border-bottom:1px dashed var(--card-border);">• ${s}</div>`).join('');
         }
 
-        const SIM_CATEGORIES = {
-            classic_sim: [
-                { id: 'power_3ph', label: 'مصدر تغذية 3-Phase', pins: [{ id: 'L1', label: 'L1', x: 20, y: 100 }, { id: 'L2', label: 'L2', x: 40, y: 100 }, { id: 'L3', label: 'L3', x: 60, y: 100 }, { id: 'N', label: 'N', x: 80, y: 100 }]},
-                { id: 'mccb', label: 'قاطع MCCB 3-Pole', pins: [{ id: 'L1', label: 'L1', x: 22, y: 0 }, { id: 'L2', label: 'L2', x: 50, y: 0 }, { id: 'L3', label: 'L3', x: 78, y: 0 }, { id: 'T1', label: 'T1', x: 22, y: 100 }, { id: 'T2', label: 'T2', x: 50, y: 100 }, { id: 'T3', label: 'T3', x: 78, y: 100 }]},
-                { id: 'contactor', label: 'كونتاكتور صناعي KM', pins: [{ id: 'L1', label: 'L1', x: 20, y: 0 }, { id: 'L2', label: 'L2', x: 42, y: 0 }, { id: 'L3', label: 'L3', x
+        let genLoadsList = [];
+        function addGeneratorLoad() {
+            const name = document.getElementById('genLoadName').value.trim() || `حمل #${genLoadsList.length + 1}`;
+            const kw = parseFloat(document.getElementById('genLoadKw').value) || 0;
+            const mult = parseFloat(document.getElementById('genStartMethod').value) || 1.0;
+            if (kw <= 0) return;
+            genLoadsList.push({ name, kw, mult, peakKw: kw * mult });
+            renderGeneratorLoads();
+        }
+        function removeGenLoad(idx) {
+            genLoadsList.splice(idx, 1);
+            renderGeneratorLoads();
+        }
+        function renderGeneratorLoads() {
+            const body = document.getElementById('genLoadsBody');
+            const sumBox = document.getElementById('genSizingSummary');
+            if (!body) return;
+            body.innerHTML = genLoadsList.map((item, i) => `
+                <tr>
+                    <td>${i + 1}</td>
+                    <td>${item.name}</td>
+                    <td>×${item.mult}</td>
+                    <td>${item.kw.toFixed(1)} kW</td>
+                    <td style="color:var(--warning-color); font-weight:bold;">${item.peakKw.toFixed(1)} kW</td>
+                    <td><button type="button" onclick="removeGenLoad(${i})" style="background:none; border:none; color:var(--danger-color); font-weight:bold; cursor:pointer;">×</button></td>
+                </tr>
+            `).join('');
+
+            const totalRunningKw = genLoadsList.reduce((a, b) => a + b.kw, 0);
+            const maxStepSpike = genLoadsList.reduce((max, b) => Math.max(max, b.peakKw - b.kw), 0);
+            const requiredKw = totalRunningKw + maxStepSpike;
+            const requiredKva = (requiredKw / 0.8) * 1.15;
+
+            if (sumBox) {
+                sumBox.innerHTML = `
+                    <strong>خلاصة تحجيم المولدة الكهربائية:</strong><br>
+                    • مجموع الأحمال المستمرة (Running Load): <strong>${totalRunningKw.toFixed(1)} kW</strong><br>
+                    • ذروة الإقلاع التتابعية (Peak Demand): <strong>${requiredKw.toFixed(1)} kW</strong><br>
+                    • سعة المولدة القياسية الموصى بها (مع هامش 15%): <strong style="color:var(--success-color); font-size:1.05rem;">${Math.ceil(requiredKva)} kVA (Prime)</strong>
+                `;
+            }
+        }
+
+        /* =====================================================================
+           9. EPLAN SCHEMATIC READER (4 INTERACTIVE CIRCUITS)
+           ===================================================================== */
+        const EPLAN_SCHEMATICS_DB = {
+            dol: {
+                svg: `<svg viewBox="0 0 640 290" width="100%" style="min-width:520px; max-height:300px;" dir="ltr">
+                    <rect x="10" y="10" width="620" height="270" fill="#0b1120" stroke="#334155" stroke-width="2"/>
+                    <text x="65" y="27" fill="#94a3b8" font-size="11" font-weight="bold">Col 1 (Power)</text>
+                    <text x="230" y="27" fill="#94a3b8" font-size="11" font-weight="bold">Col 2 (Control)</text>
+                    <text x="430" y="27" fill="#94a3b8" font-size="11" font-weight="bold">Col 3 (Latch)</text>
+                    <line x1="30" y1="50" x2="170" y2="50" stroke="#ef4444" stroke-width="2"/>
+                    <line x1="30" y1="60" x2="170" y2="60" stroke="#eab308" stroke-width="2"/>
+                    <line x1="30" y1="70" x2="170" y2="70" stroke="#3b82f6" stroke-width="2"/>
+                    <g class="eplan-hotspot" onclick="explainEplanTag('Q1')">
+                        <rect x="42" y="82" width="96" height="40" rx="6" fill="rgba(59,130,246,0.14)" stroke="#3b82f6" stroke-dasharray="3 2"/>
+                        <line x1="60" y1="50" x2="60" y2="122" stroke="#e2e8f0" stroke-width="2"/>
+                        <line x1="90" y1="60" x2="90" y2="122" stroke="#e2e8f0" stroke-width="2"/>
+                        <line x1="120" y1="70" x2="120" y2="122" stroke="#e2e8f0" stroke-width="2"/>
+                        <text x="145" y="106" fill="#38bdf8" font-size="12" font-weight="bold">-Q1</text>
+                    </g>
+                    <g class="eplan-hotspot" onclick="explainEplanTag('K1_POWER')">
+                        <rect x="42" y="138" width="115" height="44" rx="6" fill="rgba(16,185,129,0.14)" stroke="#10b981" stroke-dasharray="3 2"/>
+                        <line x1="60" y1="122" x2="60" y2="195" stroke="#e2e8f0" stroke-width="2"/>
+                        <line x1="90" y1="122" x2="90" y2="195" stroke="#e2e8f0" stroke-width="2"/>
+                        <line x1="120" y1="122" x2="120" y2="195" stroke="#e2e8f0" stroke-width="2"/>
+                        <text x="162" y="160" fill="#10b981" font-size="11" font-weight="bold">-K1 /2.2</text>
+                    </g>
+                    <circle cx="90" cy="228" r="24" fill="#1e293b" stroke="#3b82f6" stroke-width="2"/>
+                    <text x="90" y="232" fill="#fff" font-size="11" text-anchor="middle" font-weight="bold">M1 3~</text>
+                    <line x1="210" y1="50" x2="580" y2="50" stroke="#f97316" stroke-width="2"/>
+                    <line x1="210" y1="255" x2="580" y2="255" stroke="#38bdf8" stroke-width="2"/>
+                    <g class="eplan-hotspot" onclick="explainEplanTag('F2_NC')">
+                        <rect x="240" y="65" width="90" height="36" rx="6" fill="rgba(245,158,11,0.14)" stroke="#f59e0b" stroke-dasharray="3 2"/>
+                        <line x1="270" y1="50" x2="270" y2="110" stroke="#e2e8f0" stroke-width="2"/>
+                        <text x="336" y="85" fill="#f59e0b" font-size="11" font-weight="bold">-F2 (95-96)</text>
+                    </g>
+                    <g class="eplan-hotspot" onclick="explainEplanTag('K1_COIL')">
+                        <rect x="235" y="165" width="135" height="72" rx="6" fill="rgba(16,185,129,0.14)" stroke="#10b981" stroke-dasharray="3 2"/>
+                        <line x1="270" y1="110" x2="270" y2="255" stroke="#e2e8f0" stroke-width="2"/>
+                        <rect x="252" y="180" width="36" height="18" fill="#111827" stroke="#10b981" stroke-width="2"/>
+                        <text x="295" y="193" fill="#10b981" font-size="11" font-weight="bold">-K1 (A1-A2)</text>
+                        <text x="245" y="220" fill="#f59e0b" font-size="9" font-weight="bold">13-14 /3.2 (NO)</text>
+                    </g>
+                    <g class="eplan-hotspot" onclick="explainEplanTag('K1_LATCH')">
+                        <rect x="425" y="95" width="130" height="50" rx="6" fill="rgba(168,85,247,0.16)" stroke="#a855f7" stroke-dasharray="3 2"/>
+                        <line x1="460" y1="50" x2="460" y2="255" stroke="#e2e8f0" stroke-width="2"/>
+                        <text x="480" y="120" fill="#c084fc" font-size="11" font-weight="bold">-K1 (13-14)</text>
+                    </g>
+                </svg>`,
+                tags: {
+                    Q1: '<strong>-Q1 (قاطع القدرة الرئيسي):</strong> الحرف Q في معيار IEC يرمز لأجهزة الفصل والتوصيل الرئيسية.',
+                    K1_POWER: '<strong>-K1 /2.2:</strong> التلامسات الرئيسية للكونتاكتور، والرمز /2.2 يشير
