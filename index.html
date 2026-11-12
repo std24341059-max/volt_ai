@@ -215,12 +215,12 @@
         }
 
         .drawer-section-label {
-            font-size: 0.7rem;
+            font-size: 0.72rem;
             font-weight: 800;
             color: var(--accent-color);
             text-transform: uppercase;
-            padding: 8px 10px 4px;
-            letter-spacing: 0.5px;
+            padding: 10px 10px 4px;
+            letter-spacing: 0.4px;
         }
 
         .drawer-nav {
@@ -240,7 +240,7 @@
             border: 1px solid transparent;
             color: var(--text-muted);
             background: transparent;
-            font-size: 0.86rem;
+            font-size: 0.85rem;
             font-weight: 600;
             cursor: pointer;
             text-align: inherit;
@@ -661,7 +661,7 @@
         @keyframes wireFlowAnim { to { stroke-dashoffset: -24; } }
         .live-wire-flow { stroke-dasharray: 8 4; animation: wireFlowAnim 0.55s linear infinite; }
 
-        /* INTERVIEW & CHECKLIST CARDS */
+        /* INTERVIEW, CHECKLISTS & EPLAN HOTSPOTS */
         .qa-card {
             background: var(--input-bg);
             border: 1px solid var(--card-border);
@@ -702,6 +702,14 @@
             accent-color: var(--success-color);
         }
 
+        .eplan-hotspot {
+            cursor: pointer;
+            transition: opacity 0.2s;
+        }
+        .eplan-hotspot:hover {
+            opacity: 0.78;
+        }
+
         .simulator-box {
             background: var(--input-bg);
             border: 1px solid var(--card-border);
@@ -725,20 +733,6 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-        }
-
-        .beta-warning-banner {
-            background: rgba(16, 185, 129, 0.1);
-            border: 1px solid var(--success-color);
-            color: var(--success-color);
-            padding: 10px 12px;
-            border-radius: 10px;
-            font-size: 0.82rem;
-            font-weight: bold;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            margin-bottom: 12px;
         }
 
         pre {
@@ -811,38 +805,65 @@
             <div class="drawer-section-label">المحاكاة والذكاء الهندسي</div>
             <button class="drawer-item active" onclick="switchDomain('hub', event)">
                 <svg class="svg-icon" viewBox="0 0 24 24"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
-                <span data-i18n="nav_hub">الواجهة الرئيسية (AI Hub)</span>
+                <span>الواجهة الرئيسية (AI Hub)</span>
             </button>
             <button class="drawer-item" onclick="switchDomain('simulator_studio', event)">
                 <svg class="svg-icon" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polygon points="10 8 16 12 10 16 10 8"/></svg>
-                <span data-i18n="nav_sim">استوديو المحاكاة + المختبرات</span>
+                <span>استوديو المحاكاة + المختبرات</span>
             </button>
 
-            <div class="drawer-section-label">أكاديمية سوق العمل (120 محاضرة)</div>
+            <div class="drawer-section-label">أكاديمية سوق العمل</div>
+            <button class="drawer-item" onclick="switchDomain('troubleshooting_wizard', event)">
+                <svg class="svg-icon" viewBox="0 0 24 24"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg>
+                <span>مُشخّص الأعطال بالأفوميتر</span>
+                <span class="new-badge">جديد</span>
+            </button>
+            <button class="drawer-item" onclick="switchDomain('gen_sizing', event)">
+                <svg class="svg-icon" viewBox="0 0 24 24"><rect x="2" y="7" width="20" height="12" rx="2"/><path d="M12 7V4M8 7V5M16 7V5"/></svg>
+                <span>تحجيم المولدات وتتابع الإقلاع</span>
+                <span class="new-badge">جديد</span>
+            </button>
+            <button class="drawer-item" onclick="switchDomain('eplan_reader', event)">
+                <svg class="svg-icon" viewBox="0 0 24 24"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>
+                <span>مُدرّب قراءة مخططات EPLAN</span>
+                <span class="new-badge">جديد</span>
+            </button>
+            <button class="drawer-item" onclick="switchDomain('busbar_isc', event)">
+                <svg class="svg-icon" viewBox="0 0 24 24"><line x1="4" y1="8" x2="20" y2="8"/><line x1="4" y1="12" x2="20" y2="12"/><line x1="4" y1="16" x2="20" y2="16"/></svg>
+                <span>الباسبارات وقصر نهاية الكابل</span>
+                <span class="new-badge">جديد</span>
+            </button>
+            <button class="drawer-item" onclick="switchDomain('selectivity_curves', event)">
+                <svg class="svg-icon" viewBox="0 0 24 24"><path d="M3 3v18h18"/><path d="M7 15c3-6 7-8 12-9"/></svg>
+                <span>منحنيات القواطع والانتقائية</span>
+                <span class="new-badge">جديد</span>
+            </button>
+            <button class="drawer-item" onclick="switchDomain('earthing_design', event)">
+                <svg class="svg-icon" viewBox="0 0 24 24"><line x1="12" y1="3" x2="12" y2="13"/><line x1="5" y1="13" x2="19" y2="13"/><line x1="8" y1="17" x2="16" y2="17"/><line x1="10" y1="21" x2="14" y2="21"/></svg>
+                <span>تصميم منظومة التأريض والتربة</span>
+                <span class="new-badge">جديد</span>
+            </button>
             <button class="drawer-item" onclick="switchDomain('panel_schedule', event)">
                 <svg class="svg-icon" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M3 15h18M9 3v18"/></svg>
                 <span>جداول الأحمال وموازنة الفازات</span>
-                <span class="new-badge">جديد</span>
             </button>
             <button class="drawer-item" onclick="switchDomain('interview_sim', event)">
                 <svg class="svg-icon" viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
                 <span>محاكي مقابلات العمل والموقع</span>
-                <span class="new-badge">جديد</span>
             </button>
             <button class="drawer-item" onclick="switchDomain('site_office', event)">
                 <svg class="svg-icon" viewBox="0 0 24 24"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>
                 <span>المكتب الفني واستلامات ITP</span>
-                <span class="new-badge">جديد</span>
             </button>
 
             <div class="drawer-section-label">الحسابات الهندسية والأوتوميشن</div>
             <button class="drawer-item" onclick="switchDomain('power', event)">
                 <svg class="svg-icon" viewBox="0 0 24 24"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
-                <span data-i18n="nav_power">المحركات والكابلات + Derating</span>
+                <span>المحركات والكابلات + Derating</span>
             </button>
             <button class="drawer-item" onclick="switchDomain('classic', event)">
                 <svg class="svg-icon" viewBox="0 0 24 24"><rect x="4" y="4" width="16" height="16" rx="2"/><line x1="9" y1="9" x2="15" y2="15"/><line x1="15" y1="9" x2="9" y2="15"/></svg>
-                <span data-i18n="nav_classic">الكلاسيك كونترول ومحاكاة الـ ATS</span>
+                <span>الكلاسيك كونترول ومحاكاة الـ ATS</span>
             </button>
             <button class="drawer-item" onclick="switchDomain('pf_studio', event)">
                 <svg class="svg-icon" viewBox="0 0 24 24"><path d="M2 12h4l3-9 6 18 3-9h4"/></svg>
@@ -854,31 +875,31 @@
             </button>
             <button class="drawer-item" onclick="switchDomain('arduino', event)">
                 <svg class="svg-icon" viewBox="0 0 24 24"><rect x="5" y="5" width="14" height="14" rx="2"/><circle cx="9" cy="9" r="1"/><circle cx="15" cy="15" r="1"/></svg>
-                <span data-i18n="nav_arduino">الأردوينو والأجهزة المدمجة</span>
+                <span>الأردوينو والأجهزة المدمجة</span>
             </button>
             <button class="drawer-item" onclick="switchDomain('plc', event)">
                 <svg class="svg-icon" viewBox="0 0 24 24"><rect x="2" y="6" width="20" height="12" rx="2"/><path d="M6 12h4M14 12h4"/></svg>
-                <span data-i18n="nav_plc">أنظمة الـ PLC والأوتوميشن</span>
+                <span>أنظمة الـ PLC والأوتوميشن</span>
             </button>
             <button class="drawer-item" onclick="switchDomain('vfd', event)">
                 <svg class="svg-icon" viewBox="0 0 24 24"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>
-                <span data-i18n="nav_vfd">مغيرات السرعة (VFD & Drives)</span>
+                <span>مغيرات السرعة (VFD & Drives)</span>
             </button>
             <button class="drawer-item" onclick="switchDomain('hvac_lighting', event)">
                 <svg class="svg-icon" viewBox="0 0 24 24"><path d="M12 2v20M2 12h20"/></svg>
-                <span data-i18n="nav_hvac">التكييف والإنارة الصناعية</span>
+                <span>التكييف والإنارة الصناعية</span>
             </button>
             <button class="drawer-item" onclick="switchDomain('testing', event)">
                 <svg class="svg-icon" viewBox="0 0 24 24"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>
-                <span data-i18n="nav_testing">اختبار اللوحات وقياس العزل</span>
+                <span>اختبار اللوحات وقياس العزل</span>
             </button>
             <button class="drawer-item" onclick="switchDomain('solar', event)">
                 <svg class="svg-icon" viewBox="0 0 24 24"><circle cx="12" cy="12" r="5"/></svg>
-                <span data-i18n="nav_solar">الطاقة الشمسية والـ UPS</span>
+                <span>الطاقة الشمسية والـ UPS</span>
             </button>
             <button class="drawer-item" onclick="switchDomain('theraja', event)">
                 <svg class="svg-icon" viewBox="0 0 24 24"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
-                <span data-i18n="nav_theraja">مرجع وحلال مسائل ثيراجي</span>
+                <span>مرجع وحلال مسائل ثيراجي</span>
             </button>
             <button class="drawer-item" onclick="switchDomain('standards', event)">
                 <svg class="svg-icon" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/></svg>
@@ -886,15 +907,15 @@
             </button>
             <button class="drawer-item" onclick="switchDomain('bom_export', event)">
                 <svg class="svg-icon" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M12 18v-6"/></svg>
-                <span data-i18n="nav_bom">عروض الأسعار وكشف الـ BOM</span>
+                <span>عروض الأسعار وكشف الـ BOM</span>
             </button>
             <button class="drawer-item" onclick="switchDomain('history', event)">
                 <svg class="svg-icon" viewBox="0 0 24 24"><path d="M12 8v4l3 3"/><circle cx="12" cy="12" r="10"/></svg>
-                <span data-i18n="nav_history">سجل الميدان والنسخ الاحتياطي</span>
+                <span>سجل الميدان والنسخ الاحتياطي</span>
             </button>
             <button class="drawer-item" onclick="switchDomain('profile', event)">
                 <svg class="svg-icon" viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
-                <span data-i18n="nav_profile">بطاقة المهندس والـ PDF</span>
+                <span>بطاقة المهندس والـ PDF</span>
             </button>
         </nav>
     </aside>
@@ -934,11 +955,11 @@
             <div class="ai-hub-title">
                 <div style="display:flex; align-items:center; gap:8px;">
                     <svg class="svg-icon" viewBox="0 0 24 24"><path d="M12 2a10 10 0 1 0 10 10H12V2z"/><path d="M12 12L2.5 4.5"/><path d="M12 12v10"/></svg>
-                    <span data-i18n="ai_hub_title">مركز التحليل الهندسي الذكي (VoltAI Central Hub)</span>
+                    <span>مركز التحليل الهندسي الذكي (VoltAI Central Hub)</span>
                 </div>
                 <span class="live-status-pill">● محرك هندسي فوري Offline/Online</span>
             </div>
-            <p style="font-size:0.84rem; color:var(--text-muted); margin-bottom:10px;" data-i18n="ai_hub_desc">
+            <p style="font-size:0.84rem; color:var(--text-muted); margin-bottom:10px;">
                 اطرح سؤالك الهندسي بالأرقام (محركات، كابلات، قواطع، ستار-دلتا، أعطال VFD، أكواد أردوينو، أو PLC) وستحصل على الحسابات والتصميم فوراً.
             </p>
 
@@ -973,7 +994,7 @@
                 <div class="ai-actions-bar">
                     <button id="sendAiBtn" class="btn-primary" onclick="processAiQuery()">
                         <svg class="svg-icon" viewBox="0 0 24 24" style="color:#f59e0b;"><path d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
-                        <span data-i18n="btn_send">تحليل واستجابة فورية</span>
+                        <span>تحليل واستجابة فورية</span>
                     </button>
                     <input type="file" id="aiImageInput" accept="image/*" style="display:none;" onchange="handleImageUpload(event)">
                     <button class="btn-primary btn-secondary" style="width: auto;" onclick="document.getElementById('aiImageInput').click()" title="إرفاق صورة">
@@ -994,48 +1015,64 @@
             <div class="card">
                 <div class="card-title">
                     <svg class="svg-icon" viewBox="0 0 24 24"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
-                    <span data-i18n="welcome_title">أدوات المهندس الميداني وأكاديمية سوق العمل</span>
+                    <span>أدوات المهندس الميداني وأكاديمية سوق العمل</span>
                 </div>
                 <p style="font-size:0.86rem; color:var(--text-muted); line-height:1.6; margin-bottom:14px;">
-                    منصة متكاملة تجمع بين <b>استوديو المحاكاة التفاعلي</b> و<b>أدوات التصميم والتنفيذ</b> التي يحتاجها مهندس الكهرباء والخريج الجديد في المقابلات والمشاريع:
+                    منصة هندسية متكاملة تجمع بين <b>استوديو المحاكاة التفاعلي</b> و<b>أدوات الخبرة الميدانية والتصميم</b> لإعداد مهندس الكهرباء لسوق العمل:
                 </p>
                 <div class="grid-2">
                     <button class="btn-primary" onclick="switchDomain('simulator_studio')">
                         <svg class="svg-icon" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polygon points="10 8 16 12 10 16 10 8"/></svg>
-                        استوديو المحاكاة + المختبرات العملية
+                        استوديو المحاكاة + المختبرات
                     </button>
-                    <button class="btn-primary btn-success" onclick="switchDomain('panel_schedule')">
-                        <svg class="svg-icon" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 3v18"/></svg>
-                        منشئ جداول الأحمال وموازنة الفازات
+                    <button class="btn-primary btn-success" onclick="switchDomain('troubleshooting_wizard')">
+                        <svg class="svg-icon" viewBox="0 0 24 24"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg>
+                        مُشخّص الأعطال بالأفوميتر
+                    </button>
+                    <button class="btn-primary btn-secondary" onclick="switchDomain('gen_sizing')">
+                        <svg class="svg-icon" viewBox="0 0 24 24"><rect x="2" y="7" width="20" height="12" rx="2"/></svg>
+                        تحجيم المولدات وتتابع الإقلاع
+                    </button>
+                    <button class="btn-primary btn-secondary" onclick="switchDomain('eplan_reader')">
+                        <svg class="svg-icon" viewBox="0 0 24 24"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/></svg>
+                        مُدرّب قراءة مخططات EPLAN
+                    </button>
+                    <button class="btn-primary btn-secondary" onclick="switchDomain('busbar_isc')">
+                        <svg class="svg-icon" viewBox="0 0 24 24"><line x1="4" y1="8" x2="20" y2="8"/><line x1="4" y1="16" x2="20" y2="16"/></svg>
+                        الباسبارات وقصر نهاية الكابل
+                    </button>
+                    <button class="btn-primary btn-secondary" onclick="switchDomain('selectivity_curves')">
+                        <svg class="svg-icon" viewBox="0 0 24 24"><path d="M3 3v18h18"/><path d="M7 15c3-6 7-8 12-9"/></svg>
+                        منحنيات القواطع والانتقائية
+                    </button>
+                    <button class="btn-primary btn-secondary" onclick="switchDomain('earthing_design')">
+                        <svg class="svg-icon" viewBox="0 0 24 24"><line x1="12" y1="3" x2="12" y2="13"/><line x1="5" y1="13" x2="19" y2="13"/></svg>
+                        تصميم منظومة التأريض والتربة
+                    </button>
+                    <button class="btn-primary btn-secondary" onclick="switchDomain('panel_schedule')">
+                        <svg class="svg-icon" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/></svg>
+                        جداول الأحمال وموازنة الفازات
                     </button>
                     <button class="btn-primary btn-secondary" onclick="switchDomain('interview_sim')">
                         <svg class="svg-icon" viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
-                        محاكي مقابلات العمل وسيناريوهات الموقع
+                        محاكي مقابلات العمل والموقع
                     </button>
                     <button class="btn-primary btn-secondary" onclick="switchDomain('site_office')">
-                        <svg class="svg-icon" viewBox="0 0 24 24"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>
-                        حقيبة المكتب الفني واستلامات الموقع
-                    </button>
-                    <button class="btn-primary btn-secondary" onclick="switchDomain('power')">
-                        <svg class="svg-icon" viewBox="0 0 24 24"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
-                        حاسبة المحركات والكابلات + Derating
-                    </button>
-                    <button class="btn-primary btn-secondary" onclick="switchDomain('bom_export')">
-                        <svg class="svg-icon" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/></svg>
-                        عروض الأسعار وكشف الـ BOM
+                        <svg class="svg-icon" viewBox="0 0 24 24"><path d="M9 11l3 3L22 4"/></svg>
+                        المكتب الفني واستلامات ITP
                     </button>
                 </div>
             </div>
         </div>
 
         <!-- =====================================================================
-             FEATURE 1: REALITY SIMULATOR STUDIO (FIXED RTL SPAWN + GUIDED LABS)
+             REALITY SIMULATOR STUDIO (FIXED RTL SPAWN + GUIDED LABS)
              ===================================================================== -->
         <div id="simulator_studio" class="tab-content">
             <div class="card">
                 <div class="card-title">
                     <svg class="svg-icon" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polygon points="10 8 16 12 10 16 10 8"/></svg>
-                    <span data-i18n="sim_studio_title">استوديو المحاكاة الصناعية والمختبرات (Reality Hub)</span>
+                    <span>استوديو المحاكاة الصناعية والمختبرات (Reality Hub)</span>
                 </div>
 
                 <!-- Guided Practical Labs Bar -->
@@ -1160,7 +1197,341 @@
         </div>
 
         <!-- =====================================================================
-             FEATURE 2: SMART PANEL SCHEDULE & PHASE BALANCER (NEW)
+             NEW FEATURE 1: STEP-BY-STEP MULTIMETER TROUBLESHOOTING WIZARD
+             ===================================================================== -->
+        <div id="troubleshooting_wizard" class="tab-content">
+            <div class="card">
+                <div class="card-title">
+                    <svg class="svg-icon" viewBox="0 0 24 24"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg>
+                    <span>مُشخّص الأعطال التفاعلي بـ "الأفوميتر" (Field Fault Wizard)</span>
+                </div>
+                <p style="font-size:0.84rem; color:var(--text-muted); margin-bottom:12px;">
+                    اختر العطل الظاهر أمامك في الموقع، واتبع خطوات القياس بجهاز Multimeter / Clamp Meter للوصول إلى السبب الجذري فوراً:
+                </p>
+
+                <div class="form-group">
+                    <label>العرض / المشكلة الميدانية:</label>
+                    <select id="faultScenarioSelect" onchange="startTroubleshootingWizard()">
+                        <option value="motor_hums">1. المحرك يُصدر صوت طنين (Humming) ولا يدور ثم يفصل الأوفرلود</option>
+                        <option value="contactor_chatter">2. الكونتاكتور يرتعش (Chattering) ويُصدر صوت طقطقة متكرر</option>
+                        <option value="star_delta_trip">3. فصل القاطع الرئيسي لحظة انتقال المحرك من Star إلى Delta</option>
+                        <option value="gen_trip_load">4. المولد الاحتياطي يفصل (Overload/Undervoltage) عند دخول الأحمال</option>
+                        <option value="panel_hot">5. ارتفاع حرارة القاطع أو الكابلات داخل لوحة التوزيع</option>
+                    </select>
+                </div>
+
+                <div id="wizardStepContainer" class="result-box"></div>
+            </div>
+        </div>
+
+        <!-- =====================================================================
+             NEW FEATURE 2: GENERATOR SIZING & STEP-LOADING SEQUENCE
+             ===================================================================== -->
+        <div id="gen_sizing" class="tab-content">
+            <div class="card">
+                <div class="card-title">
+                    <svg class="svg-icon" viewBox="0 0 24 24"><rect x="2" y="7" width="20" height="12" rx="2"/><path d="M12 7V4M8 7V5M16 7V5"/></svg>
+                    <span>حاسبة تحجيم المولدات وتتابع إقلاع المحركات (Generator Step-Loading)</span>
+                </div>
+                <p style="font-size:0.84rem; color:var(--text-muted); margin-bottom:12px;">
+                    تمنع انهيار المولد لحظة إقلاع المحركات عبر حساب تيار البدء اللحظي (Starting kVA) وترتيب دخول الأحمال (Step 1, Step 2...):
+                </p>
+
+                <div class="grid-3">
+                    <div class="form-group">
+                        <label>اسم الحمل / المضخة:</label>
+                        <input type="text" id="genLoadName" placeholder="مثال: مضخة حريق 30kW">
+                    </div>
+                    <div class="form-group">
+                        <label>القدرة المستمرة (kW):</label>
+                        <input type="number" step="0.5" id="genLoadKw" value="15">
+                    </div>
+                    <div class="form-group">
+                        <label>طريقة الإقلاع (Starting Method):</label>
+                        <select id="genStartMethod">
+                            <option value="6.0">مباشر DOL (معامل إقلاع × 6.0)</option>
+                            <option value="2.2">ستار-دلتا Star-Delta (معامل إقلاع × 2.2)</option>
+                            <option value="3.0">سوفت ستارتر Soft Starter (معامل × 3.0)</option>
+                            <option value="1.4">مغير سرعة VFD (معامل إقلاع × 1.4)</option>
+                            <option value="1.0">حمل ثابت / إنارة / مكيفات إنفرتر (× 1.0)</option>
+                        </select>
+                    </div>
+                </div>
+
+                <button type="button" class="btn-primary" onclick="addGeneratorLoad()">+ إضافة الحمل إلى قائمة المولد</button>
+
+                <table class="bom-table">
+                    <thead>
+                        <tr>
+                            <th>ترتيب التشغيل</th>
+                            <th>اسم الحمل</th>
+                            <th>طريقة الإقلاع</th>
+                            <th>القدرة (kW)</th>
+                            <th>قدرة الإقلاع (Start kVA)</th>
+                            <th>حذف</th>
+                        </tr>
+                    </thead>
+                    <tbody id="genLoadsBody"></tbody>
+                </table>
+
+                <div id="genSizingSummary" class="result-box" style="margin-top:14px;"></div>
+            </div>
+        </div>
+
+        <!-- =====================================================================
+             NEW FEATURE 3: INDUSTRIAL SCHEMATIC & EPLAN READER
+             ===================================================================== -->
+        <div id="eplan_reader" class="tab-content">
+            <div class="card">
+                <div class="card-title">
+                    <svg class="svg-icon" viewBox="0 0 24 24"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>
+                    <span>مُدرّب قراءة المخططات الصناعية الحقيقية (EPLAN / IEC Standard)</span>
+                </div>
+                <p style="font-size:0.84rem; color:var(--text-muted); margin-bottom:12px;">
+                    اضغط على أي رمز أو رقم مرجعي داخل المخطط أدناه لفهم دلالته الهندسية وكيفية تتبعه داخل لوحة التحكم الحقيقية:
+                </p>
+
+                <div style="background:#070c17; border:1px solid var(--card-border); border-radius:12px; padding:10px; overflow-x:auto; text-align:center;">
+                    <svg viewBox="0 0 640 310" width="100%" style="min-width:540px; max-height:320px;" dir="ltr">
+                        <!-- Frame & Columns -->
+                        <rect x="10" y="10" width="620" height="290" fill="#0b1120" stroke="#334155" stroke-width="2"/>
+                        <line x1="10" y1="35" x2="630" y2="35" stroke="#334155" stroke-width="1.5"/>
+                        <text x="65" y="27" fill="#94a3b8" font-size="11" font-weight="bold">Col 1 (Power)</text>
+                        <text x="230" y="27" fill="#94a3b8" font-size="11" font-weight="bold">Col 2 (Control)</text>
+                        <text x="430" y="27" fill="#94a3b8" font-size="11" font-weight="bold">Col 3 (Latch & Signalling)</text>
+
+                        <!-- Power Busbars -->
+                        <line x1="30" y1="55" x2="170" y2="55" stroke="#ef4444" stroke-width="2"/>
+                        <line x1="30" y1="65" x2="170" y2="65" stroke="#eab308" stroke-width="2"/>
+                        <line x1="30" y1="75" x2="170" y2="75" stroke="#3b82f6" stroke-width="2"/>
+
+                        <!-- Hotspot 1: -Q1 Breaker -->
+                        <g class="eplan-hotspot" onclick="explainEplanTag('Q1')">
+                            <rect x="42" y="88" width="96" height="44" rx="6" fill="rgba(59,130,246,0.14)" stroke="#3b82f6" stroke-dasharray="3 2"/>
+                            <line x1="60" y1="55" x2="60" y2="130" stroke="#e2e8f0" stroke-width="2"/>
+                            <line x1="90" y1="65" x2="90" y2="130" stroke="#e2e8f0" stroke-width="2"/>
+                            <line x1="120" y1="75" x2="120" y2="130" stroke="#e2e8f0" stroke-width="2"/>
+                            <text x="145" y="114" fill="#38bdf8" font-size="12" font-weight="bold">-Q1</text>
+                        </g>
+
+                        <!-- Hotspot 2: -K1 Power Contacts -->
+                        <g class="eplan-hotspot" onclick="explainEplanTag('K1_POWER')">
+                            <rect x="42" y="148" width="115" height="46" rx="6" fill="rgba(16,185,129,0.14)" stroke="#10b981" stroke-dasharray="3 2"/>
+                            <line x1="60" y1="130" x2="60" y2="210" stroke="#e2e8f0" stroke-width="2"/>
+                            <line x1="90" y1="130" x2="90" y2="210" stroke="#e2e8f0" stroke-width="2"/>
+                            <line x1="120" y1="130" x2="120" y2="210" stroke="#e2e8f0" stroke-width="2"/>
+                            <text x="162" y="170" fill="#10b981" font-size="11" font-weight="bold">-K1</text>
+                            <text x="162" y="184" fill="#94a3b8" font-size="9">/2.2</text>
+                        </g>
+
+                        <!-- Motor M1 -->
+                        <circle cx="90" cy="242" r="24" fill="#1e293b" stroke="#3b82f6" stroke-width="2"/>
+                        <text x="90" y="246" fill="#fff" font-size="11" text-anchor="middle" font-weight="bold">M1 3~</text>
+
+                        <!-- Control Circuit Lines (+24V / 0V) -->
+                        <line x1="210" y1="55" x2="580" y2="55" stroke="#f97316" stroke-width="2"/>
+                        <text x="215" y="50" fill="#f97316" font-size="10" font-weight="bold">+24V DC (L+)</text>
+                        <line x1="210" y1="275" x2="580" y2="275" stroke="#38bdf8" stroke-width="2"/>
+                        <text x="215" y="290" fill="#38bdf8" font-size="10" font-weight="bold">0V DC (M)</text>
+
+                        <!-- Hotspot 3: -F2 Overload NC -->
+                        <g class="eplan-hotspot" onclick="explainEplanTag('F2_NC')">
+                            <rect x="240" y="70" width="90" height="38" rx="6" fill="rgba(245,158,11,0.14)" stroke="#f59e0b" stroke-dasharray="3 2"/>
+                            <line x1="270" y1="55" x2="270" y2="115" stroke="#e2e8f0" stroke-width="2"/>
+                            <text x="336" y="88" fill="#f59e0b" font-size="11" font-weight="bold">-F2 (95-96)</text>
+                        </g>
+
+                        <!-- Hotspot 4: -X1 Terminal Block -->
+                        <g class="eplan-hotspot" onclick="explainEplanTag('X1_TERM')">
+                            <rect x="240" y="122" width="90" height="34" rx="6" fill="rgba(56,189,248,0.14)" stroke="#38bdf8" stroke-dasharray="3 2"/>
+                            <circle cx="270" cy="139" r="5" fill="#0f172a" stroke="#38bdf8" stroke-width="2"/>
+                            <text x="336" y="143" fill="#38bdf8" font-size="11" font-weight="bold">-X1:3</text>
+                        </g>
+
+                        <!-- Hotspot 5: -K1 Coil & Cross-Reference Table -->
+                        <g class="eplan-hotspot" onclick="explainEplanTag('K1_COIL')">
+                            <rect x="235" y="185" width="135" height="78" rx="6" fill="rgba(16,185,129,0.14)" stroke="#10b981" stroke-dasharray="3 2"/>
+                            <line x1="270" y1="144" x2="270" y2="275" stroke="#e2e8f0" stroke-width="2"/>
+                            <rect x="252" y="200" width="36" height="20" fill="#111827" stroke="#10b981" stroke-width="2"/>
+                            <text x="295" y="214" fill="#10b981" font-size="11" font-weight="bold">-K1 (A1-A2)</text>
+                            <text x="245" y="236" fill="#cbd5e1" font-size="9">1-2 /1.1 | 3-4 /1.1</text>
+                            <text x="245" y="249" fill="#f59e0b" font-size="9" font-weight="bold">13-14 /3.2 (NO)</text>
+                        </g>
+
+                        <!-- Hotspot 6: Col 3 Latch Contact 13-14 -->
+                        <g class="eplan-hotspot" onclick="explainEplanTag('K1_LATCH')">
+                            <rect x="425" y="105" width="130" height="55" rx="6" fill="rgba(168,85,247,0.16)" stroke="#a855f7" stroke-dasharray="3 2"/>
+                            <line x1="460" y1="55" x2="460" y2="275" stroke="#e2e8f0" stroke-width="2"/>
+                            <text x="480" y="128" fill="#c084fc" font-size="11" font-weight="bold">-K1 (13-14)</text>
+                            <text x="480" y="143" fill="#94a3b8" font-size="9">Ref: /2.2</text>
+                        </g>
+                    </svg>
+                </div>
+
+                <div id="eplanExplainBox" class="result-box" style="margin-top:12px;">
+                    <strong>اضغط على أي مربع ملون داخل المخطط أعلاه</strong> (مثل <code>-Q1</code> أو <code>-X1:3</code> أو جدول التلامسات أسفل <code>-K1</code>) لعرض شرحه الهندسي.
+                </div>
+            </div>
+        </div>
+
+        <!-- =====================================================================
+             NEW FEATURE 4: BUSBAR SIZING & END-OF-LINE SHORT CIRCUIT (Isc)
+             ===================================================================== -->
+        <div id="busbar_isc" class="tab-content">
+            <div class="card">
+                <div class="card-title">
+                    <svg class="svg-icon" viewBox="0 0 24 24"><line x1="4" y1="8" x2="20" y2="8"/><line x1="4" y1="12" x2="20" y2="12"/><line x1="4" y1="16" x2="20" y2="16"/></svg>
+                    <span>حاسبة الباسبارات النحاسية ومسافات العزل (Copper Busbar IEC 61439)</span>
+                </div>
+                <div class="grid-2">
+                    <div class="form-group">
+                        <label>تيار اللوحة الرئيسي (Ampere):</label>
+                        <select id="busbarAmpSelect">
+                            <option value="250">250 A</option>
+                            <option value="400">400 A</option>
+                            <option value="630" selected>630 A</option>
+                            <option value="800">800 A</option>
+                            <option value="1000">1000 A</option>
+                            <option value="1250">1250 A</option>
+                            <option value="1600">1600 A</option>
+                            <option value="2000">2000 A</option>
+                            <option value="2500">2500 A</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>درجة حرارة اللوحة الداخلية:</label>
+                        <select id="busbarTemp">
+                            <option value="1.0">35°C قياسي</option>
+                            <option value="0.88">45°C أجواء حارة (معامل 0.88)</option>
+                            <option value="0.80">50°C مغلقة بالكامل (معامل 0.80)</option>
+                        </select>
+                    </div>
+                </div>
+                <button type="button" class="btn-primary" onclick="calculateBusbarSize()">حساب أبعاد النحاس ومسافات العزل</button>
+                <div id="busbarResultBox" class="result-box" style="display:none;"></div>
+            </div>
+
+            <div class="card">
+                <div class="card-title">
+                    <svg class="svg-icon" viewBox="0 0 24 24"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+                    <span>فحص تيار القصر عند نهاية الكابل الطويل (End-of-Line Isc & Magnetic Trip)</span>
+                </div>
+                <div class="grid-3">
+                    <div class="form-group">
+                        <label>طول الكابل (متر):</label>
+                        <input type="number" id="eolLength" value="140">
+                    </div>
+                    <div class="form-group">
+                        <label>مقطع الكابل النحاسي (mm²):</label>
+                        <select id="eolCableMm">
+                            <option value="2.5">2.5 mm²</option>
+                            <option value="4">4 mm²</option>
+                            <option value="6">6 mm²</option>
+                            <option value="10">10 mm²</option>
+                            <option value="16" selected>16 mm²</option>
+                            <option value="25">25 mm²</option>
+                            <option value="35">35 mm²</option>
+                            <option value="50">50 mm²</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>القاطع ومنحنى الفصل:</label>
+                        <select id="eolBreakerCurve">
+                            <option value="32|5">32A — Type B (فصل مغناطيسي 5×In)</option>
+                            <option value="32|10" selected>32A — Type C (فصل مغناطيسي 10×In)</option>
+                            <option value="32|20">32A — Type D (فصل مغناطيسي 20×In)</option>
+                            <option value="63|10">63A — Type C (فصل مغناطيسي 10×In)</option>
+                            <option value="63|20">63A — Type D (فصل مغناطيسي 20×In)</option>
+                        </select>
+                    </div>
+                </div>
+                <button type="button" class="btn-primary" onclick="calculateEndOfLineIsc()">التحقق من زمن الفصل المغناطيسي (&lt; 0.4s)</button>
+                <div id="eolResultBox" class="result-box" style="display:none;"></div>
+            </div>
+        </div>
+
+        <!-- =====================================================================
+             NEW FEATURE 5: BREAKER TRIP CURVES & SELECTIVITY SIMULATOR
+             ===================================================================== -->
+        <div id="selectivity_curves" class="tab-content">
+            <div class="card">
+                <div class="card-title">
+                    <svg class="svg-icon" viewBox="0 0 24 24"><path d="M3 3v18h18"/><path d="M7 15c3-6 7-8 12-9"/></svg>
+                    <span>محاكي منحنيات الفصل والانتقائية بين القواطع (Breaker Selectivity)</span>
+                </div>
+                <div class="grid-3">
+                    <div class="form-group">
+                        <label>القاطع الفرعي (Downstream MCB):</label>
+                        <select id="selDownstream" onchange="runSelectivitySimulator()">
+                            <option value="16|10">16A Type C</option>
+                            <option value="32|10" selected>32A Type C</option>
+                            <option value="63|10">63A Type C</option>
+                            <option value="63|20">63A Type D</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>القاطع الرئيسي (Upstream MCCB):</label>
+                        <select id="selUpstream" onchange="runSelectivitySimulator()">
+                            <option value="63|8">63A MCCB (8×In)</option>
+                            <option value="100|8">100A MCCB (8×In)</option>
+                            <option value="160|10" selected>160A MCCB (10×In)</option>
+                            <option value="250|10">250A MCCB (10×In)</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>تيار العطل المتوقع (kA):</label>
+                        <input type="number" step="0.5" id="selFaultKa" value="2.5" oninput="runSelectivitySimulator()">
+                    </div>
+                </div>
+
+                <div id="selectivityVerdictBox" class="result-box"></div>
+                <div id="selectivityPlotArea" style="width:100%; height:310px; margin-top:12px;"></div>
+            </div>
+        </div>
+
+        <!-- =====================================================================
+             NEW FEATURE 6: EARTHING GRID & ROD CALCULATOR
+             ===================================================================== -->
+        <div id="earthing_design" class="tab-content">
+            <div class="card">
+                <div class="card-title">
+                    <svg class="svg-icon" viewBox="0 0 24 24"><line x1="12" y1="3" x2="12" y2="13"/><line x1="5" y1="13" x2="19" y2="13"/><line x1="8" y1="17" x2="16" y2="17"/><line x1="10" y1="21" x2="14" y2="21"/></svg>
+                    <span>حاسبة تصميم منظومة التأريض حسب نوع التربة (Earthing Design)</span>
+                </div>
+                <div class="grid-3">
+                    <div class="form-group">
+                        <label>نوع تربة الموقع (Resistivity ρ):</label>
+                        <select id="soilTypeSelect">
+                            <option value="40">تربة طينية / زراعية رطبة (40 Ω·m)</option>
+                            <option value="100" selected>تربة طينية رملية متوسطة (100 Ω·m)</option>
+                            <option value="300">تربة رملية جافة / حصوية (300 Ω·m)</option>
+                            <option value="800">تربة صخرية جافة (800 Ω·m)</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>طول قضيب التأريض (Copper Rod):</label>
+                        <select id="rodLengthSelect">
+                            <option value="1.5">1.5 متر (قطر 16mm)</option>
+                            <option value="2.4">2.4 متر (قطر 16mm)</option>
+                            <option value="3.0" selected>3.0 متر (قطر 20mm)</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>المقاومة المطلوبة للمشروع (Target Ω):</label>
+                        <select id="targetEarthOhm">
+                            <option value="1.0">≤ 1.0 Ω (مراكز بيانات / مستشفيات)</option>
+                            <option value="2.0" selected>≤ 2.0 Ω (محطات ومصانع)</option>
+                            <option value="5.0">≤ 5.0 Ω (مباني سكنية وتجارية)</option>
+                        </select>
+                    </div>
+                </div>
+                <button type="button" class="btn-primary" onclick="calculateEarthingSystem()">حساب عدد القضبان والمسافات الفاصلة</button>
+                <div id="earthingDesignResult" class="result-box" style="display:none;"></div>
+            </div>
+        </div>
+
+        <!-- =====================================================================
+             SMART PANEL SCHEDULE & PHASE BALANCER
              ===================================================================== -->
         <div id="panel_schedule" class="tab-content">
             <div class="card" id="panelSchedulePrintable">
@@ -1168,10 +1539,6 @@
                     <svg class="svg-icon" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M3 15h18M9 3v18"/></svg>
                     <span>منشئ جداول الأحمال وموازنة الفازات (Smart Panel Schedule)</span>
                 </div>
-                <p style="font-size:0.84rem; color:var(--text-muted); margin-bottom:12px;">
-                    أضف خطوط التغذية الفرعية وسيقوم النظام آلياً بتوزيعها على الفازات الثلاثة (L1, L2, L3) وحساب نسبة عدم الاتزان (Phase Unbalance %) ومعامل الطلب (Demand Factor) وسعة القاطع الرئيسي.
-                </p>
-
                 <div class="grid-3">
                     <div class="form-group">
                         <label>اسم الدائرة / الحمل:</label>
@@ -1192,7 +1559,6 @@
                         </select>
                     </div>
                 </div>
-
                 <div class="grid-2">
                     <div class="form-group">
                         <label>معامل الطلب الكلي (Demand Factor):</label>
@@ -1233,7 +1599,7 @@
         </div>
 
         <!-- =====================================================================
-             FEATURE 3: JOB INTERVIEW & SITE SIMULATOR (NEW)
+             JOB INTERVIEW & SITE SIMULATOR
              ===================================================================== -->
         <div id="interview_sim" class="tab-content">
             <div class="card">
@@ -1241,23 +1607,18 @@
                     <svg class="svg-icon" viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
                     <span>محاكي مقابلات العمل وسيناريوهات الموقع (سوق العمل)</span>
                 </div>
-                <p style="font-size:0.84rem; color:var(--text-muted); margin-bottom:12px;">
-                    أهم الأسئلة العملية التي تُطرح في مقابلات الشركات الهندسية والمواقع الصناعية مع الإجابات النموذجية بلغة السوق:
-                </p>
-
                 <div class="sim-tabs-header">
                     <button class="sim-tab-btn active" onclick="filterInterviewQuestions('all', this)">الكل (12 سؤال)</button>
                     <button class="sim-tab-btn" onclick="filterInterviewQuestions('site', this)">مهندس موقع (Site)</button>
                     <button class="sim-tab-btn" onclick="filterInterviewQuestions('office', this)">مكتب فني وتصميم</button>
                     <button class="sim-tab-btn" onclick="filterInterviewQuestions('automation', this)">صيانة وأوتوميشن</button>
                 </div>
-
                 <div id="interviewQuestionsContainer"></div>
             </div>
         </div>
 
         <!-- =====================================================================
-             FEATURE 4: TECHNICAL OFFICE & SITE ITP CHECKLISTS (NEW)
+             TECHNICAL OFFICE & SITE ITP CHECKLISTS
              ===================================================================== -->
         <div id="site_office" class="tab-content">
             <div class="card" id="siteChecklistPrintable">
@@ -1310,13 +1671,10 @@
             <div class="card">
                 <div class="card-title">
                     <svg class="svg-icon" viewBox="0 0 24 24"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
-                    <span>معالج معاملات تصحيح الكابلات (Cable Derating Wizard — سوق العمل)</span>
+                    <span>معالج معاملات تصحيح الكابلات (Cable Derating Wizard)</span>
                 </div>
                 <div class="grid-3">
-                    <div class="form-group">
-                        <label>تيار القاطع الإسمي In (A):</label>
-                        <input type="number" id="derateIn" value="100">
-                    </div>
+                    <div class="form-group"><label>تيار القاطع الإسمي In (A):</label><input type="number" id="derateIn" value="100"></div>
                     <div class="form-group">
                         <label>درجة حرارة الجو / التربة (Ct):</label>
                         <select id="derateTemp">
@@ -1377,24 +1735,24 @@
             <div class="card">
                 <div class="card-title">
                     <svg class="svg-icon" viewBox="0 0 24 24"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
-                    <span data-i18n="calc_cable_title">حاسبة مقطع الكابلات وهبوط الجهد (Voltage Drop)</span>
+                    <span>حاسبة مقطع الكابلات وهبوط الجهد (Voltage Drop)</span>
                 </div>
                 <div class="grid-2">
-                    <div class="form-group"><label data-i18n="lbl_amp">التيار (Ampere):</label><input type="number" id="cableAmp" placeholder="مثال: 60"></div>
-                    <div class="form-group"><label data-i18n="lbl_len">طول المسار (متر):</label><input type="number" id="cableLen" placeholder="مثال: 80"></div>
+                    <div class="form-group"><label>التيار (Ampere):</label><input type="number" id="cableAmp" placeholder="مثال: 60"></div>
+                    <div class="form-group"><label>طول المسار (متر):</label><input type="number" id="cableLen" placeholder="مثال: 80"></div>
                 </div>
                 <div class="grid-2">
-                    <div class="form-group"><label data-i18n="lbl_mat">المعدن:</label><select id="cableMat"><option value="cu">نحاس</option><option value="al">ألمنيوم</option></select></div>
-                    <div class="form-group"><label data-i18n="lbl_size">المقطع (mm²):</label><input type="number" id="cableSize" placeholder="مثال: 16"></div>
+                    <div class="form-group"><label>المعدن:</label><select id="cableMat"><option value="cu">نحاس</option><option value="al">ألمنيوم</option></select></div>
+                    <div class="form-group"><label>المقطع (mm²):</label><input type="number" id="cableSize" placeholder="مثال: 16"></div>
                 </div>
-                <button class="btn-primary" onclick="calculateCable()" data-i18n="btn_calc">حساب هبوط الجهد والحفظ بالسجل</button>
+                <button class="btn-primary" onclick="calculateCable()">حساب هبوط الجهد والحفظ بالسجل</button>
                 <div id="cableResult" class="result-box" style="display:none;"></div>
             </div>
 
             <div class="card">
                 <div class="card-title">
                     <svg class="svg-icon" viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
-                    حاسبة ضبط وتعيير القواطع (MCCB / ACB Settings)
+                    <span>حاسبة ضبط وتعيير القواطع (MCCB / ACB Settings)</span>
                 </div>
                 <div class="grid-2">
                     <div class="form-group"><label>التيار الإسمي للقاطع In (Ampere):</label><input type="number" id="breakerIn" placeholder="مثال: 250"></div>
@@ -1410,7 +1768,7 @@
             <div class="card">
                 <div class="card-title">
                     <svg class="svg-icon" viewBox="0 0 24 24"><rect x="4" y="4" width="16" height="16" rx="2"/></svg>
-                    مصمم دوائر ستار - دلتا (Star-Delta Starter)
+                    <span>مصمم دوائر ستار - دلتا (Star-Delta Starter)</span>
                 </div>
                 <div class="grid-2">
                     <div class="form-group"><label>قدرة المحرك:</label><input type="number" id="sdPower" placeholder="مثال: 30"></div>
@@ -1462,7 +1820,7 @@
                 <div class="form-group"><label>معامل القدرة المطلوب (cos φ2):</label><input type="number" step="0.01" id="pfNew" value="0.96"></div>
                 <button class="btn-primary" onclick="runPowerFactorStudio()">حساب بنك المكثفات ورسم الموجات + المخطط SVG</button>
                 <div id="pfResultBox" class="result-box" style="display:none;"></div>
-                <div id="pfWavePlot" style="width:100%; height:300px; margin-top:12px; display:none;"></div>
+                <div id="pfWavePlot" style="width:100%; height:290px; margin-top:12px; display:none;"></div>
                 <div id="dynamicSldBox" style="margin-top:14px; display:none; text-align:center; background:#070c17; padding:12px; border-radius:12px; border:1px solid var(--card-border);"></div>
             </div>
 
@@ -1645,22 +2003,16 @@
             </div>
         </div>
 
-        <!-- DOMAIN: STANDARDS, AWG & CABLE TRAY SIZING (NEW) -->
+        <!-- DOMAIN: STANDARDS, AWG & CABLE TRAY SIZING -->
         <div id="standards" class="tab-content">
             <div class="card">
                 <div class="card-title">
                     <svg class="svg-icon" viewBox="0 0 24 24"><rect x="2" y="7" width="20" height="10" rx="2"/><path d="M6 7v10M12 7v10M18 7v10"/></svg>
-                    <span>حاسبة حوامل الكابلات (Cable Tray & Ladder Sizing — سوق العمل)</span>
+                    <span>حاسبة حوامل الكابلات (Cable Tray & Ladder Sizing)</span>
                 </div>
                 <div class="grid-3">
-                    <div class="form-group">
-                        <label>عدد الكابلات الرئيسية:</label>
-                        <input type="number" id="trayCableCount" value="8">
-                    </div>
-                    <div class="form-group">
-                        <label>القطر الخارجي للكابل (mm):</label>
-                        <input type="number" id="trayCableDia" value="28">
-                    </div>
+                    <div class="form-group"><label>عدد الكابلات الرئيسية:</label><input type="number" id="trayCableCount" value="8"></div>
+                    <div class="form-group"><label>القطر الخارجي للكابل (mm):</label><input type="number" id="trayCableDia" value="28"></div>
                     <div class="form-group">
                         <label>نسبة الفراغ المستقبلي (Spare):</label>
                         <select id="traySparePct">
@@ -1870,6 +2222,7 @@
             if (evt && evt.currentTarget) evt.currentTarget.classList.add('active');
             const targetTab = document.getElementById(domainId);
             if (targetTab) targetTab.classList.add('active');
+            if (domainId === 'selectivity_curves') setTimeout(runSelectivitySimulator, 80);
             if (document.getElementById('sideDrawer').classList.contains('open')) toggleDrawer();
         }
 
@@ -2019,7 +2372,375 @@ void loop() {
         }
 
         /* =====================================================================
-           4. REALITY HUB SIMULATOR (FIXED RTL SPAWN + GUIDED LABS)
+           4. NEW FEATURE 1: STEP-BY-STEP MULTIMETER TROUBLESHOOTING WIZARD
+           ===================================================================== */
+        const FAULT_WIZARD_TREES = {
+            motor_hums: {
+                step1: {
+                    q: 'الخطوة 1 (فحص تغذية الدخل): ضع الأفوميتر على وضع AC Voltage وقس الجهد على أطراف المحرك (U1-V1, V1-W1, U1-W1) لحظة التشغيل. ما النتيجة؟',
+                    opts: [
+                        { label: 'أحد الفازات يعطي 0V أو جهد منخفض جداً (Single Phasing)', next: 'res_single_phase' },
+                        { label: 'الفازات الثلاثة متزنة (380V ± 5%)', next: 'step2_mech' }
+                    ]
+                },
+                res_single_phase: {
+                    final: true,
+                    title: 'تم تحديد العطل: سقوط فاز (Single Phasing)',
+                    desc: '1. افحص أطراف الكونتاكتور الرئيسية (L1-T1, L2-T2, L3-T3) فقد يكون أحد التلامسات محترقاً.<br>2. افحص قواطع الفيوزات أو القاطع الرئيسي.<br>3. تأكد من إحكام ربط البراغي في روزتة المحرك.'
+                },
+                step2_mech: {
+                    q: 'الخطوة 2 (الفحص الميكانيكي والعزل): افصل الكهرباء وحاول تدوير عمود المحرك (Shaft) باليد، ثم قس المقاومة بين الملفات والجسم بالميكر. ما النتيجة؟',
+                    opts: [
+                        { label: 'العمود ثقيل جداً أو متوقف ميكانيكياً (Jammed)', next: 'res_mech_jam' },
+                        { label: 'العمود حر لكن قراءة العزل أقل من 1 MΩ', next: 'res_insulation_fail' }
+                    ]
+                },
+                res_mech_jam: {
+                    final: true,
+                    title: 'تم تحديد العطل: قفل ميكانيكي أو تلف الرولمان بلي (Bearings)',
+                    desc: 'افصل الكوبلنغ (Coupling) بين المحرك والمضخة/الحمل لتحديد هل التوقف من رولمان بلي المحرك أم من المعدة الميكانيكية.'
+                },
+                res_insulation_fail: {
+                    final: true,
+                    title: 'تم تحديد العطل: انهيار عزل ملفات المحرك',
+                    desc: 'يوجد تماس بين ملفات النحاس وجسم المحرك (Body Ground)؛ يلزم إرسال المحرك إلى ورشة اللف.'
+                }
+            },
+            contactor_chatter: {
+                step1: {
+                    q: 'الخطوة 1: قس الجهد مباشرة على طرفي بوبينة الكونتاكتور (A1 - A2) أثناء عمله. كم القراءة؟',
+                    opts: [
+                        { label: 'الجهد أقل من 85% من جهد البوبينة (مثلاً 175V بدل 220V)', next: 'res_low_coil_v' },
+                        { label: 'الجهد سليم وثابت (220V أو 24V)', next: 'res_dirty_core' }
+                    ]
+                },
+                res_low_coil_v: {
+                    final: true,
+                    title: 'تم تحديد العطل: هبوط جهد دائرة التحكم (Control Voltage Drop)',
+                    desc: 'تحقق من سعة محول الكنترول (Control Transformer)، أو وجود رخاوة في أسلاك دائرة الكنترول، أو طول مسار مفتاح التشغيل.'
+                },
+                res_dirty_core: {
+                    final: true,
+                    title: 'تم تحديد العطل: اتساخ القلب الحديدي أو كسر حلقة التظليل (Shading Ring)',
+                    desc: 'نظّف القلب الحديدي للكونتاكتور من الغبار والزيوت، وإذا استمر الصوت فهذا يعني كسر حلقة النحاس (Shading Coil) ويجب استبدال الكونتاكتور.'
+                }
+            },
+            star_delta_trip: {
+                step1: {
+                    q: 'الخطوة 1: متى يفصل القاطع بالضبط؟',
+                    opts: [
+                        { label: 'يفصل فوراً لحظة التحويل من Star إلى Delta (صوت فرقعة)', next: 'res_sd_wiring' },
+                        { label: 'يفصل أثناء مرحلة Star قبل الوصول للسرعة الكاملة', next: 'res_sd_timer' }
+                    ]
+                },
+                res_sd_wiring: {
+                    final: true,
+                    title: 'تم تحديد العطل: عكس أطراف ملفات الدلتا أو تداخل الكونتاكتورات',
+                    desc: '1. تأكد من أن أطراف (U1-V2, V1-W2, W1-U2) مربوطة بشكل صحيح في روزتة المحرك.<br>2. تأكد من وجود تأخير زمني (Pause Time 50ms) في تايمر ستار-دلتا ووجود انترلوك ميكانيكي وكهربائي بين Star و Delta.'
+                },
+                res_sd_timer: {
+                    final: true,
+                    title: 'تم تحديد العطل: قصر في ملفات المحرك أو زمن ستار قصير جداً',
+                    desc: 'افحص عزل الملفات بالميكر، واضبط زمن التحويل ليكون بعد استقرار تيار الإقلاع (عادة 6 إلى 12 ثانية حسب الحمل).'
+                }
+            },
+            gen_trip_load: {
+                step1: {
+                    q: 'الخطوة 1: راقب شاشة المولد لحظة دخول الأحمال؛ ماذا يحدث للتردد (Hz) والجهد (V)؟',
+                    opts: [
+                        { label: 'ينخفض التردد من 50Hz إلى أقل من 46Hz ثم يفصل', next: 'res_gen_inrush' },
+                        { label: 'التردد ثابت 50Hz لكن الجهد يهبط فجأة', next: 'res_gen_avr' }
+                    ]
+                },
+                res_gen_inrush: {
+                    final: true,
+                    title: 'تم تحديد العطل: صدمة تيار إقلاع (Inrush Overload) على محرك الديزل',
+                    desc: 'دخول المحركات دفعة واحدة يخنق محرك الديزل. قسّم الأحمال إلى مراحل زمنية (Step-Loading) أو استخدم Soft Starter / VFD للمحركات الكبيرة.'
+                },
+                res_gen_avr: {
+                    final: true,
+                    title: 'تم تحديد العطل: خلل في منظم الجهد الأوتوماتيكي (AVR) أو الدايودات الدوارة',
+                    desc: 'افحص إعدادات الاستقرار (Stability) في كارت الـ AVR وتأكد من سلامة ملفات الإثارة (Exciter).'
+                }
+            },
+            panel_hot: {
+                step1: {
+                    q: 'الخطوة 1: قس التيار على الفازات الثلاثة (L1, L2, L3) بجهاز Clamp Meter. ماذا تلاحظ؟',
+                    opts: [
+                        { label: 'عدم اتزان كبير بين الفازات أو تيار عالٍ في النيوترال', next: 'res_panel_unbal' },
+                        { label: 'التيارات ضمن الحدود الطبيعية لكن نقطة معينة ساخنة جداً', next: 'res_panel_torque' }
+                    ]
+                },
+                res_panel_unbal: {
+                    final: true,
+                    title: 'تم تحديد العطل: سوء توزيع الأحمال أو توافقيات (Harmonics)',
+                    desc: 'أعد توزيع الأحمال أحادية الطور بالتساوي على الفازات الثلاثة باستخدام أداة (موازنة الفازات) في الموقع.'
+                },
+                res_panel_torque: {
+                    final: true,
+                    title: 'تم تحديد العطل: رخاوة ربط (Loose Connection) أو ضعف كبس اللغز (Cable Lugs)',
+                    desc: 'افصل التيار، أعد كبس رؤوس الكابلات بالمكبس الهيدروليكي، واربط البراغي بمفتاح العزم (Torque Wrench).'
+                }
+            }
+        };
+
+        function startTroubleshootingWizard() {
+            const key = document.getElementById('faultScenarioSelect').value;
+            renderWizardNode(key, 'step1');
+        }
+
+        function renderWizardNode(scenarioKey, nodeKey) {
+            const box = document.getElementById('wizardStepContainer');
+            const node = FAULT_WIZARD_TREES[scenarioKey][nodeKey];
+            if (!node) return;
+
+            if (node.final) {
+                box.innerHTML = `
+                    <div style="border-right:4px solid var(--success-color); padding-right:10px;">
+                        <strong style="color:var(--success-color); font-size:0.95rem;">${node.title}</strong>
+                        <p style="margin-top:8px;">${node.desc}</p>
+                        <button type="button" class="ai-tool-btn" style="margin-top:10px;" onclick="startTroubleshootingWizard()">إعادة الفحص من البداية</button>
+                    </div>
+                `;
+            } else {
+                box.innerHTML = `
+                    <strong style="color:var(--accent-color);">${node.q}</strong>
+                    <div style="display:flex; flex-direction:column; gap:8px; margin-top:10px;">
+                        ${node.opts.map(o => `<button type="button" class="btn-primary btn-secondary" style="justify-content:flex-start; text-align:right;" onclick="renderWizardNode('${scenarioKey}', '${o.next}')">← ${o.label}</button>`).join('')}
+                    </div>
+                `;
+            }
+        }
+
+        /* =====================================================================
+           5. NEW FEATURE 2: GENERATOR SIZING & STEP-LOADING SEQUENCE
+           ===================================================================== */
+        let genLoadsList = [
+            { id: 1, name: 'مضخة مياه رئيسية 22kW', kw: 22, mult: 2.2, methodLabel: 'Star-Delta' },
+            { id: 2, name: 'مروحة تهوية 11kW', kw: 11, mult: 6.0, methodLabel: 'DOL' },
+            { id: 3, name: 'إنارة وأحمال إدارية 15kW', kw: 15, mult: 1.0, methodLabel: 'ثابت' }
+        ];
+
+        function addGeneratorLoad() {
+            const name = document.getElementById('genLoadName').value.trim() || 'محرك / حمل إضافي';
+            const kw = parseFloat(document.getElementById('genLoadKw').value);
+            const sel = document.getElementById('genStartMethod');
+            const mult = parseFloat(sel.value) || 1.0;
+            const methodLabel = sel.options[sel.selectedIndex].text.split('(')[0].trim();
+            if (!kw || kw <= 0) return alert('أدخل قدرة الحمل بالكيلوواط.');
+
+            genLoadsList.push({ id: Date.now(), name, kw, mult, methodLabel });
+            document.getElementById('genLoadName').value = '';
+            renderGeneratorSizing();
+        }
+
+        function removeGeneratorLoad(id) {
+            genLoadsList = genLoadsList.filter(l => l.id !== id);
+            renderGeneratorSizing();
+        }
+
+        function renderGeneratorSizing() {
+            const tbody = document.getElementById('genLoadsBody');
+            const summary = document.getElementById('genSizingSummary');
+            if (!tbody || !summary) return;
+
+            // Sort by highest starting kVA first (Step-Loading Rule)
+            const sorted = [...genLoadsList].sort((a, b) => (b.kw * b.mult) - (a.kw * a.mult));
+            tbody.innerHTML = '';
+
+            let totalRunKw = 0;
+            let peakStepKva = 0;
+            let cumulativeRunKva = 0;
+
+            sorted.forEach((item, idx) => {
+                const runKva = item.kw / 0.8;
+                const startKva = (item.kw / 0.85) * item.mult;
+                const stepDemandKva = cumulativeRunKva + startKva;
+                if (stepDemandKva > peakStepKva) peakStepKva = stepDemandKva;
+
+                totalRunKw += item.kw;
+                cumulativeRunKva += runKva;
+
+                const tr = document.createElement('tr');
+                tr.innerHTML = `
+                    <td><strong>Step ${idx + 1}</strong></td>
+                    <td>${item.name}</td>
+                    <td>${item.methodLabel}</td>
+                    <td>${item.kw.toFixed(1)} kW</td>
+                    <td style="color:var(--warning-color); font-weight:bold;">${startKva.toFixed(1)} kVA</td>
+                    <td><button type="button" onclick="removeGeneratorLoad(${item.id})" style="background:none;border:none;color:var(--danger-color);font-weight:bold;cursor:pointer;">×</button></td>
+                `;
+                tbody.appendChild(tr);
+            });
+
+            const continuousKva = (totalRunKw / 0.8) * 1.15;
+            // Generator transient limit ~ 2.2x rated kVA for <15% voltage dip
+            const transientMinKva = peakStepKva / 2.2;
+            const rawRecommendedKva = Math.max(continuousKva, transientMinKva);
+            const stdGens = [20, 30, 45, 60, 80, 100, 125, 150, 200, 250, 300, 400, 500, 650, 800, 1000, 1250];
+            const chosenGen = stdGens.find(g => g >= rawRecommendedKva) || Math.ceil(rawRecommendedKva);
+
+            summary.innerHTML = `
+                <strong>نتائج تحجيم المولد (Generator Sizing & Transient Check):</strong><br>
+                • مجموع الأحمال المستمرة: <strong>${totalRunKw.toFixed(1)} kW (${(totalRunKw / 0.8).toFixed(1)} kVA)</strong><br>
+                • أقصى ذروة إقلاع لحظية (Peak Step Starting Demand): <strong style="color:var(--warning-color);">${peakStepKva.toFixed(1)} kVA</strong><br>
+                • سعة المولد القياسية الموصى بها (Prime/Standby): <strong style="color:var(--success-color); font-size:1rem;">${chosenGen} kVA (3-Phase, 400V, 50Hz)</strong><br>
+                • <b>توصية التشغيل:</b> شغّل الأحمال بالتتابع الموضح في الجدول أعلاه (Step 1 ثم انتظر 8 ثوانٍ قبل Step 2).
+            `;
+        }
+
+        /* =====================================================================
+           6. NEW FEATURE 3: EPLAN / IEC INDUSTRIAL SCHEMATIC READER
+           ===================================================================== */
+        function explainEplanTag(tag) {
+            const box = document.getElementById('eplanExplainBox');
+            const explanations = {
+                Q1: '<strong>-Q1 (قاطع القدرة الرئيسي Main Circuit Breaker):</strong><br>الحرف <code>Q</code> في معيار IEC يرمز لأجهزة الفصل والتوصيل في دائرة القدرة (قواطع أو سكاكين). رقمه <code>1</code> في الصفحة 1.',
+                K1_POWER: '<strong>-K1 /2.2 (التلامسات الرئيسية للكونتاكتور):</strong><br>تلامسات القدرة (1-2, 3-4, 5-6) موجودة في العمود 1، والرمز <code>/2.2</code> يعني أن بوبينة تشغيل هذا الكونتاكتور مرسومة في <b>الصفحة 2، العمود 2</b>.',
+                F2_NC: '<strong>-F2 (95-96) (نقطة الأوفرلود المغلقة NC):</strong><br>الحرف <code>F</code> يرمز لأجهزة الحماية (Overload / Fuse). الأرقام <code>95-96</code> هي النقطة المغلقة طبيعياً (NC) التي تفتح وتفصل دائرة التحكم عند زيادة التيار.',
+                X1_TERM: '<strong>-X1:3 (روزتة التوصيل الطرفية Terminal Block):</strong><br>الحرف <code>X</code> يرمز لصف الروزتات داخل اللوحة، <code>X1</code> هو رقم المسطرة، و <code>:3</code> هو رقم الروزتة الثالثة التي يخرج منها السلك إلى خارج اللوحة (مثلاً إلى مفتاح التشغيل الخارجي).',
+                K1_COIL: '<strong>-K1 (A1-A2) + جدول المراجع التبادلية (Cross-Reference):</strong><br><code>A1-A2</code> هما طرفا تغذية بوبينة الكونتاكتور. الجدول أسفل البوبينة يخبر الفني في الموقع أين تقع جميع تلامسات هذا الكونتاكتور: تلامسات القدرة في <code>/1.1</code>، والنقطة المساعدة المفتوحة <code>13-14</code> في <code>/3.2</code>.',
+                K1_LATCH: '<strong>-K1 (13-14) Ref: /2.2 (نقطة الاستمرارية Latching Contact):</strong><br>الأرقام <code>13-14</code> تدل دائماً في معيار IEC على نقطة مساعدة مفتوحة (NO). والمرجع <code>/2.2</code> يدل على أن بوبينة هذا الكونتاكتور موجودة في العمود 2 من الصفحة 2.'
+            };
+            box.innerHTML = explanations[tag] || '';
+        }
+
+        /* =====================================================================
+           7. NEW FEATURE 4: BUSBAR SIZING & END-OF-LINE Isc
+           ===================================================================== */
+        function calculateBusbarSize() {
+            const amp = parseFloat(document.getElementById('busbarAmpSelect').value) || 630;
+            const tempFactor = parseFloat(document.getElementById('busbarTemp').value) || 1.0;
+            const effectiveAmp = amp / tempFactor;
+
+            const busbarTable = [
+                { maxA: 280, dim: '20 × 5 mm (100 mm²)', clear: '15 mm' },
+                { maxA: 450, dim: '30 × 5 mm (150 mm²)', clear: '20 mm' },
+                { maxA: 650, dim: '40 × 10 mm (400 mm²)', clear: '25 mm' },
+                { maxA: 850, dim: '50 × 10 mm (500 mm²)', clear: '25 mm' },
+                { maxA: 1050, dim: '60 × 10 mm (600 mm²)', clear: '30 mm' },
+                { maxA: 1350, dim: '80 × 10 mm (800 mm²)', clear: '30 mm' },
+                { maxA: 1700, dim: '100 × 10 mm (1000 mm²)', clear: '35 mm' },
+                { maxA: 2200, dim: '2 × (80 × 10 mm) (1600 mm²)', clear: '40 mm' },
+                { maxA: 3000, dim: '2 × (100 × 10 mm) (2000 mm²)', clear: '45 mm' }
+            ];
+
+            const chosen = busbarTable.find(b => b.maxA >= effectiveAmp) || busbarTable[busbarTable.length - 1];
+            const box = document.getElementById('busbarResultBox');
+            box.style.display = 'block';
+            box.innerHTML = `
+                <strong>مواصفات الباسبار النحاسي المطلوب (Electrolytic Copper):</strong><br>
+                • التيار التصميمي بعد معامل الحرارة: <strong>${effectiveAmp.toFixed(0)} A</strong><br>
+                • أبعاد باسبار الفازات (L1, L2, L3): <strong style="color:var(--success-color);">${chosen.dim}</strong><br>
+                • باسبار النيوترال (N) والأرضي (PE): <strong>نصف مقطع الفاز (50% كحد أدنى)</strong><br>
+                • مسافة العزل الهوائية الدنيا بين الفازات (Clearance): <strong>${chosen.clear}</strong>
+            `;
+        }
+
+        function calculateEndOfLineIsc() {
+            const len = parseFloat(document.getElementById('eolLength').value) || 140;
+            const mm = parseFloat(document.getElementById('eolCableMm').value) || 16;
+            const [inAmp, mult] = document.getElementById('eolBreakerCurve').value.split('|').map(Number);
+
+            // Loop impedance Zs = Z_source (0.15 Ohm) + 2 * L * (rho_hot / S) where rho_hot = 0.0225 for Cu at 70°C
+            const rCableLoop = (2 * len * 0.0225) / mm;
+            const zLoop = 0.15 + rCableLoop;
+            const iscMin = (230 * 0.95) / zLoop; // Minimum Ph-N/PE short circuit at 230V
+            const magTripThreshold = inAmp * mult;
+            const passes = iscMin >= magTripThreshold;
+
+            const box = document.getElementById('eolResultBox');
+            box.style.display = 'block';
+            box.innerHTML = `
+                <strong>تحليل قصر نهاية الكابل (IEC 60364-4-41):</strong><br>
+                • معاوقة حلقة العطل الكلية (Z<sub>s</sub>): <strong>${zLoop.toFixed(3)} Ω</strong><br>
+                • تيار القصر الأدنى في نهاية الكابل (I<sub>sc,min</sub>): <strong>${iscMin.toFixed(0)} A</strong><br>
+                • تيار الفصل المغناطيسي الفوري للقاطع (${inAmp}A): <strong>${magTripThreshold} A</strong><br>
+                • النتيجة: <strong style="color:${passes ? 'var(--success-color)' : 'var(--danger-color)'};">
+                    ${passes ? 'ناجح ✓ — القاطع سيفصل مغناطيسياً خلال أقل من 0.1 ثانية.' : 'فشل ✗ — تيار القصر أضعف من عتبة الفصل المغناطيسي! كبّر مقطع الكابل أو اختر منحنى Type B.'}
+                </strong>
+            `;
+        }
+
+        /* =====================================================================
+           8. NEW FEATURE 5: BREAKER TRIP CURVES & SELECTIVITY SIMULATOR
+           ===================================================================== */
+        function runSelectivitySimulator() {
+            const downVal = document.getElementById('selDownstream')?.value;
+            const upVal = document.getElementById('selUpstream')?.value;
+            const faultKa = parseFloat(document.getElementById('selFaultKa')?.value) || 2.5;
+            if (!downVal || !upVal) return;
+
+            const [inDown, multDown] = downVal.split('|').map(Number);
+            const [inUp, multUp] = upVal.split('|').map(Number);
+
+            const magDownAmps = inDown * multDown;
+            const magUpAmps = inUp * multUp;
+            const faultAmps = faultKa * 1000;
+
+            let verdictHtml = '';
+            if (faultAmps < magDownAmps) {
+                verdictHtml = `<strong style="color:var(--success-color);">انتقائية محققة (Thermal Zone):</strong> تيار العطل (${faultKa} kA) في المنطقة الحرارية، القاطع الفرعي (${inDown}A) سيفصل أولاً ولن يفصل القاطع الرئيسي (${inUp}A).`;
+            } else if (faultAmps >= magDownAmps && faultAmps < magUpAmps) {
+                verdictHtml = `<strong style="color:var(--success-color);">انتقائية مغناطيسية محققة ✓:</strong> تيار العطل (${faultKa} kA) يفوق عتبة الفرعي (${(magDownAmps/1000).toFixed(2)} kA) وأقل من عتبة الرئيسي (${(magUpAmps/1000).toFixed(2)} kA)، لذا سيفصل الفرعي فقط.`;
+            } else {
+                verdictHtml = `<strong style="color:var(--danger-color);">فقدان الانتقائية (No Selectivity) ✗:</strong> تيار العطل (${faultKa} kA) يتجاوز عتبة الفصل المغناطيسي للقاطعين معاً! سيفصل القاطع الرئيسي (${inUp}A) ويطفئ اللوحة بالكامل.`;
+            }
+
+            const vBox = document.getElementById('selectivityVerdictBox');
+            if (vBox) vBox.innerHTML = verdictHtml;
+
+            if (window.Plotly && document.getElementById('selectivityPlotArea')) {
+                const iDown = [inDown * 1.13, inDown * 1.45, inDown * 3, magDownAmps, magDownAmps, 10000];
+                const tDown = [3600, 120, 8, 2, 0.02, 0.01];
+
+                const iUp = [inUp * 1.13, inUp * 1.45, inUp * 3, magUpAmps, magUpAmps, 15000];
+                const tUp = [3600, 180, 14, 3, 0.03, 0.015];
+
+                Plotly.newPlot('selectivityPlotArea', [
+                    { x: iDown, y: tDown, name: `فرعي ${inDown}A MCB`, line: { color: '#10b981', width: 3 } },
+                    { x: iUp, y: tUp, name: `رئيسي ${inUp}A MCCB`, line: { color: '#3b82f6', width: 3 } },
+                    { x: [faultAmps, faultAmps], y: [0.01, 3600], name: `تيار العطل (${faultKa}kA)`, line: { color: '#ef4444', width: 2, dash: 'dash' } }
+                ], {
+                    title: { text: 'منحنى الزمن - التيار (Time-Current Curve)', font: { color: '#f9fafb', size: 13 } },
+                    paper_bgcolor: 'rgba(0,0,0,0)',
+                    plot_bgcolor: '#070c17',
+                    xaxis: { type: 'log', title: 'التيار (Ampere)', color: '#9ca3af', gridcolor: '#1f2937' },
+                    yaxis: { type: 'log', title: 'زمن الفصل (Seconds)', color: '#9ca3af', gridcolor: '#1f2937' },
+                    margin: { t: 40, b: 45, l: 50, r: 20 },
+                    legend: { font: { color: '#f9fafb', size: 10 }, orientation: 'h', y: -0.25 }
+                }, { responsive: true, displayModeBar: false });
+            }
+        }
+
+        /* =====================================================================
+           9. NEW FEATURE 6: EARTHING GRID & ROD CALCULATOR
+           ===================================================================== */
+        function calculateEarthingSystem() {
+            const rho = parseFloat(document.getElementById('soilTypeSelect').value) || 100;
+            const L = parseFloat(document.getElementById('rodLengthSelect').value) || 3.0;
+            const targetOhm = parseFloat(document.getElementById('targetEarthOhm').value) || 2.0;
+            const r = L >= 3.0 ? 0.010 : 0.008; // Radius in meters
+
+            // Dwight's Formula for single vertical rod
+            const rSingle = (rho / (2 * Math.PI * L)) * (Math.log((4 * L) / r) - 1);
+            // Parallel rods with ~1.25 mutual spacing efficiency factor
+            const numRods = Math.max(1, Math.ceil((rSingle / targetOhm) * 1.25));
+            const minSpacing = (L * 2).toFixed(1);
+
+            const box = document.getElementById('earthingDesignResult');
+            box.style.display = 'block';
+            box.innerHTML = `
+                <strong>تصميم منظومة التأريض (IEEE Std 80 / IEC 62561):</strong><br>
+                • مقاومة القضيب الواحد في هذه التربة (R<sub>1</sub>): <strong>${rSingle.toFixed(2)} Ω</strong><br>
+                • عدد قضبان التأريض النحاسية المطلوبة بالتوازي: <strong style="color:var(--success-color);">${numRods} قضبان (Copper Bonded Rods)</strong><br>
+                • المسافة الفاصلة الدنيا بين كل قضيب وآخر (S ≥ 2L): <strong>${minSpacing} متر</strong><br>
+                ${rho >= 300 ? '• <span style="color:var(--warning-color);">ملاحظة التربة عالية المقاومة:</span> يُنصح بإضافة مادة تحسين التربة (Bentonite / GEM) حول القضبان لتقليل المقاومة بنسبة 40%.' : '• ربط القضبان بشريط نحاسي 25×3 mm أو كابل نحاس عارٍ 70 mm².'}
+            `;
+        }
+
+        /* =====================================================================
+           10. REALITY HUB SIMULATOR (FIXED RTL SPAWN + GUIDED LABS)
            ===================================================================== */
         let currentSimCategory = 'classic_sim';
         let compCount = 0;
@@ -2498,15 +3219,11 @@ void loop() {
             }
         }
 
-        /* GUIDED LABS IN REALITY HUB */
         function loadGuidedLab() {
             const lab = document.getElementById('guidedLabSelect').value;
             const instBox = document.getElementById('guidedLabInstruction');
             clearSimBoard();
-            if (lab === 'free') {
-                instBox.style.display = 'none';
-                return;
-            }
+            if (lab === 'free') { instBox.style.display = 'none'; return; }
             instBox.style.display = 'block';
             if (lab === 'lab1') {
                 instBox.innerHTML = '<b>المطلوب في مختبر 1:</b> وصّل الفازات الثلاثة (L1, L2, L3) من مصدر التغذية إلى مدخل القاطع (MCCB)، ثم من مخارج القاطع (T1, T2, T3) إلى أطراف المحرك (U1, V1, W1).';
@@ -2533,10 +3250,7 @@ void loop() {
             const lab = document.getElementById('guidedLabSelect').value;
             const box = document.getElementById('diagnosticAlertBox');
             box.style.display = 'block';
-            if (lab === 'free') {
-                runSmartDiagnostic();
-                return;
-            }
+            if (lab === 'free') { runSmartDiagnostic(); return; }
             const requiredWires = lab === 'lab1' ? 6 : (lab === 'lab2' ? 6 : (lab === 'lab3' ? 3 : 4));
             const score = Math.min(100, Math.round((wires.length / requiredWires) * 100));
             box.innerHTML = `
@@ -2599,7 +3313,7 @@ void loop() {
         }
 
         /* =====================================================================
-           5. SMART PANEL SCHEDULE & PHASE BALANCER (NEW)
+           11. PANEL SCHEDULE, INTERVIEW SIM, SITE ITP & ALL CALCULATORS
            ===================================================================== */
         let panelCircuits = [
             { id: 1, name: 'إنارة المكاتب والصالة', kw: 1.8, mode: 'L1' },
@@ -2612,21 +3326,12 @@ void loop() {
             const kw = parseFloat(document.getElementById('psLoadKw').value);
             const mode = document.getElementById('psPhaseMode').value;
             if (!kw || kw <= 0) return alert('أدخل قدرة الحمل بالكيلوواط.');
-
             panelCircuits.push({ id: Date.now(), name, kw, mode });
             document.getElementById('psLoadName').value = '';
             renderPanelSchedule();
         }
-
-        function removePanelCircuit(id) {
-            panelCircuits = panelCircuits.filter(c => c.id !== id);
-            renderPanelSchedule();
-        }
-
-        function resetPanelSchedule() {
-            panelCircuits = [];
-            renderPanelSchedule();
-        }
+        function removePanelCircuit(id) { panelCircuits = panelCircuits.filter(c => c.id !== id); renderPanelSchedule(); }
+        function resetPanelSchedule() { panelCircuits = []; renderPanelSchedule(); }
 
         function renderPanelSchedule() {
             const tbody = document.getElementById('panelScheduleBody');
@@ -2655,19 +3360,9 @@ void loop() {
                     const amp1 = (c.kw * 1000) / (220 * 0.85);
                     mcb = `${pickStandardBreaker(amp1 * 1.25)}A 1P`;
                 }
-
                 sumL1 += l1; sumL2 += l2; sumL3 += l3;
-
                 const tr = document.createElement('tr');
-                tr.innerHTML = `
-                    <td>C-${idx + 1}</td>
-                    <td>${c.name}</td>
-                    <td><strong>${mcb}</strong></td>
-                    <td>${l1 > 0 ? l1.toFixed(2) : '-'}</td>
-                    <td>${l2 > 0 ? l2.toFixed(2) : '-'}</td>
-                    <td>${l3 > 0 ? l3.toFixed(2) : '-'}</td>
-                    <td><button type="button" onclick="removePanelCircuit(${c.id})" style="background:none;border:none;color:var(--danger-color);font-weight:bold;cursor:pointer;">×</button></td>
-                `;
+                tr.innerHTML = `<td>C-${idx + 1}</td><td>${c.name}</td><td><strong>${mcb}</strong></td><td>${l1 > 0 ? l1.toFixed(2) : '-'}</td><td>${l2 > 0 ? l2.toFixed(2) : '-'}</td><td>${l3 > 0 ? l3.toFixed(2) : '-'}</td><td><button type="button" onclick="removePanelCircuit(${c.id})" style="background:none;border:none;color:var(--danger-color);font-weight:bold;cursor:pointer;">×</button></td>`;
                 tbody.appendChild(tr);
             });
 
@@ -2695,22 +3390,15 @@ void loop() {
             if (window.html2pdf && el) html2pdf().from(el).save('VoltAI_Panel_Schedule.pdf');
         }
 
-        /* =====================================================================
-           6. JOB INTERVIEW & SITE SIMULATOR DATA (NEW)
-           ===================================================================== */
         const INTERVIEW_QA_DB = [
-            { cat: 'site', q: 'س1: ما الفرق العملي بين القواطع MCB و MCCB و ACB في الموقع؟', a: '• <b>MCB:</b> للوحات الفرعية (DB) حتى 125A وتيار قصر حتى 10kA ولا يمكن ضبط تياره.<br>• <b>MCCB:</b> للوحات الرئيسية والفرعية (SMDB/MDB) من 16A حتى 1600A وتيار قصر حتى 65kA ويمكن ضبط تياره الحراري والمغناطيسي.<br>• <b>ACB:</b> قاطع هوائي للوحات العمومية بعد المحول مباشرة من 800A حتى 6300A ومزود بوحدة حماية إلكترونية (Micrologic).' },
-            { cat: 'site', q: 'س2: لماذا نمد كابل 4 أطراف (3 Phase + Earth) للمحرك 3 فاز ولا نمد النيوترال (N)؟', a: 'لأن ملفات المحرك الثلاثي متزنة تماماً (Balanced Load)، وبالتالي محصلة التيارات تساوي صفراً ولا يحتاج المحرك إلى خط نيوترال، بل يحتاج فقط 3 فازات + سلك التأريض لحماية جسم المحرك.' },
-            { cat: 'site', q: 'س3: عند استلام حفر خندق كابلات أرضية (Cable Trench)، ما الطبقات القياسية المطلوبة؟', a: '1. عمق الحفر القياسي (عادة 80cm للجهد المنخفض و100-120cm للمتوسط).<br>2. طبقة رمل ناعم (10cm) أسفل الكابل.<br>3. مد الكابلات ثم طبقة رمل ناعم (10-15cm) فوقها.<br>4. بلاطات حماية خرسانية أو بلاستيكية (Cable Tiles).<br>5. ردم تربة نظيفة ثم وضع شريط التحذير الأصفر (Warning Tape) على عمق 30cm من سطح الأرض.' },
-            { cat: 'site', q: 'س4: ما هو فحص الـ Megger وما أقل قيمة مقبولة للعزل؟', a: 'هو فحص مقاومة العزل بجهد مستمر عالٍ (500V أو 1000V DC). القيمة الآمنة للمعدات والكابلات الجديدة يجب أن تتجاوز <b>100 MΩ</b> (وأدنى حد مقبول للتشغيل وفق المعيار 1 MΩ لكل 1000V + 1 MΩ).' },
-            { cat: 'office', q: 'س5: ما الفرق بين معامل الطلب (Demand Factor) ومعامل التباين (Diversity Factor)؟', a: '• <b>Demand Factor (أقل من 1):</b> نسبة أقصى حمل فعلي مستهلك إلى إجمالي الأحمال المركبة في اللوحة.<br>• <b>Diversity Factor (أكبر من 1):</b> يأخذ في الاعتبار عدم عمل جميع اللوحات الفرعية بأقصى طاقتها في نفس اللحظة، ويُستخدم عند تحجيم المحول الرئيسي.' },
-            { cat: 'office', q: 'س6: ما الفرق بين مخططات Design و Shop Drawing و As-Built؟', a: '• <b>Design Drawings:</b> مخططات الاستشاري التي توضح الفكرة العامة.<br>• <b>Shop Drawings:</b> المخططات التنفيذية التفصيلية التي يعدها المقاول وتوضح مسارات المواسير وأبعاد اللوحات.<br>• <b>As-Built Drawings:</b> المخططات النهائية بعد انتهاء التنفيذ وتطابق ما تم تركيبه فعلياً في الموقع.' },
-            { cat: 'office', q: 'س7: متى نختار نظام التأريض TN-S ومتى نختار TT؟', a: '• <b>TN-S:</b> يُستخدم عندما يكون المحول خاصاً بالمشروع، حيث يُفصل سلك النيوترال (N) عن الأرضي (PE) من نقطة تأريض المحول.<br>• <b>TT:</b> يُستخدم عند التغذية من الشبكة العامة، حيث يقوم المبنى بعمل بئر تأريض مستقل خاص به.' },
-            { cat: 'office', q: 'س8: لماذا نضرب تيار المحرك في 0.58 عند اختيار أوفرلود دائرة ستار-دلتا (Star-Delta)؟', a: 'لأن الأوفرلود يُركب في مسار ملفات الدلتا (تحت كونتاكتور الدلتا)، والتيار المار داخل كل ملف في توصيلة الدلتا يساوي تيار الخط مقسوماً على √3 أي ($1 / 1.732 = 0.58$).' },
-            { cat: 'automation', q: 'س9: لماذا يُمنع منعاً باتاً فتح دائرة الثانوي لمحول التيار (CT) أثناء مرور تيار في الابتدائي؟', a: 'لأن فتح دائرة الثانوي يؤدي إلى تشبع القلب الحديدي وتوليد جهد عالٍ جداً وخطير على أطراف الثانوي قد يسبب انفجار الـ CT وصعق الفنيين.' },
-            { cat: 'automation', q: 'س10: ما سبب فصل القاطع الرئيسي لحظة انتقال المحرك من Star إلى Delta؟', a: 'السبب الشائع هو <b>عكس أطراف ملفات المحرك</b> في روزتة التوصيل (ربط بداية ملف مع نهاية ملف خاطئ)، مما يسبب قصر لحظي أو تيار عكس دوران هائل لحظة التحويل.' },
-            { cat: 'automation', q: 'س11: ما الفرق بين حساس NPN وحساس PNP في توصيل الـ PLC؟', a: '• <b>PNP (Sourcing):</b> يخرج إشارة موجبة (+24V) عند التحسس (الأكثر شيوعاً مع Siemens).<br>• <b>NPN (Sinking):</b> يخرج إشارة سالبة (0V / GND) عند التحسس.' },
-            { cat: 'automation', q: 'س12: متى نستخدم مقاومة كبح (Braking Resistor) مع مغير السرعة VFD؟', a: 'نستخدمها عند إيقاف الأحمال ذات القصور الذاتي العالي (مثل المراوح الكبيرة أو المصاعد) بسرعة، لتفريغ الطاقة المرتدة من المحرك ومنع ظهور عطل <b>Overvoltage (OV)</b>.' }
+            { cat: 'site', q: 'س1: ما الفرق العملي بين القواطع MCB و MCCB و ACB في الموقع؟', a: '• <b>MCB:</b> للوحات الفرعية (DB) حتى 125A وتيار قصر حتى 10kA ولا يمكن ضبط تياره.<br>• <b>MCCB:</b> للوحات الرئيسية والفرعية (SMDB/MDB) من 100A حتى 1600A ويمكن ضبط تياره الحراري والمغناطيسي.<br>• <b>ACB:</b> قاطع هوائي للمحولات والمحطات من 800A حتى 6300A ويحتوي وحدة فصل إلكترونية (Micrologic).' },
+            { cat: 'site', q: 'س2: لماذا يُمنع استخدام كابل Single-Core مدرع بـ SWA (فولاذ) في دوائر AC؟', a: 'لأن الفولاذ (Steel) مادة مغناطيسية؛ مرور تيار متردد في موصل واحد يولد تيارات دوامية (Eddy Currents) وحرارة شديدة تذيب عزل الكابل. في كابلات Single-Core نستخدم درع الألمنيوم (AWA).' },
+            { cat: 'office', q: 'س3: متى نختار مقطع الكابل بناءً على هبوط الجهد (Voltage Drop) وليس التيار؟', a: 'عندما يكون مسار الكابل طويلاً (أكثر من 40-50 متراً)؛ قد يتحمل الكابل التيار حرارياً، لكن طول المسافة يسبب هبوط جهد يتجاوز الحد المسموح به في معيار IEC (3% للإنارة و 5% للأحمال).' },
+            { cat: 'office', q: 'س4: ما الفرق بين Cable Tray و Cable Ladder ومتى يُستخدم كل منهما؟', a: '• <b>Cable Tray:</b> صينية مثقبة تُستخدم لكابلات التحكم والإنارة والمقاطع الصغيرة والمتوسطة.<br>• <b>Cable Ladder:</b> سلم كابلات يُستخدم لكابلات القدرة الثقيلة (Heavy Power Cables) لتوفير تهوية ممتازة ومنع تراكم الغبار.' },
+            { cat: 'automation', q: 'س5: في دائرة ستار-دلتا (Star-Delta)، أين يُركّب الأوفرلود الحراري وعلى كم يُضبط؟', a: 'إذا رُكّب بعد الكونتاكتور الرئيسي (داخل حلقة الدلتا) يمر فيه تيار الفاز فقط فيُضبط على <b>0.58 × FLC</b>. أما إذا رُكّب قبل التفرع على الخط الرئيسي فيُضبط على <b>1.0 × FLC</b>.' },
+            { cat: 'automation', q: 'س6: ما الفرق بين حساسات NPN و PNP عند ربطها مع مداخل الـ PLC؟', a: '• <b>حساس PNP:</b> يخرج إشارة موجبة (+24V) عند التحسس (Sourcing) وهو الأكثر شيوعاً في الأنظمة الأوروبية (Siemens).<br>• <b>حساس NPN:</b> يخرج إشارة سالبة (0V) عند التحسس (Sinking) ويشيع في الأنظمة اليابانية.' },
+            { cat: 'site', q: 'س7: ما هو فحص الـ Megger وما أقل قراءة مقبولة قبل إطلاق التيار؟', a: 'هو فحص مقاومة العزل بجهد DC مرتفع (500V أو 1000V). حسب معيار IEC، أقل قراءة مقبولة لدوائر 400V هي <b>1 MΩ</b>، وعملياً في المشاريع الحديثة نشترط قراءة أعلى من <b>50 - 100 MΩ</b>.' },
+            { cat: 'office', q: 'س8: ما معنى رمز IP65 على لوحة الكهرباء في الموقع؟', a: 'الرقم الأول <b>6</b> يعني حماية تامة ضد دخول الغبار، والرقم الثاني <b>5</b> يعني حماية ضد رذاذ الماء المندفع من جميع الاتجاهات (مناسب للتركيب الخارجي تحت مظلة).' }
         ];
 
         function filterInterviewQuestions(cat, btn) {
@@ -2720,59 +3408,53 @@ void loop() {
             }
             const container = document.getElementById('interviewQuestionsContainer');
             if (!container) return;
-            const list = cat === 'all' ? INTERVIEW_QA_DB : INTERVIEW_QA_DB.filter(item => item.cat === cat);
-
-            container.innerHTML = list.map((item, i) => `
+            const list = cat === 'all' ? INTERVIEW_QA_DB : INTERVIEW_QA_DB.filter(x => x.cat === cat);
+            container.innerHTML = list.map((item, idx) => `
                 <div class="qa-card">
                     <div class="qa-question">${item.q}</div>
-                    <button type="button" class="ai-tool-btn" onclick="const ans = this.nextElementSibling; ans.style.display = ans.style.display === 'block' ? 'none' : 'block';">
-                        إظهار / إخفاء الإجابة النموذجية
-                    </button>
-                    <div class="qa-answer">${item.a}</div>
+                    <button type="button" class="ai-tool-btn" onclick="const ans = document.getElementById('qa_ans_${idx}'); ans.style.display = ans.style.display === 'block' ? 'none' : 'block';">إظهار / إخفاء الإجابة النموذجية</button>
+                    <div id="qa_ans_${idx}" class="qa-answer">${item.a}</div>
                 </div>
             `).join('');
         }
 
-        /* =====================================================================
-           7. SITE ITP CHECKLISTS & TECHNICAL OFFICE GENERATOR (NEW)
-           ===================================================================== */
-        const SITE_ITP_DATA = {
+        const SITE_ITP_LISTS = {
             panel_install: [
-                'التأكد من مطابقة أبعاد اللوحة ودرجة الحماية (IP Rating) للمخطط المعتمد.',
-                'فحص عزم ربط البراغي (Torque Check) على الباسبارات والقواطع ووضع علامات الفحص.',
-                'التأكد من وجود ترقيم كامل للأسلاك (Ferrule Markers) ومخطط اللوحة داخل الباب.',
-                'فحص توصيل باب اللوحة بسلك تأريض مرن (Flexible Earth Braid).',
-                'إجراء فحص العزل (Megger Test) بين الفازات وبين كل فاز والأرضي قبل التوصيل.'
+                'مطابقة اللوحة مع المخططات المعتمدة (Shop Drawings) وبيانات القواطع.',
+                'التأكد من تثبيت اللوحة شاقولياً وبالمستوى المطلوب مع ترك فراغ صيانة أمامها ≥ 1 متر.',
+                'فحص ربط الباسبارات والكابلات بمفتاح العزم (Torque Wrench) ووضع علامات الفحص (Torque Marks).',
+                'التأكد من وجود حواجز الحماية (Plexiglass Shrouds) فوق الباسبارات الحية.',
+                'تأريض باب اللوحة وهيكلها المعدني بضفيرة نحاسية مرنة (Braided Copper Strap).'
             ],
             cable_trench: [
-                'التحقق من عمق وعرض الخندق (Trench) وفق المقطع المعتمد.',
-                'فرش طبقة رمل ناعم خالٍ من الحجارة بسماكة 10cm أسفل الكابلات.',
-                'ترك مسافة فاصلة (Spacing) بين كابلات القدرة لتجنب ارتفاع الحرارة.',
-                'وضع بلاطات الحماية الخرسانية أو البلاستيكية فوق طبقة الرمل العلوية.',
-                'تثبيت شريط التحذير الأصفر (Electrical Warning Tape) قبل الردم النهائي.'
+                'التأكد من عمق الحفر القياسي (80 سم للجهد المنخفض، 100-120 سم للجهد المتوسط).',
+                'فرش طبقة رمل ناعم نظيف (Soft Sand) بسمك 10 سم أسفل الكابلات و 15 سم فوقها.',
+                'ترك مسافة فاصلة بين كابلات القدرة وكابلات التحكم والاتصالات لمنع التداخل الكهرومغناطيسي.',
+                'تركيب بلاطات الحماية الخرسانية أو البلاستيكية (Cable Protection Tiles).',
+                'وضع شريط التحذير الأصفر (Warning Tape) على عمق 30 سم من سطح الأرض.'
             ],
             earthing_sys: [
-                'التأكد من نوعية وقطر قضبان التأريض النحاسية (Copper Bonded Rods).',
-                'استخدام اللحام الحراري (Exothermic Welding / Cadweld) للوصلات المدفونة.',
-                'قياس مقاومة بئر التأريض بجهاز Earth Tester والتأكد أنها ≤ 2Ω للمحطات و ≤ 5Ω للمباني.',
-                'تثبيت غرفة تفتيش (Inspection Pit) بغطاء واضح للفحص الدوري.'
+                'التأكد من نوع وحجم قضبان التأريض النحاسية (Copper Bonded Rod Ø16mm أو Ø20mm).',
+                'فحص سلامة اللحام الطارد للحرارة (Exothermic / Cadweld) داخل حفرة التفتيش (Earth Pit).',
+                'قياس مقاومة الأرضي بجهاز Earth Tester والتأكد أنها ≤ 2 Ω للمحطات و ≤ 5 Ω للمباني.',
+                'تثبيت لوحة تعريفية على غطاء حفرة التأريض (Earth Pit Tag).'
             ],
             pre_comm: [
-                'التأكد من فصل جميع الأحمال الحساسة قبل إجراء فحص الـ Megger.',
-                'مراجعة عيارات القواطع (Ir, Isd, Ii) ومطابقتها لدراسة الانتقائية (Selectivity).',
-                'فحص تتابع الفازات (Phase Sequence R-S-T) قبل تشغيل المحركات.',
-                'اختبار عمل أزرار الطوارئ (Emergency Stop) والانترلوك الميكانيكي والكهربائي.'
+                'إجراء فحص العزل (Insulation Resistance Megger Test) لجميع الكابلات قبل ربطها بالمحولات.',
+                'فحص الاستمرارية (Continuity Test) وتطابق أرقام الكابلات (Ferrule Tagging).',
+                'فحص تتابع الفازات (Phase Sequence R-Y-B) قبل تشغيل المضخات والمحركات.',
+                'التأكد من ضبط قيم الحماية في القواطع (Ir, Isd) والأوفرلود الحراري حسب لوحة المحرك.'
             ]
         };
 
         function renderSiteChecklist() {
             const cat = document.getElementById('itpCategorySelect').value;
             const container = document.getElementById('siteChecklistItems');
-            const items = SITE_ITP_DATA[cat] || [];
-            container.innerHTML = items.map((txt, idx) => `
+            const items = SITE_ITP_LISTS[cat] || [];
+            container.innerHTML = items.map((txt, i) => `
                 <label class="checklist-row">
                     <input type="checkbox" class="itp-chk" onchange="updateItpProgress()">
-                    <span style="font-size:0.86rem; color:var(--text-main);">${idx + 1}. ${txt}</span>
+                    <span style="font-size:0.85rem; line-height:1.5;"><strong>بند ${i + 1}:</strong> ${txt}</span>
                 </label>
             `).join('');
             updateItpProgress();
@@ -2780,73 +3462,67 @@ void loop() {
 
         function updateItpProgress() {
             const all = document.querySelectorAll('.itp-chk');
-            const checked = Array.from(all).filter(c => c.checked).length;
-            const pct = all.length ? Math.round((checked / all.length) * 100) : 0;
-            document.getElementById('itpProgressBox').innerHTML = `نسبة جاهزية الاستلام الميداني: <strong style="color:${pct === 100 ? 'var(--success-color)' : 'var(--accent-color)'};">${pct}% (${checked}/${all.length} بنود مطابقة)</strong>`;
+            const checked = document.querySelectorAll('.itp-chk:checked');
+            const pct = all.length ? Math.round((checked.length / all.length) * 100) : 0;
+            const box = document.getElementById('itpProgressBox');
+            if (box) {
+                box.innerHTML = `نسبة الجاهزية للاستلام الهندسي: <strong style="color:${pct === 100 ? 'var(--success-color)' : 'var(--warning-color)'};">${pct}% (${checked.length} من ${all.length} بنود)</strong> ${pct === 100 ? '— جاهز لتقديم طلب WIR للاستشاري' : ''}`;
+            }
         }
 
         function exportChecklistPdf() {
             const el = document.getElementById('siteChecklistPrintable');
-            if (window.html2pdf && el) html2pdf().from(el).save('VoltAI_Site_ITP_Checklist.pdf');
+            if (window.html2pdf && el) html2pdf().from(el).save('VoltAI_Site_ITP_Inspection.pdf');
         }
 
         function generateTechOfficeDoc() {
             const type = document.getElementById('techDocType').value;
-            const subj = document.getElementById('techDocSubject').value.trim() || 'اعتماد لوحات التوزيع الرئيسية MDB';
-            const eng = localStorage.getItem('volt_eng_name') || 'المهندس منتظر عون';
+            const subj = document.getElementById('techDocSubject').value.trim() || 'توريد وتركيب اللوحات الكهربائية الرئيسية';
             const out = document.getElementById('techDocOutput');
             out.style.display = 'block';
-            out.innerHTML = `
-                <strong>نموذج مستند مكتب فني (${type}):</strong>
-                <div style="margin-top:8px; padding:10px; border:1px solid var(--card-border); border-radius:8px; background:var(--card-bg);">
-                    <b>الموضوع:</b> ${subj}<br>
-                    <b>التاريخ:</b> ${new Date().toLocaleDateString('ar-IQ')}<br><br>
-                    السادة / استشاري المشروع المحترمون،<br>
-                    تحية طيبة وبعد،<br>
-                    نرفق لسيادتكم مستند <b>(${type})</b> الخاص ببند: <b>${subj}</b>، وذلك للمراجعة والاعتماد وفق المواصفات الفنية المعتمدة للمشروع ومعايير IEC.<br><br>
-                    وتفضلوا بقبول فائق الاحترام والتقدير.<br>
-                    <b>مقدمه:</b> ${eng}
-                </div>
-            `;
+            const dateStr = new Date().toLocaleDateString('ar-IQ');
+            let bodyText = '';
+            if (type === 'RFI') {
+                bodyText = `<strong>نموذج استفسار هندسي (RFI - Request For Information)</strong><br>التاريخ: ${dateStr} | الموضوع: ${subj}<br><br>السادة / المكتب الاستشاري المحترمون،<br>بالإشارة إلى مخططات التصميم المعتمدة للمشروع، يرجى التكرم بتوضيح وتأكيد المواصفات الفنية الخاصة بـ (${subj}) ليتسنى لنا استكمال المخططات التنفيذية (Shop Drawings) وفق المعايير المعتمدة.<br>وتفضلوا بقبول فائق الاحترام.`;
+            } else if (type === 'MAR') {
+                bodyText = `<strong>طلب اعتماد مواد هندسية (MAR - Material Approval Request)</strong><br>التاريخ: ${dateStr} | البند: ${subj}<br><br>السادة / المكتب الاستشاري المحترمون،<br>نرفق لسيادتكم الكتالوجات الفنية وشهادات المطابقة القياسية (IEC Compliance Certificates) الخاصة بـ (${subj}) للتكرم بالمراجعة والاعتماد قبل البدء بالتوريد للموقع.`;
+            } else {
+                bodyText = `<strong>طلب فحص واستلام أعمال موقعية (WIR - Work Inspection Request)</strong><br>التاريخ: ${dateStr} | الأعمال: ${subj}<br><br>السادة / مهندسو الإشراف المحترمون،<br>نحيطكم علماً بأنه تم الانتهاء من تنفيذ وفحص (${subj}) طبقاً للمخططات المعتمدة وقائمة الـ ITP، ويرجى تحديد موعد المعاينة والاستلام.`;
+            }
+            out.innerHTML = bodyText;
         }
 
-        /* =====================================================================
-           8. DERATING WIZARD, CABLE TRAY & STANDARD CALCULATORS
-           ===================================================================== */
         function calculateCableDerating() {
-            const In = parseFloat(document.getElementById('derateIn').value) || 100;
+            const inAmp = parseFloat(document.getElementById('derateIn').value) || 100;
             const ct = parseFloat(document.getElementById('derateTemp').value) || 1.0;
             const cg = parseFloat(document.getElementById('derateGroup').value) || 1.0;
-            const kTotal = ct * cg;
-            const requiredIt = In / kTotal;
-            const selectedCable = pickStandardCable(requiredIt, 1.5);
+            const totalFactor = ct * cg;
+            const requiredIz = inAmp / totalFactor;
+            const recCable = pickStandardCable(requiredIz, 1.5);
 
             const box = document.getElementById('deratingResultBox');
             box.style.display = 'block';
             box.innerHTML = `
-                <strong>نتائج تحجيم الكابل بمعاملات التصحيح (IEC 60364-5-52):</strong><br>
-                • معامل التصحيح الكلي (K = Ct × Cg): <strong>${kTotal.toFixed(2)}</strong><br>
-                • التيار الجدولي المطلوب للكابل (I<sub>t</sub> = I<sub>n</sub> / K): <strong>${requiredIt.toFixed(1)} A</strong><br>
-                • مقطع الكابل النحاسي الآمن المختار: <strong style="color:var(--success-color);">${selectedCable} mm² (Cu / XLPE)</strong><br>
-                • تحقق معادلة الأمان: <strong>I<sub>b</sub> ≤ ${In}A ≤ I<sub>z</sub> (${requiredIt.toFixed(1)}A)</strong> ✓
+                <strong>نتيجة معاملات التصحيح (IEC 60364-5-52):</strong><br>
+                • معامل التصحيح الكلي (K = Ct × Cg): <strong>${totalFactor.toFixed(3)}</strong><br>
+                • التيار التصميمي المكافئ للكابل (Iz = In / K): <strong>${requiredIz.toFixed(1)} A</strong><br>
+                • مقطع الكابل النحاسي الآمن بعد التصحيح: <strong style="color:var(--success-color);">${recCable} mm²</strong>
             `;
         }
 
         function calculateCableTraySize() {
-            const count = parseFloat(document.getElementById('trayCableCount').value) || 8;
+            const count = parseInt(document.getElementById('trayCableCount').value) || 8;
             const dia = parseFloat(document.getElementById('trayCableDia').value) || 28;
             const spare = parseFloat(document.getElementById('traySparePct').value) || 0.25;
+            const rawWidth = count * dia * (1 + spare);
+            const stdTrays = [100, 150, 200, 300, 400, 450, 500, 600, 750, 900];
+            const chosenTray = stdTrays.find(w => w >= rawWidth) || Math.ceil(rawWidth);
 
-            const totalWidthNeeded = count * dia * (1 + spare);
-            const stdTrays = [100, 150, 200, 300, 450, 600, 750, 900];
-            const chosenTray = stdTrays.find(w => w >= totalWidthNeeded) || 900;
-
-            const res = document.getElementById('cableTrayResult');
-            res.style.display = 'block';
-            res.innerHTML = `
-                <strong>نتائج حساب حامل الكابلات (Single Layer Arrangement):</strong><br>
-                • العرض الصافي للكابلات: <strong>${(count * dia).toFixed(0)} mm</strong> | مع نسبة الفراغ (${spare * 100}%): <strong>${totalWidthNeeded.toFixed(0)} mm</strong><br>
-                • مقاس الـ Cable Tray القياسي الموصى به: <strong style="color:var(--success-color);">${chosenTray} mm × 50/60 mm (Perforated / Ladder)</strong>
+            const box = document.getElementById('cableTrayResult');
+            box.style.display = 'block';
+            box.innerHTML = `
+                • العرض الصافي المطلوب للكابلات + الفراغ: <strong>${rawWidth.toFixed(0)} mm</strong><br>
+                • قياس حامل الكابلات القياسي الموصى به: <strong style="color:var(--success-color);">${chosenTray} mm × 50/60 mm (Perforated Cable Tray)</strong>
             `;
         }
 
@@ -2857,266 +3533,346 @@ void loop() {
             const pf = parseFloat(document.getElementById('motPf').value) || 0.85;
             const eff = (parseFloat(document.getElementById('motEff').value) || 90) / 100;
             const dist = parseFloat(document.getElementById('motDist').value) || 50;
-            const res = document.getElementById('motorFullResult');
-            if (!p) return alert('أدخل قدرة المحرك.');
+            if (!p || p <= 0) return;
 
             const kw = unit === 'hp' ? p * 0.746 : p;
-            const is1Ph = volt === 220;
+            const is1Ph = volt <= 240;
             const flc = is1Ph ? (kw * 1000) / (volt * pf * eff) : (kw * 1000) / (Math.sqrt(3) * volt * pf * eff);
             const mccb = pickStandardBreaker(flc * 1.25);
-            const minDropMm = is1Ph ? (2 * dist * flc * 0.018) / (volt * 0.03) : (Math.sqrt(3) * dist * flc * 0.018) / (volt * 0.03);
-            const cableMm = pickStandardCable(flc * 1.15, minDropMm);
+            const minDrop = is1Ph ? (2 * dist * flc * 0.018) / (volt * 0.03) : (Math.sqrt(3) * dist * flc * 0.018) / (volt * 0.03);
+            const cableMm = pickStandardCable(flc * 1.15, minDrop);
             const vDrop = is1Ph ? (2 * dist * flc * 0.018) / cableMm : (Math.sqrt(3) * dist * flc * 0.018) / cableMm;
 
-            res.style.display = 'block';
-            res.innerHTML = `
-                <strong>نتائج منظومة المحرك (${kw.toFixed(1)} kW):</strong><br>
-                • تيار الحمل الكامل (FLC): <strong>${flc.toFixed(2)} A</strong> | القاطع: <strong style="color:var(--accent-color);">${mccb} A</strong><br>
-                • مقطع الكابل: <strong style="color:var(--success-color);">${cableMm} mm²</strong> (هبوط الجهد: ${vDrop.toFixed(2)}V / ${((vDrop/volt)*100).toFixed(2)}%)
-                <button class="btn-primary btn-success" style="margin-top:10px;" onclick="syncItemsToBOM([
-                    {name: 'قاطع حماية محرك MCCB', spec: '${mccb}A', qty: 1, price: 45},
-                    {name: 'كونتاكتور رئيسي AC-3', spec: '${pickStandardBreaker(flc)}A', qty: 1, price: 28},
-                    {name: 'كابل نحاسي XLPE', spec: '4x${cableMm} mm² (${dist}m)', qty: ${dist}, price: 4}
-                ])">+ إضافة القطع إلى عرض السعر (BOM)</button>
+            const box = document.getElementById('motorFullResult');
+            box.style.display = 'block';
+            box.innerHTML = `
+                <strong>نتائج تصميم المحرك (${kw.toFixed(1)} kW):</strong><br>
+                • تيار الحمل الكامل (FLC): <strong>${flc.toFixed(2)} A</strong><br>
+                • القاطع الرئيسي (MCCB): <strong style="color:var(--accent-color);">${mccb} A</strong><br>
+                • الكابل النحاسي المناسب: <strong style="color:var(--success-color);">${cableMm} mm²</strong> (هبوط الجهد: ${vDrop.toFixed(2)}V)<br>
+                • طريقة الإقلاع: <strong>${kw >= 11 && !is1Ph ? 'Star-Delta أو VFD' : 'DOL مباشر'}</strong>
             `;
         }
 
         function calculateTransformerIsc() {
             const kva = parseFloat(document.getElementById('trKva').value);
             const v = parseFloat(document.getElementById('trSecVolt').value) || 400;
-            const uk = parseFloat(document.getElementById('trUk').value) || 5.0;
-            const res = document.getElementById('trResult');
-            if (!kva) return alert('أدخل سعة المحول.');
-            const inSec = (kva * 1000) / (Math.sqrt(3) * v);
-            const iscKa = (inSec / (uk / 100)) / 1000;
+            const uk = (parseFloat(document.getElementById('trUk').value) || 5) / 100;
+            if (!kva) return;
+            const inAmp = (kva * 1000) / (Math.sqrt(3) * v);
+            const iscKa = (inAmp / uk) / 1000;
+            const box = document.getElementById('trResult');
+            box.style.display = 'block';
+            box.innerHTML = `• التيار الإسمي للمحول (In): <strong>${inAmp.toFixed(1)} A</strong><br>• تيار القصر المتوقع (Isc): <strong style="color:var(--danger-color);">${iscKa.toFixed(2)} kA</strong> (اختر قاطع رئيسي بسعة قطع Icu ≥ ${Math.ceil(iscKa * 1.15)} kA)`;
+        }
+
+        function calculateCable() {
+            const amp = parseFloat(document.getElementById('cableAmp').value);
+            const len = parseFloat(document.getElementById('cableLen').value);
+            const mat = document.getElementById('cableMat').value;
+            const size = parseFloat(document.getElementById('cableSize').value);
+            if (!amp || !len || !size) return;
+            const rho = mat === 'cu' ? 0.018 : 0.029;
+            const vDrop = (Math.sqrt(3) * len * amp * rho) / size;
+            const pct = (vDrop / 380) * 100;
+            const res = document.getElementById('cableResult');
             res.style.display = 'block';
-            res.innerHTML = `• التيار الإسمي I<sub>n</sub>: <strong>${inSec.toFixed(1)} A</strong> | القاطع الرئيسي: <strong>${pickStandardBreaker(inSec)} A</strong> | تيار القصر I<sub>sc</sub>: <strong style="color:var(--danger-color);">${iscKa.toFixed(2)} kA</strong>`;
+            res.innerHTML = `هبوط الجهد: <strong>${vDrop.toFixed(2)} V (${pct.toFixed(2)}%)</strong> — ${pct <= 3 ? '<span style="color:var(--success-color);">مقبول قياسياً ✓</span>' : '<span style="color:var(--danger-color);">مرتفع! كبّر مقطع الكابل</span>'}`;
+            saveToHistory('حساب كابل', `${amp}A / ${len}m / ${size}mm²`);
+        }
+
+        function calculateBreakerSettings() {
+            const inAmp = parseFloat(document.getElementById('breakerIn').value);
+            const ibAmp = parseFloat(document.getElementById('breakerIb').value);
+            if (!inAmp || !ibAmp) return;
+            const irFactor = Math.min(1.0, Math.max(0.4, ibAmp / inAmp));
+            const res = document.getElementById('breakerResult');
+            res.style.display = 'block';
+            res.innerHTML = `• عيار الحمل الحراري (Ir): <strong>${(inAmp * irFactor).toFixed(0)} A (${(irFactor*100).toFixed(0)}% × In)</strong><br>• عيار الفصل المغناطيسي القصير (Isd): <strong>${(inAmp * irFactor * 6).toFixed(0)} A (6×Ir)</strong>`;
+        }
+
+        function generateStarDelta() {
+            const p = parseFloat(document.getElementById('sdPower').value);
+            const unit = document.getElementById('sdUnit').value;
+            if (!p) return;
+            const kw = unit === 'hp' ? p * 0.746 : p;
+            const flc = (kw * 1000) / (Math.sqrt(3) * 380 * 0.85 * 0.9);
+            const res = document.getElementById('sdResult');
+            res.style.display = 'block';
+            res.innerHTML = `• FLC: <strong>${flc.toFixed(1)} A</strong> | Main/Delta Contactor: <strong>${pickStandardBreaker(flc * 0.58)} A</strong> | Star Contactor: <strong>${pickStandardBreaker(flc * 0.33)} A</strong> | Overload Setting: <strong>${(flc * 0.58).toFixed(1)} A</strong>`;
         }
 
         function simulateATS(state) {
             const mBox = document.getElementById('atsMainsBox');
             const gBox = document.getElementById('atsGenBox');
+            const desc = document.getElementById('atsStatusDesc');
             if (state === 'mains_ok') {
                 mBox.style.borderColor = '#10b981'; mBox.style.color = '#10b981'; mBox.textContent = 'الوطنية (KM1): مغلق ON';
                 gBox.style.borderColor = '#374151'; gBox.style.color = '#9ca3af'; gBox.textContent = 'المولدة (KM2): مفتوح OFF';
+                desc.textContent = 'الحالة الحالية: الحمل يتغذى من الشبكة الوطنية عبر كونتاكتور KM1.';
             } else {
-                mBox.style.borderColor = '#ef4444'; mBox.style.color = '#ef4444'; mBox.textContent = 'الوطنية (KM1): منقطعة OFF';
-                gBox.style.borderColor = '#f59e0b'; gBox.style.color = '#f59e0b'; gBox.textContent = 'المولدة (KM2): مغلق ON';
+                mBox.style.borderColor = '#ef4444'; mBox.style.color = '#ef4444'; mBox.textContent = 'الوطنية (KM1): مفصول OFF';
+                gBox.style.borderColor = '#10b981'; gBox.style.color = '#10b981'; gBox.textContent = 'المولدة (KM2): مغلق ON';
+                desc.textContent = 'انقطاع الوطنية: تم فصل KM1 وتفعيل الانترلوك وتشغيل المولد عبر KM2.';
             }
         }
 
+        function runPowerFactorStudio() {
+            const kw = parseFloat(document.getElementById('pfKw').value) || 100;
+            const pf1 = Math.min(0.99, Math.max(0.3, parseFloat(document.getElementById('pfOld').value) || 0.72));
+            const pf2 = Math.min(0.99, Math.max(pf1, parseFloat(document.getElementById('pfNew').value) || 0.96));
+            const phi1 = Math.acos(pf1);
+            const phi2 = Math.acos(pf2);
+            const kvar = kw * (Math.tan(phi1) - Math.tan(phi2));
+
+            const box = document.getElementById('pfResultBox');
+            box.style.display = 'block';
+            box.innerHTML = `سعة بنك المكثفات المطلوبة (Capacitor Bank): <strong style="color:var(--success-color); font-size:1rem;">${kvar.toFixed(1)} kVAR</strong> (مُقسّمة إلى ${Math.max(2, Math.ceil(kvar / 15))} مراحل أوتوماتيكية)`;
+
+            // Render Plotly Waveforms (Voltage vs Current Before & After)
+            const plotDiv = document.getElementById('pfWavePlot');
+            if (plotDiv && window.Plotly) {
+                plotDiv.style.display = 'block';
+                const deg = [], vWave = [], iBefore = [], iAfter = [];
+                for (let x = 0; x <= 360; x += 5) {
+                    const rad = (x * Math.PI) / 180;
+                    deg.push(x);
+                    vWave.push(Math.sin(rad));
+                    iBefore.push(0.85 * Math.sin(rad - phi1));
+                    iAfter.push(0.75 * Math.sin(rad - phi2));
+                }
+                Plotly.newPlot('pfWavePlot', [
+                    { x: deg, y: vWave, name: 'الجهد (Voltage)', line: { color: '#3b82f6', width: 2.5 } },
+                    { x: deg, y: iBefore, name: `التيار قبل (${pf1})`, line: { color: '#ef4444', width: 2, dash: 'dot' } },
+                    { x: deg, y: iAfter, name: `التيار بعد (${pf2})`, line: { color: '#10b981', width: 2.5 } }
+                ], {
+                    title: { text: 'تطابق موجة التيار مع الجهد بعد التحسين', font: { color: '#f9fafb', size: 12 } },
+                    paper_bgcolor: 'rgba(0,0,0,0)',
+                    plot_bgcolor: '#070c17',
+                    xaxis: { title: 'الزاوية (Degrees)', color: '#9ca3af', gridcolor: '#1f2937' },
+                    yaxis: { color: '#9ca3af', gridcolor: '#1f2937' },
+                    margin: { t: 38, b: 40, l: 40, r: 15 },
+                    legend: { font: { color: '#f9fafb', size: 10 }, orientation: 'h', y: -0.28 }
+                }, { responsive: true, displayModeBar: false });
+            }
+
+            // Render Dynamic SVG SLD
+            const sldBox = document.getElementById('dynamicSldBox');
+            if (sldBox) {
+                sldBox.style.display = 'block';
+                sldBox.innerHTML = `
+                    <div style="font-size:0.78rem; color:var(--accent-color); font-weight:bold; margin-bottom:6px;">المخطط الأحادي التلقائي (Auto Single Line Diagram - SLD)</div>
+                    <svg viewBox="0 0 420 150" width="100%" style="max-height:150px;" dir="ltr">
+                        <line x1="30" y1="25" x2="390" y2="25" stroke="#3b82f6" stroke-width="4"/>
+                        <text x="210" y="16" fill="#94a3b8" font-size="10" text-anchor="middle">MAIN 400V 3-PHASE BUSBAR</text>
+                        <line x1="120" y1="25" x2="120" y2="95" stroke="#e2e8f0" stroke-width="2"/>
+                        <rect x="80" y="95" width="80" height="36" rx="6" fill="#1e293b" stroke="#3b82f6" stroke-width="2"/>
+                        <text x="120" y="117" fill="#fff" font-size="10" text-anchor="middle" font-weight="bold">Load ${kw}kW</text>
+                        <line x1="300" y1="25" x2="300" y2="95" stroke="#10b981" stroke-width="2"/>
+                        <rect x="255" y="95" width="90" height="36" rx="6" fill="#064e3b" stroke="#10b981" stroke-width="2"/>
+                        <text x="300" y="117" fill="#10b981" font-size="10" text-anchor="middle" font-weight="bold">${kvar.toFixed(1)} kVAR</text>
+                    </svg>
+                `;
+            }
+        }
+
+        function generatePanelQR() {
+            const name = document.getElementById('qrPanelName').value || 'MDB-01';
+            const specs = document.getElementById('qrPanelSpecs').value || '400A 380V';
+            const container = document.getElementById('panelQrOutput');
+            container.innerHTML = '';
+            new QRCode(container, { text: `Panel: ${name} | Specs: ${specs} | VoltAI Pro`, width: 130, height: 130 });
+        }
+
+        function loadCustomCanva() {
+            const url = document.getElementById('canvaEmbedUrl').value.trim();
+            if (url) document.getElementById('canvaLiveFrame').src = url;
+        }
+
+        function generateArduinoCode() {
+            const p = document.getElementById('arduinoPrompt').value || 'LED Blink';
+            const res = document.getElementById('arduinoResult');
+            res.style.display = 'block';
+            res.innerHTML = `<strong>الكود للمشروع (${p}):</strong><pre dir="ltr">void setup() { pinMode(13, OUTPUT); }\nvoid loop() { digitalWrite(13, HIGH); delay(500); digitalWrite(13, LOW); delay(500); }</pre>`;
+        }
+
+        function calculateLedResistor() {
+            const vs = parseFloat(document.getElementById('ledSupply').value) || 5;
+            const vf = parseFloat(document.getElementById('ledVoltage').value) || 2;
+            const r = (vs - vf) / 0.02;
+            const res = document.getElementById('ledResistorResult');
+            res.style.display = 'block';
+            res.innerHTML = `المقاومة المطلوبة: <strong>${Math.round(r)} Ω</strong> (الأقرب قياسياً: <strong>${r <= 220 ? '220 Ω' : '330 Ω'}</strong>)`;
+        }
+
+        function runSimStart() {
+            document.getElementById('simCoil').setAttribute('fill', '#10b981');
+            document.getElementById('simCoilText').textContent = 'Q0.0 ON';
+            document.getElementById('simStatus').textContent = 'حالة المحرك: يعمل (Latched)';
+        }
+        function runSimStop() {
+            document.getElementById('simCoil').setAttribute('fill', '#1f2937');
+            document.getElementById('simCoilText').textContent = 'Q0.0 OFF';
+            document.getElementById('simStatus').textContent = 'حالة المحرك: متوقف';
+        }
+        function generateLadderDiagram() {
+            const std = document.getElementById('ladderStandard').value;
+            const res = document.getElementById('ladderResult');
+            res.style.display = 'block';
+            const stop = std === 'siemens' ? 'I0.0' : 'I:1/0';
+            const start = std === 'siemens' ? 'I0.2' : 'I:1/2';
+            const coil = std === 'siemens' ? 'Q0.0' : 'O:2/0';
+            res.innerHTML = `<pre dir="ltr">|---[ ${stop} ]---+---[ ${start} ]---+---( ${coil} )---|\n                |                 |\n                +---[ ${coil} ]---+                 |</pre>`;
+        }
+
+        function lookupVFDError() {
+            const code = document.getElementById('vfdCode').value.toUpperCase();
+            const res = document.getElementById('vfdResult');
+            res.style.display = 'block';
+            const map = {
+                'F0001': 'زيادة تيار (Overcurrent): تحقق من زمن التسارع (Acceleration Time) أو وجود حمل ميكانيكي مفاجئ أو قصر في كابل المحرك.',
+                'F0002': 'زيادة جهد DC Bus (Overvoltage): أطل زمن التباطؤ (Deceleration Time) أو أضف مقاومة كبح (Braking Resistor).',
+                'F0003': 'انخفاض جهد التغذية (Undervoltage): تحقق من استقرار فولتية الشبكة وتوصيلات القاطع الرئيسي.',
+                'OL2': 'زيادة حمل حراري على المحرك (Motor Overload): تأكد من تبريد المحرك ومطابقة تيار لوحة المحرك مع بارامترات الـ VFD.',
+                'OH': 'ارتفاع حرارة الإنفرتر (Overtemperature): نظّف مراوح تبريد الـ VFD وفلاتر اللوحة.',
+                'SCF': 'قصر في الخرج (Short Circuit): افصل كابل المحرك عن الـ VFD وافحص عزل المحرك والكابل بالميكر.',
+                'PHF': 'سقوط أحد فازات الدخل (Input Phase Loss): افحص تغذية الدخل R, S, T.'
+            };
+            res.innerHTML = `<strong>تحليل العطل (${code}):</strong><br>${map[code] || 'راجع دليل الصيانة وتحقق من توصيلات القدرة وحالة الحمل الميكانيكي.'}`;
+        }
+
+        function calculatePanelCooling() {
+            const w = parseFloat(document.getElementById('panelHeatLoss').value) || 450;
+            const res = document.getElementById('panelCoolingResult');
+            res.style.display = 'block';
+            res.innerHTML = `قدرة التبريد المطلوبة للوحة: <strong>${(w * 3.412).toFixed(0)} BTU/hr</strong>`;
+        }
+        function calculateLightingLux() {
+            const area = parseFloat(document.getElementById('roomArea').value) || 120;
+            const lux = parseFloat(document.getElementById('luxRequired').value) || 500;
+            const fixtures = Math.ceil((area * lux) / (15000 * 0.65));
+            const res = document.getElementById('lightingResult');
+            res.style.display = 'block';
+            res.innerHTML = `عدد الكشافات الصناعية المطلوبة (150W LED): <strong>${fixtures} كشاف</strong>`;
+        }
+        function evaluateInsulationTest() {
+            const val = parseFloat(document.getElementById('meggerValue').value) || 0;
+            const res = document.getElementById('meggerResult');
+            res.style.display = 'block';
+            res.innerHTML = val >= 50 ? `<strong style="color:var(--success-color);">عزل ممتاز (${val} MΩ) — جاهز لإطلاق التيار.</strong>` : (val >= 2 ? `<strong style="color:var(--warning-color);">عزل مقبول (${val} MΩ) — يُنصح بفحص الرطوبة.</strong>` : `<strong style="color:var(--danger-color);">خطر انهيار عزل (${val} MΩ) — ممنوع التشغيل!</strong>`);
+        }
+        function evaluateEarthPit() {
+            const val = parseFloat(document.getElementById('earthPitValue').value) || 0;
+            const res = document.getElementById('earthPitResult');
+            res.style.display = 'block';
+            res.innerHTML = val <= 2 ? `<strong style="color:var(--success-color);">تأريض مثالي (${val} Ω) مطابق لمواصفات المحطات.</strong>` : (val <= 5 ? `<strong style="color:var(--success-color);">مقبول للمباني (${val} Ω).</strong>` : `<strong style="color:var(--danger-color);">مرتفع (${val} Ω) — أضف قضبان تأريض إضافية.</strong>`);
+        }
+        function calculateSolar() {
+            const load = parseFloat(document.getElementById('solarLoad').value) || 5000;
+            const hrs = parseFloat(document.getElementById('sunHours').value) || 5;
+            const kw = (load * 1.25) / (hrs * 1000);
+            const res = document.getElementById('solarResult');
+            res.style.display = 'block';
+            res.innerHTML = `قدرة المنظومة الشمسية المطلوبة: <strong>${kw.toFixed(2)} kWp</strong> (حوالي <strong>${Math.ceil((kw * 1000) / 550)} ألواح</strong> بقدرة 550W)`;
+        }
+        function calculateUPS() {
+            const w = parseFloat(document.getElementById('upsLoad').value) || 2000;
+            const h = parseFloat(document.getElementById('upsHours').value) || 2;
+            const ah = (w * h) / (48 * 0.85 * 0.8);
+            const res = document.getElementById('upsResult');
+            res.style.display = 'block';
+            res.innerHTML = `سعة البطاريات المطلوبة على نظام 48V: <strong>${Math.ceil(ah)} Ah</strong>`;
+        }
+        function solveTherajaProblem() {
+            const txt = document.getElementById('therajaInput').value;
+            const res = document.getElementById('therajaResult');
+            res.style.display = 'block';
+            res.innerHTML = `<strong>تحليل المسألة الأكاديمية:</strong><br>المعطيات: ${txt || 'مسألة دوائر وآلات كهربائية'}<br>• القوانين المرجعية: P = √3 · V<sub>L</sub> · I<sub>L</sub> · cos(φ) | Z = √(R² + X²)`;
+        }
         function convertAwgToMetric() {
-            const val = document.getElementById('awgSelect').value.split('|');
-            document.getElementById('awgResultBox').innerHTML = `القياس المختار: <strong>${val[0]} AWG</strong> يعادل <strong>${val[1]} mm²</strong> (المتوفر: <strong>${val[2]} mm²</strong> | ${val[3]}A).`;
+            const [awg, exact, std, amp] = document.getElementById('awgSelect').value.split('|');
+            document.getElementById('awgResultBox').innerHTML = `القياس المختار: <strong>${awg} AWG</strong> يعادل <strong>${exact} mm²</strong> (المتوفر: <strong>${std} mm²</strong> | ${amp}A).`;
+        }
+        function calculateConduit() {
+            const n = parseInt(document.getElementById('conduitCableCount').value) || 6;
+            const d = parseFloat(document.getElementById('conduitCableDia').value) || 12;
+            const minDia = Math.sqrt((n * Math.pow(d, 2)) / 0.40);
+            const res = document.getElementById('conduitResult');
+            res.style.display = 'block';
+            res.innerHTML = `القطر الداخلي الأدنى للأنبوب (NEC 40% Fill): <strong>${Math.ceil(minDia)} mm</strong>`;
         }
 
         function recalculateBomTotals() {
             const curr = document.getElementById('bomCurrency').value;
             let grand = 0;
-            document.querySelectorAll('#bomTableBody tr').forEach(tr => {
-                const qty = parseFloat(tr.querySelector('.bom-qty')?.value) || 0;
-                const price = parseFloat(tr.querySelector('.bom-price')?.value) || 0;
-                const cell = tr.querySelector('.bom-row-total');
-                if (cell) { grand += qty * price; cell.textContent = `${(qty * price).toLocaleString()} ${curr}`; }
+            document.querySelectorAll('#bomTableBody tr').forEach(row => {
+                const qty = parseFloat(row.querySelector('.bom-qty')?.value) || 0;
+                const price = parseFloat(row.querySelector('.bom-price')?.value) || 0;
+                const total = qty * price;
+                grand += total;
+                const cell = row.querySelector('.bom-row-total');
+                if (cell) cell.textContent = `${total.toLocaleString()} ${curr}`;
             });
             document.getElementById('bomGrandTotal').textContent = `${grand.toLocaleString()} ${curr}`;
         }
-
         function addManualBomRow() {
-            const name = prompt('اسم المادة:');
-            if (!name) return;
-            const spec = prompt('المواصفات:') || 'قياسي';
-            syncItemsToBOM([{ name, spec, qty: 1, price: 0 }]);
-        }
-
-        function syncItemsToBOM(items) {
             const tbody = document.getElementById('bomTableBody');
-            items.forEach(item => {
-                const tr = document.createElement('tr');
-                tr.innerHTML = `<td>${item.name}</td><td>${item.spec}</td><td><input type="number" value="${item.qty}" class="bom-qty" oninput="recalculateBomTotals()" style="padding:6px;"></td><td><input type="number" value="${item.price}" class="bom-price" oninput="recalculateBomTotals()" style="padding:6px;"></td><td class="bom-row-total">0</td>`;
-                tbody.appendChild(tr);
-            });
+            const tr = document.createElement('tr');
+            tr.innerHTML = `<td><input type="text" placeholder="اسم المادة" style="padding:5px;"></td><td><input type="text" placeholder="المواصفات" style="padding:5px;"></td><td><input type="number" value="1" class="bom-qty" oninput="recalculateBomTotals()" style="padding:5px;"></td><td><input type="number" value="10" class="bom-price" oninput="recalculateBomTotals()" style="padding:5px;"></td><td class="bom-row-total">10 $</td>`;
+            tbody.appendChild(tr);
             recalculateBomTotals();
-            alert('تمت إضافة المواد إلى كشف المشتريات!');
         }
-
         function exportBOMReport() {
-            const area = document.getElementById('bomPrintableArea');
-            if (window.html2pdf && area) html2pdf().from(area).save('VoltAI_BOM_Quotation.pdf');
+            const el = document.getElementById('bomPrintableArea');
+            if (window.html2pdf && el) html2pdf().from(el).save('VoltAI_Quotation.pdf');
         }
 
+        let calcHistory = JSON.parse(localStorage.getItem('voltAiCalcHistory') || '[]');
         function saveToHistory(type, details) {
-            let history = JSON.parse(localStorage.getItem('voltAiHistory') || '[]');
-            history.unshift({ date: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }), type, details });
-            localStorage.setItem('voltAiHistory', JSON.stringify(history));
-            renderHistoryUI();
+            calcHistory.unshift({ type, details, time: new Date().toLocaleTimeString('ar-IQ', { hour: '2-digit', minute: '2-digit' }) });
+            if (calcHistory.length > 20) calcHistory.pop();
+            localStorage.setItem('voltAiCalcHistory', JSON.stringify(calcHistory));
+            renderCalculationHistory();
         }
-        function renderHistoryUI() {
-            const container = document.getElementById('historyListContainer');
-            if (!container) return;
-            let history = JSON.parse(localStorage.getItem('voltAiHistory') || '[]');
-            container.innerHTML = history.length ? history.map(i => `<div class="history-item"><div><strong>${i.type}</strong><div>${i.details}</div></div><span>${i.date}</span></div>`).join('') : '<p style="text-align:center;color:var(--text-muted);">لا يوجد سجل حالياً.</p>';
+        function renderCalculationHistory() {
+            const box = document.getElementById('historyListContainer');
+            if (!box) return;
+            box.innerHTML = calcHistory.length === 0 ? '<p style="color:var(--text-muted); text-align:center;">لا توجد عمليات مسجلة حالياً.</p>' : calcHistory.map(h => `<div class="history-item"><div><strong>${h.type}</strong><br><small style="color:var(--text-muted);">${h.details}</small></div><span style="font-size:0.75rem; color:var(--accent-color);">${h.time}</span></div>`).join('');
         }
-        function clearCalculationHistory() { localStorage.removeItem('voltAiHistory'); renderHistoryUI(); }
+        function clearCalculationHistory() { calcHistory = []; localStorage.removeItem('voltAiCalcHistory'); renderCalculationHistory(); }
         function exportJsonBackup() {
-            const blob = new Blob([JSON.stringify({ history: JSON.parse(localStorage.getItem('voltAiHistory') || '[]') })], { type: 'application/json' });
+            const blob = new Blob([JSON.stringify(calcHistory, null, 2)], { type: 'application/json' });
             const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = 'VoltAI_Backup.json'; a.click();
         }
         function importJsonBackup(e) {
             const file = e.target.files[0]; if (!file) return;
-            const r = new FileReader();
-            r.onload = ev => { const d = JSON.parse(ev.target.result); if (d.history) { localStorage.setItem('voltAiHistory', JSON.stringify(d.history)); renderHistoryUI(); } };
-            r.readAsText(file);
+            const reader = new FileReader();
+            reader.onload = ev => { calcHistory = JSON.parse(ev.target.result); localStorage.setItem('voltAiCalcHistory', JSON.stringify(calcHistory)); renderCalculationHistory(); };
+            reader.readAsText(file);
         }
 
-        function runSimStart() { document.getElementById('simCoil').setAttribute('fill', '#10b981'); document.getElementById('simCoilText').textContent = 'Q0.0 ON'; }
-        function runSimStop() { document.getElementById('simCoil').setAttribute('fill', '#1f2937'); document.getElementById('simCoilText').textContent = 'Q0.0 OFF'; }
-        function generateStarDelta() {
-            const p = parseFloat(document.getElementById('sdPower').value); if (!p) return;
-            const kw = document.getElementById('sdUnit').value === 'hp' ? p * 0.746 : p;
-            const flc = (kw * 1000) / (1.732 * 380 * 0.85 * 0.88);
-            const res = document.getElementById('sdResult'); res.style.display = 'block';
-            res.innerHTML = `FLC: <strong>${flc.toFixed(1)}A</strong> | Main/Delta: <strong>${Math.ceil(flc*0.58)}A</strong> | Star: <strong>${Math.ceil(flc*0.33)}A</strong> | Overload: <strong>${(flc*0.58).toFixed(1)}A</strong>`;
-        }
-        function lookupVFDError() {
-            const code = document.getElementById('vfdCode').value.trim().toUpperCase();
-            const res = document.getElementById('vfdResult'); res.style.display = 'block';
-            res.innerHTML = `كود <strong>${code}</strong>: افحص عزل المحرك بالميكر وتأكد من عدم وجود حمل ميكانيكي زائد أو هبوط جهد.`;
-        }
-        function calculateCable() {
-            const I = parseFloat(document.getElementById('cableAmp').value), L = parseFloat(document.getElementById('cableLen').value), S = parseFloat(document.getElementById('cableSize').value);
-            if (!I || !L || !S) return;
-            const rho = document.getElementById('cableMat').value === 'al' ? 0.029 : 0.018;
-            const drop = (Math.sqrt(3) * L * I * rho) / S;
-            const res = document.getElementById('cableResult'); res.style.display = 'block';
-            res.innerHTML = `هبوط الجهد: <strong>${drop.toFixed(2)} V (${((drop/380)*100).toFixed(2)}%)</strong>`;
-        }
-        function calculateBreakerSettings() {
-            const In = parseFloat(document.getElementById('breakerIn').value), Ib = parseFloat(document.getElementById('breakerIb').value);
-            if (!In || !Ib) return;
-            const res = document.getElementById('breakerResult'); res.style.display = 'block';
-            res.innerHTML = `Ir = <strong>${(Ib/In).toFixed(2)} × In (${Ib}A)</strong> | Isd = <strong>${(Ib*1.5).toFixed(0)}A</strong>`;
-        }
-        function generateArduinoCode() {
-            const out = runLocalSmartEngineeringEngine('arduino', false);
-            const res = document.getElementById('arduinoResult'); res.style.display = 'block'; res.innerHTML = out.html;
-        }
-        function calculateLedResistor() {
-            const vs = parseFloat(document.getElementById('ledSupply').value) || 5, vl = parseFloat(document.getElementById('ledVoltage').value) || 2;
-            const res = document.getElementById('ledResistorResult'); res.style.display = 'block';
-            res.innerHTML = `المقاومة المطلوبة: <strong>${((vs-vl)/0.02).toFixed(0)} Ω</strong>`;
-        }
-        function calculatePanelCooling() {
-            const h = parseFloat(document.getElementById('panelHeatLoss').value); if (!h) return;
-            const res = document.getElementById('panelCoolingResult'); res.style.display = 'block';
-            res.innerHTML = `سعة التبريد: <strong>${(h * 3.412).toFixed(0)} BTU/h</strong>`;
-        }
-        function calculateLightingLux() {
-            const a = parseFloat(document.getElementById('roomArea').value), l = parseFloat(document.getElementById('luxRequired').value); if (!a) return;
-            const res = document.getElementById('lightingResult'); res.style.display = 'block';
-            res.innerHTML = `عدد الكشافات المقترح: <strong>${Math.ceil((a * l * 1.25) / 4000)} كشاف LED</strong>`;
-        }
-        function evaluateInsulationTest() {
-            const val = parseFloat(document.getElementById('meggerValue').value); if (!val) return;
-            const res = document.getElementById('meggerResult'); res.style.display = 'block';
-            res.innerHTML = val >= 100 ? `<strong style="color:var(--success-color);">ممتاز (${val} MΩ)</strong>` : `<strong style="color:var(--danger-color);">ضعيف (${val} MΩ)</strong>`;
-        }
-        function evaluateEarthPit() {
-            const val = parseFloat(document.getElementById('earthPitValue').value); if (!val) return;
-            const res = document.getElementById('earthPitResult'); res.style.display = 'block';
-            res.innerHTML = val <= 5 ? `<strong style="color:var(--success-color);">مطابق (${val} Ω ≤ 5Ω)</strong>` : `<strong style="color:var(--warning-color);">مرتفع (${val} Ω)</strong>`;
-        }
-        function generateLadderDiagram() {
-            const res = document.getElementById('ladderResult'); res.style.display = 'block';
-            res.innerHTML = `<pre>   I0.0 (Stop)   I0.1 (OL)    I0.2 (Start)      Q0.0
-------|/|-----------|/|------------| |-----------( )---</pre>`;
-        }
-        function calculateSolar() {
-            const l = parseFloat(document.getElementById('solarLoad').value) || 5000, h = parseFloat(document.getElementById('sunHours').value) || 5;
-            const res = document.getElementById('solarResult'); res.style.display = 'block';
-            res.innerHTML = `سعة الألواح: <strong>${Math.ceil((l/h)*1.25)} W</strong>`;
-        }
-        function calculateUPS() {
-            const l = parseFloat(document.getElementById('upsLoad').value), h = parseFloat(document.getElementById('upsHours').value) || 2; if (!l) return;
-            const res = document.getElementById('upsResult'); res.style.display = 'block';
-            res.innerHTML = `UPS: <strong>${(((l/0.8)*1.25)/1000).toFixed(2)} kVA</strong> | بطاريات: <strong>${((l*h)/(12*0.85)).toFixed(0)} Ah</strong>`;
-        }
-        function solveTherajaProblem() {
-            const res = document.getElementById('therajaResult'); res.style.display = 'block';
-            res.innerHTML = `<strong>خطوات الحل الأكاديمي:</strong> تطبيق قوانين كيرشوف وقدرة التيار المتردد P = √3 · VL · IL · cos(φ).`;
-        }
-        function calculateConduit() {
-            const c = parseFloat(document.getElementById('conduitCableCount').value), d = parseFloat(document.getElementById('conduitCableDia').value); if (!c || !d) return;
-            const req = Math.sqrt((4 * (Math.PI * Math.pow(d/2, 2) * c / 0.4)) / Math.PI);
-            const res = document.getElementById('conduitResult'); res.style.display = 'block';
-            res.innerHTML = `القطر الأدنى للأنبوب: <strong>${Math.ceil(req)} mm</strong>`;
-        }
-        function loadCustomCanva() {
-            let url = document.getElementById('canvaEmbedUrl').value.trim(); if (!url) return;
-            if (url.includes('canva.com') && !url.includes('embed')) url = url.split('?')[0] + '?embed';
-            document.getElementById('canvaLiveFrame').src = url;
-        }
-        function runPowerFactorStudio() {
-            const P = parseFloat(document.getElementById('pfKw').value) || 100, pf1 = parseFloat(document.getElementById('pfOld').value) || 0.72, pf2 = parseFloat(document.getElementById('pfNew').value) || 0.96;
-            const kvar = P * (Math.tan(Math.acos(pf1)) - Math.tan(Math.acos(pf2)));
-            const box = document.getElementById('pfResultBox'); box.style.display = 'block';
-            box.innerHTML = `سعة بنك المكثفات المطلوبة: <strong style="color:var(--success-color);">${kvar.toFixed(1)} kVAR</strong>`;
-        }
-        function generatePanelQR() {
-            const pName = document.getElementById('qrPanelName').value.trim() || 'MDB-01';
-            const container = document.getElementById('panelQrOutput'); container.innerHTML = '';
-            const box = document.createElement('div'); box.style.cssText = 'background:#fff;padding:10px;border-radius:10px;color:#000;text-align:center;';
-            container.appendChild(box);
-            if (window.QRCode) new QRCode(box, { text: pName, width: 130, height: 130 });
-        }
-
-        /* =====================================================================
-           9. INITIALIZATION
-           ===================================================================== */
         window.addEventListener('DOMContentLoaded', () => {
-            document.documentElement.setAttribute('data-theme', localStorage.getItem('voltAiTheme') || 'dark');
-            renderHistoryUI();
+            const savedTheme = localStorage.getItem('voltAiTheme') || 'dark';
+            document.documentElement.setAttribute('data-theme', savedTheme);
+
+            const savedEngName = localStorage.getItem('volt_eng_name');
+            if (savedEngName) {
+                document.getElementById('cardEngName').textContent = savedEngName;
+                document.getElementById('bomHeaderEngTag').textContent = savedEngName;
+                document.getElementById('footerEngLink').textContent = savedEngName;
+            }
+
+            if (window.QRCode && document.getElementById('qrcode')) {
+                new QRCode(document.getElementById('qrcode'), { text: 'https://github.com/std24341059-max', width: 120, height: 120 });
+            }
+
             renderSimTools();
-            recalculateBomTotals();
+            startTroubleshootingWizard();
+            renderGeneratorSizing();
             renderPanelSchedule();
             filterInterviewQuestions('all');
             renderSiteChecklist();
-
-            const qrEl = document.getElementById('qrcode');
-            if (qrEl && window.QRCode) {
-                new QRCode(qrEl, { text: "https://github.com/std24341059-max", width: 130, height: 130 });
-            }
-
-            const canvasContainer = document.getElementById('realCanvasContainer');
-            if (canvasContainer) {
-                let isPanning = false, panStartX = 0, panStartY = 0, scrollStartX = 0, scrollStartY = 0;
-
-                const updateRubberWirePointer = (clientX, clientY) => {
-                    if (!selectedTerminal || !tempRubberWire) return;
-                    const boardRect = document.getElementById('realSimBoard').getBoundingClientRect();
-                    const startPos = getPinBoardCoords(selectedTerminal.elem);
-                    const curX = (clientX - boardRect.left) / currentZoom;
-                    const curY = (clientY - boardRect.top) / currentZoom;
-                    tempRubberWire.setAttribute('d', `M ${startPos.x} ${startPos.y} L ${curX} ${curY}`);
-                };
-
-                canvasContainer.addEventListener('mousemove', (e) => {
-                    updateRubberWirePointer(e.clientX, e.clientY);
-                    if (!isPanning) return;
-                    canvasContainer.scrollLeft = scrollStartX - (e.clientX - panStartX);
-                    canvasContainer.scrollTop = scrollStartY - (e.clientY - panStartY);
-                });
-                canvasContainer.addEventListener('mousedown', (e) => {
-                    if (e.target.closest('.real-component') || e.target.closest('button') || e.target.closest('.pin-node')) return;
-                    isPanning = true; panStartX = e.clientX; panStartY = e.clientY;
-                    scrollStartX = canvasContainer.scrollLeft; scrollStartY = canvasContainer.scrollTop;
-                });
-                window.addEventListener('mouseup', () => { isPanning = false; });
-
-                canvasContainer.addEventListener('touchmove', (e) => {
-                    if (e.touches.length === 1) updateRubberWirePointer(e.touches[0].clientX, e.touches[0].clientY);
-                }, { passive: true });
-            }
+            renderCalculationHistory();
         });
     </script>
 </body>
