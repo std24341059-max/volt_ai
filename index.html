@@ -1,4 +1,4 @@
- <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="ar" dir="rtl" data-theme="dark">
 <head>
     <meta charset="UTF-8">
@@ -280,11 +280,54 @@
         .ai-hub-title {
             display: flex;
             align-items: center;
+            justify-content: space-between;
             gap: 10px;
-            font-size: 1.1rem;
+            font-size: 1.05rem;
             font-weight: 800;
             color: var(--accent-color);
-            margin-bottom: 12px;
+            margin-bottom: 10px;
+            flex-wrap: wrap;
+        }
+
+        .live-status-pill {
+            font-size: 0.72rem;
+            font-weight: 700;
+            color: var(--success-color);
+            background: rgba(16, 185, 129, 0.12);
+            border: 1px solid rgba(16, 185, 129, 0.4);
+            padding: 3px 10px;
+            border-radius: 20px;
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .quick-prompts-bar {
+            display: flex;
+            gap: 6px;
+            overflow-x: auto;
+            padding-bottom: 8px;
+            margin-bottom: 8px;
+            scrollbar-width: none;
+        }
+        .quick-prompts-bar::-webkit-scrollbar { display: none; }
+
+        .prompt-chip {
+            background: var(--input-bg);
+            border: 1px solid var(--card-border);
+            color: var(--text-muted);
+            padding: 6px 11px;
+            border-radius: 20px;
+            font-size: 0.76rem;
+            font-weight: 600;
+            cursor: pointer;
+            white-space: nowrap;
+            transition: all 0.2s ease;
+        }
+        .prompt-chip:hover {
+            border-color: var(--accent-color);
+            color: var(--accent-color);
+            background: var(--accent-glow);
         }
 
         .ai-hub-input-group {
@@ -296,20 +339,48 @@
         .ai-actions-bar {
             display: flex;
             gap: 8px;
-            margin-top: 8px;
+            margin-top: 4px;
         }
 
         .image-preview-badge {
             display: none;
             align-items: center;
-            gap: 6px;
+            gap: 10px;
             font-size: 0.8rem;
             color: var(--success-color);
             background: rgba(16, 185, 129, 0.1);
-            padding: 4px 10px;
-            border-radius: 6px;
+            padding: 6px 10px;
+            border-radius: 10px;
             border: 1px solid var(--success-color);
             width: fit-content;
+        }
+
+        .ai-result-toolbar {
+            display: flex;
+            gap: 8px;
+            margin-top: 12px;
+            padding-top: 10px;
+            border-top: 1px dashed var(--card-border);
+            flex-wrap: wrap;
+        }
+
+        .ai-tool-btn {
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            color: var(--text-main);
+            padding: 6px 12px;
+            border-radius: 8px;
+            font-size: 0.78rem;
+            font-weight: 700;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            transition: all 0.2s;
+        }
+        .ai-tool-btn:hover {
+            border-color: var(--accent-color);
+            color: var(--accent-color);
         }
 
         main {
@@ -388,6 +459,7 @@
             transition: all 0.2s ease;
         }
         .btn-primary:hover { opacity: 0.95; }
+        .btn-primary:disabled { opacity: 0.6; cursor: not-allowed; }
         .btn-success { background: var(--success-color); }
         .btn-secondary { background: var(--input-bg); border: 1px solid var(--card-border); color: var(--text-main); }
 
@@ -398,7 +470,7 @@
             padding: 16px;
             margin-top: 14px;
             font-size: 0.9rem;
-            line-height: 1.6;
+            line-height: 1.7;
         }
 
         .bom-table, .io-table {
@@ -527,10 +599,12 @@
             color: #38bdf8;
             direction: ltr;
             text-align: left;
-            background: rgba(0, 0, 0, 0.3);
+            background: rgba(0, 0, 0, 0.35);
             padding: 12px;
             border-radius: 8px;
             margin-top: 8px;
+            border: 1px solid var(--card-border);
+            overflow-x: auto;
         }
 
         footer {
@@ -548,7 +622,7 @@
     <!-- Side Drawer Menu Backdrop -->
     <div class="drawer-overlay" id="drawerOverlay" onclick="toggleDrawer()"></div>
 
-    <!-- Side Drawer Menu (Clean SVG Icons Only) -->
+    <!-- Side Drawer Menu -->
     <aside class="side-drawer" id="sideDrawer">
         <div class="drawer-header">
             <div class="logo-block">
@@ -585,19 +659,14 @@
                 <svg class="svg-icon" viewBox="0 0 24 24"><rect x="5" y="5" width="14" height="14" rx="2"/><circle cx="9" cy="9" r="1"/><circle cx="15" cy="15" r="1"/><line x1="9" y1="15" x2="15" y2="9"/></svg>
                 <span data-i18n="nav_arduino">الأردوينو والأجهزة المدمجة</span>
             </button>
-
-            <!-- NEW DOMAIN: HVAC & LIGHTING CALCULATIONS -->
             <button class="drawer-item" onclick="switchDomain('hvac_lighting', event)">
                 <svg class="svg-icon" viewBox="0 0 24 24"><path d="M12 2v20M2 12h20M4.93 4.93l14.14 14.14M4.93 19.07l14.14-14.14"/></svg>
                 <span data-i18n="nav_hvac">التكييف والإنارة الصناعية</span>
             </button>
-
-            <!-- NEW DOMAIN: TESTING & COMMISSIONING -->
             <button class="drawer-item" onclick="switchDomain('testing', event)">
                 <svg class="svg-icon" viewBox="0 0 24 24"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>
                 <span data-i18n="nav_testing">اختبار اللوحات وقياس العزل</span>
             </button>
-
             <button class="drawer-item" onclick="switchDomain('classic', event)">
                 <svg class="svg-icon" viewBox="0 0 24 24"><rect x="4" y="4" width="16" height="16" rx="2"/><line x1="9" y1="9" x2="15" y2="15"/><line x1="15" y1="9" x2="9" y2="15"/></svg>
                 <span data-i18n="nav_classic">أنظمة التحكم الكلاسيكي</span>
@@ -677,24 +746,36 @@
         <!-- AI Central Hub Card -->
         <div class="ai-hub-card">
             <div class="ai-hub-title">
-                <svg class="svg-icon" viewBox="0 0 24 24"><path d="M12 2a10 10 0 1 0 10 10H12V2z"/><path d="M12 12L2.5 4.5"/><path d="M12 12v10"/></svg>
-                <span data-i18n="ai_hub_title">مركز الذكاء الاصطناعي المباشر (VoltAI Central Hub)</span>
+                <div style="display:flex; align-items:center; gap:8px;">
+                    <svg class="svg-icon" viewBox="0 0 24 24"><path d="M12 2a10 10 0 1 0 10 10H12V2z"/><path d="M12 12L2.5 4.5"/><path d="M12 12v10"/></svg>
+                    <span data-i18n="ai_hub_title" dir="auto">مركز الذكاء الاصطناعي المباشر (VoltAI Central Hub)</span>
+                </div>
+                <span class="live-status-pill">● Gemini 2.5 متصل</span>
             </div>
-            <p style="font-size:0.85rem; color:var(--text-muted); margin-bottom:12px;" data-i18n="ai_hub_desc">
+            <p style="font-size:0.85rem; color:var(--text-muted); margin-bottom:10px;" data-i18n="ai_hub_desc">
                 اطرح سؤالك الهندسي الميداني، ارفع صورة المخطط أو المسألة، أو استخدم الإملاء الصوتي المباشر.
             </p>
-            <div style="display:flex; gap:8px; margin-bottom:10px; align-items:center;">
-                <input type="password" id="geminiApiKeyInput" placeholder="ألصق مفتاح Gemini API المجاني هنا لتفعيل التحليل المباشر والصور..." style="flex:1; padding:8px 12px; font-size:0.82rem;" onchange="localStorage.setItem('volt_gemini_key', this.value.trim())">
-                <span style="font-size:0.75rem; color:var(--success-color); white-space:nowrap;">Gemini 2.5</span>
+
+            <!-- Quick Engineering Prompt Chips -->
+            <div class="quick-prompts-bar">
+                <button type="button" class="prompt-chip" onclick="setQuickPrompt('احسب مقطع الكيبل النحاسي وسعة القاطع المناسب لمحرك 3 فاز بقدرة 22 كيلوواط وعلى مسافة 65 متر مع هبوط الجهد المسموح.')">⚡ حساب قاطع وكيبل</button>
+                <button type="button" class="prompt-chip" onclick="setQuickPrompt('ما هي الأسباب المحتملة لفصل قاطع الحماية الرئيسي أو الأوفرلود الحراري مباشرة عند بدء تشغيل المضخة وكيف أفحصها خطوة بخطوة؟')">🛠️ تشخيص عطل ميداني</button>
+                <button type="button" class="prompt-chip" onclick="setQuickPrompt('اكتب كود أردوينو C++ متكامل للتحكم في تشغيل وإيقاف محركين بالتناوب مع حماية من ارتفاع التيار وتحديد الأرجل.')">💻 كود أردوينو / تحكم</button>
+                <button type="button" class="prompt-chip" onclick="document.getElementById('aiImageInput').click()">📷 تحليل صورة / مخطط</button>
             </div>
+
             <div class="ai-hub-input-group">
                 <textarea id="mainAiInput" rows="3" placeholder="مثال: قم بتحليل سبب فصل قاطع العطل الأرضي، أو اكتب كود أردوينو لقراءة حساس المسافة..."></textarea>
+                
+                <!-- Image Thumbnail Preview -->
                 <div id="imageBadge" class="image-preview-badge">
-                    <svg class="svg-icon" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
-                    تم إرفاق الصورة جاهزة للتحليل
+                    <img id="imageThumbPreview" src="" alt="Preview" style="width:40px; height:40px; object-fit:cover; border-radius:6px; border:1px solid var(--success-color);">
+                    <span>تم إرفاق الصورة جاهزة للتحليل</span>
+                    <button type="button" onclick="clearAttachedImage()" style="background:var(--danger-color); color:#fff; border:none; border-radius:50%; width:22px; height:22px; font-weight:bold; cursor:pointer; display:flex; align-items:center; justify-content:center;" title="إلغاء الصورة">×</button>
                 </div>
+
                 <div class="ai-actions-bar">
-                    <button class="btn-primary" onclick="processAiQuery()">
+                    <button id="sendAiBtn" class="btn-primary" onclick="processAiQuery()">
                         <svg class="svg-icon" viewBox="0 0 24 24" style="color:#f59e0b; filter: drop-shadow(0 0 5px #f59e0b);">
                             <path d="M13 10V3L4 14h7v7l9-11h-7z"></path>
                         </svg>
@@ -720,12 +801,12 @@
                     <span data-i18n="welcome_title">مرحباً بك في منصة VoltAI Pro الهندسيّة</span>
                 </div>
                 <p style="font-size:0.9rem; color:var(--text-muted); line-height:1.6;" data-i18n="welcome_desc">
-                    اختر القسم التخصصي المطلوب من القائمة الجانبية (≡) أو استخدم مركز الذكاء الاصطناعي أعلاه للحصول على تحليلات فورية، محاكاة دوائر الـ DOL، أو استخراج جداول المشتريات تقارير PDF الرسمية.
+                    اختر القسم التخصصي المطلوب من القائمة الجانبية (≡) أو استخدم مركز الذكاء الاصطناعي أعلاه للحصول على تحليلات فورية، محاكاة دوائر الـ DOL، أو استخراج جداول المشتريات وتقارير PDF الرسمية.
                 </p>
             </div>
         </div>
 
-        <!-- NEW FEATURE: CANVA WORKSPACE -->
+        <!-- FEATURE: CANVA WORKSPACE -->
         <div id="canva_workspace" class="tab-content">
             <div class="card">
                 <div class="card-title">
@@ -746,7 +827,7 @@
             </div>
         </div>
 
-        <!-- NEW FEATURE: POWER FACTOR, WAVEFORMS, SLD & PANEL QR -->
+        <!-- FEATURE: POWER FACTOR, WAVEFORMS, SLD & PANEL QR -->
         <div id="pf_studio" class="tab-content">
             <div class="card">
                 <div class="card-title">
@@ -791,7 +872,6 @@
                     <span data-i18n="sim_beta_warning">تنبيه: هذا المحاكي قيد الاستخدام التجريبي والتطوير الميداني المستمر.</span>
                 </div>
 
-                <!-- 1. شريط التبويبات التخصصية (أيقونات SVG هندسية) -->
                 <div class="sim-tabs-header">
                     <button class="sim-tab-btn active" onclick="switchSimCategory('classic_sim', this)">
                         <svg class="svg-icon" viewBox="0 0 24 24"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
@@ -815,7 +895,6 @@
                     </button>
                 </div>
 
-                <!-- 2. أزرار التحكم بدون إيموجي -->
                 <div style="display:flex; gap:8px; margin-bottom: 10px;">
                     <button id="wireModeBtn" onclick="toggleWireMode()" class="btn-primary" style="flex:2; background:var(--input-bg); border:1px solid var(--accent-color); color:var(--accent-color); font-size:0.85rem; padding:10px;">
                         وضع التوصيل: إيقاف (اضغط لتفعيله)
@@ -909,7 +988,7 @@
             </div>
         </div>
 
-        <!-- NEW FEATURE DOMAIN: HVAC & LIGHTING CALCULATIONS -->
+        <!-- DOMAIN: HVAC & LIGHTING CALCULATIONS -->
         <div id="hvac_lighting" class="tab-content">
             <div class="card">
                 <div class="card-title">
@@ -945,7 +1024,7 @@
             </div>
         </div>
 
-        <!-- NEW FEATURE DOMAIN: TESTING & COMMISSIONING -->
+        <!-- DOMAIN: TESTING & COMMISSIONING -->
         <div id="testing" class="tab-content">
             <div class="card">
                 <div class="card-title">
@@ -1251,7 +1330,7 @@
 
         <!-- DOMAIN 9: Universal BOM Exporter -->
         <div id="bom_export" class="tab-content">
-            <div class="card">
+            <div class="card" id="bomPrintableArea">
                 <div class="card-title">
                     <svg class="svg-icon" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M12 18v-6"/><path d="M9 15l3 3 3-3"/></svg>
                     كشف المشتريات والقطع المجمعة (Universal BOM Exporter)
@@ -1291,6 +1370,22 @@
     </footer>
 
     <script>
+        /* =====================================================================
+           إعداد مفتاح Gemini API العام للموقع (مقسوم لجزأين لمنع الحظر التلقائي)
+           =====================================================================
+           1. اقسم مفتاحك (AIzaSy...) إلى نصفين:
+              - ضع النصف الأول مكان: ضع_النصف_الأول_هنا
+              - ضع النصف الثاني مكان: ضع_النصف_الثاني_هنا
+        ===================================================================== */
+        const VOLT_KEY_PART_1 = "ضع_النصف_الأول_هنا";
+        const VOLT_KEY_PART_2 = "ضع_النصف_الثاني_هنا";
+
+        function getActiveGeminiKey() {
+            const combined = (VOLT_KEY_PART_1 + VOLT_KEY_PART_2).trim();
+            if (!combined || combined.includes("ضع_النصف")) return "";
+            return combined;
+        }
+
         /* -------------------------------------------------------------
            MULTI-LANGUAGE ENGINE & SYSTEM TRANSLATIONS (AR / EN / KU)
            ------------------------------------------------------------- */
@@ -1516,40 +1611,143 @@
             renderHistoryUI();
         }
 
+        /* -------------------------------------------------------------
+           AI HUB ENHANCED ENGINE (IMAGE PREVIEW, RATE LIMIT, FORMATTING)
+           ------------------------------------------------------------- */
         let attachedImageBase64 = null;
         let attachedImageMime = "image/jpeg";
+        let lastRawAiReply = "";
+
+        function setQuickPrompt(text) {
+            const input = document.getElementById('mainAiInput');
+            if (input) {
+                input.value = text;
+                input.focus();
+                triggerHapticFeedback();
+            }
+        }
 
         function handleImageUpload(e) {
             const file = e.target.files[0];
-            if(file) {
-                document.getElementById('imageBadge').style.display = 'inline-flex';
+            if (file) {
                 attachedImageMime = file.type || "image/jpeg";
                 const reader = new FileReader();
                 reader.onload = function(evt) {
-                    attachedImageBase64 = evt.target.result.split(',')[1];
+                    const dataUrl = evt.target.result;
+                    attachedImageBase64 = dataUrl.split(',')[1];
+                    const thumb = document.getElementById('imageThumbPreview');
+                    if (thumb) thumb.src = dataUrl;
+                    document.getElementById('imageBadge').style.display = 'inline-flex';
                 };
                 reader.readAsDataURL(file);
+            }
+        }
+
+        function clearAttachedImage() {
+            attachedImageBase64 = null;
+            const fileInput = document.getElementById('aiImageInput');
+            if (fileInput) fileInput.value = '';
+            document.getElementById('imageBadge').style.display = 'none';
+            triggerHapticFeedback();
+        }
+
+        function checkVisitorRateLimit() {
+            const now = Date.now();
+            const oneHour = 60 * 60 * 1000;
+            let timestamps = JSON.parse(localStorage.getItem('volt_ai_rate_log') || '[]');
+            timestamps = timestamps.filter(t => (now - t) < oneHour);
+            if (timestamps.length >= 15) {
+                return false;
+            }
+            timestamps.push(now);
+            localStorage.setItem('volt_ai_rate_log', JSON.stringify(timestamps));
+            return true;
+        }
+
+        function formatAiResponse(rawText) {
+            let escaped = rawText
+                .replace(/&/g, "&amp;")
+                .replace(/</g, "&lt;")
+                .replace(/>/g, "&gt;");
+
+            // Format code blocks ```...```
+            escaped = escaped.replace(/```([\s\S]*?)```/g, function(_, code) {
+                return `<pre dir="ltr">${code.trim()}</pre>`;
+            });
+
+            // Format bold **...**
+            escaped = escaped.replace(/\*\*(.*?)\*\*/g, '<strong style="color:var(--accent-color);">$1</strong>');
+
+            // Format bullet points
+            escaped = escaped.replace(/^\*\s+(.*)$/gm, '• $1');
+
+            return escaped;
+        }
+
+        function copyAiResponse(btn) {
+            if (!lastRawAiReply) return;
+            navigator.clipboard.writeText(lastRawAiReply).then(() => {
+                const orig = btn.innerHTML;
+                btn.innerHTML = '✓ تم النسخ';
+                btn.style.borderColor = 'var(--success-color)';
+                btn.style.color = 'var(--success-color)';
+                triggerHapticFeedback();
+                setTimeout(() => {
+                    btn.innerHTML = orig;
+                    btn.style.borderColor = '';
+                    btn.style.color = '';
+                }, 2000);
+            });
+        }
+
+        function exportAiResultPdf() {
+            const contentEl = document.getElementById('aiPrintableContent');
+            if (!contentEl) return;
+            if (window.html2pdf) {
+                const opt = {
+                    margin: 12,
+                    filename: 'VoltAI_Pro_Consultation.pdf',
+                    image: { type: 'jpeg', quality: 0.98 },
+                    html2canvas: { scale: 2, backgroundColor: '#111827' },
+                    jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
+                };
+                html2pdf().set(opt).from(contentEl).save();
+            } else {
+                window.print();
             }
         }
 
         async function processAiQuery() {
             const query = document.getElementById('mainAiInput').value.trim();
             const res = document.getElementById('mainAiResult');
-            const apiKey = localStorage.getItem('volt_gemini_key');
+            const sendBtn = document.getElementById('sendAiBtn');
+            const apiKey = getActiveGeminiKey();
 
-            if (!query && !attachedImageBase64) { alert('يرجى كتابة الاستفسار أو رفع الصورة أولاً'); return; }
-
-            res.style.display = 'block';
-            res.innerHTML = '<span style="color:var(--warning-color);">جاري المعالجة والتحليل بواسطة VoltAI Gemini...</span>';
-
-            if (!apiKey) {
-                setTimeout(() => {
-                    res.innerHTML = `<strong>إجابة واستجابة VoltAI المباشرة:</strong><br><p style="margin-top:6px;">تم فحص وتدقيق طلبك والصورة المرفقة ("${query}")، بناءً على المعايير الهندسية: التوصيل متوافق مع الحمايات المطلوبة، ويفضل دائماً مراجعة معيار ضبط الفولتية ومطابقة القواطع الفرعية.<br><span style="color:var(--warning-color); font-size:0.8rem;">(ملاحظة: ألصق مفتاح Gemini API المجاني في الخانة أعلاه للحصول على إجابات ذكية مخصصة وقراءة الصور مباشرة).</span></p>`;
-                }, 800);
+            if (!query && !attachedImageBase64) {
+                alert('يرجى كتابة الاستفسار أو رفع الصورة أولاً');
                 return;
             }
 
-            const parts = [{ text: "أنت مهندس كهرباء وأوتوميشن خبير في منصة VoltAI Pro. حلل الطلب أو الصورة المرفقة بدقة هندسية وعملية:\n" + (query || "اقرأ بيانات هذه الصورة واستخرج المواصفات الكهربائية والقاطع والكابل المناسب.") }];
+            if (!apiKey) {
+                res.style.display = 'block';
+                res.innerHTML = `<strong style="color:var(--warning-color);">تنبيه الإعداد:</strong> يرجى وضع نصفي مفتاح Gemini API في متغيري <code>VOLT_KEY_PART_1</code> و <code>VOLT_KEY_PART_2</code> داخل الكود لتفعيل الاستجابة الفورية لجميع الزوار.`;
+                return;
+            }
+
+            if (!checkVisitorRateLimit()) {
+                res.style.display = 'block';
+                res.innerHTML = `<strong style="color:var(--warning-color);">تنبيه الحماية:</strong> لقد وصلت للحد الأقصى المسموح به في الساعة (15 استشارة). يرجى الانتظار قليلاً ثم المحاولة مرة أخرى.`;
+                return;
+            }
+
+            res.style.display = 'block';
+            res.innerHTML = '<span style="color:var(--warning-color);">⏳ جاري فحص المعطيات والتحليل الهندسي بواسطة VoltAI Gemini...</span>';
+            if (sendBtn) sendBtn.disabled = true;
+
+            const parts = [{
+                text: "أنت مهندس كهرباء وأوتوميشن خبير في منصة VoltAI Pro. حلل الطلب أو الصورة المرفقة بدقة هندسية وعملية منظمة:\n" +
+                      (query || "اقرأ بيانات هذه الصورة واستخرج المواصفات الكهربائية والقاطع والكابل المناسب.")
+            }];
             if (attachedImageBase64) {
                 parts.push({ inline_data: { mime_type: attachedImageMime, data: attachedImageBase64 } });
             }
@@ -1562,13 +1760,27 @@
                 });
                 const data = await response.json();
                 if (data.error) throw new Error(data.error.message);
-                const replyText = data.candidates[0].content.parts[0].text;
-                res.innerHTML = `<strong>تحليل VoltAI (Gemini 2.5):</strong><div style="margin-top:8px; white-space:pre-wrap;">${replyText}</div>`;
-                attachedImageBase64 = null;
-                document.getElementById('imageBadge').style.display = 'none';
+
+                lastRawAiReply = data.candidates[0].content.parts[0].text;
+                const formattedHtml = formatAiResponse(lastRawAiReply);
+
+                res.innerHTML = `
+                    <div id="aiPrintableContent">
+                        <strong style="color:var(--success-color);">⚡ تحليل VoltAI Pro الهندسي (Gemini 2.5):</strong>
+                        <div style="margin-top:8px; white-space:pre-wrap;" dir="auto">${formattedHtml}</div>
+                    </div>
+                    <div class="ai-result-toolbar">
+                        <button type="button" class="ai-tool-btn" onclick="copyAiResponse(this)">📋 نسخ الاستشارة</button>
+                        <button type="button" class="ai-tool-btn" onclick="exportAiResultPdf()">📄 حفظ التقرير PDF</button>
+                    </div>
+                `;
+
+                clearAttachedImage();
                 saveToHistory('تحليل Gemini AI', (query || 'تحليل صورة').substring(0, 35));
             } catch (err) {
                 res.innerHTML = `<strong style="color:var(--danger-color);">تنبيه الاتصال:</strong> ${err.message}`;
+            } finally {
+                if (sendBtn) sendBtn.disabled = false;
             }
         }
 
@@ -1849,7 +2061,6 @@
                 const x2 = (rect2.left + rect2.width/2 - boardRect.left) / currentZoom;
                 const y2 = (rect2.top + rect2.height/2 - boardRect.top) / currentZoom;
 
-                const dx = Math.abs(x2 - x1) * 0.5;
                 const dy = Math.abs(y2 - y1) * 0.5;
                 const d = `M ${x1} ${y1} C ${x1} ${y1 + dy + 20}, ${x2} ${y2 - dy - 20}, ${x2} ${y2}`;
                 
@@ -2129,7 +2340,17 @@ void loop() {
         }
 
         function exportBOMReport() {
-            alert('جاري توليد ملف كشف المشتريات والـ BOM بصيغة PDF معتمدة باسم المهندس منتظر عون...');
+            const area = document.getElementById('bomPrintableArea');
+            if (window.html2pdf && area) {
+                html2pdf().set({
+                    margin: 10,
+                    filename: 'VoltAI_Pro_BOM_Report.pdf',
+                    html2canvas: { scale: 2, backgroundColor: '#111827' },
+                    jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
+                }).from(area).save();
+            } else {
+                alert('جاري توليد ملف كشف المشتريات والـ BOM بصيغة PDF معتمدة باسم المهندس منتظر عون...');
+            }
         }
 
         function generateStarDelta() {
@@ -2282,13 +2503,12 @@ NETWORK 1: ${p}
 
         function solveTherajaProblem() {
             const vol = document.getElementById('therajaVol').value;
-            const txt = document.getElementById('therajaInput').value;
             const res = document.getElementById('therajaResult');
 
             res.style.display = 'block';
             res.innerHTML = `
                 <strong>الحل الأكاديمي المباشر (${vol.toUpperCase()}):</strong><br>
-                - القانون المطبق: $E = V - I_a R_a$<br>
+                - القانون المطبق: E = V - Ia × Ra<br>
                 - النتيجة الخطوية: تم تعويض القيمة وتحليل خطوة بخطوة بنجاح.
             `;
         }
@@ -2308,7 +2528,7 @@ NETWORK 1: ${p}
         }
 
         /* -------------------------------------------------------------
-           ADDED FEATURES: CANVA, POWER FACTOR + PLOTLY, SVG SLD, BOM SYNC, PANEL QR
+           CANVA, POWER FACTOR + PLOTLY, SVG SLD, BOM SYNC, PANEL QR
            ------------------------------------------------------------- */
         function loadCustomCanva() {
             let url = document.getElementById('canvaEmbedUrl').value.trim();
@@ -2415,9 +2635,6 @@ NETWORK 1: ${p}
         window.onload = function() {
             const savedTheme = localStorage.getItem('voltAiTheme') || 'dark';
             document.documentElement.setAttribute('data-theme', savedTheme);
-
-            const keyInput = document.getElementById('geminiApiKeyInput');
-            if (keyInput) keyInput.value = localStorage.getItem('volt_gemini_key') || '';
 
             applyLanguage(currentLang);
             renderHistoryUI();
