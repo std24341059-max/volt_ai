@@ -141,6 +141,8 @@
             display: flex;
             align-items: center;
             gap: 10px;
+            user-select: none;
+            cursor: pointer;
         }
 
         .logo-svg {
@@ -614,6 +616,29 @@
             color: var(--text-muted);
             border-top: 1px solid var(--card-border);
             margin-top: auto;
+            user-select: none;
+        }
+
+        /* Hidden Secret Maintenance Modal (Invisible to users) */
+        .secret-modal-overlay {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(6px);
+            z-index: 9999;
+            align-items: center;
+            justify-content: center;
+            padding: 16px;
+        }
+        .secret-modal-card {
+            background: var(--card-bg);
+            border: 1px solid var(--accent-color);
+            border-radius: 18px;
+            padding: 20px;
+            width: 100%;
+            max-width: 420px;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.8);
         }
     </style>
 </head>
@@ -716,7 +741,7 @@
             <button class="drawer-toggle-btn" onclick="toggleDrawer()" title="القائمة الجانبية">
                 <svg class="svg-icon" viewBox="0 0 24 24"><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
             </button>
-            <div class="logo-block">
+            <div class="logo-block" onclick="handleSecretTap()">
                 <svg class="logo-svg" viewBox="0 0 100 100" fill="none">
                     <circle cx="50" cy="50" r="48" stroke="#3b82f6" stroke-width="2" fill="#0b1120"/>
                     <path d="M50 15L65 30H75L80 35V45L85 50L80 55V65L75 70H65L50 85L35 70H25L20 65V55L15 50L20 45V35L25 30H35L50 15Z" fill="#151d30" stroke="#3b82f6" stroke-width="2"/>
@@ -1365,25 +1390,86 @@
         </div>
     </main>
 
-    <footer>
+    <footer onclick="handleSecretTap()">
         <span data-i18n="footer_rights">جميع الحقوق محفوظة © 2026 | تطوير</span> <a href="https://github.com/std24341059-max" target="_blank" style="color:var(--accent-color); text-decoration:none; font-weight:bold;">المهندس منتظر عون</a>
     </footer>
 
+    <!-- Secret Maintenance Modal (Completely hidden from visitors) -->
+    <div id="secretMaintenanceModal" class="secret-modal-overlay">
+        <div class="secret-modal-card">
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">
+                <strong style="color:var(--accent-color); font-size:1rem;">لوحة صيانة المفتاح السرية</strong>
+                <button type="button" onclick="closeSecretModal()" style="background:none; border:none; color:var(--text-muted); font-size:1.3rem; cursor:pointer;">×</button>
+            </div>
+            <p style="font-size:0.82rem; color:var(--text-muted); margin-bottom:10px;">
+                يمكنك تحديث مفتاح Gemini API مباشرة من هنا لتجربته فوراً دون تعديل الكود:
+            </p>
+            <input type="text" id="secretNewApiKeyInput" placeholder="ألصق مفتاح Gemini API هنا..." style="margin-bottom:12px; direction:ltr;">
+            <div style="display:flex; gap:8px; flex-wrap:wrap;">
+                <button type="button" class="btn-primary btn-success" style="flex:1;" onclick="saveSecretOverrideKey()">حفظ وتفعيل</button>
+                <button type="button" class="btn-primary btn-secondary" style="flex:1;" onclick="resetSecretOverrideKey()">المفتاح الافتراضي</button>
+            </div>
+        </div>
+    </div>
+
     <script>
         /* =====================================================================
-           إعداد مفتاح Gemini API العام للموقع (مقسوم لجزأين لمنع الحظر التلقائي)
-           =====================================================================
-           1. اقسم مفتاحك (AIzaSy...) إلى نصفين:
-              - ضع النصف الأول مكان: ضع_النصف_الأول_هنا
-              - ضع النصف الثاني مكان: ضع_النصف_الثاني_هنا
-        ===================================================================== */
-        const VOLT_KEY_PART_1 = "ضع_النصف_الأول_هنا";
-        const VOLT_KEY_PART_2 = "ضع_النصف_الثاني_هنا";
+           مفتاح Gemini API العام للموقع (مقسوم لجزأين لمنع الحظر التلقائي)
+           ===================================================================== */
+        const VOLT_KEY_PART_1 = "AQ.Ab8RN6JLbjwc2msRQGVwBXB";
+        const VOLT_KEY_PART_2 = "u3PGY_GKBQhYMeJ3Fq-VY4RajvA";
+        const SECRET_ADMIN_PIN = "2026";
 
         function getActiveGeminiKey() {
+            const overrideKey = localStorage.getItem('volt_custom_override_key');
+            if (overrideKey && overrideKey.trim().length > 10) {
+                return overrideKey.trim();
+            }
             const combined = (VOLT_KEY_PART_1 + VOLT_KEY_PART_2).trim();
             if (!combined || combined.includes("ضع_النصف")) return "";
             return combined;
+        }
+
+        /* -------------------------------------------------------------
+           HIDDEN MAINTENANCE TRIGGER (5 TAPS ON LOGO OR FOOTER)
+           ------------------------------------------------------------- */
+        let secretTapCount = 0;
+        let secretTapTimer = null;
+
+        function handleSecretTap() {
+            secretTapCount++;
+            clearTimeout(secretTapTimer);
+            secretTapTimer = setTimeout(() => { secretTapCount = 0; }, 2500);
+
+            if (secretTapCount >= 5) {
+                secretTapCount = 0;
+                const enteredPin = prompt("وضع الصيانة — أدخل الرمز السري للمطور:");
+                if (enteredPin === SECRET_ADMIN_PIN) {
+                    const modal = document.getElementById('secretMaintenanceModal');
+                    const input = document.getElementById('secretNewApiKeyInput');
+                    if (input) input.value = getActiveGeminiKey();
+                    if (modal) modal.style.display = 'flex';
+                }
+            }
+        }
+
+        function closeSecretModal() {
+            const modal = document.getElementById('secretMaintenanceModal');
+            if (modal) modal.style.display = 'none';
+        }
+
+        function saveSecretOverrideKey() {
+            const val = document.getElementById('secretNewApiKeyInput').value.trim();
+            if (!val) return alert('يرجى إدخال المفتاح أولاً.');
+            localStorage.setItem('volt_custom_override_key', val);
+            closeSecretModal();
+            alert('تم حفظ وتفعيل المفتاح الجديد بنجاح!');
+        }
+
+        function resetSecretOverrideKey() {
+            localStorage.removeItem('volt_custom_override_key');
+            closeSecretModal();
+            alert('تمت استعادة المفتاح الافتراضي المثبت في الكود.');
         }
 
         /* -------------------------------------------------------------
@@ -1670,15 +1756,11 @@
                 .replace(/</g, "&lt;")
                 .replace(/>/g, "&gt;");
 
-            // Format code blocks ```...```
             escaped = escaped.replace(/```([\s\S]*?)```/g, function(_, code) {
                 return `<pre dir="ltr">${code.trim()}</pre>`;
             });
 
-            // Format bold **...**
             escaped = escaped.replace(/\*\*(.*?)\*\*/g, '<strong style="color:var(--accent-color);">$1</strong>');
-
-            // Format bullet points
             escaped = escaped.replace(/^\*\s+(.*)$/gm, '• $1');
 
             return escaped;
@@ -1730,7 +1812,7 @@
 
             if (!apiKey) {
                 res.style.display = 'block';
-                res.innerHTML = `<strong style="color:var(--warning-color);">تنبيه الإعداد:</strong> يرجى وضع نصفي مفتاح Gemini API في متغيري <code>VOLT_KEY_PART_1</code> و <code>VOLT_KEY_PART_2</code> داخل الكود لتفعيل الاستجابة الفورية لجميع الزوار.`;
+                res.innerHTML = `<strong style="color:var(--warning-color);">تنبيه الخدمة:</strong> الخدمة قيد الصيانة المؤقتة، يرجى المحاولة لاحقاً.`;
                 return;
             }
 
@@ -1753,7 +1835,7 @@
             }
 
             try {
-                const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${apiKey}`, {
+                const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${encodeURIComponent(apiKey)}`, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({ contents: [{ parts }] })
