@@ -653,9 +653,9 @@
             background: rgba(15, 23, 42, 0.96);
             border: 1.5px solid #334155;
             border-radius: 14px;
-            padding: 15px 16px;
-            min-width: 154px;
-            min-height: 122px;
+            padding: 16px 18px;
+            min-width: 164px;
+            min-height: 126px;
             box-shadow: 0 10px 26px rgba(0, 0, 0, 0.7);
             display: flex;
             flex-direction: column;
@@ -673,13 +673,14 @@
         }
 
         .comp-state-pill {
-            font-size: 0.62rem;
+            font-size: 0.63rem;
             font-weight: 800;
-            padding: 2px 7px;
+            padding: 3px 8px;
             border-radius: 8px;
-            margin-top: 4px;
+            margin-top: 5px;
             cursor: pointer;
             border: 1px solid rgba(255,255,255,0.2);
+            color: #fff;
         }
 
         .pin-node {
@@ -691,18 +692,18 @@
             justify-content: center;
             cursor: crosshair;
             z-index: 80;
-            touch-action: manipulation;
-            padding: 5px;
+            touch-action: none;
+            padding: 9px;
         }
         .pin-screw {
-            width: 16px;
-            height: 16px;
+            width: 18px;
+            height: 18px;
             border-radius: 50%;
             background: #1e293b;
             border: 2.5px solid #38bdf8;
-            box-shadow: 0 0 6px rgba(56, 189, 248, 0.55);
+            box-shadow: 0 0 8px rgba(56, 189, 248, 0.65);
             position: relative;
-            transition: transform 0.15s, background 0.15s;
+            transition: transform 0.15s, background 0.15s, border-color 0.15s;
         }
         .pin-screw::after {
             content: '';
@@ -714,28 +715,35 @@
         }
         .pin-node:hover .pin-screw,
         .pin-node.selected-term .pin-screw {
-            transform: scale(1.38);
+            transform: scale(1.42);
             background: #f59e0b;
             border-color: #ffffff;
-            box-shadow: 0 0 12px #f59e0b;
+            box-shadow: 0 0 14px #f59e0b;
+        }
+        .pin-node.snap-target-term .pin-screw {
+            transform: scale(1.52);
+            background: #10b981;
+            border-color: #ffffff;
+            box-shadow: 0 0 16px #10b981;
         }
         .pin-tag {
-            font-size: 0.6rem;
+            font-size: 0.62rem;
             font-weight: 800;
             color: #e2e8f0;
-            background: rgba(2, 6, 23, 0.9);
-            padding: 1px 4px;
+            background: rgba(2, 6, 23, 0.92);
+            padding: 1px 5px;
             border-radius: 4px;
             margin-top: 2px;
             pointer-events: none;
             white-space: nowrap;
         }
 
-        .drawn-wire-path { cursor: pointer; pointer-events: stroke; }
-        .drawn-wire-path:hover { stroke-width: 6 !important; }
+        .drawn-wire-hit { cursor: pointer; pointer-events: stroke; }
+        .drawn-wire-path { pointer-events: none; transition: stroke-width 0.15s; }
+        .drawn-wire-hit:hover + .drawn-wire-path { stroke-width: 6.5 !important; }
 
         @keyframes wireFlowAnim { to { stroke-dashoffset: -24; } }
-        .live-wire-flow { stroke-dasharray: 8 4; animation: wireFlowAnim 0.55s linear infinite; }
+        .live-wire-flow { stroke-dasharray: 9 5; animation: wireFlowAnim 0.55s linear infinite; }
 
         @keyframes motorSpinAnim { 100% { transform: rotate(360deg); } }
         .motor-rotor-spinning { transform-origin: 35px 33px; animation: motorSpinAnim 0.6s linear infinite; }
@@ -824,12 +832,30 @@
 
         footer {
             text-align: center;
-            padding: 16px;
-            font-size: 0.8rem;
+            padding: 18px 16px;
+            font-size: 0.86rem;
             color: var(--text-muted);
             border-top: 1px solid var(--card-border);
             margin-top: auto;
             user-select: none;
+            background: var(--nav-bg);
+        }
+
+        .footer-ig-link {
+            color: var(--accent-color);
+            font-weight: 800;
+            text-decoration: none;
+            border-bottom: 1px dashed var(--accent-color);
+            padding-bottom: 1px;
+            transition: opacity 0.2s, color 0.2s;
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+        }
+        .footer-ig-link:hover {
+            opacity: 0.85;
+            color: var(--success-color);
+            border-bottom-color: var(--success-color);
         }
 
         .secret-modal-overlay {
@@ -1019,7 +1045,7 @@
                     <path d="M50 15L65 30H75L80 35V45L85 50L80 55V65L75 70H65L50 85L35 70H25L20 65V55L15 50L20 45V35L25 30H35L50 15Z" fill="#151d30" stroke="#3b82f6" stroke-width="2"/>
                     <path d="M50 30L45 50H55L50 70L60 50H50L55 30" fill="#3b82f6" transform="translate(-2.5, 0)"/>
                 </svg>
-                <div class="logo-text">VoltAI Pro | <span class="logo-accent" id="headTitle">المهندس</span></div>
+                <div class="logo-text">VoltAI Pro | <span class="logo-accent" id="headTitle">م. منتظر عون</span></div>
             </div>
         </div>
         <div class="header-actions">
@@ -1128,7 +1154,7 @@
         </div>
 
         <!-- =====================================================================
-             NEW SECTION: LOCAL MARKET REALITY (NATIONAL vs GENERATOR & PROTECTION)
+             SECTION: LOCAL MARKET REALITY (NATIONAL vs GENERATOR & PROTECTION)
              ===================================================================== -->
         <div id="local_market" class="tab-content">
             <div class="card">
@@ -1199,7 +1225,7 @@
         </div>
 
         <!-- =====================================================================
-             NEW SECTION: SMART METER OCR & NATIONAL BILL CALCULATOR (IRAQ & KRG)
+             SECTION: SMART METER OCR & NATIONAL BILL CALCULATOR (IRAQ & KRG)
              ===================================================================== -->
         <div id="bill_calculator" class="tab-content">
             <div class="card" id="billPrintableArea">
@@ -1423,12 +1449,12 @@
                 </div>
 
                 <!-- Interactive Simulation Canvas -->
-                <div id="realCanvasContainer" style="position:relative; width:100%; height:440px; background:#060a12; background-image:radial-gradient(#1e293b 1px, transparent 1px); background-size:20px 20px; border:1.5px solid var(--card-border); border-radius:14px; overflow:auto;">
+                <div id="realCanvasContainer" style="position:relative; width:100%; height:460px; background:#060a12; background-image:radial-gradient(#1e293b 1px, transparent 1px); background-size:20px 20px; border:1.5px solid var(--card-border); border-radius:14px; overflow:auto;">
                     <div id="realCanvasPlaceholder" style="position:absolute; inset:0; display:flex; flex-direction:column; align-items:center; justify-content:center; color:var(--text-muted); text-align:center; padding:20px; pointer-events:none;">
                         <p style="font-weight:700; font-size:0.9rem;">اضغط على أي عنصر من الشريط العلوي لإضافته إلى لوحة التوصيل</p>
-                        <p style="font-size:0.78rem; margin-top:4px;">اضغط على برغي البداية ثم برغي النهاية لرسم سلك حي</p>
+                        <p style="font-size:0.78rem; margin-top:4px;">اسحب بإصبعك من برغي البداية إلى برغي النهاية (أو اضغط عليهما) لرسم سلك حي</p>
                     </div>
-                    <svg id="wiresSvgLayer" style="position:absolute; top:0; left:0; width:1200px; height:900px; transform-origin:0 0; z-index:40; pointer-events:none;"></svg>
+                    <svg id="wiresSvgLayer" overflow="visible" style="position:absolute; top:0; left:0; width:1200px; height:900px; transform-origin:0 0; z-index:65; pointer-events:none;"></svg>
                     <div id="realSimBoard" style="position:relative; width:1200px; height:900px; transform-origin:0 0;"></div>
                 </div>
 
@@ -2178,7 +2204,7 @@
             <div class="card" id="bomPrintableArea">
                 <div class="card-title" style="justify-content:space-between; flex-wrap:wrap;">
                     <span>كشف الكميات وعروض الأسعار (BOM Quotation)</span>
-                    <span id="bomHeaderEngTag" style="font-size:0.8rem; color:var(--success-color);">المهندس</span>
+                    <span id="bomHeaderEngTag" style="font-size:0.8rem; color:var(--success-color);">المهندس منتظر عون</span>
                 </div>
                 <div class="grid-3">
                     <div class="form-group">
@@ -2241,22 +2267,28 @@
         <div id="profile" class="tab-content">
             <div class="card" style="text-align:center;">
                 <div class="card-title" style="justify-content:center;"><span>بطاقة المهندس الرقمية</span></div>
-                <h2 id="cardEngName" style="color:var(--accent-color); margin-bottom:4px;">المهندس الكهربائي</h2>
+                <h2 id="cardEngName" style="color:var(--accent-color); margin-bottom:4px;">المهندس منتظر عون</h2>
                 <p id="cardEngTitle" style="color:var(--text-muted); font-size:0.9rem; margin-bottom:14px;">Electrical & Automation Engineer</p>
                 <div id="qrcode" style="display:flex; justify-content:center; background:#fff; padding:12px; border-radius:12px; width:fit-content; margin:0 auto;"></div>
+                <div style="margin-top:14px;">
+                    <a href="https://instagram.com/0dst" target="_blank" rel="noopener noreferrer" class="footer-ig-link">Instagram: @0dst</a>
+                </div>
             </div>
         </div>
     </main>
 
     <footer>
-        VoltAI Pro Engineering Platform — Developed by <strong id="footerEngLink" style="color:var(--accent-color);">المهندس</strong>
+        كل الحقوق محفوظة لدى
+        <a id="footerEngLink" href="https://instagram.com/0dst" target="_blank" rel="noopener noreferrer" class="footer-ig-link" title="حساب الإنستغرام @0dst">
+            المهندس منتظر عون
+        </a>
     </footer>
 
     <!-- Secret Engineer Customization Modal -->
     <div id="secretModal" class="secret-modal-overlay">
         <div class="secret-modal-card">
             <h3 style="color:var(--accent-color); margin-bottom:12px;">تخصيص هوية المهندس</h3>
-            <div class="form-group"><label>اسم المهندس:</label><input type="text" id="secretEngNameInput" placeholder="مثال: م. علي البصري"></div>
+            <div class="form-group"><label>اسم المهندس:</label><input type="text" id="secretEngNameInput" placeholder="مثال: المهندس منتظر عون"></div>
             <div class="form-group"><label>التخصص / اللقب:</label><input type="text" id="secretEngTitleInput" placeholder="مهندس قوى وأوتوميشن"></div>
             <div style="display:flex; gap:8px;">
                 <button type="button" class="btn-primary" onclick="saveSecretEngineerProfile()">حفظ</button>
@@ -2536,7 +2568,7 @@
             }).filter(Boolean);
 
             const totalMatches = matchedTopics.reduce((acc, t) => acc + t.sources.length, 0);
-            if (stats) stats.textContent = `نتائج الفهرس الذكي: تم العور على (${totalMatches}) مرجع/حل في (${matchedTopics.length}) موضوع هندسي`;
+            if (stats) stats.textContent = `نتائج الفهرس الذكي: تم العثور على (${totalMatches}) مرجع/حل في (${matchedTopics.length}) موضوع هندسي`;
 
             if (matchedTopics.length === 0) {
                 container.innerHTML = `<div class="result-box">لم يتم العثور على تطابق مباشر. جرّب اختيار <b>"جميع المصادر"</b> أو ابحث بكلمة مفتاحية أخرى.</div>`;
@@ -2811,7 +2843,7 @@
         }
 
         /* =====================================================================
-           7. REALITY HUB SIMULATOR WITH LIVE PHYSICS & CONTINUITY ENGINE
+           7. REALITY HUB SIMULATOR WITH LIVE WIRE TRACKING & PHYSICS ENGINE
            ===================================================================== */
         let currentSimCategory = 'classic_sim';
         let compCount = 0;
@@ -2819,6 +2851,10 @@
         let isLiveSimActive = false;
         let selectedTerminal = null;
         let tempRubberWire = null;
+        let tempCursorDot = null;
+        let snapTargetPin = null;
+        let wireDragStartClient = null;
+        let hasDraggedWire = false;
         let wires = [];
         let activeWireColor = '#ef4444';
         let activeWireTag = 'L1';
@@ -2830,64 +2866,264 @@
             document.querySelectorAll('.wire-swatch').forEach(el => el.classList.remove('active'));
             if (btn) btn.classList.add('active');
             if (tempRubberWire) tempRubberWire.setAttribute('stroke', activeWireColor);
+            if (tempCursorDot) tempCursorDot.setAttribute('fill', activeWireColor);
         }
+
+        function clearSnapHighlight() {
+            if (snapTargetPin) {
+                snapTargetPin.classList.remove('snap-target-term');
+                snapTargetPin = null;
+            }
+        }
+
         function cancelPendingWire() {
-            if (selectedTerminal && selectedTerminal.elem) selectedTerminal.elem.classList.remove('selected-term');
+            if (selectedTerminal && selectedTerminal.elem) {
+                selectedTerminal.elem.classList.remove('selected-term');
+            }
             selectedTerminal = null;
+            clearSnapHighlight();
             if (tempRubberWire) { tempRubberWire.remove(); tempRubberWire = null; }
+            if (tempCursorDot) { tempCursorDot.remove(); tempCursorDot = null; }
+            wireDragStartClient = null;
+            hasDraggedWire = false;
             const banner = document.getElementById('wiringLiveBanner');
             if (banner) banner.style.display = 'none';
+            const container = document.getElementById('realCanvasContainer');
+            if (container) container.style.touchAction = 'auto';
         }
+
+        function getPinBoardCoords(pinEl) {
+            const board = document.getElementById('realSimBoard');
+            const screwEl = pinEl.querySelector('.pin-screw') || pinEl;
+            if (board && board.offsetWidth > 0) {
+                const boardRect = board.getBoundingClientRect();
+                const screwRect = screwEl.getBoundingClientRect();
+                if (screwRect.width > 0) {
+                    return {
+                        x: (screwRect.left + screwRect.width / 2 - boardRect.left) / currentZoom,
+                        y: (screwRect.top + screwRect.height / 2 - boardRect.top) / currentZoom
+                    };
+                }
+            }
+            const compEl = pinEl.closest('.real-component');
+            const compX = parseFloat(compEl.style.left) || 0;
+            const compY = parseFloat(compEl.style.top) || 0;
+            const pctX = parseFloat(pinEl.style.left) / 100;
+            const pctY = parseFloat(pinEl.style.top) / 100;
+            return { x: compX + (compEl.offsetWidth * pctX), y: compY + (compEl.offsetHeight * pctY) };
+        }
+
+        function clientToBoardCoords(clientX, clientY) {
+            const board = document.getElementById('realSimBoard');
+            const rect = board.getBoundingClientRect();
+            return {
+                x: (clientX - rect.left) / currentZoom,
+                y: (clientY - rect.top) / currentZoom
+            };
+        }
+
+        function findNearestPinInRadius(bx, by, excludePinEl, maxDist = 28) {
+            let nearest = null;
+            let minD = maxDist;
+            document.querySelectorAll('#realSimBoard .pin-node').forEach(pin => {
+                if (pin === excludePinEl) return;
+                const pt = getPinBoardCoords(pin);
+                const d = Math.hypot(pt.x - bx, pt.y - by);
+                if (d < minD) {
+                    minD = d;
+                    nearest = pin;
+                }
+            });
+            return nearest;
+        }
+
+        function updateLiveRubberWire(clientX, clientY) {
+            if (!selectedTerminal || !tempRubberWire) return;
+            const pt1 = getPinBoardCoords(selectedTerminal.elem);
+            const cursorPt = clientToBoardCoords(clientX, clientY);
+
+            clearSnapHighlight();
+            const nearPin = findNearestPinInRadius(cursorPt.x, cursorPt.y, selectedTerminal.elem, 30);
+            let targetX = cursorPt.x;
+            let targetY = cursorPt.y;
+
+            if (nearPin) {
+                snapTargetPin = nearPin;
+                snapTargetPin.classList.add('snap-target-term');
+                const snapPt = getPinBoardCoords(nearPin);
+                targetX = snapPt.x;
+                targetY = snapPt.y;
+            }
+
+            tempRubberWire.setAttribute('d', buildSmoothWirePath(pt1.x, pt1.y, targetX, targetY));
+            if (tempCursorDot) {
+                tempCursorDot.setAttribute('cx', targetX);
+                tempCursorDot.setAttribute('cy', targetY);
+                tempCursorDot.setAttribute('r', nearPin ? '7' : '5.5');
+            }
+        }
+
+        function completeWireConnection(targetPinEl) {
+            if (!selectedTerminal || !targetPinEl) return;
+            const startTerm = selectedTerminal;
+            if (startTerm.elem === targetPinEl) {
+                cancelPendingWire();
+                return;
+            }
+
+            const compId = targetPinEl.dataset.compId;
+            const pinId = targetPinEl.dataset.pinId;
+            const svgLayer = document.getElementById('wiresSvgLayer');
+            const pt1 = getPinBoardCoords(startTerm.elem);
+            const pt2 = getPinBoardCoords(targetPinEl);
+            const wireColor = activeWireColor;
+
+            // Wide transparent hit path for easy touch deletion + visible wire path
+            const hitPath = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+            hitPath.setAttribute('d', buildSmoothWirePath(pt1.x, pt1.y, pt2.x, pt2.y));
+            hitPath.setAttribute('stroke', 'transparent');
+            hitPath.setAttribute('stroke-width', '18');
+            hitPath.setAttribute('fill', 'none');
+            hitPath.classList.add('drawn-wire-hit');
+
+            const finalPath = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+            finalPath.setAttribute('d', buildSmoothWirePath(pt1.x, pt1.y, pt2.x, pt2.y));
+            finalPath.setAttribute('stroke', wireColor);
+            finalPath.setAttribute('stroke-width', '4.2');
+            finalPath.setAttribute('fill', 'none');
+            finalPath.setAttribute('stroke-linecap', 'round');
+            finalPath.classList.add('drawn-wire-path');
+            if (isLiveSimActive) finalPath.classList.add('live-wire-flow');
+
+            const dot1 = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+            dot1.setAttribute('cx', pt1.x); dot1.setAttribute('cy', pt1.y); dot1.setAttribute('r', '5'); dot1.setAttribute('fill', wireColor);
+            const dot2 = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+            dot2.setAttribute('cx', pt2.x); dot2.setAttribute('cy', pt2.y); dot2.setAttribute('r', '5'); dot2.setAttribute('fill', wireColor);
+
+            const wireObj = {
+                start: startTerm,
+                end: { elem: targetPinEl, compId, pinId },
+                hitPath,
+                path: finalPath,
+                dot1,
+                dot2,
+                color: wireColor,
+                tag: activeWireTag
+            };
+
+            hitPath.addEventListener('pointerdown', (e) => {
+                e.stopPropagation();
+                hitPath.remove();
+                finalPath.remove();
+                dot1.remove();
+                dot2.remove();
+                wires = wires.filter(w => w !== wireObj);
+                updateSimStatusBar();
+                evaluateCircuitPhysics();
+            });
+
+            svgLayer.appendChild(hitPath);
+            svgLayer.appendChild(finalPath);
+            svgLayer.appendChild(dot1);
+            svgLayer.appendChild(dot2);
+            wires.push(wireObj);
+
+            triggerHapticFeedback();
+            cancelPendingWire();
+            updateSimStatusBar();
+            evaluateCircuitPhysics();
+        }
+
+        // Global document listeners for live wire tracking (finger & mouse)
+        document.addEventListener('pointermove', (e) => {
+            if (!selectedTerminal) return;
+            if (wireDragStartClient) {
+                const dist = Math.hypot(e.clientX - wireDragStartClient.x, e.clientY - wireDragStartClient.y);
+                if (dist > 8) hasDraggedWire = true;
+            }
+            updateLiveRubberWire(e.clientX, e.clientY);
+        });
+
+        document.addEventListener('pointerup', (e) => {
+            if (!selectedTerminal) return;
+            if (hasDraggedWire) {
+                if (snapTargetPin) {
+                    completeWireConnection(snapTargetPin);
+                    return;
+                }
+                const elUnder = document.elementFromPoint(e.clientX, e.clientY);
+                const pinUnder = elUnder ? elUnder.closest('.pin-node') : null;
+                if (pinUnder && pinUnder !== selectedTerminal.elem) {
+                    completeWireConnection(pinUnder);
+                    return;
+                }
+            }
+            // If lifted in empty space, keep rubber wire visible so user can tap destination pin
+            hasDraggedWire = false;
+        });
 
         function evaluateCircuitPhysics() {
             const comps = Array.from(document.querySelectorAll('.real-component'));
             if (comps.length === 0) return;
 
-            const adj = {};
-            const addEdge = (n1, n2) => {
-                if (!adj[n1]) adj[n1] = [];
-                if (!adj[n2]) adj[n2] = [];
-                adj[n1].push(n2);
-                adj[n2].push(n1);
+            const buildAdjacencyGraph = () => {
+                const adj = {};
+                const addEdge = (n1, n2) => {
+                    if (!adj[n1]) adj[n1] = [];
+                    if (!adj[n2]) adj[n2] = [];
+                    adj[n1].push(n2);
+                    adj[n2].push(n1);
+                };
+
+                wires.forEach(w => {
+                    addEdge(`${w.start.compId}:${w.start.pinId}`, `${w.end.compId}:${w.end.pinId}`);
+                });
+
+                comps.forEach(el => {
+                    const id = el.id;
+                    const type = el.dataset.compType;
+                    const st = componentStates[id] || {};
+                    if ((type === 'mccb' || type === 'acb_breaker') && st.closed && !st.tripped) {
+                        addEdge(`${id}:L1`, `${id}:T1`);
+                        addEdge(`${id}:L2`, `${id}:T2`);
+                        addEdge(`${id}:L3`, `${id}:T3`);
+                    }
+                    if (type === 'push_buttons') {
+                        if (!st.stopPressed) addEdge(`${id}:1NC`, `${id}:2NC`);
+                        if (st.startPressed) addEdge(`${id}:3NO`, `${id}:4NO`);
+                    }
+                    if (type === 'junction_node') {
+                        addEdge(`${id}:P1`, `${id}:P4`);
+                        addEdge(`${id}:P2`, `${id}:P5`);
+                        addEdge(`${id}:P3`, `${id}:P6`);
+                    }
+                    if (type === 'contactor' && st.energized) {
+                        addEdge(`${id}:L1`, `${id}:T1`);
+                        addEdge(`${id}:L2`, `${id}:T2`);
+                        addEdge(`${id}:L3`, `${id}:T3`);
+                        addEdge(`${id}:13NO`, `${id}:14NO`);
+                    }
+                    if ((type === 'relay_module' || type === 'relay_5v') && st.energized) {
+                        addEdge(`${id}:COM`, `${id}:NO`);
+                    } else if (type === 'relay_module' && !st.energized) {
+                        addEdge(`${id}:COM`, `${id}:NC`);
+                    }
+                    if (type === 'overload') {
+                        addEdge(`${id}:L1`, `${id}:T1`);
+                        addEdge(`${id}:L2`, `${id}:T2`);
+                        addEdge(`${id}:L3`, `${id}:T3`);
+                        addEdge(`${id}:95NC`, `${id}:96NC`);
+                    }
+                    if (type === 'vfd_unit' && st.driveActive) {
+                        addEdge(`${id}:R`, `${id}:U`);
+                        addEdge(`${id}:S`, `${id}:V`);
+                        addEdge(`${id}:T`, `${id}:W`);
+                    }
+                });
+                return adj;
             };
 
-            wires.forEach(w => {
-                addEdge(`${w.start.compId}:${w.start.pinId}`, `${w.end.compId}:${w.end.pinId}`);
-            });
-
-            comps.forEach(el => {
-                const id = el.id;
-                const type = el.dataset.compType;
-                const st = componentStates[id] || {};
-                if ((type === 'mccb' || type === 'acb_breaker') && st.closed && !st.tripped) {
-                    addEdge(`${id}:L1`, `${id}:T1`);
-                    addEdge(`${id}:L2`, `${id}:T2`);
-                    addEdge(`${id}:L3`, `${id}:T3`);
-                }
-                if (type === 'push_buttons') {
-                    if (!st.stopPressed) addEdge(`${id}:1NC`, `${id}:2NC`);
-                    if (st.startPressed) addEdge(`${id}:3NO`, `${id}:4NO`);
-                }
-                if (type === 'junction_node') {
-                    addEdge(`${id}:P1`, `${id}:P4`);
-                    addEdge(`${id}:P2`, `${id}:P5`);
-                    addEdge(`${id}:P3`, `${id}:P6`);
-                }
-                if (type === 'contactor' && st.energized) {
-                    addEdge(`${id}:L1`, `${id}:T1`);
-                    addEdge(`${id}:L2`, `${id}:T2`);
-                    addEdge(`${id}:L3`, `${id}:T3`);
-                    addEdge(`${id}:13NO`, `${id}:14NO`);
-                }
-                if (type === 'overload') {
-                    addEdge(`${id}:L1`, `${id}:T1`);
-                    addEdge(`${id}:L2`, `${id}:T2`);
-                    addEdge(`${id}:L3`, `${id}:T3`);
-                    addEdge(`${id}:95NC`, `${id}:96NC`);
-                }
-            });
-
-            const getPotentialsAt = (targetNode) => {
+            const getPotentialsAt = (adj, targetNode) => {
                 const found = new Set();
                 const visited = new Set([targetNode]);
                 const queue = [targetNode];
@@ -2895,8 +3131,11 @@
                     const curr = queue.shift();
                     const [cId, pId] = curr.split(':');
                     const cEl = document.getElementById(cId);
-                    if (cEl && cEl.dataset.compType === 'power_3ph') {
-                        found.add(pId);
+                    if (cEl) {
+                        const cType = cEl.dataset.compType;
+                        if (cType === 'power_3ph') found.add(pId);
+                        if (cType === 'plc_cpu' && (pId === 'L+' || pId === 'M')) found.add(pId);
+                        if (cType === 'arduino_uno' && (pId === '5V' || pId === 'VIN' || pId === 'GND')) found.add(pId);
                     }
                     (adj[curr] || []).forEach(nxt => {
                         if (!visited.has(nxt)) {
@@ -2908,12 +3147,56 @@
                 return found;
             };
 
+            // Multi-pass fixed-point iteration so Contactor coil -> Latch (13-14) -> Motor all settle immediately
+            let adj = buildAdjacencyGraph();
+            for (let pass = 0; pass < 5; pass++) {
+                let stateChanged = false;
+                comps.forEach(el => {
+                    const id = el.id;
+                    const type = el.dataset.compType;
+                    const st = componentStates[id];
+
+                    if (type === 'contactor') {
+                        const pA1 = getPotentialsAt(adj, `${id}:A1`);
+                        const pA2 = getPotentialsAt(adj, `${id}:A2`);
+                        const hasPower = (pA1.size > 0 && pA2.size > 0 && ![...pA1].some(x => pA2.has(x)));
+                        const nextVal = isLiveSimActive && hasPower;
+                        if (st.energized !== nextVal) {
+                            st.energized = nextVal;
+                            stateChanged = true;
+                        }
+                    } else if (type === 'relay_module' || type === 'relay_5v') {
+                        const p1 = getPotentialsAt(adj, type === 'relay_5v' ? `${id}:VCC` : `${id}:A1`);
+                        const p2 = getPotentialsAt(adj, type === 'relay_5v' ? `${id}:GND` : `${id}:A2`);
+                        const hasPower = (p1.size > 0 && p2.size > 0 && ![...p1].some(x => p2.has(x)));
+                        const nextVal = isLiveSimActive && hasPower;
+                        if (st.energized !== nextVal) {
+                            st.energized = nextVal;
+                            stateChanged = true;
+                        }
+                    } else if (type === 'vfd_unit') {
+                        const pR = getPotentialsAt(adj, `${id}:R`);
+                        const pS = getPotentialsAt(adj, `${id}:S`);
+                        const pT = getPotentialsAt(adj, `${id}:T`);
+                        const supplyOk = pR.has('L1') && pS.has('L2') && pT.has('L3');
+                        const nextVal = isLiveSimActive && supplyOk;
+                        if (st.driveActive !== nextVal) {
+                            st.driveActive = nextVal;
+                            stateChanged = true;
+                        }
+                    }
+                });
+                adj = buildAdjacencyGraph();
+                if (!stateChanged) break;
+            }
+
+            // Short-circuit check
             let shortCircuitDetected = false;
             comps.forEach(el => {
                 if (el.dataset.compType === 'power_3ph') {
-                    const potsL1 = getPotentialsAt(`${el.id}:L1`);
+                    const potsL1 = getPotentialsAt(adj, `${el.id}:L1`);
                     if (potsL1.has('L2') || potsL1.has('L3') || potsL1.has('N')) shortCircuitDetected = true;
-                    const potsL2 = getPotentialsAt(`${el.id}:L2`);
+                    const potsL2 = getPotentialsAt(adj, `${el.id}:L2`);
                     if (potsL2.has('L3') || potsL2.has('N')) shortCircuitDetected = true;
                 }
             });
@@ -2925,6 +3208,7 @@
                         componentStates[el.id].tripped = true;
                     }
                 });
+                adj = buildAdjacencyGraph();
                 const box = document.getElementById('diagnosticAlertBox');
                 if (box) {
                     box.style.display = 'block';
@@ -2932,6 +3216,7 @@
                 }
             }
 
+            // Update visual UI states for all components
             let anyMotorRunning = false;
             comps.forEach(el => {
                 const id = el.id;
@@ -2940,12 +3225,8 @@
                 const pill = el.querySelector('.comp-state-pill');
                 const st = componentStates[id];
 
-                if (type === 'contactor') {
-                    const pA1 = getPotentialsAt(`${id}:A1`);
-                    const pA2 = getPotentialsAt(`${id}:A2`);
-                    const hasPower = (pA1.size > 0 && pA2.size > 0 && ![...pA1].some(x => pA2.has(x)));
-                    st.energized = isLiveSimActive && hasPower;
-                    if (shell) shell.classList.toggle('energized-shell', st.energized);
+                if (type === 'contactor' || type === 'relay_module' || type === 'relay_5v') {
+                    if (shell) shell.classList.toggle('energized-shell', Boolean(st.energized));
                     if (pill) {
                         pill.textContent = st.energized ? 'لقط ON (Energized)' : 'مفصول OFF';
                         pill.style.background = st.energized ? '#10b981' : '#334155';
@@ -2960,9 +3241,9 @@
                         pill.style.background = st.tripped ? '#ef4444' : (st.closed ? '#10b981' : '#334155');
                     }
                 } else if (type === 'motor') {
-                    const pU = getPotentialsAt(`${id}:U1`);
-                    const pV = getPotentialsAt(`${id}:V1`);
-                    const pW = getPotentialsAt(`${id}:W1`);
+                    const pU = getPotentialsAt(adj, `${id}:U1`);
+                    const pV = getPotentialsAt(adj, `${id}:V1`);
+                    const pW = getPotentialsAt(adj, `${id}:W1`);
                     const phasesPresent = new Set([...pU, ...pV, ...pW]);
                     const isRunning = isLiveSimActive && phasesPresent.has('L1') && phasesPresent.has('L2') && phasesPresent.has('L3');
                     st.running = isRunning;
@@ -2974,6 +3255,20 @@
                         pill.textContent = isRunning ? 'يعمل 1460 RPM ✓' : 'متوقف 0 RPM';
                         pill.style.background = isRunning ? '#10b981' : '#334155';
                     }
+                } else if (type === 'vfd_unit') {
+                    if (shell) shell.classList.toggle('energized-shell', Boolean(st.driveActive));
+                    if (pill) {
+                        pill.textContent = st.driveActive ? 'RUN 50.0 Hz ✓' : 'STANDBY OFF';
+                        pill.style.background = st.driveActive ? '#10b981' : '#334155';
+                    }
+                } else if (type === 'plc_cpu' || type === 'arduino_uno') {
+                    const hasConnectedWires = wires.some(w => w.start.compId === id || w.end.compId === id);
+                    const active = isLiveSimActive && hasConnectedWires;
+                    if (shell) shell.classList.toggle('energized-shell', active);
+                    if (pill) {
+                        pill.textContent = active ? 'RUN MODE ✓' : 'STOP / OFF';
+                        pill.style.background = active ? '#10b981' : '#334155';
+                    }
                 }
             });
 
@@ -2983,6 +3278,7 @@
                 mStat.style.color = anyMotorRunning ? 'var(--success-color)' : 'var(--warning-color)';
             }
         }
+
         function toggleLivePowerSimulation() {
             const btn = document.getElementById('liveSimToggleBtn');
             const btnText = document.getElementById('liveSimBtnText');
@@ -3006,7 +3302,12 @@
             cancelPendingWire();
             if (wires.length === 0) return;
             const last = wires.pop();
-            if (last) { if (last.path) last.path.remove(); if (last.dot1) last.dot1.remove(); if (last.dot2) last.dot2.remove(); }
+            if (last) {
+                if (last.hitPath) last.hitPath.remove();
+                if (last.path) last.path.remove();
+                if (last.dot1) last.dot1.remove();
+                if (last.dot2) last.dot2.remove();
+            }
             if (wires.length === 0 && isLiveSimActive) toggleLivePowerSimulation();
             updateSimStatusBar();
             evaluateCircuitPhysics();
@@ -3018,7 +3319,10 @@
             delete componentStates[compId];
             wires = wires.filter(w => {
                 if (w.start.compId === compId || w.end.compId === compId) {
-                    if (w.path) w.path.remove(); if (w.dot1) w.dot1.remove(); if (w.dot2) w.dot2.remove();
+                    if (w.hitPath) w.hitPath.remove();
+                    if (w.path) w.path.remove();
+                    if (w.dot1) w.dot1.remove();
+                    if (w.dot2) w.dot2.remove();
                     return false;
                 }
                 return true;
@@ -3050,1171 +3354,4 @@
             classic_sim: [
                 { id: 'power_3ph', label: 'مصدر تغذية 3-Phase', pins: [{ id: 'L1', label: 'L1', x: 20, y: 100 }, { id: 'L2', label: 'L2', x: 40, y: 100 }, { id: 'L3', label: 'L3', x: 60, y: 100 }, { id: 'N', label: 'N', x: 80, y: 100 }]},
                 { id: 'mccb', label: 'قاطع MCCB 3-Pole', pins: [{ id: 'L1', label: 'L1', x: 22, y: 0 }, { id: 'L2', label: 'L2', x: 50, y: 0 }, { id: 'L3', label: 'L3', x: 78, y: 0 }, { id: 'T1', label: 'T1', x: 22, y: 100 }, { id: 'T2', label: 'T2', x: 50, y: 100 }, { id: 'T3', label: 'T3', x: 78, y: 100 }]},
-                { id: 'contactor', label: 'كونتاكتور صناعي KM', pins: [{ id: 'L1', label: 'L1', x: 20, y: 0 }, { id: 'L2', label: 'L2', x: 42, y: 0 }, { id: 'L3', label: 'L3', x: 64, y: 0 }, { id: 'A1', label: 'A1', x: 86, y: 0 }, { id: 'T1', label: 'T1', x: 20, y: 100 }, { id: 'T2', label: 'T2', x: 42, y: 100 }, { id: 'T3', label: 'T3', x: 64, y: 100 }, { id: 'A2', label: 'A2', x: 86, y: 100 }, { id: '13NO', label: '13', x: 0, y: 38 }, { id: '14NO', label: '14', x: 0, y: 66 }]},
-                { id: 'overload', label: 'أوفرلود حراري OL', pins: [{ id: 'L1', label: 'L1', x: 22, y: 0 }, { id: 'L2', label: 'L2', x: 50, y: 0 }, { id: 'L3', label: 'L3', x: 78, y: 0 }, { id: 'T1', label: 'T1', x: 22, y: 100 }, { id: 'T2', label: 'T2', x: 50, y: 100 }, { id: 'T3', label: 'T3', x: 78, y: 100 }, { id: '95NC', label: '95', x: 0, y: 38 }, { id: '96NC', label: '96', x: 0, y: 66 }]},
-                { id: 'push_buttons', label: 'مفتاح Start / Stop', pins: [{ id: '1NC', label: '1-NC', x: 28, y: 0 }, { id: '2NC', label: '2-NC', x: 28, y: 100 }, { id: '3NO', label: '3-NO', x: 72, y: 0 }, { id: '4NO', label: '4-NO', x: 72, y: 100 }]},
-                { id: 'motor', label: 'محرك 3-Phase', pins: [{ id: 'U1', label: 'U1', x: 22, y: 0 }, { id: 'V1', label: 'V1', x: 50, y: 0 }, { id: 'W1', label: 'W1', x: 78, y: 0 }, { id: 'PE', label: 'PE', x: 100, y: 50 }]}
-            ],
-            plc_sim: [
-                { id: 'plc_cpu', label: 'PLC Siemens S7-1200', pins: [{ id: 'L+', label: 'L+', x: 20, y: 0 }, { id: 'M', label: 'M', x: 40, y: 0 }, { id: 'I0.0', label: 'I0.0', x: 65, y: 0 }, { id: 'I0.1', label: 'I0.1', x: 85, y: 0 }, { id: '1L', label: '1L', x: 25, y: 100 }, { id: 'Q0.0', label: 'Q0.0', x: 55, y: 100 }, { id: 'Q0.1', label: 'Q0.1', x: 80, y: 100 }]},
-                { id: 'sensor', label: 'حساس قرب Proximity', pins: [{ id: '+24V', label: '+24V', x: 22, y: 100 }, { id: '0V', label: '0V', x: 50, y: 100 }, { id: 'OUT', label: 'OUT', x: 78, y: 100 }]},
-                { id: 'relay_module', label: 'وحدة مرحلات 24V', pins: [{ id: 'A1', label: 'A1+', x: 28, y: 0 }, { id: 'A2', label: 'A2-', x: 72, y: 0 }, { id: 'COM', label: 'COM', x: 22, y: 100 }, { id: 'NO', label: 'NO', x: 52, y: 100 }, { id: 'NC', label: 'NC', x: 82, y: 100 }]}
-            ],
-            vfd_sim: [
-                { id: 'vfd_unit', label: 'مغير سرعة VFD', pins: [{ id: 'R', label: 'R/L1', x: 22, y: 0 }, { id: 'S', label: 'S/L2', x: 50, y: 0 }, { id: 'T', label: 'T/L3', x: 78, y: 0 }, { id: 'U', label: 'U', x: 22, y: 100 }, { id: 'V', label: 'V', x: 50, y: 100 }, { id: 'W', label: 'W', x: 78, y: 100 }, { id: 'DI1', label: 'DI1', x: 0, y: 38 }, { id: 'DCM', label: 'DCM', x: 0, y: 66 }, { id: 'AI1', label: 'AI1', x: 100, y: 50 }]},
-                { id: 'potentiometer', label: 'مقاومة سرعة Pot', pins: [{ id: '+10V', label: '+10V', x: 22, y: 100 }, { id: 'AI1', label: 'WIPER', x: 50, y: 100 }, { id: 'GND', label: 'GND', x: 78, y: 100 }]}
-            ],
-            breaker_sim: [
-                { id: 'acb_breaker', label: 'قاطع هوائي ACB', pins: [{ id: 'L1', label: 'L1', x: 22, y: 0 }, { id: 'L2', label: 'L2', x: 50, y: 0 }, { id: 'L3', label: 'L3', x: 78, y: 0 }, { id: 'T1', label: 'T1', x: 22, y: 100 }, { id: 'T2', label: 'T2', x: 50, y: 100 }, { id: 'T3', label: 'T3', x: 78, y: 100 }]},
-                { id: 'phase_failure', label: 'حماية الفازات Phase', pins: [{ id: 'L1', label: 'L1', x: 22, y: 0 }, { id: 'L2', label: 'L2', x: 50, y: 0 }, { id: 'L3', label: 'L3', x: 78, y: 0 }, { id: '11', label: '11', x: 32, y: 100 }, { id: '14', label: '14', x: 68, y: 100 }]}
-            ],
-            arduino_sim: [
-                { id: 'arduino_uno', label: 'لوحة Arduino Uno', pins: [{ id: '5V', label: '5V', x: 24, y: 0 }, { id: 'GND', label: 'GND', x: 52, y: 0 }, { id: 'VIN', label: 'VIN', x: 80, y: 0 }, { id: 'D7', label: 'D7', x: 24, y: 100 }, { id: 'D9', label: 'D9', x: 52, y: 100 }, { id: 'D10', label: 'D10', x: 80, y: 100 }]},
-                { id: 'ultrasonic_sensor', label: 'حساس Ultrasonic', pins: [{ id: 'VCC', label: 'VCC', x: 18, y: 100 }, { id: 'TRIG', label: 'TRIG', x: 40, y: 100 }, { id: 'ECHO', label: 'ECHO', x: 62, y: 100 }, { id: 'GND', label: 'GND', x: 84, y: 100 }]},
-                { id: 'relay_5v', label: 'مرحل 5V Relay', pins: [{ id: 'VCC', label: 'VCC', x: 22, y: 0 }, { id: 'GND', label: 'GND', x: 50, y: 0 }, { id: 'IN', label: 'IN', x: 78, y: 0 }, { id: 'COM', label: 'COM', x: 30, y: 100 }, { id: 'NO', label: 'NO', x: 70, y: 100 }]}
-            ]
-        };
-
-        function getComponentSVG(id) {
-            switch (id) {
-                case 'power_3ph': return `<svg viewBox="0 0 80 64" width="60" height="48"><rect x="8" y="8" width="64" height="48" rx="6" fill="#0f172a" stroke="#ef4444" stroke-width="2"/><circle cx="20" cy="32" r="5" fill="#ef4444"/><circle cx="34" cy="32" r="5" fill="#eab308"/><circle cx="48" cy="32" r="5" fill="#3b82f6"/><circle cx="62" cy="32" r="5" fill="#38bdf8"/><text x="40" y="19" fill="#f8fafc" font-size="7" text-anchor="middle" font-weight="bold">380V BUS</text></svg>`;
-                case 'mccb': return `<svg viewBox="0 0 80 64" width="60" height="48"><rect x="14" y="4" width="52" height="56" rx="6" fill="#1e293b" stroke="#ef4444" stroke-width="2.2"/><rect x="32" y="18" width="16" height="26" rx="3" fill="#0f172a"/><rect x="35" y="21" width="10" height="11" rx="2" fill="#10b981"/><text x="40" y="54" fill="#fff" font-size="7" text-anchor="middle" font-weight="bold">MCCB 3P</text></svg>`;
-                case 'contactor': return `<svg viewBox="0 0 80 64" width="60" height="48"><rect x="10" y="4" width="60" height="56" rx="6" fill="#111827" stroke="#3b82f6" stroke-width="2.2"/><rect x="26" y="20" width="28" height="22" rx="3" fill="#f59e0b"/><text x="40" y="34" fill="#000" font-size="8" text-anchor="middle" font-weight="bold">KM</text></svg>`;
-                case 'overload': return `<svg viewBox="0 0 80 64" width="60" height="48"><rect x="10" y="4" width="60" height="56" rx="6" fill="#1e293b" stroke="#f59e0b" stroke-width="2.2"/><circle cx="40" cy="26" r="11" fill="#0f172a" stroke="#f59e0b" stroke-width="2"/><line x1="40" y1="16" x2="40" y2="36" stroke="#ef4444" stroke-width="2.5"/></svg>`;
-                case 'push_buttons': return `<svg viewBox="0 0 80 64" width="60" height="48"><rect x="10" y="6" width="60" height="52" rx="6" fill="#1e293b" stroke="#94a3b8" stroke-width="2"/><circle cx="28" cy="32" r="11" fill="#ef4444" stroke="#fff" stroke-width="1.5"/><circle cx="54" cy="32" r="11" fill="#10b981" stroke="#fff" stroke-width="1.5"/></svg>`;
-                case 'motor': return `<svg viewBox="0 0 80 64" width="60" height="48"><rect x="12" y="14" width="46" height="38" rx="4" fill="#1e293b" stroke="#3b82f6" stroke-width="2"/><g class="motor-rotor-grp"><circle cx="35" cy="33" r="13" fill="none" stroke="#38bdf8" stroke-width="1.5" stroke-dasharray="4 3"/></g><rect x="58" y="28" width="14" height="10" rx="2" fill="#94a3b8"/><text x="35" y="37" fill="#fff" font-size="10" text-anchor="middle" font-weight="bold">M 3~</text></svg>`;
-                default: return `<svg viewBox="0 0 80 64" width="60" height="48"><rect x="14" y="10" width="52" height="44" rx="8" fill="#1e293b" stroke="#3b82f6" stroke-width="2"/></svg>`;
-            }
-        }
-
-        function switchSimCategory(catKey, btn) {
-            currentSimCategory = catKey;
-            document.querySelectorAll('#simulator_studio .sim-tab-btn').forEach(b => b.classList.remove('active'));
-            btn.classList.add('active');
-            renderSimTools();
-        }
-        function renderSimTools() {
-            const toolsBar = document.getElementById('simToolsBar');
-            if (!toolsBar) return;
-            toolsBar.innerHTML = '';
-            (SIM_CATEGORIES[currentSimCategory] || []).forEach(item => {
-                const b = document.createElement('button');
-                b.className = 'comp-add-btn'; b.type = 'button';
-                b.innerHTML = `+ ${item.label}`;
-                b.addEventListener('click', (e) => { e.preventDefault(); addRealisticCompToCanvas(item); });
-                toolsBar.appendChild(b);
-            });
-        }
-        function addJunctionTerminalNode() {
-            addRealisticCompToCanvas({ id: 'junction_node', label: 'روزتة توصيل', pins: [{ id: 'P1', label: '1', x: 20, y: 0 }, { id: 'P2', label: '2', x: 50, y: 0 }, { id: 'P3', label: '3', x: 80, y: 0 }, { id: 'P4', label: '4', x: 20, y: 100 }, { id: 'P5', label: '5', x: 50, y: 100 }, { id: 'P6', label: '6', x: 80, y: 100 }] });
-        }
-
-        function addRealisticCompToCanvas(compData, customPos) {
-            const now = Date.now();
-            if (!customPos && (now - lastAddTimestamp < 220)) return;
-            lastAddTimestamp = now;
-            document.getElementById('realCanvasPlaceholder').style.display = 'none';
-            const board = document.getElementById('realSimBoard');
-            const container = document.getElementById('realCanvasContainer');
-            compCount++;
-            const compId = 'comp_' + compCount + '_' + Math.floor(Math.random() * 1000);
-            componentStates[compId] = { closed: true, energized: false, running: false, tripped: false, startPressed: false, stopPressed: false };
-
-            const div = document.createElement('div');
-            div.id = compId; div.className = 'real-component'; div.dataset.compType = compData.id;
-
-            let spawnX, spawnY;
-            if (customPos) { spawnX = customPos.x; spawnY = customPos.y; }
-            else {
-                const idx = compCount - 1;
-                spawnX = (container.scrollLeft / currentZoom) + 30 + ((idx % 2) * 200);
-                spawnY = (container.scrollTop / currentZoom) + 25 + (Math.floor(idx / 2) * 170);
-            }
-            div.style.left = spawnX + 'px'; div.style.top = spawnY + 'px';
-
-            const shell = document.createElement('div'); shell.className = 'comp-shell';
-            const delBtn = document.createElement('button'); delBtn.type = 'button'; delBtn.innerHTML = '×';
-            delBtn.style.cssText = 'position:absolute; top:5px; right:6px; width:20px; height:20px; border-radius:50%; background:rgba(239,68,68,0.85); color:#fff; border:none; font-size:13px; font-weight:bold; cursor:pointer; z-index:90;';
-            delBtn.addEventListener('pointerdown', (e) => { e.stopPropagation(); removeSingleComponent(compId); });
-            shell.appendChild(delBtn);
-
-            const bodyDiv = document.createElement('div');
-            bodyDiv.style.cssText = 'display:flex; flex-direction:column; align-items:center; pointer-events:none; margin-top:4px;';
-            bodyDiv.innerHTML = `${getComponentSVG(compData.id)}<span style="font-size:0.71rem; font-weight:800; color:#e2e8f0; margin-top:4px; text-align:center;">${compData.label}</span>`;
-            shell.appendChild(bodyDiv);
-
-            if (['mccb', 'acb_breaker', 'contactor', 'motor', 'push_buttons'].includes(compData.id)) {
-                const pill = document.createElement('button');
-                pill.type = 'button';
-                pill.className = 'comp-state-pill';
-                pill.style.background = compData.id === 'mccb' ? '#10b981' : '#334155';
-                pill.style.color = '#fff';
-                if (compData.id === 'mccb' || compData.id === 'acb_breaker') {
-                    pill.textContent = 'مغلق ON (اضغط للفتح)';
-                    pill.addEventListener('pointerdown', (e) => {
-                        e.stopPropagation();
-                        componentStates[compId].tripped = false;
-                        componentStates[compId].closed = !componentStates[compId].closed;
-                        evaluateCircuitPhysics();
-                    });
-                } else if (compData.id === 'push_buttons') {
-                    pill.textContent = 'اضغط START (نبضة 3s)';
-                    pill.style.background = '#2563eb';
-                    pill.addEventListener('pointerdown', (e) => {
-                        e.stopPropagation();
-                        componentStates[compId].startPressed = true;
-                        pill.textContent = 'START مضغوط...';
-                        evaluateCircuitPhysics();
-                        setTimeout(() => {
-                            if (componentStates[compId]) {
-                                componentStates[compId].startPressed = false;
-                                pill.textContent = 'اضغط START (نبضة 3s)';
-                                evaluateCircuitPhysics();
-                            }
-                        }, 3000);
-                    });
-                } else if (compData.id === 'contactor') {
-                    pill.textContent = 'مفصول OFF';
-                } else if (compData.id === 'motor') {
-                    pill.textContent = 'متوقف 0 RPM';
-                }
-                shell.appendChild(pill);
-            }
-
-            (compData.pins || []).forEach(p => {
-                const pinNode = document.createElement('div');
-                pinNode.className = 'pin-node'; pinNode.style.left = p.x + '%'; pinNode.style.top = p.y + '%';
-                pinNode.dataset.compId = compId; pinNode.dataset.pinId = p.id;
-                pinNode.innerHTML = `<div class="pin-screw"></div><span class="pin-tag">${p.label}</span>`;
-                pinNode.addEventListener('pointerdown', (e) => { e.stopPropagation(); handleTerminalTap(pinNode, compId, p.id); });
-                shell.appendChild(pinNode);
-            });
-
-            div.appendChild(shell);
-            board.appendChild(div);
-            enableDrag(div);
-            updateSimStatusBar();
-            return compId;
-        }
-
-        function getPinBoardCoords(pinEl) {
-            const compEl = pinEl.closest('.real-component');
-            const compX = parseFloat(compEl.style.left) || 0;
-            const compY = parseFloat(compEl.style.top) || 0;
-            const pctX = parseFloat(pinEl.style.left) / 100;
-            const pctY = parseFloat(pinEl.style.top) / 100;
-            return { x: compX + (compEl.offsetWidth * pctX), y: compY + (compEl.offsetHeight * pctY) };
-        }
-        function buildSmoothWirePath(x1, y1, x2, y2) {
-            const dy = Math.abs(y2 - y1); const dx = Math.abs(x2 - x1);
-            const curve = Math.max(42, Math.min(130, (dy + dx) * 0.35));
-            return `M ${x1} ${y1} C ${x1} ${y1 + curve}, ${x2} ${y2 - curve}, ${x2} ${y2}`;
-        }
-        function handleTerminalTap(pinEl, compId, pinId) {
-            triggerHapticFeedback();
-            const svgLayer = document.getElementById('wiresSvgLayer');
-            const banner = document.getElementById('wiringLiveBanner');
-            if (!selectedTerminal) {
-                selectedTerminal = { elem: pinEl, compId, pinId };
-                pinEl.classList.add('selected-term');
-                const pt = getPinBoardCoords(pinEl);
-                tempRubberWire = document.createElementNS('http://www.w3.org/2000/svg', 'path');
-                tempRubberWire.setAttribute('stroke', activeWireColor);
-                tempRubberWire.setAttribute('stroke-width', '3.5');
-                tempRubberWire.setAttribute('stroke-dasharray', '6 4');
-                tempRubberWire.setAttribute('fill', 'none');
-                tempRubberWire.setAttribute('d', `M ${pt.x} ${pt.y} L ${pt.x} ${pt.y}`);
-                svgLayer.appendChild(tempRubberWire);
-                if (banner) { banner.style.display = 'flex'; document.getElementById('wiringBannerText').textContent = `بداية السلك من [${pinId}] — اضغط على نقطة الوجهة`; }
-            } else {
-                const startTerm = selectedTerminal;
-                if (startTerm.elem === pinEl) { cancelPendingWire(); return; }
-                const pt1 = getPinBoardCoords(startTerm.elem);
-                const pt2 = getPinBoardCoords(pinEl);
-                const wireColor = activeWireColor;
-                const finalPath = document.createElementNS('http://www.w3.org/2000/svg', 'path');
-                finalPath.setAttribute('d', buildSmoothWirePath(pt1.x, pt1.y, pt2.x, pt2.y));
-                finalPath.setAttribute('stroke', wireColor);
-                finalPath.setAttribute('stroke-width', '4');
-                finalPath.setAttribute('fill', 'none');
-                finalPath.setAttribute('stroke-linecap', 'round');
-                finalPath.classList.add('drawn-wire-path');
-                if (isLiveSimActive) finalPath.classList.add('live-wire-flow');
-
-                const dot1 = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
-                dot1.setAttribute('cx', pt1.x); dot1.setAttribute('cy', pt1.y); dot1.setAttribute('r', '4.5'); dot1.setAttribute('fill', wireColor);
-                const dot2 = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
-                dot2.setAttribute('cx', pt2.x); dot2.setAttribute('cy', pt2.y); dot2.setAttribute('r', '4.5'); dot2.setAttribute('fill', wireColor);
-
-                const wireObj = { start: startTerm, end: { elem: pinEl, compId, pinId }, path: finalPath, dot1, dot2, color: wireColor, tag: activeWireTag };
-                finalPath.addEventListener('click', (e) => {
-                    e.stopPropagation();
-                    finalPath.remove(); dot1.remove(); dot2.remove();
-                    wires = wires.filter(w => w !== wireObj);
-                    updateSimStatusBar();
-                    evaluateCircuitPhysics();
-                });
-                svgLayer.appendChild(finalPath); svgLayer.appendChild(dot1); svgLayer.appendChild(dot2);
-                wires.push(wireObj);
-                cancelPendingWire();
-                updateSimStatusBar();
-                evaluateCircuitPhysics();
-            }
-        }
-        function updateWiresForComponent(compEl) {
-            wires.forEach(w => {
-                if (w.start.elem.closest('.real-component') === compEl || w.end.elem.closest('.real-component') === compEl) {
-                    const pt1 = getPinBoardCoords(w.start.elem); const pt2 = getPinBoardCoords(w.end.elem);
-                    w.path.setAttribute('d', buildSmoothWirePath(pt1.x, pt1.y, pt2.x, pt2.y));
-                    w.dot1.setAttribute('cx', pt1.x); w.dot1.setAttribute('cy', pt1.y);
-                    w.dot2.setAttribute('cx', pt2.x); w.dot2.setAttribute('cy', pt2.y);
-                }
-            });
-        }
-        function enableDrag(el) {
-            let isDragging = false, startX = 0, startY = 0, initLeft = 0, initTop = 0;
-            el.addEventListener('pointerdown', (e) => {
-                if (e.target.closest('.pin-node') || e.target.tagName === 'BUTTON') return;
-                isDragging = true; startX = e.clientX; startY = e.clientY;
-                initLeft = parseFloat(el.style.left) || 0; initTop = parseFloat(el.style.top) || 0;
-                el.setPointerCapture(e.pointerId);
-            });
-            el.addEventListener('pointermove', (e) => {
-                if (!isDragging) return;
-                el.style.left = Math.max(5, initLeft + (e.clientX - startX) / currentZoom) + 'px';
-                el.style.top = Math.max(5, initTop + (e.clientY - startY) / currentZoom) + 'px';
-                updateWiresForComponent(el);
-            });
-            el.addEventListener('pointerup', (e) => { if (isDragging) { isDragging = false; el.releasePointerCapture(e.pointerId); } });
-        }
-
-        function loadGuidedLab() {
-            const val = document.getElementById('guidedLabSelect').value;
-            const inst = document.getElementById('guidedLabInstruction');
-            clearSimBoard();
-            if (val === 'free') { inst.style.display = 'none'; return; }
-            inst.style.display = 'block';
-            if (val === 'lab1') {
-                inst.innerHTML = '<strong>مهمة المختبر 1:</strong> وصل <code>L1, L2, L3</code> من المصدر إلى <code>MCCB</code> ثم من خرج القاطع إلى <code>U1, V1, W1</code> في المحرك، ثم اضغط <b>«تشغيل التيار الحي»</b>!';
-                addRealisticCompToCanvas(SIM_CATEGORIES.classic_sim[0], { x: 40, y: 20 });
-                addRealisticCompToCanvas(SIM_CATEGORIES.classic_sim[1], { x: 40, y: 170 });
-                addRealisticCompToCanvas(SIM_CATEGORIES.classic_sim[5], { x: 40, y: 320 });
-            } else if (val === 'lab2') {
-                inst.innerHTML = '<strong>مهمة المختبر 2 (تشغيل مباشر):</strong> وصل الفازات عبر <code>MCCB</code> و <code>Contactor</code> إلى المحرك، ووصل <code>L1</code> إلى <code>A1</code> و <code>N</code> إلى <code>A2</code> للكونتاكتور ليلقط ويدور المحرك!';
-                addRealisticCompToCanvas(SIM_CATEGORIES.classic_sim[0], { x: 30, y: 20 });
-                addRealisticCompToCanvas(SIM_CATEGORIES.classic_sim[1], { x: 220, y: 20 });
-                addRealisticCompToCanvas(SIM_CATEGORIES.classic_sim[2], { x: 220, y: 180 });
-                addRealisticCompToCanvas(SIM_CATEGORIES.classic_sim[5], { x: 220, y: 340 });
-            } else if (val === 'lab3') {
-                inst.innerHTML = '<strong>مهمة المختبر 3:</strong> اربط حساس القرب <code>(+24V, 0V, OUT)</code> مع مدخل <code>PLC S7-1200 (L+, M, I0.0)</code>.';
-                addRealisticCompToCanvas(SIM_CATEGORIES.plc_sim[0], { x: 40, y: 30 });
-                addRealisticCompToCanvas(SIM_CATEGORIES.plc_sim[1], { x: 240, y: 210 });
-            } else if (val === 'lab4') {
-                inst.innerHTML = '<strong>مهمة المختبر 4:</strong> اربط <code>Arduino Uno (5V, GND, D9, D10)</code> مع حساس <code>Ultrasonic</code>.';
-                addRealisticCompToCanvas(SIM_CATEGORIES.arduino_sim[0], { x: 40, y: 30 });
-                addRealisticCompToCanvas(SIM_CATEGORIES.arduino_sim[1], { x: 240, y: 210 });
-            }
-        }
-        function gradeGuidedLab() {
-            const box = document.getElementById('diagnosticAlertBox');
-            box.style.display = 'block';
-            if (wires.length >= 3) {
-                box.innerHTML = `<strong style="color:var(--success-color);">تقييم التوصيل: ممتاز!</strong> تم ربط (${wires.length}) أسلاك. فعّل <b>«تشغيل التيار الحي»</b> لاختبار الدائرة فيزيائياً.`;
-            } else {
-                box.innerHTML = `<strong style="color:var(--warning-color);">التوصيل غير مكتمل:</strong> عدد الأسلاك الحالية (${wires.length}) غير كافٍ لإتمام المسار.`;
-            }
-        }
-        function runSmartDiagnostic() {
-            const alertBox = document.getElementById('diagnosticAlertBox');
-            alertBox.style.display = 'block';
-            if (wires.length === 0) { alertBox.innerHTML = `<strong style="color:var(--warning-color);">تنبيه:</strong> اللوحة لا تحتوي على أي أسلاك موصولة بعد.`; return; }
-            evaluateCircuitPhysics();
-            alertBox.innerHTML = `<strong style="color:var(--success-color);">تقرير الفحص الفيزيائي:</strong> عدد العناصر (${compCount})، عدد الأسلاك (${wires.length}). اضغط على القاطع أو زر Start أثناء تشغيل التيار الحي لمراقبة استجابة الدائرة.`;
-        }
-        function clearSimBoard() {
-            cancelPendingWire();
-            if (isLiveSimActive) toggleLivePowerSimulation();
-            document.getElementById('realSimBoard').innerHTML = '';
-            document.getElementById('wiresSvgLayer').innerHTML = '';
-            wires = []; compCount = 0; componentStates = {};
-            document.getElementById('realCanvasPlaceholder').style.display = 'flex';
-            document.getElementById('diagnosticAlertBox').style.display = 'none';
-            updateSimStatusBar();
-        }
-
-        /* =====================================================================
-           8. FIELD TROUBLESHOOTING WIZARD & GENERATOR SIZING
-           ===================================================================== */
-        const TROUBLESHOOTING_DB = {
-            motor_hums: [
-                { q: 'الخطوة 1: قِس الجهد بين الفازات الثلاثة (L1-L2, L2-L3, L1-L3) على أطراف المحرك U1, V1, W1. ماذا وجدت؟', yesLabel: 'أحد الفازات مفقود أو منخفض جداً (< 340V)', noLabel: 'الجهود الثلاثة سليمة (380V - 400V)', yesResult: '<strong>التشخيص المؤكد: سقوط فاز (Single Phasing)!</strong> المحرك يحاول الدوران بفازين فيسحب تياراً عالياً ويُصدر طنيناً. افحص تلامسات الكونتاكتور، الفيوزات، وقاطع القدرة.', noNext: 1 },
-                { q: 'الخطوة 2: افصل الكهرباء وحاول تدوير محور المحرك (Shaft) باليد. هل يدور بسلاسة؟', yesLabel: 'نعم يدور بسلاسة', noLabel: 'لا، المحور ثقيل أو محشور (Jammed)', yesResult: '<strong>التشخيص:</strong> تحقق من توصيلة الروزتة (Star vs Delta) وتأكد من عدم وجود قصر أو فتح في أحد ملفات المحرك بالأوميتر.', noResult: '<strong>التشخيص المؤكد: عطل ميكانيكي!</strong> تلف رولمان البلي (Bearings) أو انحشار المضخة المربوطة بالمحرك.' }
-            ],
-            contactor_chatter: [
-                { q: 'الخطوة 1: قِس الجهد على أطراف بوبينة الكونتاكتور (A1 - A2) لحظة التشغيل. هل الجهد مستقر؟', yesLabel: 'الجهد يهبط عن 80% من قيمته الإسمية', noLabel: 'الجهد ثابت ومطابق لملف البوبينة', yesResult: '<strong>التشخيص المؤكد: هبوط جهد في دائرة التحكم!</strong> بسبب طول أسلاك التحكم أو ضعف محول التحكم (Control Transformer).', noResult: '<strong>التشخيص المؤكد:</strong> وجود أتربة أو صدأ على القلب الحديدي للكونتاكتور أو كسر حلقة التظليل (Shading Ring) — يجب تنظيفه أو استبداله.' }
-            ],
-            star_delta_trip: [
-                { q: 'الخطوة 1: هل زمن التايمر (Star-Delta Timer) كافٍ لوصول المحرك لسرعته الإسمية (6 إلى 10 ثوانٍ)؟', yesLabel: 'نعم الزمن مضبوط على 8-10 ثوانٍ', noLabel: 'الزمن قصير جداً (2-3 ثوانٍ)', yesResult: '<strong>التشخيص المؤكد: خطأ في ترتيب أطراف ملفات المحرك (U2, V2, W2) على كونتاكتور الدلتا!</strong> تأكد من ربط نهاية كل ملف مع بداية الملف المجاور.', noResult: '<strong>التشخيص:</strong> الانتقال المبكر للدلتا يسبب تيار اندفاع عالٍ جداً؛ ارفع زمن التايمر إلى 8 ثوانٍ.' }
-            ],
-            gen_trip_load: [
-                { q: 'الخطوة 1: هل تدخل جميع الأحمال والمضخات دفعة واحدة لحظة تحويل الـ ATS؟', yesLabel: 'نعم تدخل معاً في نفس الثانية', noLabel: 'لا، تدخل بالتتابع', yesResult: '<strong>التشخيص المؤكد: تيار الإقلاع اللحظي (Inrush Current) يتجاوز قدرة المولد!</strong> ركّب تايمرات تأخير زمني (Sequential Timers) لتوزيع دخول المضخات.', noResult: '<strong>التشخيص:</strong> افحص حساس السرعة (MPU) ومنظم الجهد (AVR) في المولدة.' }
-            ],
-            panel_hot: [
-                { q: 'الخطوة 1: استخدم الكاميرا الحرارية أو قِس التيار الفعلي بالـ Clamp Meter. هل التيار ضمن الحد الإسمي؟', yesLabel: 'التيار طبيعي وأقل من القاطع', noLabel: 'التيار أعلى من القاطع', yesResult: '<strong>التشخيص المؤكد: رخاوة في ربط البراغي (Loose Connection) أو عدم كبس الـ Cable Lugs جيداً!</strong> أعد شد جميع التوصيلات بمفتاح العزم.', noResult: '<strong>التشخيص:</strong> زيادة أحمال حقيقية أو غياب التهوية — أعد حساب معامل التصحيح (Derating).' }
-            ]
-        };
-        function startTroubleshootingWizard() { renderWizardStep(document.getElementById('faultScenarioSelect').value, 0); }
-        function renderWizardStep(key, stepIndex) {
-            const container = document.getElementById('wizardStepContainer');
-            const steps = TROUBLESHOOTING_DB[key];
-            if (!container || !steps) return;
-            const s = steps[stepIndex];
-            container.innerHTML = `<div style="font-weight:800; color:var(--accent-color); margin-bottom:10px;">${s.q}</div>
-                <div style="display:flex; gap:8px; flex-wrap:wrap;">
-                    <button type="button" class="btn-primary btn-success" style="flex:1;" onclick="resolveWizardAnswer('${key}', ${stepIndex}, 'yes')">${s.yesLabel}</button>
-                    <button type="button" class="btn-primary btn-secondary" style="flex:1;" onclick="resolveWizardAnswer('${key}', ${stepIndex}, 'no')">${s.noLabel}</button>
-                </div>`;
-        }
-        function resolveWizardAnswer(key, stepIndex, choice) {
-            const container = document.getElementById('wizardStepContainer');
-            const s = TROUBLESHOOTING_DB[key][stepIndex];
-            if (choice === 'yes') {
-                container.innerHTML = `${s.yesResult}<br><button type="button" class="ai-tool-btn" style="margin-top:10px;" onclick="renderWizardStep('${key}', 0)">إعادة الفحص</button>`;
-            } else if (s.noNext !== undefined) {
-                renderWizardStep(key, s.noNext);
-            } else {
-                container.innerHTML = `${s.noResult}<br><button type="button" class="ai-tool-btn" style="margin-top:10px;" onclick="renderWizardStep('${key}', 0)">إعادة الفحص</button>`;
-            }
-        }
-
-        let genLoadsList = [
-            { name: 'مضخة مياه رئيسية 22kW', kw: 22, mult: 2.2, methodLabel: 'Star-Delta (×2.2)' },
-            { name: 'إنارة ومكاتب إدارية', kw: 15, mult: 1.0, methodLabel: 'حمل ثابت (×1.0)' }
-        ];
-        function addGeneratorLoad() {
-            const name = document.getElementById('genLoadName').value.trim() || `حمل رقم ${genLoadsList.length + 1}`;
-            const kw = parseFloat(document.getElementById('genLoadKw').value);
-            const sel = document.getElementById('genStartMethod');
-            const mult = parseFloat(sel.value);
-            if (!kw || kw <= 0) return;
-            genLoadsList.push({ name, kw, mult, methodLabel: sel.options[sel.selectedIndex].text.split('(')[0].trim() });
-            document.getElementById('genLoadName').value = '';
-            renderGeneratorLoads();
-        }
-        function removeGeneratorLoad(idx) { genLoadsList.splice(idx, 1); renderGeneratorLoads(); }
-        function renderGeneratorLoads() {
-            const tbody = document.getElementById('genLoadsBody');
-            const summary = document.getElementById('genSizingSummary');
-            if (!tbody) return;
-            let totalRunKw = 0, peakStartKva = 0;
-            tbody.innerHTML = '';
-            genLoadsList.forEach((item, idx) => {
-                totalRunKw += item.kw;
-                const runKva = item.kw / 0.8;
-                const startKva = runKva * item.mult;
-                if (startKva > peakStartKva) peakStartKva = startKva;
-                tbody.innerHTML += `<tr><td>المرحلة #${idx + 1}</td><td>${item.name}</td><td>${item.methodLabel}</td><td>${item.kw} kW</td><td>${startKva.toFixed(1)} kVA</td><td><button type="button" onclick="removeGeneratorLoad(${idx})" style="background:var(--danger-color); color:#fff; border:none; border-radius:6px; padding:3px 8px; cursor:pointer;">×</button></td></tr>`;
-            });
-            const totalRunKva = totalRunKw / 0.8;
-            const recGenKva = Math.max(totalRunKva * 1.15, (totalRunKva - (peakStartKva / 6)) + peakStartKva * 0.75);
-            const stdSizes = [30, 45, 60, 80, 100, 125, 150, 200, 250, 300, 400, 500, 650, 800, 1000, 1250];
-            const standardGen = stdSizes.find(s => s >= recGenKva) || Math.ceil(recGenKva);
-            summary.innerHTML = `<strong>ملخص تحجيم المولد الكهربائي (Standby / Prime Rating):</strong><br>• مجموع الأحمال المستمرة: <strong>${totalRunKw.toFixed(1)} kW (${totalRunKva.toFixed(1)} kVA)</strong><br>• السعة القياسية الموصى بها للمولد: <strong style="color:var(--success-color); font-size:1.05rem;">${standardGen} kVA (3-Phase 400V)</strong>`;
-        }
-
-        function calculateBusbarSize() {
-            const amp = parseFloat(document.getElementById('busbarAmpSelect').value);
-            const tempFactor = parseFloat(document.getElementById('busbarTemp').value);
-            const requiredAmp = amp / tempFactor;
-            const bars = [
-                { maxA: 320, dim: '20 × 5 mm (100 mm²)', clear: '14 mm' }, { maxA: 450, dim: '30 × 5 mm (150 mm²)', clear: '14 mm' },
-                { maxA: 650, dim: '40 × 10 mm (400 mm²)', clear: '20 mm' }, { maxA: 900, dim: '60 × 10 mm (600 mm²)', clear: '20 mm' },
-                { maxA: 1250, dim: '80 × 10 mm (800 mm²)', clear: '25 mm' }, { maxA: 1700, dim: '2 × (60 × 10 mm)', clear: '25 mm' },
-                { maxA: 2600, dim: '2 × (100 × 10 mm)', clear: '30 mm' }
-            ];
-            const chosen = bars.find(b => b.maxA >= requiredAmp) || bars[bars.length - 1];
-            const res = document.getElementById('busbarResultBox');
-            res.style.display = 'block';
-            res.innerHTML = `<strong>مواصفات الباسبار النحاسي (IEC 61439):</strong><br>• مقطع النحاس لكل فاز: <strong style="color:var(--success-color);">${chosen.dim}</strong> | مسافة العزل: <strong>${chosen.clear}</strong>`;
-        }
-
-        function calculateEndOfLineIsc() {
-            const len = parseFloat(document.getElementById('eolLength').value);
-            const mm = parseFloat(document.getElementById('eolCableMm').value);
-            const [inAmp, mult] = document.getElementById('eolBreakerCurve').value.split('|').map(Number);
-            const rLoop = 2 * ((0.0215 * len) / mm);
-            const iscEnd = (230 * 0.85) / rLoop;
-            const magTripCurrent = inAmp * mult;
-            const isSafe = iscEnd >= magTripCurrent;
-            const res = document.getElementById('eolResultBox');
-            res.style.display = 'block';
-            res.innerHTML = `• تيار القصر في نهاية الكابل: <strong style="color:${isSafe ? 'var(--success-color)' : 'var(--danger-color)'};">${iscEnd.toFixed(0)} A</strong> | تيار الفصل المغناطيسي للقاطع: <strong>${magTripCurrent} A</strong><br>${isSafe ? '✅ <strong>آمن:</strong> القاطع سيفصل لحظياً خلال < 0.1 ثانية.' : '⚠️ <strong>تحذير:</strong> تيار القصر أقل من عتبة الفصل المغناطيسي! كبّر مقطع الكابل أو استخدم قاطع Type B.'}`;
-        }
-
-        function runSelectivitySimulator() {
-            const [downIn, downMult] = document.getElementById('selDownstream').value.split('|').map(Number);
-            const [upIn, upMult] = document.getElementById('selUpstream').value.split('|').map(Number);
-            const faultA = (parseFloat(document.getElementById('selFaultKa').value) || 2) * 1000;
-            const upMagTrip = upIn * upMult;
-            const isSelective = (upIn >= downIn * 1.6) && (faultA < upMagTrip);
-            document.getElementById('selectivityVerdictBox').innerHTML = isSelective
-                ? `<strong style="color:var(--success-color);">انتقائية محققة (Total Selectivity):</strong> القاطع الفرعي (${downIn}A) سيفصل العطل وحده دون إسقاط القاطع الرئيسي (${upIn}A).`
-                : `<strong style="color:var(--danger-color);">خطر فقدان الانتقائية (Loss of Selectivity):</strong> تيار العطل (${faultA}A) يتجاوز عتبة الفصل المغناطيسي للقاطع الرئيسي (${upMagTrip}A).`;
-            if (typeof Plotly !== 'undefined') {
-                const I_down = [downIn * 1.13, downIn * 2, downIn * 5, downIn * downMult, downIn * downMult * 1.05, 10000];
-                const T_down = [3600, 40, 4, 0.5, 0.02, 0.01];
-                const I_up = [upIn * 1.13, upIn * 2, upIn * 5, upIn * upMult, upIn * upMult * 1.05, 10000];
-                const T_up = [3600, 60, 8, 1.2, 0.04, 0.02];
-                Plotly.newPlot('selectivityPlotArea', [
-                    { x: I_down, y: T_down, name: `الفرعي ${downIn}A`, line: { color: '#10b981', width: 3 } },
-                    { x: I_up, y: T_up, name: `الرئيسي ${upIn}A`, line: { color: '#3b82f6', width: 3 } },
-                    { x: [faultA, faultA], y: [0.01, 3600], name: 'تيار العطل', line: { color: '#ef4444', dash: 'dash' } }
-                ], {
-                    paper_bgcolor: 'transparent', plot_bgcolor: 'rgba(15,23,42,0.5)', font: { color: '#9ca3af' },
-                    xaxis: { type: 'log', title: 'التيار (Ampere)' }, yaxis: { type: 'log', title: 'الزمن (ثانية)' },
-                    margin: { t: 25, b: 40, l: 45, r: 15 }
-                }, { displayModeBar: false, responsive: true });
-            }
-        }
-
-        function calculateEarthingSystem() {
-            const rho = parseFloat(document.getElementById('soilTypeSelect').value);
-            const len = parseFloat(document.getElementById('rodLengthSelect').value);
-            const target = parseFloat(document.getElementById('targetEarthOhm').value);
-            const rSingle = (rho / (2 * Math.PI * len)) * (Math.log((4 * len) / 0.01) - 1);
-            let rods = 1;
-            while ((rSingle / rods) * 1.15 > target && rods < 30) rods++;
-            const res = document.getElementById('earthingDesignResult');
-            res.style.display = 'block';
-            res.innerHTML = `<strong>تصميم شبكة التأريض:</strong><br>• مقاومة القضيب الواحد: <strong>${rSingle.toFixed(2)} Ω</strong><br>• العدد المطلوب: <strong style="color:var(--success-color);">${rods} قضيب نحاسي</strong> بمسافة فاصلة <strong>${(len * 2).toFixed(1)} متر</strong> ومقاومة متوقعة <strong>${((rSingle / rods) * 1.15).toFixed(2)} Ω</strong>.`;
-        }
-
-        /* =====================================================================
-           9. SMART PANEL SCHEDULE + AUTO-SLD GENERATOR (SVG)
-           ===================================================================== */
-        let panelCircuits = [
-            { name: 'إنارة الصالة والممرات', kw: 1.8, phase: 'L1' },
-            { name: 'برايز المكاتب والحواسيب', kw: 2.2, phase: 'L2' },
-            { name: 'مكيف سبليت 2 طن', kw: 2.4, phase: 'L3' },
-            { name: 'مضخة مياه 3-Phase', kw: 4.5, phase: '3PH' }
-        ];
-        function addPanelCircuit() {
-            const name = document.getElementById('psLoadName').value.trim() || `دائرة فرعية #${panelCircuits.length + 1}`;
-            const kw = parseFloat(document.getElementById('psLoadKw').value);
-            let phase = document.getElementById('psPhaseMode').value;
-            if (!kw || kw <= 0) return;
-            if (phase === 'AUTO') {
-                const totals = { L1: 0, L2: 0, L3: 0 };
-                panelCircuits.forEach(c => {
-                    if (c.phase === '3PH') { totals.L1 += c.kw/3; totals.L2 += c.kw/3; totals.L3 += c.kw/3; }
-                    else totals[c.phase] += c.kw;
-                });
-                phase = Object.keys(totals).reduce((a, b) => totals[a] <= totals[b] ? a : b);
-            }
-            panelCircuits.push({ name, kw, phase });
-            document.getElementById('psLoadName').value = '';
-            renderPanelSchedule();
-        }
-        function removePanelCircuit(idx) { panelCircuits.splice(idx, 1); renderPanelSchedule(); }
-        function renderPanelSchedule() {
-            const tbody = document.getElementById('panelScheduleBody');
-            const summary = document.getElementById('panelBalanceSummary');
-            const sldBox = document.getElementById('panelAutoSldContainer');
-            if (!tbody) return;
-            const df = parseFloat(document.getElementById('psDemandFactor')?.value || 0.8);
-            let sumL1 = 0, sumL2 = 0, sumL3 = 0;
-            tbody.innerHTML = '';
-
-            const breakerList = [];
-            panelCircuits.forEach((c, idx) => {
-                let l1 = 0, l2 = 0, l3 = 0, mcb = '';
-                if (c.phase === '3PH') {
-                    l1 = l2 = l3 = c.kw / 3;
-                    const amp = Math.ceil((c.kw * 1000) / (1.732 * 400 * 0.85) * 1.25);
-                    mcb = `${amp}A 3P`;
-                } else {
-                    if (c.phase === 'L1') l1 = c.kw; else if (c.phase === 'L2') l2 = c.kw; else l3 = c.kw;
-                    const amp = Math.ceil((c.kw * 1000) / (230 * 0.85) * 1.25);
-                    mcb = `${amp <= 10 ? 10 : (amp <= 16 ? 16 : (amp <= 20 ? 20 : 32))}A 1P (${c.phase})`;
-                }
-                breakerList.push({ name: c.name, mcb, kw: c.kw });
-                sumL1 += l1; sumL2 += l2; sumL3 += l3;
-                tbody.innerHTML += `<tr><td>C-${idx + 1}</td><td>${c.name}</td><td><strong>${mcb}</strong></td><td>${l1.toFixed(2)}</td><td>${l2.toFixed(2)}</td><td>${l3.toFixed(2)}</td><td><button type="button" onclick="removePanelCircuit(${idx})" style="background:var(--danger-color); color:#fff; border:none; border-radius:6px; padding:2px 8px; cursor:pointer;">×</button></td></tr>`;
-            });
-
-            const totalConnected = sumL1 + sumL2 + sumL3;
-            const demandKw = totalConnected * df;
-            const mainAmp = Math.ceil((demandKw * 1000) / (1.732 * 400 * 0.85) * 1.25);
-            const stdMccb = [32, 40, 63, 80, 100, 125, 160, 250, 400, 630].find(s => s >= mainAmp) || 630;
-            const maxP = Math.max(sumL1, sumL2, sumL3); const minP = Math.min(sumL1, sumL2, sumL3);
-            const unbalancePct = maxP > 0 ? ((maxP - minP) / maxP) * 100 : 0;
-
-            summary.innerHTML = `<strong>ملخص موازنة اللوحة:</strong><br>• الأحمال: L1=<strong>${sumL1.toFixed(2)}kW</strong> | L2=<strong>${sumL2.toFixed(2)}kW</strong> | L3=<strong>${sumL3.toFixed(2)}kW</strong> (عدم التوازن: <strong style="color:${unbalancePct <= 15 ? 'var(--success-color)' : 'var(--danger-color)'};">${unbalancePct.toFixed(1)}%</strong>)<br>• القاطع الرئيسي المقترح: <strong style="color:var(--accent-color);">${stdMccb}A MCCB 3-Pole</strong>`;
-
-            if (sldBox) {
-                const count = Math.max(1, breakerList.length);
-                const spacing = 135;
-                const svgWidth = Math.max(540, count * spacing + 80);
-                const centerX = svgWidth / 2;
-                let feedersSvg = '';
-                breakerList.forEach((b, i) => {
-                    const fx = 60 + i * spacing;
-                    feedersSvg += `
-                        <line x1="${fx}" y1="145" x2="${fx}" y2="175" stroke="#e2e8f0" stroke-width="2"/>
-                        <rect x="${fx - 18}" y="175" width="36" height="24" rx="4" fill="#1e293b" stroke="#3b82f6" stroke-width="2"/>
-                        <text x="${fx}" y="191" fill="#38bdf8" font-size="9" text-anchor="middle" font-weight="bold">MCB</text>
-                        <line x1="${fx}" y1="199" x2="${fx}" y2="232" stroke="#10b981" stroke-width="2"/>
-                        <polygon points="${fx-5},228 ${fx+5},228 ${fx},236" fill="#10b981"/>
-                        <text x="${fx}" y="250" fill="#f8fafc" font-size="9" text-anchor="middle" font-weight="bold">${b.mcb}</text>
-                        <text x="${fx}" y="265" fill="#94a3b8" font-size="8.5" text-anchor="middle">${b.name.slice(0, 16)}</text>
-                    `;
-                });
-
-                sldBox.innerHTML = `
-                    <div style="font-size:0.82rem; color:var(--accent-color); font-weight:800; margin-bottom:8px;">المخطط الأحادي التلقائي للوحة (Auto-Generated Single Line Diagram — SLD)</div>
-                    <svg viewBox="0 0 ${svgWidth} 285" width="100%" style="min-width:500px; max-height:290px;" dir="ltr">
-                        <text x="${centerX}" y="22" fill="#94a3b8" font-size="11" text-anchor="middle" font-weight="bold">Incoming Supply 3-Phase 400V 50Hz</text>
-                        <line x1="${centerX}" y1="30" x2="${centerX}" y2="62" stroke="#ef4444" stroke-width="3"/>
-                        <rect x="${centerX - 42}" y="62" width="84" height="34" rx="6" fill="#1e293b" stroke="#ef4444" stroke-width="2.5"/>
-                        <text x="${centerX}" y="83" fill="#fff" font-size="11" text-anchor="middle" font-weight="bold">${stdMccb}A MCCB</text>
-                        <line x1="${centerX}" y1="96" x2="${centerX}" y2="145" stroke="#ef4444" stroke-width="3"/>
-                        <line x1="40" y1="145" x2="${svgWidth - 40}" y2="145" stroke="#f59e0b" stroke-width="5"/>
-                        <text x="50" y="136" fill="#f59e0b" font-size="10" font-weight="bold">Main Copper Busbar (${demandKw.toFixed(1)} kW Demand)</text>
-                        ${feedersSvg}
-                    </svg>
-                `;
-            }
-        }
-        function resetPanelSchedule() { panelCircuits = []; renderPanelSchedule(); }
-        function exportPanelSchedulePdf() {
-            const element = document.getElementById('panelSchedulePrintable');
-            if (typeof html2pdf !== 'undefined') html2pdf().from(element).save('VoltAI_Panel_Schedule_SLD.pdf');
-        }
-
-        /* =====================================================================
-           10. INTERVIEW SIMULATOR & SITE ITP CHECKLISTS
-           ===================================================================== */
-        const INTERVIEW_QA_DB = [
-            { cat: 'site', q: 'س1 (مهندس موقع): لماذا نربط طرف التأريض (Shield) لكابلات الإشارة من جهة واحدة فقط في اللوحة؟', a: 'لتجنب تكون تيارات دوامية أرضية (Ground Loops) نتيجة اختلاف جهد الأرضي بين اللوحة والمعدة مما يسبب تشويشاً على إشارة 4-20mA.' },
-            { cat: 'office', q: 'س2 (مكتب فني): ما الفرق بين سعة القطع Icu و Ics في قواطع MCCB؟', a: 'Icu هي أقصى تيار قصر يفصله القاطع مرة واحدة بأمان، أما Ics فهي تيار القصر التشغيلي الذي يفصله القاطع ويعود للعمل بعدها بشكل طبيعي.' },
-            { cat: 'automation', q: 'س3 (أوتوميشن): لماذا نفضل إشارة 4-20mA على 0-10V في المصانع؟', a: 'لأن 4-20mA مقاومة للتشويش الكهرومغناطيسي ولا تتأثر بهبوط الجهد في المسافات الطويلة، كما أن قيمة 0mA تكشف انقطاع السلك فوراً (Live Zero).' }
-        ];
-        function filterInterviewQuestions(cat, btn) {
-            document.querySelectorAll('#interview_sim .sim-tab-btn').forEach(b => b.classList.remove('active'));
-            if (btn) btn.classList.add('active');
-            const container = document.getElementById('interviewQuestionsContainer');
-            if (!container) return;
-            const list = cat === 'all' ? INTERVIEW_QA_DB : INTERVIEW_QA_DB.filter(x => x.cat === cat);
-            container.innerHTML = list.map((item, idx) => `<div class="qa-card"><div class="qa-question">${item.q}</div><button type="button" class="ai-tool-btn" onclick="const ans = document.getElementById('qaAns_${idx}'); ans.style.display = ans.style.display === 'block' ? 'none' : 'block';">إظهار الإجابة النموذجية</button><div id="qaAns_${idx}" class="qa-answer">${item.a}</div></div>`).join('');
-        }
-
-        const SITE_ITP_DB = {
-            panel_install: ['التأكد من مطابقة أبعاد اللوحة ودرجة الحماية (IP54 / IP65) للمخططات المعتمدة.', 'فحص عزم شد الباسبارات والقواطع باستخدام مفتاح العزم (Torque Wrench).', 'التأكد من تركيب الأغطية العازلة الشفافة (Shrouds) على الباسبارات الحية.', 'مراجعة ترقيم الأسلاك (Ferrule Tags) ومطابقتها مع مخطط As-Built.'],
-            cable_trench: ['التأكد من عمق الحفر (80 سم للضغط المنخفض و 100 سم للمتوسط).', 'فرش طبقة رمل ناعم (Bedding Sand) بسمك 10 سم أسفل الكابلات.', 'وضع بلاطات الحماية (Cable Tiles) وشريط التحذير الأصفر فوق طبقة الرمل.'],
-            earthing_sys: ['فحص اللحام الحراري (Exothermic / Cadweld) لقضبان التأريض.', 'قياس مقاومة بئر التأريض والتأكد أنها ضمن الحدود المطلوبة (< 2 Ω).'],
-            pre_comm: ['إجراء فحص العزل (Megger Test) بين الفازات والأرضي قبل توصيل التغذية.', 'فحص تتابع الفازات (Phase Sequence L1-L2-L3) بجهاز Phase Rotation Meter.']
-        };
-        function renderSiteChecklist() {
-            const key = document.getElementById('itpCategorySelect')?.value || 'panel_install';
-            const container = document.getElementById('siteChecklistItems');
-            if (!container) return;
-            container.innerHTML = (SITE_ITP_DB[key] || []).map(txt => `<label class="checklist-row"><input type="checkbox" class="itp-chk" onchange="updateItpProgress()"><span>${txt}</span></label>`).join('');
-            updateItpProgress();
-        }
-        function updateItpProgress() {
-            const all = document.querySelectorAll('.itp-chk');
-            const checked = document.querySelectorAll('.itp-chk:checked');
-            const pct = all.length ? Math.round((checked.length / all.length) * 100) : 0;
-            const box = document.getElementById('itpProgressBox');
-            if (box) box.innerHTML = `نسبة جاهزية الاستلام الميداني: <strong style="color:${pct === 100 ? 'var(--success-color)' : 'var(--accent-color)'};">${pct}% (${checked.length} من ${all.length} بنود)</strong>`;
-        }
-        function exportChecklistPdf() { if (typeof html2pdf !== 'undefined') html2pdf().from(document.getElementById('siteChecklistPrintable')).save('Site_ITP_Inspection.pdf'); }
-        function generateTechOfficeDoc() {
-            const type = document.getElementById('techDocType').value;
-            const subj = document.getElementById('techDocSubject').value.trim() || 'اعتماد مخططات ومعدات اللوحة الكهربائية';
-            const out = document.getElementById('techDocOutput');
-            out.style.display = 'block';
-            out.innerHTML = `<strong>مسودة مراسلة المكتب الفني (${type}):</strong><br><div style="margin-top:8px; padding:10px; background:rgba(0,0,0,0.2); border-radius:8px;">السادة / استشاري المشروع المحترمون،<br>الموضوع: <strong>(${type}) — ${subj}</strong><br>نرفق لسيادتكم المستندات الفنية وجداول الحسابات للمراجعة والاعتماد حسب مواصفات المشروع ومعيار IEC 60364.<br>وتفضلوا بقبول فائق الاحترام.</div>`;
-        }
-        /* =====================================================================
-           11. POWER, PF STUDIO + ACTIVE SLD, STANDARDS & BOM MARKET CATALOG
-           ===================================================================== */
-        function calculateCableDerating() {
-            const inAmp = parseFloat(document.getElementById('derateIn').value);
-            const ct = parseFloat(document.getElementById('derateTemp').value);
-            const cg = parseFloat(document.getElementById('derateGroup').value);
-            if (!inAmp) return;
-            const izRequired = inAmp / (ct * cg);
-            const table = [{ mm: 16, amp: 85 }, { mm: 25, amp: 112 }, { mm: 35, amp: 138 }, { mm: 50, amp: 168 }, { mm: 70, amp: 213 }, { mm: 95, amp: 258 }, { mm: 120, amp: 299 }, { mm: 150, amp: 344 }, { mm: 185, amp: 392 }, { mm: 240, amp: 461 }];
-            const chosen = table.find(c => c.amp >= izRequired) || table[table.length - 1];
-            const res = document.getElementById('deratingResultBox');
-            res.style.display = 'block';
-            res.innerHTML = `<strong>نتائج معامل التصحيح (IEC 60364-5-52):</strong><br>• التيار المصحح المطلوب للكابل: <strong>${izRequired.toFixed(1)} A</strong><br>• مقطع الكابل النحاسي الآمن: <strong style="color:var(--success-color); font-size:1.05rem;">${chosen.mm} mm²</strong>`;
-        }
-        function calculateFullMotorSystem() {
-            let p = parseFloat(document.getElementById('motPower').value);
-            const unit = document.getElementById('motUnit').value;
-            const volt = parseFloat(document.getElementById('motPhase').value);
-            const pf = parseFloat(document.getElementById('motPf').value) || 0.85;
-            const eff = (parseFloat(document.getElementById('motEff').value) || 90) / 100;
-            const dist = parseFloat(document.getElementById('motDist').value) || 30;
-            if (!p || p <= 0) return;
-            if (unit === 'hp') p = p * 0.746;
-            const flc = volt === 220 ? (p * 1000) / (volt * pf * eff) : (p * 1000) / (1.732 * volt * pf * eff);
-            const breaker = [10, 16, 20, 25, 32, 40, 50, 63, 80, 100, 125, 160, 200, 250].find(s => s >= flc * 1.25) || 250;
-            const cable = [2.5, 4, 6, 10, 16, 25, 35, 50, 70, 95, 120].find(s => ((volt === 220 ? 2 : 1.732) * 0.0175 * dist * flc) / s <= (volt * 0.03) && s * 4.5 >= flc) || 120;
-            const res = document.getElementById('motorFullResult');
-            res.style.display = 'block';
-            res.innerHTML = `• التيار الإسمي للمحرك (FLC): <strong style="color:var(--accent-color);">${flc.toFixed(2)} A</strong><br>• القاطع المغناطيسي الحراري: <strong>${breaker} A (Type D)</strong> | مقطع الكابل النحاسي: <strong>${cable} mm²</strong>`;
-            saveCalculationToHistory('منظومة محرك', `${p.toFixed(1)}kW -> FLC: ${flc.toFixed(1)}A, Cable: ${cable}mm²`);
-        }
-        function calculateTransformerIsc() {
-            const kva = parseFloat(document.getElementById('trKva').value);
-            const v = parseFloat(document.getElementById('trSecVolt').value);
-            const uk = parseFloat(document.getElementById('trUk').value);
-            if (!kva || !v || !uk) return;
-            const inAmp = (kva * 1000) / (1.732 * v);
-            const iscKa = (inAmp / (uk / 100)) / 1000;
-            const res = document.getElementById('trResult');
-            res.style.display = 'block';
-            res.innerHTML = `• التيار الإسمي الثانوي للمحول: <strong>${inAmp.toFixed(1)} A</strong> | تيار القصر Isc: <strong style="color:var(--danger-color);">${iscKa.toFixed(2)} kA</strong>`;
-        }
-        function calculateCable() {
-            const amp = parseFloat(document.getElementById('cableAmp').value);
-            const len = parseFloat(document.getElementById('cableLen').value);
-            const size = parseFloat(document.getElementById('cableSize').value);
-            const rho = document.getElementById('cableMat').value === 'cu' ? 0.0175 : 0.028;
-            if (!amp || !len || !size) return;
-            const vd = (1.732 * rho * len * amp) / size;
-            const pct = (vd / 380) * 100;
-            const res = document.getElementById('cableResult');
-            res.style.display = 'block';
-            res.innerHTML = `هبوط الجهد: <strong>${vd.toFixed(2)} V (${pct.toFixed(2)}%)</strong> — ${pct <= 3 ? '<span style="color:var(--success-color);">ضمن الحد المسموح ≤ 3%</span>' : '<span style="color:var(--danger-color);">تجاوز الحد! كبّر المقطع</span>'}`;
-        }
-        function calculateBreakerSettings() {
-            const inAmp = parseFloat(document.getElementById('breakerIn').value);
-            const ib = parseFloat(document.getElementById('breakerIb').value);
-            if (!inAmp || !ib) return;
-            const ir = Math.min(1.0, Math.max(0.4, (ib * 1.05) / inAmp));
-            const res = document.getElementById('breakerResult');
-            res.style.display = 'block';
-            res.innerHTML = `• ضبط الحمل الزائد (Ir): <strong>${ir.toFixed(2)} × In (${(ir * inAmp).toFixed(1)} A)</strong> | الفصل القصير (Isd): <strong>${(8 * ir * inAmp).toFixed(0)} A</strong>`;
-        }
-        function generateStarDelta() {
-            let p = parseFloat(document.getElementById('sdPower').value);
-            if (!p) return;
-            if (document.getElementById('sdUnit').value === 'hp') p *= 0.746;
-            const flc = (p * 1000) / (1.732 * 380 * 0.85 * 0.9);
-            const res = document.getElementById('sdResult');
-            res.style.display = 'block';
-            res.innerHTML = `• كونتاكتور Main و Delta: <strong>${Math.ceil(flc * 0.58 * 1.15)} A</strong> | كونتاكتور Star: <strong>${Math.ceil(flc * 0.33 * 1.15)} A</strong> | ضبط الأوفرلود: <strong>${(flc * 0.58).toFixed(1)} A</strong>`;
-        }
-        function simulateATS(mode) {
-            const mainsBox = document.getElementById('atsMainsBox');
-            const genBox = document.getElementById('atsGenBox');
-            const desc = document.getElementById('atsStatusDesc');
-            if (mode === 'mains_ok') {
-                mainsBox.style.cssText = 'padding:10px 16px; border-radius:10px; border:2px solid #10b981; background:rgba(16,185,129,0.15); color:#10b981; font-weight:bold;';
-                mainsBox.textContent = 'الوطنية (KM1): مغلق ON';
-                genBox.style.cssText = 'padding:10px 16px; border-radius:10px; border:2px solid #374151; background:rgba(55,65,81,0.2); color:#9ca3af; font-weight:bold;';
-                genBox.textContent = 'المولدة (KM2): مفتوح OFF';
-                desc.textContent = 'الحالة الحالية: الحمل يتغذى من الشبكة الوطنية عبر كونتاكتور KM1.';
-            } else {
-                mainsBox.style.cssText = 'padding:10px 16px; border-radius:10px; border:2px solid #ef4444; background:rgba(239,68,68,0.15); color:#ef4444; font-weight:bold;';
-                mainsBox.textContent = 'الوطنية (KM1): مفصول OFF';
-                genBox.style.cssText = 'padding:10px 16px; border-radius:10px; border:2px solid #f59e0b; background:rgba(245,158,11,0.15); color:#f59e0b; font-weight:bold;';
-                genBox.textContent = 'المولدة (KM2): مغلق ON';
-                desc.textContent = 'حالة الطوارئ: انقطعت الوطنية، فُصل KM1، أُقلع المولد، وأُغلق KM2 لتغذية الحمل بأمان.';
-            }
-        }
-        function runPowerFactorStudio() {
-            const kw = parseFloat(document.getElementById('pfKw').value);
-            const pf1 = parseFloat(document.getElementById('pfOld').value);
-            const pf2 = parseFloat(document.getElementById('pfNew').value);
-            if (!kw || pf1 <= 0 || pf2 <= 0) return;
-            const phi1 = Math.acos(pf1); const phi2 = Math.acos(pf2);
-            const kvar = kw * (Math.tan(phi1) - Math.tan(phi2));
-            const res = document.getElementById('pfResultBox');
-            res.style.display = 'block';
-            res.innerHTML = `سعة بنك المكثفات المطلوبة (Capacitor Bank): <strong style="color:var(--success-color); font-size:1.1rem;">${kvar.toFixed(1)} kVAR</strong>`;
-
-            const plotDiv = document.getElementById('pfWavePlot');
-            plotDiv.style.display = 'block';
-            if (typeof Plotly !== 'undefined') {
-                const t = [], v = [], iOld = [], iNew = [];
-                for (let x = 0; x <= 360; x += 5) {
-                    const rad = x * Math.PI / 180;
-                    t.push(x); v.push(Math.sin(rad)); iOld.push(0.85 * Math.sin(rad - phi1)); iNew.push(0.7 * Math.sin(rad - phi2));
-                }
-                Plotly.newPlot('pfWavePlot', [
-                    { x: t, y: v, name: 'الجهد (V)', line: { color: '#3b82f6' } },
-                    { x: t, y: iOld, name: 'التيار قبل التحسين', line: { color: '#ef4444', dash: 'dot' } },
-                    { x: t, y: iNew, name: 'التيار بعد التحسين', line: { color: '#10b981' } }
-                ], { paper_bgcolor: 'transparent', plot_bgcolor: 'rgba(15,23,42,0.5)', font: { color: '#9ca3af' }, margin: { t: 20, b: 30, l: 35, r: 15 } }, { displayModeBar: false, responsive: true });
-            }
-
-            const sldBox = document.getElementById('dynamicSldBox');
-            if (sldBox) {
-                sldBox.style.display = 'block';
-                const steps = Math.max(2, Math.min(6, Math.ceil(kvar / 15)));
-                const stepKvar = (kvar / steps).toFixed(1);
-                sldBox.innerHTML = `
-                    <div style="font-size:0.8rem; color:var(--accent-color); font-weight:800; margin-bottom:6px;">المخطط الأحادي للوحة تحسين معامل القدرة (PFC Panel SLD)</div>
-                    <svg viewBox="0 0 560 200" width="100%" style="max-height:200px;" dir="ltr">
-                        <line x1="40" y1="35" x2="520" y2="35" stroke="#f59e0b" stroke-width="4"/>
-                        <text x="50" y="25" fill="#f59e0b" font-size="10" font-weight="bold">Main Busbar 400V 3-Phase</text>
-                        <line x1="120" y1="35" x2="120" y2="85" stroke="#e2e8f0" stroke-width="2"/>
-                        <rect x="85" y="85" width="70" height="30" rx="4" fill="#1e293b" stroke="#3b82f6" stroke-width="2"/>
-                        <text x="120" y="104" fill="#fff" font-size="9" text-anchor="middle">Load ${kw}kW</text>
-                        <line x1="360" y1="35" x2="360" y2="75" stroke="#10b981" stroke-width="2"/>
-                        <rect x="295" y="75" width="130" height="32" rx="4" fill="#1e293b" stroke="#10b981" stroke-width="2"/>
-                        <text x="360" y="95" fill="#10b981" font-size="9.5" text-anchor="middle" font-weight="bold">PFC Bank: ${kvar.toFixed(1)} kVAR</text>
-                        <text x="360" y="128" fill="#94a3b8" font-size="9" text-anchor="middle">${steps} Steps × ${stepKvar} kVAR + Detuned Reactor 7%</text>
-                    </svg>
-                `;
-            }
-        }
-
-        function generatePanelQR() {
-            const name = document.getElementById('qrPanelName').value || 'MDB-01';
-            const specs = document.getElementById('qrPanelSpecs').value || '400A 3-Phase';
-            const out = document.getElementById('panelQrOutput');
-            out.innerHTML = '';
-            if (typeof QRCode !== 'undefined') new QRCode(out, { text: `Panel: ${name} | Specs: ${specs}`, width: 130, height: 130 });
-        }
-        function loadCustomCanva() {
-            const url = document.getElementById('canvaEmbedUrl').value.trim();
-            if (url) document.getElementById('canvaLiveFrame').src = url;
-        }
-        function generateArduinoCode() {
-            const p = document.getElementById('arduinoPrompt').value || 'تشغيل مضخة';
-            const res = document.getElementById('arduinoResult');
-            res.style.display = 'block';
-            res.innerHTML = `<strong>كود Arduino C++ المقترح لـ (${p}):</strong><pre>const int RELAY_PIN = 7;\nvoid setup() { pinMode(RELAY_PIN, OUTPUT); }\nvoid loop() { digitalWrite(RELAY_PIN, HIGH); delay(5000); digitalWrite(RELAY_PIN, LOW); delay(5000); }</pre>`;
-        }
-        function calculateLedResistor() {
-            const vs = parseFloat(document.getElementById('ledSupply').value);
-            const vf = parseFloat(document.getElementById('ledVoltage').value);
-            const r = (vs - vf) / 0.02;
-            const res = document.getElementById('ledResistorResult');
-            res.style.display = 'block';
-            res.innerHTML = `المقاومة المطلوبة: <strong>${Math.round(r)} Ω</strong> (الأقرب قياسياً: <strong>${vs <= 5 ? 220 : 470} Ω</strong>)`;
-        }
-        function runSimStart() {
-            document.getElementById('simCoil').setAttribute('fill', '#10b981');
-            document.getElementById('simCoilText').textContent = 'Q0.0 ON';
-            document.getElementById('simStatus').textContent = 'حالة المحرك: يعمل (Latched)';
-        }
-        function runSimStop() {
-            document.getElementById('simCoil').setAttribute('fill', '#1f2937');
-            document.getElementById('simCoilText').textContent = 'Q0.0 OFF';
-            document.getElementById('simStatus').textContent = 'حالة المحرك: متوقف';
-        }
-        function generateLadderDiagram() {
-            const std = document.getElementById('ladderStandard').value;
-            const res = document.getElementById('ladderResult');
-            res.style.display = 'block';
-            res.innerHTML = std === 'siemens'
-                ? `<pre>|--[ I0.2 Start ]--+--[ /I0.0 Stop ]--[ /I0.1 OL ]--( Q0.0 Motor )--|\n|--[ Q0.0 Latch ]--|</pre>`
-                : `<pre>|--[ I:1/2 Start ]--+--[ /I:1/0 Stop ]--( O:2/0 Motor )--|\n|--[ O:2/0 Latch ]--|</pre>`;
-        }
-        function calculatePanelCooling() {
-            const w = parseFloat(document.getElementById('panelHeatLoss').value) || 0;
-            const res = document.getElementById('panelCoolingResult');
-            res.style.display = 'block';
-            res.innerHTML = `قدرة التبريد المطلوبة: <strong>${Math.round(w * 3.412)} BTU/hr</strong>`;
-        }
-        function calculateLightingLux() {
-            const area = parseFloat(document.getElementById('roomArea').value) || 0;
-            const lux = parseFloat(document.getElementById('luxRequired').value) || 500;
-            const lamps = Math.ceil((area * lux) / (4500 * 0.8 * 0.8));
-            const res = document.getElementById('lightingResult');
-            res.style.display = 'block';
-            res.innerHTML = `عدد الكشافات LED (4500 Lumen) المطلوب: <strong>${lamps} كشاف</strong>`;
-        }
-        function evaluateInsulationTest() {
-            const val = parseFloat(document.getElementById('meggerValue').value) || 0;
-            const res = document.getElementById('meggerResult');
-            res.style.display = 'block';
-            res.innerHTML = val >= 100 ? `<strong style="color:var(--success-color);">ممتاز (${val} MΩ):</strong> العزل سليم وجاهز للتشغيل.` : `<strong style="color:var(--danger-color);">تحذير (${val} MΩ):</strong> مقاومة العزل منخفضة!`;
-        }
-        function evaluateEarthPit() {
-            const val = parseFloat(document.getElementById('earthPitValue').value) || 0;
-            const res = document.getElementById('earthPitResult');
-            res.style.display = 'block';
-            res.innerHTML = val <= 2 ? `<strong style="color:var(--success-color);">مطابق (${val} Ω):</strong> مناسب للمنشآت الصناعية والمحطات.` : `<strong style="color:var(--warning-color);">مرتفع (${val} Ω):</strong> أضف قضبان تأريض إضافية.`;
-        }
-        function calculateSolar() {
-            const wh = parseFloat(document.getElementById('solarLoad').value) || 0;
-            const hrs = parseFloat(document.getElementById('sunHours').value) || 5;
-            const kw = (wh / (hrs * 0.8)) / 1000;
-            const res = document.getElementById('solarResult');
-            res.style.display = 'block';
-            res.innerHTML = `قدرة المنظومة الشمسية: <strong>${kw.toFixed(2)} kWp</strong> (حوالي <strong>${Math.ceil((kw * 1000) / 550)} لوح 550W</strong>)`;
-        }
-        function calculateUPS() {
-            const w = parseFloat(document.getElementById('upsLoad').value) || 0;
-            const h = parseFloat(document.getElementById('upsHours').value) || 2;
-            const ah = (w * h) / (48 * 0.8);
-            const res = document.getElementById('upsResult');
-            res.style.display = 'block';
-            res.innerHTML = `سعة بنك البطاريات (48V DC): <strong>${Math.ceil(ah)} Ah</strong>`;
-        }
-        function calculateCableTraySize() {
-            const count = parseFloat(document.getElementById('trayCableCount').value);
-            const dia = parseFloat(document.getElementById('trayCableDia').value);
-            const spare = parseFloat(document.getElementById('traySparePct').value);
-            if (!count || !dia) return;
-            const totalW = (count * dia) * (1 + spare);
-            const stdWidth = [100, 150, 200, 300, 400, 500, 600, 800].find(w => w >= totalW) || 800;
-            const res = document.getElementById('cableTrayResult');
-            res.style.display = 'block';
-            res.innerHTML = `العرض القياسي لحامل الكابلات: <strong style="color:var(--success-color);">${stdWidth} mm</strong> (ارتفاع 50mm أو 75mm)`;
-        }
-        function convertAwgToMetric() {
-            const [awg, exact, std, amp] = document.getElementById('awgSelect').value.split('|');
-            document.getElementById('awgResultBox').innerHTML = `القياس المختار: <strong>${awg} AWG</strong> يعادل <strong>${exact} mm²</strong> (المتوفر: <strong>${std} mm²</strong> | ${amp}A).`;
-        }
-        function calculateConduit() {
-            const n = parseFloat(document.getElementById('conduitCableCount').value) || 1;
-            const d = parseFloat(document.getElementById('conduitCableDia').value) || 10;
-            const areaReq = (n * Math.PI * Math.pow(d / 2, 2)) / 0.4;
-            const diaMin = Math.sqrt((4 * areaReq) / Math.PI);
-            const res = document.getElementById('conduitResult');
-            res.style.display = 'block';
-            res.innerHTML = `القطر الداخلي الأدنى للأنبوب (NEC 40%): <strong>${Math.ceil(diaMin)} mm</strong>`;
-        }
-
-        /* =====================================================================
-           BOM MARKET CATALOG + USD/IQD CURRENCY CONVERTER
-           ===================================================================== */
-        function addCatalogItemToBom() {
-            const raw = document.getElementById('bomCatalogSelect')?.value;
-            if (!raw) return;
-            const [name, specs, priceUsd] = raw.split('|');
-            const tbody = document.getElementById('bomTableBody');
-            const tr = document.createElement('tr');
-            tr.innerHTML = `<td>${name}</td><td>${specs}</td><td><input type="number" value="1" min="1" class="bom-qty" oninput="recalculateBomTotals()" style="padding:6px;"></td><td><input type="number" value="${priceUsd}" min="0" class="bom-price" oninput="recalculateBomTotals()" style="padding:6px;"></td><td class="bom-row-total">${priceUsd} $</td>`;
-            tbody.appendChild(tr);
-            recalculateBomTotals();
-        }
-        function addManualBomRow() {
-            const tbody = document.getElementById('bomTableBody');
-            const tr = document.createElement('tr');
-            tr.innerHTML = `<td contenteditable="true">مكون إضافي</td><td contenteditable="true">مواصفات قياسية</td><td><input type="number" value="1" min="1" class="bom-qty" oninput="recalculateBomTotals()" style="padding:6px;"></td><td><input type="number" value="10" min="0" class="bom-price" oninput="recalculateBomTotals()" style="padding:6px;"></td><td class="bom-row-total">10 $</td>`;
-            tbody.appendChild(tr);
-            recalculateBomTotals();
-        }
-        function recalculateBomTotals() {
-            const currency = document.getElementById('bomCurrency')?.value || '$';
-            const rate = parseFloat(document.getElementById('bomExchangeRate')?.value) || 1500;
-            let grandUsd = 0;
-            document.querySelectorAll('#bomTableBody tr').forEach(row => {
-                const qty = parseFloat(row.querySelector('.bom-qty')?.value) || 0;
-                const priceUsd = parseFloat(row.querySelector('.bom-price')?.value) || 0;
-                const subUsd = qty * priceUsd;
-                grandUsd += subUsd;
-                const cell = row.querySelector('.bom-row-total');
-                if (cell) {
-                    cell.textContent = currency === '$'
-                        ? `${subUsd.toFixed(1)} $`
-                        : `${Math.round(subUsd * rate).toLocaleString()} د.ع`;
-                }
-            });
-            const grandEl = document.getElementById('bomGrandTotal');
-            if (grandEl) {
-                grandEl.textContent = currency === '$'
-                    ? `${grandUsd.toFixed(1)} $ (≈ ${Math.round(grandUsd * rate).toLocaleString()} د.ع)`
-                    : `${Math.round(grandUsd * rate).toLocaleString()} د.ع ($${grandUsd.toFixed(1)})`;
-            }
-        }
-        function exportBOMReport() { if (typeof html2pdf !== 'undefined') html2pdf().from(document.getElementById('bomPrintableArea')).save('VoltAI_BOM_Quotation.pdf'); }
-
-        /* =====================================================================
-           12. CENTRAL AI HUB & HISTORY ENGINE
-           ===================================================================== */
-        let attachedImageBase64 = null;
-        function setQuickPrompt(text) {
-            const input = document.getElementById('mainAiInput');
-            if (input) { input.value = text; input.focus(); }
-        }
-        function handleImageUpload(event) {
-            const file = event.target.files[0];
-            if (!file) return;
-            const reader = new FileReader();
-            reader.onload = function(e) {
-                attachedImageBase64 = e.target.result;
-                document.getElementById('imageThumbPreview').src = attachedImageBase64;
-                document.getElementById('imageBadge').style.display = 'flex';
-            };
-            reader.readAsDataURL(file);
-        }
-        function clearAttachedImage() {
-            attachedImageBase64 = null;
-            document.getElementById('aiImageInput').value = '';
-            document.getElementById('imageBadge').style.display = 'none';
-        }
-        function triggerAiVoice() {
-            if (!('webkitSpeechRecognition' in window || 'SpeechRecognition' in window)) return alert('المتصفح لا يدعم الإملاء الصوتي.');
-            const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
-            const rec = new SR(); rec.lang = 'ar-SA';
-            rec.onresult = (e) => { document.getElementById('mainAiInput').value = e.results[0][0].transcript; };
-            rec.start();
-        }
-        function extractNumberBefore(text, regexArray, fallback) {
-            for (const rx of regexArray) {
-                const m = text.match(rx);
-                if (m && m[1]) return parseFloat(m[1]);
-            }
-            return fallback;
-        }
-        function processAiQuery() {
-            const rawText = document.getElementById('mainAiInput').value.trim();
-            const resBox = document.getElementById('mainAiResult');
-            if (!rawText && !attachedImageBase64) return;
-            resBox.style.display = 'block';
-            const q = rawText.toLowerCase();
-            let html = '';
-            if (q.includes('محرك') || q.includes('كابل') || q.includes('كيبل') || q.includes('kw') || q.includes('hp')) {
-                let p = extractNumberBefore(q, [/(\d+(?:\.\d+)?)\s*(?:kw|كيلو)/i], 15);
-                if (q.includes('hp') || q.includes('حصان')) p = extractNumberBefore(q, [/(\d+(?:\.\d+)?)\s*(?:hp|حصان)/i], 15) * 0.746;
-                const dist = extractNumberBefore(q, [/(\d+(?:\.\d+)?)\s*(?:متر|m\b)/i], 50);
-                const flc = (p * 1000) / (1.732 * 380 * 0.85 * 0.9);
-                const breaker = [16, 20, 25, 32, 40, 50, 63, 80, 100, 125, 160, 250].find(s => s >= flc * 1.25) || 250;
-                const cable = [2.5, 4, 6, 10, 16, 25, 35, 50, 70, 95].find(s => (1.732 * 0.0175 * dist * flc) / s <= 11.4 && s * 4.5 >= flc) || 95;
-                html = `<strong>التحليل الهندسي للمحرك (${p.toFixed(1)} kW | مسافة ${dist}m):</strong><br>• التيار الإسمي: <strong>${flc.toFixed(2)} A</strong> | القاطع: <strong>${breaker} A (Type D)</strong> | الكابل: <strong>${cable} mm²</strong>`;
-            } else if (q.includes('عطل') || q.includes('فصل') || q.includes('اوفرلود')) {
-                html = `<strong>التشخيص الهندسي الميداني:</strong><br>1. قِس الفازات الثلاثة (L1-L2-L3) للتأكد من عدم سقوط فاز.<br>2. قِس تيار التشغيل الفعلي بالـ Clamp Meter وقارنه مع لوحة المحرك.<br>3. افحص عزل الملفات بجهاز Megger 500V.`;
-            } else if (q.includes('اردوينو') || q.includes('كود')) {
-                html = `<strong>كود Arduino C++ جاهز:</strong><pre>const int TRIG = 9, ECHO = 10, RELAY = 7;\nvoid setup(){ pinMode(TRIG,OUTPUT); pinMode(ECHO,INPUT); pinMode(RELAY,OUTPUT); }\nvoid loop(){ digitalWrite(RELAY, HIGH); delay(2000); }</pre>`;
-            } else {
-                html = `<strong>استجابة VoltAI Pro:</strong> تم تحليل استفسارك (${rawText}). استخدم الأدوات المتخصصة أو موسوعة المراجع أعلاه للحصول على الحسابات التفصيلية.`;
-            }
-            if (attachedImageBase64) html += `<div style="margin-top:10px;"><img src="${attachedImageBase64}" style="max-width:100%; max-height:180px; border-radius:8px;"></div>`;
-            resBox.innerHTML = html;
-            saveCalculationToHistory('استشارة AI Hub', rawText.slice(0, 45));
-        }
-
-        function saveCalculationToHistory(type, summary) {
-            const hist = JSON.parse(localStorage.getItem('voltAiHistory') || '[]');
-            hist.unshift({ type, summary, time: new Date().toLocaleTimeString('ar-IQ') });
-            if (hist.length > 30) hist.pop();
-            localStorage.setItem('voltAiHistory', JSON.stringify(hist));
-            renderHistoryList();
-        }
-        function renderHistoryList() {
-            const container = document.getElementById('historyListContainer');
-            if (!container) return;
-            const hist = JSON.parse(localStorage.getItem('voltAiHistory') || '[]');
-            container.innerHTML = hist.length === 0
-                ? '<p style="color:var(--text-muted); font-size:0.85rem;">لا توجد عمليات محفوظة بعد.</p>'
-                : hist.map(h => `<div class="history-item"><div><strong>${h.type}:</strong> ${h.summary}</div><span style="font-size:0.75rem; color:var(--text-muted);">${h.time}</span></div>`).join('');
-        }
-        function clearCalculationHistory() { localStorage.removeItem('voltAiHistory'); renderHistoryList(); }
-        function exportJsonBackup() {
-            const blob = new Blob([localStorage.getItem('voltAiHistory') || '[]'], { type: 'application/json' });
-            const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = 'VoltAI_Backup.json'; a.click();
-        }
-        function importJsonBackup(e) {
-            const file = e.target.files[0]; if (!file) return;
-            const r = new FileReader();
-            r.onload = (ev) => { localStorage.setItem('voltAiHistory', ev.target.result); renderHistoryList(); };
-            r.readAsText(file);
-        }
-
-        /* =====================================================================
-           13. SMART METER OCR & NATIONAL BILL CALCULATOR (IRAQ & KURDISTAN)
-           ===================================================================== */
-        function preprocessMeterImage(file) {
-            return new Promise((resolve) => {
-                const img = new Image();
-                img.onload = () => {
-                    const canvas = document.createElement('canvas');
-                    const maxW = 1000;
-                    const scale = img.width > maxW ? maxW / img.width : 1;
-                    canvas.width = img.width * scale;
-                    canvas.height = img.height * scale;
-                    const ctx = canvas.getContext('2d');
-                    ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
-
-                    const imgData = ctx.getImageData(0, 0, canvas.width, canvas.height);
-                    const d = imgData.data;
-                    for (let i = 0; i < d.length; i += 4) {
-                        const gray = 0.299 * d[i] + 0.587 * d[i + 1] + 0.114 * d[i + 2];
-                        const contrasted = gray > 128 ? Math.min(255, gray * 1.25) : Math.max(0, gray * 0.75);
-                        d[i] = d[i + 1] = d[i + 2] = contrasted;
-                    }
-                    ctx.putImageData(imgData, 0, 0);
-                    resolve(canvas.toDataURL('image/png'));
-                };
-                img.src = URL.createObjectURL(file);
-            });
-        }
-
-        async function scanMeterImage(event) {
-            const file = event.target.files[0];
-            if (!file) return;
-
-            const preview = document.getElementById('billMeterPreview');
-            const status = document.getElementById('billOcrStatus');
-            preview.src = URL.createObjectURL(file);
-            preview.style.display = 'block';
-            status.style.color = 'var(--warning-color)';
-            status.textContent = '⏳ جاري معالجة الصورة واستخراج قراءة العداد...';
-
-            try {
-                if (typeof Tesseract === 'undefined') {
-                    status.style.color = 'var(--danger-color)';
-                    status.textContent = '⚠️ مكتبة قراءة الصور قيد التحميل، يرجى الانتظار ثوانٍ أو إدخال الرقم يدوياً.';
-                    return;
-                }
-                const processedUrl = await preprocessMeterImage(file);
-                const result = await Tesseract.recognize(processedUrl, 'eng', {
-                    tessedit_char_whitelist: '0123456789'
-                });
-
-                const matches = result.data.text.match(/\d+/g);
-                if (matches && matches.length > 0) {
-                    const bestReading = matches.sort((a, b) => b.length - a.length)[0];
-                    document.getElementById('billCurrReading').value = bestReading;
-                    status.style.color = 'var(--success-color)';
-                    status.textContent = `✅ تم التقاط القراءة (${bestReading}) — تأكد من مطابقتها للصورة أعلاه`;
-                    calculateNationalBill(false);
-                } else {
-                    status.style.color = 'var(--danger-color)';
-                    status.textContent = '⚠️ لم يتم تمييز الأرقام بوضوح؛ قرّب الكاميرا من شاشة العداد أو اكتب القراءة يدوياً.';
-                }
-            } catch (err) {
-                status.style.color = 'var(--danger-color)';
-                status.textContent = '⚠️ تعذرت قراءة الصورة تلقائياً، يرجى إدخال القراءة يدوياً.';
-            }
-        }
-
-        function calculateNationalBill(saveToHist = false) {
-            const region = document.getElementById('billRegionSelect')?.value || 'iraq';
-            const category = document.getElementById('billCategorySelect')?.value || 'residential';
-            const cycleMult = parseInt(document.getElementById('billCycleMonths')?.value || '1', 10);
-            const curr = parseFloat(document.getElementById('billCurrReading')?.value) || 0;
-            const prev = parseFloat(document.getElementById('billPrevReading')?.value) || 0;
-            const resBox = document.getElementById('billResultBox');
-            if (!resBox) return;
-
-            const kwh = Math.max(0, curr - prev);
-            if (kwh <= 0) {
-                resBox.style.display = 'none';
-                return;
-            }
-
-            let brackets = [];
-            let regionLabel = '';
-
-            if (region === 'iraq') {
-                regionLabel = 'العراق (وزارة الكهرباء الاتحادية)';
-                if (category === 'residential') {
-                    brackets = [
-                        { limit: 1500 * cycleMult, rate: 10, label: `الشريحة 1 (1 – ${1500 * cycleMult} وحدة)` },
-                        { limit: 1500 * cycleMult, rate: 35, label: `الشريحة 2 (${1500 * cycleMult + 1} – ${3000 * cycleMult} وحدة)` },
-                        { limit: 1000 * cycleMult, rate: 80, label: `الشريحة 3 (${3000 * cycleMult + 1} – ${4000 * cycleMult} وحدة)` },
-                        { limit: Infinity, rate: 120, label: `الشريحة 4 (أكثر من ${4000 * cycleMult} وحدة)` }
-                    ];
-                } else if (category === 'commercial') {
-                    brackets = [
-                        { limit: 1000 * cycleMult, rate: 60, label: `تجاري الشريحة 1 (أول ${1000 * cycleMult} وحدة)` },
-                        { limit: 1000 * cycleMult, rate: 80, label: `تجاري الشريحة 2 (ثاني ${1000 * cycleMult} وحدة)` },
-                        { limit: Infinity, rate: 120, label: `تجاري الشريحة 3 (ما زاد عن ${2000 * cycleMult} وحدة)` }
-                    ];
-                } else {
-                    brackets = [{ limit: Infinity, rate: 60, label: 'صناعي (تسعيرة ثابتة)' }];
-                }
-            } else {
-                regionLabel = 'إقليم كردستان العراق (مشروع روناكي 24 ساعة)';
-                if (category === 'residential') {
-                    brackets = [
-                        { limit: 400 * cycleMult, rate: 72, label: `الشريحة 1 (1 – ${400 * cycleMult} وحدة)` },
-                        { limit: 400 * cycleMult, rate: 108, label: `الشريحة 2 (${400 * cycleMult + 1} – ${800 * cycleMult} وحدة)` },
-                        { limit: 400 * cycleMult, rate: 175, label: `الشريحة 3 (${800 * cycleMult + 1} – ${1200 * cycleMult} وحدة)` },
-                        { limit: 400 * cycleMult, rate: 265, label: `الشريحة 4 (${1200 * cycleMult + 1} – ${1600 * cycleMult} وحدة)` },
-                        { limit: Infinity, rate: 350, label: `الشريحة 5 (أكثر من ${1600 * cycleMult} وحدة)` }
-                    ];
-                } else if (category === 'commercial') {
-                    brackets = [{ limit: Infinity, rate: 185, label: 'تجاري إقليم كردستان (سعر ثابت)' }];
-                } else {
-                    brackets = [{ limit: Infinity, rate: 160, label: 'صناعي إقليم كردستان (سعر ثابت)' }];
-                }
-            }
-
-            let remaining = kwh;
-            let totalIqd = 0;
-            let rowsHtml = '';
-
-            for (const b of brackets) {
-                if (remaining <= 0) break;
-                const units = Math.min(remaining, b.limit);
-                const cost = units * b.rate;
-                totalIqd += cost;
-                remaining -= units;
-                rowsHtml += `<tr><td>${b.label}</td><td>${units.toLocaleString()} kWh</td><td>${b.rate} د.ع</td><td><strong>${cost.toLocaleString()} د.ع</strong></td></tr>`;
-            }
-
-            const avgRate = (totalIqd / kwh).toFixed(1);
-            resBox.style.display = 'block';
-            resBox.innerHTML = `
-                <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:8px; padding-bottom:10px; border-bottom:1px dashed var(--card-border);">
-                    <div>
-                        <span style="font-size:0.8rem; color:var(--text-muted);">${regionLabel}</span><br>
-                        <strong>صافي الاستهلاك: <span style="color:var(--accent-color);">${kwh.toLocaleString()} kWh</span></strong> (معدل سعر الوحدة: ${avgRate} د.ع)
-                    </div>
-                    <div style="text-align:left;">
-                        <span style="font-size:0.78rem; color:var(--text-muted);">المبلغ الكلي للفاتورة:</span><br>
-                        <strong style="color:var(--success-color); font-size:1.25rem;">${totalIqd.toLocaleString()} دينار عراقي</strong>
-                    </div>
-                </div>
-                <table class="bom-table">
-                    <thead><tr><th>الشريحة</th><th>الكمية المستهلكة</th><th>سعر الوحدة</th><th>المبلغ</th></tr></thead>
-                    <tbody>${rowsHtml}</tbody>
-                </table>
-            `;
-
-            if (saveToHist) {
-                saveCalculationToHistory('فاتورة الوطنية', `${region === 'iraq' ? 'العراق' : 'كردستان'} | ${kwh} kWh = ${totalIqd.toLocaleString()} د.ع`);
-            }
-        }
-
-        function exportBillPdf() {
-            const el = document.getElementById('billPrintableArea');
-            if (typeof html2pdf !== 'undefined' && el) {
-                html2pdf().from(el).save('VoltAI_Electricity_Bill.pdf');
-            }
-        }
-
-        window.addEventListener('DOMContentLoaded', () => {
-            renderSimTools();
-            renderHistoryList();
-            renderFamousBooksDirectory();
-            searchSmartReferenceIndex();
-            startTroubleshootingWizard();
-            renderGeneratorLoads();
-            renderPanelSchedule();
-            filterInterviewQuestions('all');
-            renderSiteChecklist();
-            renderEplanSchematic();
-            renderVfdCommissioningTable();
-            calcLocalGeneratorAmps();
-            simulateAutoPhaseSelector();
-            calcVoltageRelaySettings();
-            recalculateBomTotals();
-
-            const savedName = localStorage.getItem('volt_eng_name');
-            const savedTitle = localStorage.getItem('volt_eng_title');
-            if (savedName) {
-                document.getElementById('cardEngName').textContent = savedName;
-                document.getElementById('bomHeaderEngTag').textContent = savedName;
-                document.getElementById('footerEngLink').textContent = savedName;
-                if (document.getElementById('headTitle')) document.getElementById('headTitle').textContent = savedName;
-            }
-            if (savedTitle) document.getElementById('cardEngTitle').textContent = savedTitle;
-            if (typeof QRCode !== 'undefined') new QRCode(document.getElementById("qrcode"), { text: "https://github.com/std24341059-max", width: 130, height: 130 });
-        });
-    </script>
-</body>
-</html>
+                { id: 'contactor', label: 'كونتاكتور صناعي KM', pins: [{ id: 'L1', label: 'L1', x: 20, y: 0 }, { id: 'L2', label: 'L2', x: 42, y: 0 }, { id: 'L3', label: 'L3', x
